@@ -1,8 +1,8 @@
 /**
  * 
  */
-/// Maxime le 27.01.11 a 21:26
-//	Recuperation reussie. Si vous voyez ceci, c'est que tout fonctionne chez mwa.
+/// Maxime le 29.01.11 a 0:13
+//	Retablissement
 /////////////////
 /**
  * @author E086089A
