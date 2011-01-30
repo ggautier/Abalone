@@ -1,10 +1,24 @@
 /**
+ * <b>Partie est la classe regroupant toutes les information du modèle sur la partie en cours.</b>
+ * <p>
+ * Une partie est caractérisée par les informations suivantes :
+ * <ul>
+ * <li>Deux joueurs, dont un peut être l'ordinateur lui-même.</li>
+ * <li>Un plateau, représentant le plateau de jeu, et ses cases.</li>
+ * <li>Des coups, qui représentent la séquence de coup joués depuis le début de la partie.</li>
+ * </ul>
+ * </p>
  * 
- */
-
-/**
- * @author E086089A
- *
+ * @see Joueur
+ * @see Plateau
+ * @see Coup
+ * 
+ * @author Lenogue Matthieu
+ * @author Gautier Quentin
+ * @author Gautier Gaetan
+ * @author Ouary Maxime
+ * 
+ * @version 1.0
  */
 public class Partie {
 
