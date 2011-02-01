@@ -19,22 +19,17 @@
  * @version 1.0
  */
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import java.awt.*;
+import javax.swing.*;
 
 public class FenetrePrincipale extends JFrame{
 
 	private JPanel 		panel;
 	private JMenuBar 	menuBar;
 	private JMenu		fichierMenu;
+	private JPanel		plateau;
+	private JPanel 		info;
+	private JPanel		commande;
 
 	public FenetrePrincipale(String titre)
 	{
@@ -51,23 +46,67 @@ public class FenetrePrincipale extends JFrame{
         
         JMenu fichierMenu = new JMenu("Fichier");
         
-        JMenuItem item = new JMenuItem("Nouveau");
+        JMenuItem item = new JMenuItem("Nouveau", 'N');
+        //item.addActionListener(afficherMenuListener);
         fichierMenu.add(item);
-        item = new JMenuItem("Sauvegarder");
+        fichierMenu.add(new JSeparator());
+        item = new JMenuItem("Sauvegarder", 'S');
+        //item.addActionListener(afficherMenuListener);
         fichierMenu.add(item);
-        item = new JMenuItem("Charger");
+        item = new JMenuItem("Charger", 'C');
+        //item.addActionListener(afficherMenuListener);
         fichierMenu.add(item);
-        item = new JMenuItem("Options");
+        fichierMenu.add(new JSeparator());
+        item = new JMenuItem("Options", 'O');
+        //item.addActionListener(afficherMenuListener);
         fichierMenu.add(item);
-        item = new JMenuItem("Quitter");
+        fichierMenu.add(new JSeparator());
+        item = new JMenuItem("Quitter", 'Q');
+        //item.addActionListener(afficherMenuListener);
         fichierMenu.add(item);
         menuBar.add(fichierMenu);
         
-        
+        //init de panel (globale)
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
+        //init du conteneur plateau - un grid de 19*11
+        plateau = new JPanel();
+        plateau.setLayout(new GridLayout(11,19));
+        plateau.setMinimumSize(new java.awt.Dimension(600, 600));
+        plateau.setPreferredSize(new java.awt.Dimension(600, 600));
+
+
+        
+        for (int i=0;i<11;i++){//on parcours tout le tableau
+        	for (int j=0;j<19;j++){
+                JToggleButton jb = new JToggleButton();//on crée un JToggleButton
+                jb.setName(String.valueOf(i*19+j));//on lui donne un nom en fonction de sa position (ce sera ses coordonnées
+                jb.setText(jb.getName());
+                plateau.add(jb);
+        	}
+        }
+        
+        //init de commande
+        commande = new JPanel();
+        commande.setBackground(Color.BLACK);
+        
+        //init d'info, contenant les scores, tour en cours, ...
+        info = new JPanel();
+        info.setBackground((Color.BLUE));
+        
+        //On affecte une position au panel plateau, dans le contenant panel
+        donnerContrainte(c,0,0,1,1,100,100);
+        panel.add(plateau,c);
+        
+        donnerContrainte(c,1,0,1,1,0,0);
+        panel.add(commande,c);
+        
+        donnerContrainte(c,0,1,2,1,100,100);
+        panel.add(info,c);
+        
+        this.add(panel);
 	}
 	
 	void donnerContrainte(GridBagConstraints gbc, int gx, int gy, int gw, int gh, int
