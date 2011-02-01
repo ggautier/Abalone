@@ -30,11 +30,17 @@ public class FenetrePrincipale extends JFrame{
 	private JPanel		plateau;
 	private JPanel 		info;
 	private JPanel		commande;
+	
+	private Controleur	controleur;
+	
+	private int[][]		tabjeu;
 
 	public FenetrePrincipale(String titre)
 	{
 		//Héritage du builder de la super classe JFrame
 		super(titre);
+	
+		tabjeu = new int[11][19];
 		
 		//Variable propre à la fenetre ("fermable" et redimensionable)
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,11 +88,40 @@ public class FenetrePrincipale extends JFrame{
         for (int i=0;i<11;i++){//on parcours tout le tableau
         	for (int j=0;j<19;j++){
                 JToggleButton jb = new JToggleButton();//on crée un JToggleButton
-                jb.setName(String.valueOf(i*19+j));//on lui donne un nom en fonction de sa position (ce sera ses coordonnées
+                jb.setName(String.valueOf(i+String.valueOf(j)));//on lui donne un nom en fonction de sa position (ce sera ses coordonnées
                 jb.setText(jb.getName());
+                if (isOut(i,j))
+                { 
+                	tabjeu[i][j]=8;
+                	jb.setEnabled(false);
+                }
+                else 
+                if (trou(i,j))
+                {
+                	tabjeu[i][j]=0;
+                	jb.setBackground(java.awt.Color.LIGHT_GRAY);
+                	jb.setEnabled(false);
+                }
+                else if(noire(i,j))
+                {
+                	tabjeu[i][j]=1;
+                	jb.setBackground(java.awt.Color.BLACK);
+                }
+                else if(rouge(i,j))
+                {
+                	tabjeu[i][j]=2;
+                	jb.setBackground(java.awt.Color.RED);
+                }
+                else
+                {
+                	tabjeu[i][j]=9;
+                	jb.setBackground(java.awt.Color.GRAY);
+                	jb.setEnabled(false);
+                } 
                 plateau.add(jb);
         	}
         }
+        
         
         //init de commande
         commande = new JPanel();
@@ -109,15 +144,84 @@ public class FenetrePrincipale extends JFrame{
         this.add(panel);
 	}
 	
-	void donnerContrainte(GridBagConstraints gbc, int gx, int gy, int gw, int gh, int
-			wx, int wy)
-			    {
-			            gbc.gridx=gx;
-			            gbc.gridy=gy;
-			            gbc.gridwidth=gw;
-			            gbc.gridheight=gh;
-			            gbc.weightx=wx;
-			            gbc.weighty=wy;
-			            gbc.fill=GridBagConstraints.BOTH;
-			    }
+	void refreshPlateau(int[][] tab)
+	{
+		
+	}
+	
+	void donnerContrainte(GridBagConstraints gbc, int gx, int gy, int gw, int gh, int wx, int wy)
+	{
+		gbc.gridx=gx;
+		gbc.gridy=gy;
+		gbc.gridwidth=gw;
+		gbc.gridheight=gh;
+		gbc.weightx=wx;
+		gbc.weighty=wy;
+		gbc.fill=GridBagConstraints.BOTH;
+	}
+	
+	//Fonction test du controleur avant implentation dans ce dernier OK !
+	boolean isOut(int i, int j)
+	{
+		boolean good = false;
+		if(i==0 || i==10)
+		{ if(j==4 || j==6 || j==8 || j==10 || j==12 || j==14) {good=true;} }
+		else 
+		if(i==1 || i==9)
+		{ if(j==3 || j==15) { good=true; } }
+		else
+		if(i==2 || i==8)
+		{ if(j==2 || j==16) { good=true; } }
+		else
+		if(i==3 || i==7)
+		{ if(j==1 || j==17) { good=true; } }
+		else
+		if(i==4 || i==6)
+		{ if(j==0 || j==18) { good=true; } }
+		 return good; 
+	}
+	
+	//indique la place des trous dans une config init.
+	public boolean trou(int i,int j)
+	{
+		boolean good=false;
+		if (i==3 || i==7)
+		{ if(j==3 || j==5 || j==13 || j==15) { good=true; } }
+		else
+		if (i==4|| i==6)
+		{ if (j!=0 && j!=18) { if (j%2==0) { good=true; } } }
+		else
+		if (i==5)
+		{ if (j%2==1){good=true;} }
+		return good;
+	}
+	
+	public boolean rouge(int i,int j)
+	{
+		boolean good=false;
+		if(i==7)
+		{ if(j==7 || j==9 || j==11) { good=true; } }
+		else 
+		if(i==8)
+		{ if(j==4 || j==6 || j==8 || j==10 || j==12 || j==14) { good=true; } }
+		else 
+		if(i==9)
+		{ if(j==5 || j==7 || j==9 || j==11 || j==13) { good=true; }	}
+		return good;
+	}
+	
+	public boolean noire(int i,int j)
+	{
+		boolean good=false;
+		if(i==3)
+		{ if(j==7 || j==9 || j==11) { good=true; } }
+		else 
+		if(i==2)
+		{ if(j==4 || j==6 || j==8 || j==10 || j==12 || j==14) { good=true; } }
+		else 
+		if(i==1)
+		{ if(j==5 || j==7 || j==9 || j==11 || j==13) { good=true; }	}
+		return good;
+	} 
+		
 }

@@ -22,4 +22,33 @@
  */
 public class Controleur {
 
+	private ControleurIA		controleurIA;
+	private FenetrePrincipale	fenetrePrincipale;
+	private Partie				partie;
+	
+	public Controleur()
+	{
+
+	}
+	
+	//test les coord d'une case, est renvoie  true si s'est une case de sortie.
+	boolean isOut(int i, int j)
+	{
+		boolean good = false;
+		if(i==0 || i==10)
+		{ if(j==4 || j==6 || j==8 || j==10 || j==12 || j==14) {good=true;} }
+		else 
+		if(i==1 || i==9)
+		{ if(j==3 || j==15) { good=true; } }
+		else
+		if(i==2 || i==8)
+		{ if(j==2 || j==16) { good=true; } }
+		else
+		if(i==3 || i==7)
+		{ if(j==1 || j==17) { good=true; } }
+		else
+		if(i==4 || i==6)
+		{ if(j==0 || j==18) { good=true; } }
+		 return good; 
+	}
 }
