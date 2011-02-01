@@ -1,3 +1,4 @@
+import java.awt.Dimension;
 
 public class Main {
 
@@ -6,9 +7,9 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("Hello World !");
-		System.out.println("J'aime Nils!");
-		System.out.println("lol");
+		FenetrePrincipale f = new FenetrePrincipale("Abalone - 1.00");
+        f.setSize(new Dimension(950,725));
+        f.setVisible(true);
 	}
 
 }
