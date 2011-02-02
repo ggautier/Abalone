@@ -1,9 +1,9 @@
 /**
- * <b>FenetreOption est la classe permettant l'affichage d'une fenêtre subalterne de modification des options de jeu.</b>
+ * <b>FenetreOption est la classe permettant l'affichage d'une fenetre subalterne de modification des options de jeu.</b>
  * <p>
- * Une FenetreOption est caractérisée par les informations suivantes :
+ * Une FenetreOption est caractérisee par les informations suivantes :
  * <ul>
- * <li>Une fenetrePrincipale, qui va solliciter l'activation de la fenêtre d'options.</li>
+ * <li>Une fenetrePrincipale, qui va solliciter l'activation de la fenetre d'options.</li>
  * </ul>
  * </p>
  * 
