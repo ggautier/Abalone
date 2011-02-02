@@ -33,7 +33,7 @@ public class Controleur {
 	
 	//test les coord d'une case, est renvoie  true si s'est une case de sortie.
 	// Version de bourrin
-	boolean isOut(int i, int j)
+/*	boolean isOut(int i, int j)
 	{
 		boolean good = false;
 		if(i==0 || i==10)
@@ -52,17 +52,18 @@ public class Controleur {
 		{ if(j==0 || j==18) { good=true; } }
 		 return good; 
 	}
-	
+	*/
 
 	// Version de programmeur (mais pas forcement plus intelligente, hein)
 	boolean isOut(int i, int j) {
 		return  (
-				( (i==0 || i==10) && (j==4 || j==6 || j==8 || j==10 || j==12 || j==14) ) ||
-				( (i==1 || i==9) && (j==3 || j==15) ) ||
-				( (i==2 || i==8) && (j==2 || j==16) ) ||
-				( (i==3 || i==7) && (j==1 || j==17) ) ||
-				( (i==4 || i==6) && (j==0 || j==18) )
-				)
+				 ( i==0 || i == 8) && ( (j < 3)  ) ||
+				 ( i==1 || i == 7) && ( (j < 2)  ) ||
+				 ( i==2 || i == 6) && ( (j < 1)  ) ||
+				 ( i==3 || i == 5) && ( (j < 0)  ) ||
+				 ( i==4  && j < 3				 ) || 
+				 (j > 8) 
+				 )
 				;
 	} // (Au passage, desole de n'avoir rien fait aujourd'hui. J'ai reinstalle tout le systeme, et fait quelques exo (rare)
 	  // Je considere le projet comme officiellement entame, donc je m'y mets demain  
