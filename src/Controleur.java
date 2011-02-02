@@ -64,6 +64,6 @@ public class Controleur {
 				( (i==4 || i==6) && (j==0 || j==18) )
 				)
 				;
-	} // (Au passage, desole de n'avoir rien fait aujourd'hui. Je considere le projet comme officiellement entame, 
-	  //  donc je m'y mets demain 
+	} // (Au passage, desole de n'avoir rien fait aujourd'hui. J'ai reinstalle tout le systeme, et fait quelques exo (rare)
+	  // Je considere le projet comme officiellement entame, donc je m'y mets demain  
 }
