@@ -34,6 +34,8 @@ public class FenetrePrincipale extends JFrame{
 	private Controleur	controleur;
 	
 	private int[][]		tabjeu;
+	private int[]		tabCase;
+	private int[]		tabCaseAlt;
 
 	public FenetrePrincipale(String titre)
 	{
@@ -79,16 +81,13 @@ public class FenetrePrincipale extends JFrame{
 
         //init du conteneur plateau - un grid de 19*11
         plateau = new JPanel();
-        plateau.setLayout(new GridLayout(11,19));
-        plateau.setMinimumSize(new java.awt.Dimension(600, 600));
-        plateau.setPreferredSize(new java.awt.Dimension(600, 600));
-
+        plateau.setLayout(new GridBagLayout());
 
         
-        for (int i=0;i<11;i++){//on parcours tout le tableau
+       /* for (int i=0;i<11;i++){//on parcours tout le tableau
         	for (int j=0;j<19;j++){
                 JToggleButton jb = new JToggleButton();//on crée un JToggleButton
-                jb.setName(String.valueOf(i+String.valueOf(j)));//on lui donne un nom en fonction de sa position (ce sera ses coordonnées
+                jb.setName(String.valueOf(i) + String.valueOf(j));//on lui donne un nom en fonction de sa position (ce sera ses coordonnées
                 jb.setText(jb.getName());
                 if (isOut(i,j))
                 { 
@@ -120,9 +119,45 @@ public class FenetrePrincipale extends JFrame{
                 } 
                 plateau.add(jb);
         	}
+        }*/
+        
+		tabCase = new int[9];
+		tabCaseAlt = new int[9];
+		
+		tabCase[0] = 5;
+		tabCaseAlt[0] = 4;
+		tabCase[1] = 6;
+		tabCaseAlt[1] = 3;
+		tabCase[2] = 7;
+		tabCaseAlt[2] = 2;
+		tabCase[3] = 8;
+		tabCaseAlt[3] = 1;
+		tabCase[4] = 9;
+		tabCaseAlt[4] = 0;
+		tabCase[5] = 8;
+		tabCaseAlt[5] = 1;
+		tabCase[6] = 7;
+		tabCaseAlt[6] = 2;
+		tabCase[7] = 6;
+		tabCaseAlt[7] = 3;
+		tabCase[8] = 5;
+		tabCaseAlt[8] = 4;
+
+        
+        for (int i=0; i<9; i++)
+        {
+        	for (int j=0; j<tabCase[i]; j++)
+        	{	
+        		JToggleButton jb = new JToggleButton();//on crée un JToggleButton
+        		jb.setName(String.valueOf(i) + String.valueOf(j));
+        		jb.setText(jb.getName());
+        		
+        		donnerContrainte(c,tabCaseAlt[i]+(2*j),i,2,1,0,0);
+        		plateau.add(jb,c);
+        	}
         }
-        
-        
+      
+		
         //init de commande
         commande = new JPanel();
         commande.setBackground(Color.BLACK);
@@ -161,24 +196,15 @@ public class FenetrePrincipale extends JFrame{
 	}
 	
 	//Fonction test du controleur avant implentation dans ce dernier OK !
-	boolean isOut(int i, int j)
-	{
-		boolean good = false;
-		if(i==0 || i==10)
-		{ if(j==4 || j==6 || j==8 || j==10 || j==12 || j==14) {good=true;} }
-		else 
-		if(i==1 || i==9)
-		{ if(j==3 || j==15) { good=true; } }
-		else
-		if(i==2 || i==8)
-		{ if(j==2 || j==16) { good=true; } }
-		else
-		if(i==3 || i==7)
-		{ if(j==1 || j==17) { good=true; } }
-		else
-		if(i==4 || i==6)
-		{ if(j==0 || j==18) { good=true; } }
-		 return good; 
+	boolean isOut(int i, int j) {
+		return  (
+				( (i==0 || i==10) && (j==4 || j==6 || j==8 || j==10 || j==12 || j==14) ) ||
+				( (i==1 || i==9) && (j==3 || j==15) ) ||
+				( (i==2 || i==8) && (j==2 || j==16) ) ||
+				( (i==3 || i==7) && (j==1 || j==17) ) ||
+				( (i==4 || i==6) && (j==0 || j==18) )
+				)
+				;
 	}
 	
 	//indique la place des trous dans une config init.

@@ -33,7 +33,7 @@ public class Controleur {
 	
 	//test les coord d'une case, est renvoie  true si s'est une case de sortie.
 	// Version de bourrin
-	boolean isOut(int i, int j)
+	/*boolean isOut(int i, int j)
 	{
 		boolean good = false;
 		if(i==0 || i==10)
@@ -52,7 +52,7 @@ public class Controleur {
 		{ if(j==0 || j==18) { good=true; } }
 		 return good; 
 	}
-	
+	*/
 
 	// Version de programmeur (mais pas forcement plus intelligente, hein)
 	boolean isOut(int i, int j) {
