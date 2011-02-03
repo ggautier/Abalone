@@ -24,9 +24,21 @@ import java.util.Vector;
  */
 public class Controleur {
 
-	private ControleurIA		controleurIA;
-	private FenetrePrincipale	fenetrePrincipale;
-	private Partie				partie;
+	protected ControleurIA		controleurIA;
+	protected FenetrePrincipale	fenetrePrincipale;
+	protected Partie			partie;
+	protected Vector<Bille>		selectionnees;
+	
+	public static int GAUCHE = 01;
+	public static int DROITE = 21;
+	public static int BAS_GAUCHE = 12;
+	public static int HAUT_DROITE = 10;
+	public static int HAUT_GAUCHE = 00;
+	public static int BAS_DROITE = 22;
+	
+	public static int GD = 10;
+	public static int HG_BD = 11;
+	public static int HD_BG = 01;
 	
 	public Controleur()
 	{
@@ -58,7 +70,7 @@ public class Controleur {
 	*/
 
 	// Version de programmeur (mais pas forcement plus intelligente, hein)
-	boolean isOut(int i, int j) {
+	public boolean isOut(int i, int j) {
 		return  (
 				 ( i==0 || i == 8) && ( (j > 4)  ) ||
 				 ( i==1 || i == 7) && ( (j > 5)  ) ||
@@ -71,8 +83,8 @@ public class Controleur {
 	}
 		
 	// Retourne un vecteur contenant les 6 billes au alentours de la Bille passee en entree
-	Vector billeAlentours(Bille b) {
-		Vector vRetour = new Vector(6);
+	public Vector<Bille> billeAlentours(Bille b) {
+		Vector<Bille> vRetour = new Vector<Bille>(6);
 		Bille bTemp;
 		
 		vRetour.addElement(plateau.getBille(b.getX()+1,b.getY())); 	// A droite
@@ -80,7 +92,7 @@ public class Controleur {
 		vRetour.addElement(plateau.getBille(b.getX(),b.getY()+1));	// En bas a gauche
 		vRetour.addElement(plateau.getBille(b.getX(),b.getY()-1)); 	// En haut a droite
 		vRetour.addElement(plateau.getBille(b.getX()-1,b.getY()-1));// En haut a gauche
-		vRetour.addElement(plateau.getBille(b.getX()+1,b.getY()+1));// En haut a droite
+		vRetour.addElement(plateau.getBille(b.getX()+1,b.getY()+1));// En bas a droite
 
 		
 		return vRetour;
@@ -88,34 +100,72 @@ public class Controleur {
 	}
 	
 	// Retourne un Vecteur contenant les Billes, parmi celles passees en entree, sont de la meme Couleur
-	Vector billeCouleur(Vector v, Couleur c) {
-		Vector vRetour = new Vector(6);
+	Vector<Bille> billeCouleur(Vector<Bille> v, Joueur j) {
+		Vector<Bille> vRetour = new Vector<Bille>(6);
 		
 		for(int i = 0; i <= v.size(); i++)
-			if(v.get(i).getCouleur() == c)
+			if(v.get(i).getJoueur() == j)
 				vRetour.add(v.get(i));		// Si la Bille a la meme Couleur, on l'ajoute au Vecteur de retour.
 				
 		return vRetour;
+	
+	}
+	
+	public int getAxe(Bille b1, Bille b2) {
+		int axe = 0;
+		if (b1.getX() - b2.getX() != 0) 
+			axe+=GD;
+
+		if (b1.getY() - b2.getY() != 0) 
+			axe+=HD_BG;
+		
+		return axe;
 	}
 	
 	// En gros chantier
-	Vector trucBidule(Vector v) {
+	public Vector<Bille> trucBidule(Vector<Bille> v) {
 		int axe = 0;
 		Bille billeTemp;
 		if (v.size() > 2) // Si au moins deux billes
-			getAxe(v.get(0),v.get(1));
+			axe = getAxe(v.get(0),v.get(1));
 		
 		switch (axe) {
-		case 1:
-			getNbAdversaires(plusLoin(v, 11), 00);
-			getNbAdversaires(plusLoin(v, 11), 02);
-
-		break;
+		case GD:
+			getNbAdversaires(v,GAUCHE);
+			getNbAdversaires(v,DROITE);
+			break;
+		case HG_BD:
+			getNbAdversaires(v,HAUT_GAUCHE);
+			getNbAdversaires(v,BAS_DROITE);
+			break;
+		
+		case HD_BG:
+			getNbAdversaires(v,HAUT_DROITE);
+			getNbAdversaires(v,BAS_GAUCHE);
+			break;
 			
 		default:
 			break;
 		}
+		
+		
+	}
+	
+	public Vector<Bille> getNbAdversaires(Vector<Bille> v, int dir) {
+		
+		
+		
+		
 	}
 	// (Au passage, desole de n'avoir rien fait aujourd'hui. J'ai reinstalle tout le systeme, et fait quelques exo (rare)
 	  // Je considere le projet comme officiellement entame, donc je m'y mets demain  
+	
+	/*
+	Si une Bille selectionnee : Que dalle a verifier.
+	Si deux ou trois Billes selectionnees : 
+	1. On identifie l'axe forme par ces Billes.
+	2. a) A partir d'une des Billes a l'extremite, on regarde combien il y a de Billes ennemies, et si elles sont suivies d'un vide
+	   b) Pareil avec l'autre extremite
+    */
+	 
 }
