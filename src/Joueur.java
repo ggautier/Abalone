@@ -1,33 +1,31 @@
 /**
- * <b>Joueur est la classe représentant un joueur actif lors d'une partie.</b>
+ * <b>Joueur est la classe representant un joueur actif lors d'une partie.</b>
  * <p>
- * Un Joueur est caractérisé par les informations suivantes :
+ * Un Joueur est caracterise par les informations suivantes :
  * <ul>
- * <li>Un plateau, sur lequel joue le joueur.</li>
- * <li>Une partie, dans laquel le joueur intéragit.</li>
- * <li>Des billes, que le joueur peut déplacer.</li>
+ * <li>Un nom, la chaine de caractares le nommant.</li>
+ * <li>Une couleur, correspondant a une valeur binaire indiquant son camps.</li>
+ * <li>Un score, qui se modifie durant la partie.</li>
+ * <li>Un flag humain, indiquant s'il est un joueur humain, ou gere par la machine.</li>
  * </ul>
  * </p>
  * 
- * @see Plateau
- * @see Partie
- * @see Bille
  * 
  * @author Lenogue Matthieu
  * @author Gautier Quentin
  * @author Gautier Gaetan
- * @author Ouary Maxime
+ * @author Ouairy Maxime
  * 
  * @version 1.0
  */
 public class Joueur {
 
 	/**
-	 * <p>Le nom du joueur contenue dans une chaine de caractère.</p> 
+	 * <p>Le nom du joueur contenue dans une chaine de caractere.</p> 
 	 */
 	private String nom;
 	/**
-	 * <p>La "couleur" du joueur. Etant donné qu'Abalone se joue à 
+	 * <p>La "couleur" du joueur. Etant donne qu'Abalone se joue a 
 	 * deux joueurs, on peut stocker cette information dans une 
 	 * variable booleenne.</p>
 	 */
@@ -37,19 +35,10 @@ public class Joueur {
 	 */
 	private int score;
 	/**
-	 * <p>La variable humain permet de gérer si un coup doit être joué 
-	 * par un autre joueur, ou joué immédiatement par la machine.</p> 
+	 * <p>La variable humain permet de gerer si un coup doit etre joue 
+	 * par un autre joueur, ou joue immediatement par la machine.</p> 
 	 */
 	private boolean humain;
-	/**
-	 * <p>L'instance de partie auquelle le joueur est rattaché.</p> 
-	 */
-	private Partie 	partie;
-	/**
-	 * <p>L'instance de plateau rattaché au joueur.</p>
-	 */
-	private Plateau plateau;
-	
 	
 	// Section Getters-Setters
 	/**
@@ -105,42 +94,12 @@ public class Joueur {
 		return humain;
 	}
 	/**
-     * Change le degré "d'humanité" d'un joueur.
+     * Change le degre "d'humanite" d'un joueur.
      * @param humain
-     *            Le nouveau niveau "d'humanité" du joueur.
+     *            Le nouveau niveau "d'humanite" du joueur.
      */
 	public void setHumain(boolean humain) {
 		this.humain = humain;
-	}
-	/**
-	 * Retourne l'instance de la partie en cours.
-     * @return La partie correspondante au joueur. 
-     */
-	public Partie getPartie() {
-		return partie;
-	}
-	/**
-     * Change l'instance de Partie, que le joueur joue.
-     * @param partie
-     *            Le nouvelle partie que le joueur joue.
-     */
-	public void setPartie(Partie partie) {
-		this.partie = partie;
-	}
-	/**
-	 * Retourne l'instance de plateau sur laquelle le joueur joue.
-     * @return Le score du joueur. 
-     */
-	public Plateau getPlateau() {
-		return plateau;
-	}
-	/**
-     * Impose une nouvelle instance de plateau sur laquelle le joueur joue.
-     * @param score
-     *            Le nouveau score du joueur.
-     */
-	public void setPlateau(Plateau plateau) {
-		this.plateau = plateau;
 	}
 	// Fin de Section Getters-Setters
 }

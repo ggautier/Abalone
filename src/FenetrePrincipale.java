@@ -26,31 +26,28 @@ import java.awt.event.ActionEvent;
 
 public class FenetrePrincipale extends JFrame implements ActionListener{
 
-	private JPanel 		panel;
-	private JMenuBar 	menuBar;
-	private JMenu		fichierMenu;
-	private JPanel		plateau;
-	private JPanel 		info;
-	private JPanel		commande;
-	private JMenuItem	itemOptions;
+
+	private JPanel 			panel;
+	private FenetrePlateau	plateau;
+	private FenetreInfo		info;
+	private FenetreCommande	commande;
+	
+	private JMenuBar 		menuBar;
+	private JMenu			fichierMenu;
+	
 	private Controleur	controleur;
 	
-	private int[][]		tabjeu;
-	private int[]		tabCase;
-	private int[]		tabCaseAlt;
-
 	public FenetrePrincipale(String titre)
 	{
 		//Héritage du builder de la super classe JFrame
 		super(titre);
 	
-		tabjeu = new int[11][19];
-		
-		//Variable propre à la fenetre ("fermable" et redimensionable)
+		//Rendre la fenetre fermable et re-dimensionnable
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(true);
         
-        //On cree un barre de menu (vide), puis on cree le 1er menu "Fichier", dans lequel on ajoute l'item "Nouveau", ....
+        //On cree un barre de menu (vide), puis on cree le 1er menu "Fichier",
+        //dans lequel on ajoute l'item "Nouveau", ....
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
         
@@ -81,99 +78,23 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         panel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
-        //init du conteneur plateau - un grid de 19*11
-        plateau = new JPanel();
-        plateau.setLayout(new GridBagLayout());
-
-       /* for (int i=0;i<11;i++){//on parcours tout le tableau
-        	for (int j=0;j<19;j++){
-                JToggleButton jb = new JToggleButton();//on crée un JToggleButton
-                jb.setName(String.valueOf(i) + String.valueOf(j));//on lui donne un nom en fonction de sa position (ce sera ses coordonnées
-                jb.setText(jb.getName());
-                if (isOut(i,j))
-                { 
-                	tabjeu[i][j]=8;
-                	jb.setEnabled(false);
-                }
-                else 
-                if (trou(i,j))
-                {
-                	tabjeu[i][j]=0;
-                	jb.setBackground(java.awt.Color.LIGHT_GRAY);
-                	jb.setEnabled(false);
-                }
-                else if(noire(i,j))
-                {
-                	tabjeu[i][j]=1;
-                	jb.setBackground(java.awt.Color.BLACK);
-                }
-                else if(rouge(i,j))
-                {
-                	tabjeu[i][j]=2;
-                	jb.setBackground(java.awt.Color.RED);
-                }
-                else
-                {
-                	tabjeu[i][j]=9;
-                	jb.setBackground(java.awt.Color.GRAY);
-                	jb.setEnabled(false);
-                } 
-                plateau.add(jb);
-        	}
-        }*/
-		tabCase = new int[9];
-		tabCaseAlt = new int[9];
-		
-		tabCase[0] = 5;
-		tabCaseAlt[0] = 4;
-		tabCase[1] = 6;
-		tabCaseAlt[1] = 3;
-		tabCase[2] = 7;
-		tabCaseAlt[2] = 2;
-		tabCase[3] = 8;
-		tabCaseAlt[3] = 1;
-		tabCase[4] = 9;
-		tabCaseAlt[4] = 0;
-		tabCase[5] = 8;
-		tabCaseAlt[5] = 1;
-		tabCase[6] = 7;
-		tabCaseAlt[6] = 2;
-		tabCase[7] = 6;
-		tabCaseAlt[7] = 3;
-		tabCase[8] = 5;
-		tabCaseAlt[8] = 4;
-
+        //init du conteneur plateau
+        plateau = new FenetrePlateau();
         
-        for (int i=0; i<9; i++)
-        {
-        	for (int j=0; j<tabCase[i]; j++)
-        	{	
-        		JToggleButton jb = new JToggleButton();//on crée un JToggleButton
-        		jb.setName(String.valueOf(i) + String.valueOf(j));
-        		jb.setText(jb.getName());
-        		
-        		donnerContrainte(c,tabCaseAlt[i]+(2*j),i,2,1,0,0);
-        		plateau.add(jb,c);
-        	}
-        }
-      
-		
         //init de commande
-        commande = new JPanel();
-        commande.setBackground(Color.BLACK);
-        
+        commande = new FenetreCommande();
+                
         //init d'info, contenant les scores, tour en cours, ...
-        info = new JPanel();
-        info.setBackground((Color.BLUE));
+        info = new FenetreInfo();
         
         //On affecte une position au panel plateau, dans le contenant panel
-        donnerContrainte(c,0,0,1,1,100,100);
+        donnerContrainte(c,0,0,1,1,50,50);
         panel.add(plateau,c);
         
-        donnerContrainte(c,1,0,1,1,0,0);
+        donnerContrainte(c,1,0,1,1,50,50);
         panel.add(commande,c);
         
-        donnerContrainte(c,0,1,2,1,100,100);
+        donnerContrainte(c,0,1,2,1,0,0);
         panel.add(info,c);
         
         this.add(panel);
