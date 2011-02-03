@@ -71,6 +71,22 @@ public class Controleur {
 	}
 	*/
 
+	public Partie getPartie() {
+		return partie;
+	}
+
+	public void setPartie(Partie partie) {
+		this.partie = partie;
+	}
+
+	public Vector<Bille> getSelectionnees() {
+		return selectionnees;
+	}
+
+	public void setSelectionnees(Vector<Bille> selectionnees) {
+		this.selectionnees = selectionnees;
+	}
+
 	// Version de programmeur (mais pas forcement plus intelligente, hein)
 	public boolean isOut(int i, int j) {
 		return  (
