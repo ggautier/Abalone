@@ -11,5 +11,4 @@ public class Main {
         f.setSize(new Dimension(950,725));
         f.setVisible(true);
 	}
-
 }

@@ -21,8 +21,10 @@
 
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class FenetrePrincipale extends JFrame{
+public class FenetrePrincipale extends JFrame implements ActionListener{
 
 	private JPanel 		panel;
 	private JMenuBar 	menuBar;
@@ -30,7 +32,7 @@ public class FenetrePrincipale extends JFrame{
 	private JPanel		plateau;
 	private JPanel 		info;
 	private JPanel		commande;
-	
+	private JMenuItem	itemOptions;
 	private Controleur	controleur;
 	
 	private int[][]		tabjeu;
@@ -54,24 +56,24 @@ public class FenetrePrincipale extends JFrame{
         
         JMenu fichierMenu = new JMenu("Fichier");
         
-        JMenuItem item = new JMenuItem("Nouveau", 'N');
+        JMenuItem itemNouveau = new JMenuItem("Nouveau", 'N');
         //item.addActionListener(afficherMenuListener);
-        fichierMenu.add(item);
+        fichierMenu.add(itemNouveau);
         fichierMenu.add(new JSeparator());
-        item = new JMenuItem("Sauvegarder", 'S');
+        JMenuItem itemSave = new JMenuItem("Sauvegarder", 'S');
         //item.addActionListener(afficherMenuListener);
-        fichierMenu.add(item);
-        item = new JMenuItem("Charger", 'C');
+        fichierMenu.add(itemSave);
+        JMenuItem itemLoad = new JMenuItem("Charger", 'C');
         //item.addActionListener(afficherMenuListener);
-        fichierMenu.add(item);
+        fichierMenu.add(itemLoad);
         fichierMenu.add(new JSeparator());
-        item = new JMenuItem("Options", 'O');
-        //item.addActionListener(afficherMenuListener);
-        fichierMenu.add(item);
+        JMenuItem itemOptions = new JMenuItem("Options", 'O');
+        itemOptions.addActionListener(this);
+        fichierMenu.add(itemOptions);
         fichierMenu.add(new JSeparator());
-        item = new JMenuItem("Quitter", 'Q');
+        JMenuItem itemQuitter = new JMenuItem("Quitter", 'Q');
         //item.addActionListener(afficherMenuListener);
-        fichierMenu.add(item);
+        fichierMenu.add(itemQuitter);
         menuBar.add(fichierMenu);
         
         //init de panel (globale)
@@ -83,7 +85,6 @@ public class FenetrePrincipale extends JFrame{
         plateau = new JPanel();
         plateau.setLayout(new GridBagLayout());
 
-        
        /* for (int i=0;i<11;i++){//on parcours tout le tableau
         	for (int j=0;j<19;j++){
                 JToggleButton jb = new JToggleButton();//on crée un JToggleButton
@@ -120,7 +121,6 @@ public class FenetrePrincipale extends JFrame{
                 plateau.add(jb);
         	}
         }*/
-        
 		tabCase = new int[9];
 		tabCaseAlt = new int[9];
 		
@@ -249,5 +249,10 @@ public class FenetrePrincipale extends JFrame{
 		{ if(j==5 || j==7 || j==9 || j==11 || j==13) { good=true; }	}
 		return good;
 	} 
+	
+	public void actionPerformed(ActionEvent e) {
+		FenetreOption fOp = new FenetreOption("Options");
+	}
+	
 		
 }
