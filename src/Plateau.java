@@ -31,6 +31,12 @@ public class Plateau {
 
 	private Bille[][] plateau;
 	
+	// On mettra une config par defaut, quand aucun parametre en entree (vive la surcharge)
+	public Plateau() {
+		this.plateau = new Bille[9][9];
+		this.remplir();
+	}
+	
 	public Plateau(String nomFicConfig) {
 		this.plateau = new Bille[9][9];
 		this.remplir(nomFicConfig);
@@ -58,6 +64,26 @@ public class Plateau {
 		*/
 		
 		return true;
+	}
+	
+	// Temporaire, pour les tests (desole de foutre la zone)
+	public boolean remplir() {
+		for(int i=0; i < 9; i++)
+			for(int j=0; j < 9; j++)
+				setBille(i,j,new Bille(i, j, null));
+		
+		
+		return true;
+	}
+	
+	public String toString() {
+		String str = "";
+		for(int i=0; i < 9; i++) {
+			for(int j=0; j < 9; j++)
+				str+= getBille(i,j).toString();
+			str+="\n";
+		}
+		return str;
 	}
 	
 	public boolean caseVide(int ligne, int colonne) {

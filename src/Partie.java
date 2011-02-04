@@ -21,5 +21,18 @@
  * @version 1.0
  */
 public class Partie {
+	
+	protected Plateau plateau;
+
+	
+	
+	public Plateau getPlateau() {
+		return plateau;
+	}
+
+	public void setPlateau(Plateau plateau) {
+		this.plateau = plateau;
+	}
+	
 
 }

@@ -54,14 +54,14 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         JMenu fichierMenu = new JMenu("Fichier");
         
         JMenuItem itemNouveau = new JMenuItem("Nouveau", 'N');
-        //item.addActionListener(afficherMenuListener);
+        itemNouveau.addActionListener(this);
         fichierMenu.add(itemNouveau);
         fichierMenu.add(new JSeparator());
         JMenuItem itemSave = new JMenuItem("Sauvegarder", 'S');
-        //item.addActionListener(afficherMenuListener);
+        itemSave.addActionListener(this);
         fichierMenu.add(itemSave);
         JMenuItem itemLoad = new JMenuItem("Charger", 'C');
-        //item.addActionListener(afficherMenuListener);
+        itemLoad.addActionListener(this);
         fichierMenu.add(itemLoad);
         fichierMenu.add(new JSeparator());
         JMenuItem itemOptions = new JMenuItem("Options", 'O');
@@ -69,7 +69,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         fichierMenu.add(itemOptions);
         fichierMenu.add(new JSeparator());
         JMenuItem itemQuitter = new JMenuItem("Quitter", 'Q');
-        //item.addActionListener(afficherMenuListener);
+        itemQuitter.addActionListener(this);
         fichierMenu.add(itemQuitter);
         menuBar.add(fichierMenu);
         

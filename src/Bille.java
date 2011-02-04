@@ -54,6 +54,12 @@ public class Bille {
 		this.joueur = joueur;
 	}
 	
+	public String toString() {
+		String str = "+";
+		
+		return str;
+	}
+	
 	
 	
 	

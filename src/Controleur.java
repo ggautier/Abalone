@@ -26,19 +26,21 @@ public class Controleur {
 
 	protected ControleurIA		controleurIA;
 	protected FenetrePrincipale	fenetrePrincipale;
-	protected Partie			partie;
+	protected Partie			partie; 
 	protected Vector<Bille>		selectionnees;
 	
-	public static int GAUCHE = 01;
-	public static int DROITE = 21;
-	public static int BAS_GAUCHE = 12;
-	public static int HAUT_DROITE = 10;
-	public static int HAUT_GAUCHE = 00;
-	public static int BAS_DROITE = 22;
+	// Dir
+	public final static int GAUCHE = 01;
+	public final static int DROITE = 21;
+	public final static int BAS_GAUCHE = 12;
+	public final static int HAUT_DROITE = 10;
+	public final static int HAUT_GAUCHE = 00;
+	public final static int BAS_DROITE = 22;
 	
-	public static int GD = 10;
-	public static int HG_BD = 11;
-	public static int HD_BG = 01;
+	// Axe
+	public final static int GD = 10;
+	public final static int HG_BD = 11;
+	public final static int HD_BG = 01;
 	
 	public Controleur()
 	{
@@ -69,6 +71,22 @@ public class Controleur {
 	}
 	*/
 
+	public Partie getPartie() {
+		return partie;
+	}
+
+	public void setPartie(Partie partie) {
+		this.partie = partie;
+	}
+
+	public Vector<Bille> getSelectionnees() {
+		return selectionnees;
+	}
+
+	public void setSelectionnees(Vector<Bille> selectionnees) {
+		this.selectionnees = selectionnees;
+	}
+
 	// Version de programmeur (mais pas forcement plus intelligente, hein)
 	public boolean isOut(int i, int j) {
 		return  (
@@ -85,14 +103,13 @@ public class Controleur {
 	// Retourne un vecteur contenant les 6 billes au alentours de la Bille passee en entree
 	public Vector<Bille> billeAlentours(Bille b) {
 		Vector<Bille> vRetour = new Vector<Bille>(6);
-		Bille bTemp;
 		
-		vRetour.addElement(plateau.getBille(b.getX()+1,b.getY())); 	// A droite
-		vRetour.addElement(plateau.getBille(b.getX()-1,b.getY())); 	// A gauche
-		vRetour.addElement(plateau.getBille(b.getX(),b.getY()+1));	// En bas a gauche
-		vRetour.addElement(plateau.getBille(b.getX(),b.getY()-1)); 	// En haut a droite
-		vRetour.addElement(plateau.getBille(b.getX()-1,b.getY()-1));// En haut a gauche
-		vRetour.addElement(plateau.getBille(b.getX()+1,b.getY()+1));// En bas a droite
+		vRetour.addElement(partie.getPlateau().getBille(b.getX()+1,b.getY())); 	// A droite
+		vRetour.addElement(partie.getPlateau().getBille(b.getX()-1,b.getY())); 	// A gauche
+		vRetour.addElement(partie.getPlateau().getBille(b.getX(),b.getY()+1));	// En bas a gauche
+		vRetour.addElement(partie.getPlateau().getBille(b.getX(),b.getY()-1)); 	// En haut a droite
+		vRetour.addElement(partie.getPlateau().getBille(b.getX()-1,b.getY()-1));// En haut a gauche
+		vRetour.addElement(partie.getPlateau().getBille(b.getX()+1,b.getY()+1));// En bas a droite
 
 		
 		return vRetour;
@@ -113,17 +130,19 @@ public class Controleur {
 	
 	public int getAxe(Bille b1, Bille b2) {
 		int axe = 0;
-		if (b1.getX() - b2.getX() != 0) 
+		if (b1.getX() - b2.getX() != 0)  // Si Billes sur la meme ligne
 			axe+=GD;
 
-		if (b1.getY() - b2.getY() != 0) 
+		if (b1.getY() - b2.getY() != 0)  // Si Billes sur la meme colonne.
 			axe+=HD_BG;
+		
+		// J'ai fait en sorte que les deux puissent s'additionner de maniere logique (meme ligne + meme colonne)
 		
 		return axe;
 	}
 	
-	// En gros chantier
-	public Vector<Bille> trucBidule(Vector<Bille> v) {
+	// En gros chantier /!\
+	public Vector<Bille> genererCoups(Vector<Bille> v) {
 		int axe = 0;
 		Bille billeTemp;
 		if (v.size() > 2) // Si au moins deux billes
@@ -131,32 +150,81 @@ public class Controleur {
 		
 		switch (axe) {
 		case GD:
-			getNbAdversaires(v,GAUCHE);
-			getNbAdversaires(v,DROITE);
+			getAdversairesPoussables(v,GAUCHE);
+			getAdversairesPoussables(v,DROITE);
 			break;
 		case HG_BD:
-			getNbAdversaires(v,HAUT_GAUCHE);
-			getNbAdversaires(v,BAS_DROITE);
+			getAdversairesPoussables(v,HAUT_GAUCHE);
+			getAdversairesPoussables(v,BAS_DROITE);
 			break;
 		
 		case HD_BG:
-			getNbAdversaires(v,HAUT_DROITE);
-			getNbAdversaires(v,BAS_GAUCHE);
+			getAdversairesPoussables(v,HAUT_DROITE);
+			getAdversairesPoussables(v,BAS_GAUCHE);
 			break;
 			
 		default:
 			break;
 		}
 		
+		return null;
+	}
+	
+	public Vector<Bille> getAdversairesPoussables(Vector<Bille> v, int dir) { // Ici, on determine quelles rangees sont poussables
+		int taille_rangee = v.size();
+		Boolean vide = false;
+		Bille billeTete = getTete(v,dir);
+		Bille billeTemp;
+		Vector<Bille> vTemp = new Vector<Bille>(2);
+				
+		for(int i=1; i <= 3; i++) {
+			billeTemp = voisine(billeTete,dir,i); // Bille voisinne d'i crans, suivant la direction
+			// Pas encore clairement definie : On verifie si on a une Bille du joueur adverse.
+			if (!partie.getPlateau().caseVide(billeTemp.getX(),billeTemp.getY())) // Si on trouve une case vide, c'est qu'on a deja enregistre toutes les Billes ennemies
+				i = 42; // Moyen bourrin de mettre fin a la boucle.
+			else if (billeTemp.getJoueur() != billeTete.getJoueur())
+				vTemp.add(billeTemp);
+			else if (billeTemp.getJoueur() == billeTete.getJoueur()) // Si un trouve une Bille de notre couleur, alors foutu !
+				vTemp.clear();
+		}
+		
+		if (v.size() < vTemp.size()) // Si il y a + de Billes ennemies que de Billes alliees, alors foutu aussi !
+			vTemp.clear();
+		
+		return vTemp; // Pas encore clairement defini, mais l'idee est de retourner la liste de Billes ennemies qu'on pousserait.
 		
 	}
 	
-	public Vector<Bille> getNbAdversaires(Vector<Bille> v, int dir) {
+	
+	public Bille voisine(Bille b, int dir, int dist) {
+		int dirTemp = (dir - 11) / 10;
+		int xAjoute = Math.round(dirTemp);
+		int yAjoute = (dirTemp - xAjoute) * 10;
 		
-		
-		
-		
+		Bille billeRetour = partie.getPlateau().getBille(b.getX() + xAjoute*dist, b.getY() + yAjoute*dist);
+
+		// GAUCHE : x - 1;
+		// Droite : x + 1
+		// HAUT_DROITE : y - 1
+		return billeRetour;
 	}
+	
+	public Bille getTete(Vector<Bille> v, int dir) {
+		Bille billeTemp = new Bille(-1, -1, null); // Comment declarer une Bille "nulle" ?
+		
+		if (v.size() > 1) {			// Si on a effectivement des Billes.
+			billeTemp = v.get(0);	// On choisis la premiere de la liste.
+			for (int i = 1; i < v.size(); i++) // On scanne le reste de la liste
+				if (voisine(billeTemp,dir,1).equals(v.get(i))) // Si on y trouve une Bille plus "haute" (suivant direction)
+						billeTemp = v.get(i);				  // On la selectionne en tant que Bille choisie
+															  // Et on continue de parcourir la liste.
+		} else if (v.size() == 1)
+			billeTemp = v.get(0);
+		
+		return billeTemp;
+	}
+	                                               
+
 	// (Au passage, desole de n'avoir rien fait aujourd'hui. J'ai reinstalle tout le systeme, et fait quelques exo (rare)
 	  // Je considere le projet comme officiellement entame, donc je m'y mets demain  
 	
