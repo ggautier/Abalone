@@ -27,7 +27,7 @@ public class Bille {
 	 */
 	private Joueur joueur;
 	
-	public Bille(Joueur newJoueur)
+	public Bille(int ligne, int colonne, Joueur newJoueur)
 	{
 		this.joueur = newJoueur;
 	}
@@ -41,5 +41,16 @@ public class Bille {
 	 */
 	public Joueur getJoueur() {
 		return this.joueur;
+	}
+	
+	public String toString() {
+		String string;
+		
+		if(this.joueur.getCouleur() == true)
+			string = "0";
+		else
+			string = "1";
+		
+		return string;
 	}
 }
