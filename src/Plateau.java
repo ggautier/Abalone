@@ -215,8 +215,12 @@ public class Plateau {
 				case 8 :
 					nbBilles = 5;
 			}
+
+			for (int b=0; b<9-nbBilles; b++)
+				System.out.print(" ");
 			
 			for(int j = 0 ; j < nbBilles ; j++)
+				
 				if (plateau[i][j] != null)
 					System.out.print(plateau[i][j] + " ");
 				else
