@@ -44,6 +44,7 @@ public class Controleur {
 	
 	public Controleur()
 	{
+		this.selectionnees = new Vector<Bille>(3);
 
 	}
 	
@@ -83,6 +84,21 @@ public class Controleur {
 		return selectionnees;
 	}
 
+	public boolean selectionner(int i, int j) {
+		if (partie.getPlateau().getBille(i, j) != null) {
+			if (isSelectionnee(partie.getPlateau().getBille(i, j)))
+				selectionnees.remove(partie.getPlateau().getBille(i,j));
+			else
+				selectionnees.add(partie.getPlateau().getBille(i,j));
+			
+		}
+		else
+			System.out.println("Pas de bille ici");
+		
+		return false;
+	}
+	
+	
 	public void setSelectionnees(Vector<Bille> selectionnees) {
 		this.selectionnees = selectionnees;
 	}
@@ -98,6 +114,16 @@ public class Controleur {
 				 (j < 0) || (j > 8) || (i < 0) || (i > 8)
 				 )
 				;
+	}
+	
+	public boolean isSelectionnee(Bille b) {
+		boolean retour = false;
+		if (this.selectionnees.size() != 0)
+			for (int i=0; i < this.selectionnees.size(); i++)
+				if (selectionnees.get(i).equals(b))
+					retour = true;
+				
+		return retour;
 	}
 		
 	// Retourne un vecteur contenant les 6 billes au alentours de la Bille passee en entree

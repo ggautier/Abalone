@@ -23,12 +23,20 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Controleur controleur = new Controleur();
-		controleur.setPartie(new Partie());
 		Joueur j1 = new Joueur("J1", false, true);
 		Joueur j2 = new Joueur("J2", true, true);
-		controleur.getPartie().setPlateau(new Plateau("./data/plateau/defaut.pl", j1, j2));
+		Plateau plat = new Plateau("./data/plateau/defaut.pl", j1, j2);
+		Partie part = new Partie();
+
+		controleur.setPartie(part);
+		controleur.getPartie().setPlateau(plat);
+		controleur.getPartie().getPlateau().partie = controleur.getPartie();
+		controleur.getPartie().setControleur(controleur);
+		controleur.selectionner(2,4);
+		controleur.selectionner(2,3);
+		System.out.println(controleur.isSelectionnee(controleur.getPartie().getPlateau().getBille(5, 5)));
 		
-		System.out.println(controleur.getPartie().getPlateau().toString());
+		controleur.getPartie().getPlateau().afficher();
 		
 		FenetrePrincipale f = new FenetrePrincipale("Abalone - 1.00");
         f.setSize(new Dimension(950,725));

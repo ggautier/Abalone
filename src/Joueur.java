@@ -118,5 +118,9 @@ public class Joueur {
 	public void setHumain(boolean humain) {
 		this.humain = humain;
 	}
+	
+	public boolean equals(Joueur j) {
+		return (this.couleur == j.couleur && this.nom.equals(j.nom) && this.humain == j.humain);
+	}
 	// Fin de Section Getters-Setters
 }

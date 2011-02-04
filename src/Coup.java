@@ -23,3 +23,11 @@
 public class Coup {
 
 }
+
+/*
+ * Pour les coups, plusieurs encodages possibles : 
+ * Billes sources + cases cibles
+ * Billes sources + direction
+ *    Je prefere la seconde solution, car cela permettrait d'indiquer plus precisement les eventuelles Billes ennemies que l'on poussera
+ * 
+ */

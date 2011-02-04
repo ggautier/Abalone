@@ -62,4 +62,12 @@ public class Bille {
 		
 		return str;
 	}
+	
+	public boolean equals(Bille b) {
+		boolean retour = false;
+		if (b != null)
+			retour = this.getX() == b.getX() && this.getY() == b.getY() && this.getJoueur().equals(b.getJoueur());
+		
+		return retour;
+	}
 }

@@ -23,9 +23,18 @@
 public class Partie {
 	
 	protected Plateau plateau;
+	protected Controleur controleur;
 
 	
 	
+	public Controleur getControleur() {
+		return controleur;
+	}
+
+	public void setControleur(Controleur controleur) {
+		this.controleur = controleur;
+	}
+
 	public Plateau getPlateau() {
 		return plateau;
 	}

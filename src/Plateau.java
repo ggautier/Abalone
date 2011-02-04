@@ -29,6 +29,7 @@ public class Plateau {
 	 * Le plateau en tant que tel.
 	 */
 	private Bille[][] plateau;
+	public Partie partie; // Temporaire
 	
 	/**
 	 * Constructeur de la classe PLateau
@@ -38,7 +39,7 @@ public class Plateau {
 	public Plateau(String nomFicConfig, Joueur joueur1, Joueur joueur2) {
 		this.plateau = new Bille[9][9];
 		this.init(nomFicConfig, joueur1, joueur2);
-		this.afficher();
+		//this.afficher();
 	}
 	
 	/**
@@ -215,16 +216,22 @@ public class Plateau {
 				case 8 :
 					nbBilles = 5;
 			}
+			
+			
 
 			for (int b=0; b<9-nbBilles; b++)
-				System.out.print(" ");
+				System.out.print("  ");
 			
 			for(int j = 0 ; j < nbBilles ; j++)
 				
-				if (plateau[i][j] != null)
-					System.out.print(plateau[i][j] + " ");
+				if (plateau[i][j] != null) {
+					if (partie.getControleur().isSelectionnee(plateau[i][j]))
+						System.out.print("["+plateau[i][j]+"]" + " ");
+					else
+						System.out.print("("+plateau[i][j]+")" + " ");			
+				}
 				else
-					System.out.print("o ");
+					System.out.print("(o) ");
 			
 			System.out.println();
 		}
