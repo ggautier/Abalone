@@ -5,7 +5,7 @@ public class Main {
 	/**
 	 * @param args
 	 */
-	
+	/*
 	public static void main(String[] args) {
 		
 		Joueur joueur1 = new Joueur("Jean", false, true);
@@ -17,16 +17,18 @@ public class Main {
         f.setVisible(true);
 	} 
 	
-	
+	*/
 	
 	// Maxime : Main secondaire, que j'utilise pour faire des tests. Ne pas supprimer (sorry si j'ai oublie de commenter)
-	/*	
+	
 	public static void main(String[] args) {
 		Controleur controleur = new Controleur();
 		controleur.setPartie(new Partie());
-		controleur.getPartie().setPlateau(new Plateau());
+		Joueur j1 = new Joueur("J1", false, true);
+		Joueur j2 = new Joueur("J2", true, true);
+		controleur.getPartie().setPlateau(new Plateau("./data/plateau/defaut.pl", j1, j2));
 		
 		System.out.println(controleur.getPartie().getPlateau().toString());
 	}
-	*/
+	
 }

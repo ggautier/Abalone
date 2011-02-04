@@ -157,7 +157,10 @@ public class Plateau {
 		String str = "";
 		for(int i=0; i < 9; i++) {
 			for(int j=0; j < 9; j++)
-				str+= getBille(i,j).toString();
+				if (caseVide(i,j))
+					str+="o";
+				else
+					str+= getBille(i,j).toString();
 			str+="\n";
 		}
 		return str;
@@ -214,7 +217,10 @@ public class Plateau {
 			}
 			
 			for(int j = 0 ; j < nbBilles ; j++)
-				System.out.print(plateau[i][j] + " ");
+				if (plateau[i][j] != null)
+					System.out.print(plateau[i][j] + " ");
+				else
+					System.out.print("o ");
 			
 			System.out.println();
 		}
