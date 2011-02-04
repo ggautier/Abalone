@@ -54,7 +54,11 @@ public class Bille {
 	}
 	
 	public String toString() {
-		String str = "+";
+		String str = "o";
+		if (joueur.getCouleur())
+			str = "+";
+		if (!joueur.getCouleur())
+			str = "-";
 		
 		return str;
 	}
