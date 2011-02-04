@@ -143,6 +143,26 @@ public class Plateau {
 		return true;
 	}
 	
+	// Temporaire, pour les tests (desole de foutre la zone)
+	public boolean remplir() {
+		for(int i=0; i < 9; i++)
+			for(int j=0; j < 9; j++)
+				setBille(i,j,new Bille(i, j, null));
+		
+		
+		return true;
+	}
+	
+	public String toString() {
+		String str = "";
+		for(int i=0; i < 9; i++) {
+			for(int j=0; j < 9; j++)
+				str+= getBille(i,j).toString();
+			str+="\n";
+		}
+		return str;
+	}
+	
 	/**
 	 * Teste si une case est vide.
 	 * 

@@ -19,38 +19,43 @@
  * @version 1.0
  */
 public class Bille {
+	protected int coordX;
+	protected int coordY;
+	protected Joueur joueur;
 	
-	/**
-	 * Le joueur proprietaire objet.
-	 * 
-	 * @see Joueur
-	 */
-	private Joueur joueur;
-	
-	public Bille(int ligne, int colonne, Joueur newJoueur)
-	{
-		this.joueur = newJoueur;
+	Bille(int i, int j, Joueur player) {
+		this.coordX = i;
+		this.coordY = j;
+		this.joueur = player;
 	}
-	
-	/**
-	 * Accesseur du joueur
-	 * 
-	 * @return Le joueur proprietaire de la bille.
-	 * 
-	 * @see Joueur
-	 */
+
+	public int getX() {
+		return coordX;
+	}
+
+	public void setX(int coordX) {
+		this.coordX = coordX;
+	}
+
+	public int getY() {
+		return coordY;
+	}
+
+	public void setY(int coordY) {
+		this.coordY = coordY;
+	}
+
 	public Joueur getJoueur() {
-		return this.joueur;
+		return joueur;
+	}
+
+	public void setJoueur(Joueur joueur) {
+		this.joueur = joueur;
 	}
 	
 	public String toString() {
-		String string;
+		String str = "+";
 		
-		if(this.joueur.getCouleur() == true)
-			string = "0";
-		else
-			string = "1";
-		
-		return string;
+		return str;
 	}
 }

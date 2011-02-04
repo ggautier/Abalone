@@ -1,11 +1,11 @@
 /**
- * <b>Partie est la classe regroupant toutes les information du modèle sur la partie en cours.</b>
+ * <b>Partie est la classe regroupant toutes les information du modele sur la partie en cours.</b>
  * <p>
- * Une partie est caractérisée par les informations suivantes :
+ * Une partie est caracterisee par les informations suivantes :
  * <ul>
- * <li>Deux joueurs, dont un peut être l'ordinateur lui-même.</li>
- * <li>Un plateau, représentant le plateau de jeu, et ses cases.</li>
- * <li>Des coups, qui représentent la séquence de coup joués depuis le début de la partie.</li>
+ * <li>Deux joueurs, dont un peut etre l'ordinateur lui-meme.</li>
+ * <li>Un plateau, representant le plateau de jeu, et ses cases.</li>
+ * <li>Des coups, qui representent la sequence de coup joues depuis le debut de la partie.</li>
  * </ul>
  * </p>
  * 
@@ -21,5 +21,18 @@
  * @version 1.0
  */
 public class Partie {
+	
+	protected Plateau plateau;
+
+	
+	
+	public Plateau getPlateau() {
+		return plateau;
+	}
+
+	public void setPlateau(Plateau plateau) {
+		this.plateau = plateau;
+	}
+	
 
 }
