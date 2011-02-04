@@ -1,40 +1,85 @@
 import java.awt.*;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 
 public class FenetreCommande extends JPanel{
 	
-	private JPanel	commande, joueur1, joueur2, action;
+	private JPanel			joueur1, joueur2, action;
+	private JLabel 			nomJoueur1, nomJoueur2, billeJoueur1, billeJoueur2;
+	private TitledBorder	title;
+	private JButton			previous, next, hint;
 	
 	public FenetreCommande()
 	{
 		super();
-		
-		this.commande = new JPanel();
-		this.commande.setLayout(new BorderLayout());
+
+		//Déclaration du layout de la partie commande
+		this.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
         
+        //Déclaration des différents sous-parties de commande, GridBagLayout
         this.joueur1 = new JPanel();
         this.joueur1.setLayout(new GridBagLayout());
+        title = BorderFactory.createTitledBorder("Joueur1");
+        this.joueur1.setBorder(title);
         this.joueur2 = new JPanel();
         this.joueur2.setLayout(new GridBagLayout());
+        title = BorderFactory.createTitledBorder("Joueur2");
+        this.joueur2.setBorder(title);
         this.action = new JPanel();
         this.action.setLayout(new GridBagLayout());
+        title = BorderFactory.createTitledBorder("Action");
+        this.action.setBorder(title);
         
-        this.joueur1.setBackground(Color.RED);
-        this.joueur2.setBackground(Color.ORANGE);
-        this.action.setBackground(Color.GREEN);
+        billeJoueur1 = new JLabel("14");
+        billeJoueur2 = new JLabel("14");
+        nomJoueur1 = new JLabel("Joueur1");
+        nomJoueur2 = new JLabel("Joueur2");
+        
+        previous = new JButton("Cancel");
+        next = new JButton("Next");
+        hint = new JButton("Conseil");
 
-        this.joueur1.add(new JLabel("Salut les deg\n"));
+        donnerContrainte(c,0,0,2,1,100,100);
+        this.joueur1.add(nomJoueur1,c);
+        donnerContrainte(c,0,1,1,1,100,100);
+        this.joueur1.add(new JLabel("Billes restantes : "),c);
+        donnerContrainte(c,1,1,1,1,100,100);
+        this.joueur1.add(billeJoueur1,c);
         
-        this.joueur2.add(new JLabel("Salut les deg\n"));
+        donnerContrainte(c,0,0,2,1,100,100);
+        this.joueur2.add(nomJoueur2,c);
+        donnerContrainte(c,0,1,1,1,100,100);
+        this.joueur2.add(new JLabel("Billes restantes : "),c);
+        donnerContrainte(c,1,1,1,1,100,100);
+        this.joueur2.add(billeJoueur2,c);
+        
+        donnerContrainte(c,0,0,1,1,0,0);
+        this.action.add(previous,c);
+        donnerContrainte(c,1,0,1,1,0,0);
+        this.action.add(next,c);
+        donnerContrainte(c,0,1,2,1,0,0);
+        this.action.add(hint,c);
+     
 
-        this.action.add(new JLabel("Salut les deg\n"));
-
-        
-		this.add("NORTH",joueur1);
-		this.add("CENTER",joueur2);
-		this.add("SOUTH",action);
-        
-        this.setBackground(Color.BLACK);
+        donnerContrainte(c,0,0,1,1,100,20);
+		this.add(joueur1,c);
+		donnerContrainte(c,0,1,1,1,100,20);
+		this.add(joueur2,c);
+		donnerContrainte(c,0,2,1,1,100,80);
+		this.add(action,c);
+                
+	}
+	
+	void donnerContrainte(GridBagConstraints gbc, int gx, int gy, int gw, int gh, int wx, int wy)
+	{
+		gbc.gridx=gx;
+		gbc.gridy=gy;
+		gbc.gridwidth=gw;
+		gbc.gridheight=gh;
+		gbc.weightx=wx;
+		gbc.weighty=wy;
+		gbc.fill=GridBagConstraints.BOTH;
 	}
 }
