@@ -11,8 +11,7 @@ public class FenetrePlateau extends JPanel{
 	
 	public FenetrePlateau()
 	{
-		plateau = new JPanel();
-        plateau.setLayout(new GridBagLayout());
+        this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 		
 		tabjeu = new int[11][19];
@@ -86,7 +85,7 @@ public class FenetrePlateau extends JPanel{
         		jb.setText(jb.getName());
         		
         		donnerContrainte(c,tabCaseAlt[i]+(2*j),i,2,1,0,0);
-        		plateau.add(jb,c);
+        		this.add(jb,c);
         	}
         }
    	}

@@ -29,6 +29,10 @@ public class Main {
 		controleur.getPartie().setPlateau(new Plateau("./data/plateau/defaut.pl", j1, j2));
 		
 		System.out.println(controleur.getPartie().getPlateau().toString());
+		
+		FenetrePrincipale f = new FenetrePrincipale("Abalone - 1.00");
+        f.setSize(new Dimension(950,725));
+        f.setVisible(true);
 	}
 	
 }

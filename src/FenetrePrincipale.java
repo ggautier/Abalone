@@ -85,13 +85,13 @@ public class FenetrePrincipale extends JFrame{
         info = new FenetreInfo();
         
         //On affecte une position au panel plateau, dans le contenant panel
-        donnerContrainte(c,0,0,1,1,50,50);
+        donnerContrainte(c,0,0,1,1,70,70);
         panel.add(plateau,c);
         
-        donnerContrainte(c,1,0,1,1,50,50);
+        donnerContrainte(c,1,0,1,1,30,70);
         panel.add(commande,c);
         
-        donnerContrainte(c,0,1,2,1,0,0);
+        donnerContrainte(c,0,1,2,1,100,30);
         panel.add(info,c);
         
         this.add(panel);
