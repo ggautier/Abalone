@@ -1,23 +1,19 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Stack;
+import java.util.StringTokenizer;
 
 /**
- * <b>Plateau est la classe représentant la totalité des cases du plateau de jeu.</b>
+ * <b>Plateau est la classe representant la totalite des cases du plateau de jeu.</b>
  * <p>
- * Un plateau est caractérisé par les informations suivantes :
- * <ul>
- * <li>Deux joueurs, dont un peut être l'ordinateur lui-même.</li>
- * <li>Une partie, représentant une instance de jeu.</li>
- * <li>Des cases, qui repéresente un emplacement physique nécessaire au plateau.</li>
+ * Un plateau est caracterise par les billes qu'ils contient.
  * </ul>
  * </p>
  * 
- * @see Joueur
- * @see Partie
- * @see Case
+ * @see Bille
  * 
  * @author Lenogue Matthieu
  * @author Gautier Quentin
@@ -28,40 +24,121 @@ import java.io.IOException;
  */
 
 public class Plateau {
-
+	
+	/**
+	 * Le plateau en tant que tel.
+	 */
 	private Bille[][] plateau;
 	
-	// On mettra une config par defaut, quand aucun parametre en entree (vive la surcharge)
-	public Plateau() {
+	/**
+	 * Constructeur de la classe PLateau
+	 * 
+	 * @param nomFicConfig Le fichier d'initialisation du plateau
+	 */
+	public Plateau(String nomFicConfig, Joueur joueur1, Joueur joueur2) {
 		this.plateau = new Bille[9][9];
-		this.remplir();
+		this.init(nomFicConfig, joueur1, joueur2);
+		this.afficher();
 	}
 	
-	public Plateau(String nomFicConfig) {
-		this.plateau = new Bille[9][9];
-		this.remplir(nomFicConfig);
-	}
-	
+	/**
+	 * Accesseur des billes
+	 * 
+	 * @param ligne La ligne sur laquelle se trouve la bille a recuperer
+	 * @param colonne La colonne sur laquelle se trouve la bille a recuperer
+	 * 
+	 * @return La bille aux coordonnees passees en parametres
+	 * 
+	 * @see Bille
+	 */
 	public Bille getBille(int ligne, int colonne) {
 		return this.plateau[ligne][colonne];
 	}
 	
+	/**
+	 * Mutateur des billes
+	 * 
+	 * @param ligne La ligne sur laquelle se trouve la bille a modifier.
+	 * @param colonne La colonne sur laquelle se trouve la bille a modifier.
+	 * @param newBille La nouvelle bille.
+	 * 
+	 * @see Bille
+	 */
 	private void setBille(int ligne, int colonne, Bille newBille) {
 		this.plateau[ligne][colonne] = newBille;
 	}
 	
-	public boolean remplir(String nomFicConfig) {
-		
-		/*
+	/**remplir
+	 * Remplit le plateau a partir d'un fichier de configuration
+	 * 
+	 * @param fichierConf Chemin du fichier de configuration.
+	 * 
+	 * @return
+	 * 		<ul>
+	 * 			<li>true si le remplissage du plateau reussit</li>
+	 * 			<li>false sinon</li>
+	 * 		</ul>
+	 */
+	public boolean init(String fichierConf, Joueur joueur1, Joueur joueur2) {
 		try {
-			BufferedReader buffer = new BufferedReader(new FileReader(nomFicConfig));
+			BufferedReader buffer = new BufferedReader(new FileReader(fichierConf));
+			
+			int nbLignes = 0;
+			String ligne;
+			Stack<String> lignes = new Stack<String>();
+			
+			// LECTURE DE LA DECLARATION DU PLATEAU
+			// (9 PREMIERES LIGNES)
+			
+			while(nbLignes < 9) {
+				ligne = buffer.readLine();
+				
+				if(ligne.isEmpty())	// Les lignes vides sont ignorees.
+					continue;
+				
+				lignes.push(ligne);	// Stockage des lignes dans une pile
+				
+				nbLignes++;
+			}
+			
+			buffer.close();
+			
+			StringTokenizer stk;
+			
+			int nbBilles;
+			nbLignes = 0;
+			
+			while((lignes.isEmpty() == false) && (nbLignes < 9)) {
+				
+				String bille;
+				nbBilles = 0;
+				stk = new StringTokenizer(lignes.pop());
+				
+				while(stk.hasMoreTokens()) {
+					bille = stk.nextToken();
+					
+					if(bille.equals("0"))
+						this.setBille(nbLignes, nbBilles, new Bille(nbLignes, nbBilles, joueur1));
+					
+					else if(bille.equals("1"))
+						this.setBille(nbLignes, nbBilles, new Bille(nbLignes, nbBilles, joueur2));
+					
+					nbBilles++;	// nombre de bille lues pour la ligne courante
+				}
+				
+				nbLignes++; // nombre de lignes lues
+			}
 		}
 		
 		catch (FileNotFoundException e) {
-			System.out.println("Erreur : fichier de plateau \"" + nomFicConfig + "\" introuvable");
+			System.out.println("Erreur : fichier de plateau \"" + fichierConf + "\" introuvable");
 			return false;
 		}
-		*/
+		
+		catch (IOException e) {
+			System.out.println("Erreur lors de la lecture du fichier \"" + fichierConf + "\"");
+			return false;
+		}
 		
 		return true;
 	}
@@ -86,7 +163,60 @@ public class Plateau {
 		return str;
 	}
 	
+	/**
+	 * Teste si une case est vide.
+	 * 
+	 * @param ligne La ligne de la case a tester
+	 * @param colonne La colonne de la classe a tester
+	 * 
+	 * @return
+	 * 		<ul>
+	 * 			<li>true si la case aux coordonnees passees en paramet9re est vide</li>
+	 * 			<li>false sinon</li>
+	 * 		</ul>
+	 */
 	public boolean caseVide(int ligne, int colonne) {
-		return this.plateau[ligne][colonne] == null;
+		
+		try {
+			return this.plateau[ligne][colonne] == null;
+		}
+		
+		catch(ArrayIndexOutOfBoundsException e) {
+			System.out.println("Erreur lors du test de vacuite : coordonnees hors plateau");
+			return false;
+		}
+	}
+	
+	public void afficher() {
+		int nbBilles = 0;
+		
+		for(int i = 0 ; i < 9 ; i++)
+		{
+			switch(i) {
+				case 0 :
+					nbBilles = 5; break;
+				case 1 :
+					nbBilles = 6; break;
+				case 2 :
+					nbBilles = 7; break;
+				case 3 :
+					nbBilles = 8; break;
+				case 4 :
+					nbBilles = 9; break;
+				case 5 :
+					nbBilles = 8; break;
+				case 6 :
+					nbBilles = 7; break;
+				case 7 :
+					nbBilles = 6; break;
+				case 8 :
+					nbBilles = 5;
+			}
+			
+			for(int j = 0 ; j < nbBilles ; j++)
+				System.out.print(plateau[i][j] + " ");
+			
+			System.out.println();
+		}
 	}
 }

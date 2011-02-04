@@ -1,15 +1,15 @@
+// TODO Fixer le cas des billes mortes
+//		-> supprimer l'objet ?
+//		-> l'indiquer dans un booléen ?
+//		-> quid de la case ?
+
 /**
- * <b>Bille est la classe qui représente une bille durant une partie.</b>
+ * <b>Bille est la classe qui represente une bille durant une partie.</b>
  * <p>
- * Un Bille est caractérisée par les informations suivantes :
- * <ul>
- * <li>Un joueur, qui va posséder la bille.</li>
- * <li>Une case, que la bille va occuper à un instant.</li>
- * </ul>
+ * Une Bille est caracterisee par un joueur qui va la posseder.
  * </p>
  * 
  * @see Joueur
- * @see Case
  * 
  * @author Lenogue Matthieu
  * @author Gautier Quentin
@@ -27,7 +27,6 @@ public class Bille {
 		this.coordX = i;
 		this.coordY = j;
 		this.joueur = player;
-		
 	}
 
 	public int getX() {
@@ -59,12 +58,4 @@ public class Bille {
 		
 		return str;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 }
