@@ -84,6 +84,8 @@ public class Plateau {
 		try {
 			BufferedReader buffer = new BufferedReader(new FileReader(fichierConf));
 			
+			int test = 0;
+			
 			int nbLignes = 0;
 			String ligne;
 			Stack<String> lignes = new Stack<String>();
@@ -117,12 +119,16 @@ public class Plateau {
 				
 				while(stk.hasMoreTokens()) {
 					bille = stk.nextToken();
+					if (nbLignes > 4)
+						test = nbBilles + nbLignes - 5;
+					else
+						test = nbBilles;
 					
 					if(bille.equals("0"))
-						this.setBille(nbLignes, nbBilles, new Bille(nbLignes, nbBilles, joueur1));
+						this.setBille(nbLignes, test, new Bille(nbLignes, test, joueur1));
 					
 					else if(bille.equals("1"))
-						this.setBille(nbLignes, nbBilles, new Bille(nbLignes, nbBilles, joueur2));
+						this.setBille(nbLignes, test, new Bille(nbLignes, test, joueur2));
 					
 					nbBilles++;	// nombre de bille lues pour la ligne courante
 				}
@@ -180,7 +186,6 @@ public class Plateau {
 	 * 		</ul>
 	 */
 	public boolean caseVide(int ligne, int colonne) {
-		
 		try {
 			return this.plateau[ligne][colonne] == null;
 		}
@@ -189,13 +194,15 @@ public class Plateau {
 			System.out.println("Erreur lors du test de vacuite : coordonnees hors plateau");
 			return false;
 		}
+		
+
 	}
 	
 	public void afficher() {
 		int nbBilles = 0;
+		int test = 0;
 		
-		for(int i = 0 ; i < 9 ; i++)
-		{
+		for(int i = 0 ; i < 9 ; i++) {
 			switch(i) {
 				case 0 :
 					nbBilles = 5; break;
@@ -217,23 +224,28 @@ public class Plateau {
 					nbBilles = 5;
 			}
 			
-			
+
 
 			for (int b=0; b<9-nbBilles; b++)
 				System.out.print("  ");
 			
-			for(int j = 0 ; j < nbBilles ; j++)
-				
-				if (plateau[i][j] != null) {
-					if (partie.getControleur().isSelectionnee(plateau[i][j]))
-						System.out.print("["+plateau[i][j]+"]" + " ");
-					else if (partie.getControleur().isVisee(plateau[i][j]))
-						System.out.print("{"+plateau[i][j]+"}" + " ");
+			for(int j = 0 ; j < nbBilles ; j++) {
+				if (i > 4)
+					test = j + i - 5;
+				else
+					test = j;
+						
+				if (plateau[i][test] != null) {
+					if (partie.getControleur().isSelectionnee(plateau[i][test]))
+						System.out.print("["+plateau[i][test]+"]" + " ");
+					else if (partie.getControleur().isVisee(plateau[i][test]))
+						System.out.print("{"+plateau[i][test]+"}" + " ");
 					else
-						System.out.print("("+plateau[i][j]+")" + " ");			
+						System.out.print("("+plateau[i][test]+")" + " ");			
 				}
 				else
 					System.out.print("(o) ");
+			}
 			
 			System.out.println();
 		}
