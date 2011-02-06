@@ -34,7 +34,7 @@ public class Main {
 		controleur.getPartie().setControleur(controleur);
 		controleur.selectionner(2,4);
 		controleur.selectionner(2,3);
-		System.out.println(controleur.isSelectionnee(controleur.getPartie().getPlateau().getBille(5, 5)));
+		//System.out.println(controleur.isSelectionnee(controleur.getPartie().getPlateau().getBille(5, 5)));
 		
 		controleur.getPartie().getPlateau().afficher();
 		

@@ -28,6 +28,7 @@ public class Controleur {
 	protected FenetrePrincipale	fenetrePrincipale;
 	protected Partie			partie; 
 	protected Vector<Bille>		selectionnees;
+	protected Vector<Vector<Bille>> visees;
 	
 	// Dir
 	public final static int GAUCHE = 01;
@@ -45,6 +46,7 @@ public class Controleur {
 	public Controleur()
 	{
 		this.selectionnees = new Vector<Bille>(3);
+		this.visees = new Vector<Vector<Bille>>(2);
 
 	}
 	
@@ -116,12 +118,25 @@ public class Controleur {
 				;
 	}
 	
+	// "true" si la Bille est selectionnee.
 	public boolean isSelectionnee(Bille b) {
 		boolean retour = false;
 		if (this.selectionnees.size() != 0)
 			for (int i=0; i < this.selectionnees.size(); i++)
 				if (selectionnees.get(i).equals(b))
 					retour = true;
+				
+		return retour;
+	}
+	
+	// "true" si la Bille est visee
+	public boolean isVisee(Bille b) {
+		boolean retour = false;
+		if (this.visees.size() != 0)
+			for (int i=0; i < this.visees.size(); i++)
+				for (int j=0; j < this.visees.get(i).size(); i++)
+					if (visees.get(i).get(j).equals(b))
+						retour = true;
 				
 		return retour;
 	}
@@ -216,6 +231,8 @@ public class Controleur {
 		
 		if (v.size() < vTemp.size()) // Si il y a + de Billes ennemies que de Billes alliees, alors foutu aussi !
 			vTemp.clear();
+		
+		visees.add(vTemp); // On ajoute a la liste des billes visees
 		
 		return vTemp; // Pas encore clairement defini, mais l'idee est de retourner la liste de Billes ennemies qu'on pousserait.
 		

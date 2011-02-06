@@ -227,6 +227,8 @@ public class Plateau {
 				if (plateau[i][j] != null) {
 					if (partie.getControleur().isSelectionnee(plateau[i][j]))
 						System.out.print("["+plateau[i][j]+"]" + " ");
+					else if (partie.getControleur().isVisee(plateau[i][j]))
+						System.out.print("{"+plateau[i][j]+"}" + " ");
 					else
 						System.out.print("("+plateau[i][j]+")" + " ");			
 				}
