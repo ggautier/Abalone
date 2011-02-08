@@ -107,7 +107,7 @@ public class FenetrePlateau extends JPanel{
          
          for (int i = 0; i < 9; i++ ) {
         	 for (int j = 0; j < 9; j++) {
-        		 decalage = (4-i)*20;
+        		 decalage = (4-i)*23;
                  billeTemp = principale.getControleur().getPartie().getPlateau().getBille(i, j);
         		 if (billeTemp != null) {
         			 if (billeTemp.getJoueur().getCouleur() == true)

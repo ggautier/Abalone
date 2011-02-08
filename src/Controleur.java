@@ -134,17 +134,29 @@ public class Controleur {
 	}
 	
 	public Point getBillePointee(Point p) {
+		System.out.print(p+" -> ");
 		Point pRetour = new Point();
-		//float decalage = (4- p.getX()) * 20;
-
-		pRetour.setLocation(p.getY()/45, p.getX()/40);
+		double iBille = (p.getY()-20)/40.0;
+		int i = (int) Math.round(iBille);
+		//int decalage = (int) (4-iBille)*23;
+		double jBille = ((p.getX()-20)-(4-i)*23)/45.0;
+		int j = (int) Math.round(jBille);
 		
+		System.out.print(jBille+","+iBille);
+
+		pRetour.setLocation(i,j);
+		System.out.println("("+pRetour+")");
+
+
 		return pRetour;
 	}
 	
 	/*
 		 if (!principale.getControleur().isOut(i, j))
 			 g.fillOval(decalage+j*45, i*40, 40, 40);
+			 
+			 
+		decalage = (4-i)*23;
 	*/		 
 
 	// "true" si la Bille est selectionnee.

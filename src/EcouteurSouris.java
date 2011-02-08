@@ -12,6 +12,12 @@ public class EcouteurSouris implements MouseListener {
 	}
 	
     public void mousePressed(MouseEvent e) {
+     	// Ici, on balance la selection de la Bille cliquee
+    	// Soit la fenetre n'est pas redimensionnable, donc on met des donnees brutes,
+    	// sinon on met des variables.
+    	 System.out.println(fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()));
+    	 fenetre.getPrincipale().getControleur().selectionner(fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()));
+    	 fenetre.repaint();
     }
 
      public void mouseReleased(MouseEvent e) {
@@ -19,6 +25,7 @@ public class EcouteurSouris implements MouseListener {
      }
 
      public void mouseEntered(MouseEvent e) {
+    	 System.out.println(fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()));
 
      }
 
@@ -27,12 +34,7 @@ public class EcouteurSouris implements MouseListener {
      }
 
      public void mouseClicked(MouseEvent e) {
-     	// Ici, on balance la selection de la Bille cliquee
-    	// Soit la fenetre n'est pas redimensionnable, donc on met des donnees brutes,
-    	// sinon on met des variables.
-    	 System.out.println(fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()));
-    	 fenetre.getPrincipale().getControleur().selectionner(fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()));
-    	 fenetre.repaint();
+
 
      }
 
