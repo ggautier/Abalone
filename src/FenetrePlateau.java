@@ -86,6 +86,10 @@ public class FenetrePlateau extends JPanel{
         		jb.setName(String.valueOf(i) + String.valueOf(j));
         		jb.setText(jb.getName());
         		
+        		///// 08.02.11 Latoof
+        		jb.setVisible(false); // Enlever si on reveut les boutons
+        		////
+        		
         		donnerContrainte(c,tabCaseAlt[i]+(2*j),i,2,1,0,0);
         		this.add(jb,c);
         	}
@@ -102,7 +106,7 @@ public class FenetrePlateau extends JPanel{
          
          for (int i = 0; i < 9; i++ ) {
         	 for (int j = 0; j < 9; j++) {
-        		 decalage = (5-i)*15;
+        		 decalage = (4-i)*20;
                  billeTemp = principale.getControleur().getPartie().getPlateau().getBille(i, j);
         		 if (billeTemp != null) {
         			 if (billeTemp.getJoueur().getCouleur() == true)
@@ -116,7 +120,7 @@ public class FenetrePlateau extends JPanel{
         			 g.setColor(Color.GREEN);
         		 
         		 if (!principale.getControleur().isOut(i, j))
-        			 g.fillOval(decalage+j*40, i*35, 30, 30);
+        			 g.fillOval(decalage+j*45, i*40, 40, 40);
         		 
         			 
         	 }
