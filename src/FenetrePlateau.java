@@ -97,10 +97,12 @@ public class FenetrePlateau extends JPanel{
          System.out.println("Je suis exécutée ! ! !"); 
          int decalage = 0;
          Bille billeTemp;
+         g.setColor(Color.YELLOW);
+         g.fillRect(0, 0, 500, 500);
          
          for (int i = 0; i < 9; i++ ) {
         	 for (int j = 0; j < 9; j++) {
-        		 decalage = (4-i)*15;
+        		 decalage = (5-i)*15;
                  billeTemp = principale.getControleur().getPartie().getPlateau().getBille(i, j);
         		 if (billeTemp != null) {
         			 if (billeTemp.getJoueur().getCouleur() == true)
@@ -110,10 +112,11 @@ public class FenetrePlateau extends JPanel{
         			 else if ( !principale.getControleur().isOut(i, j))
         				 g.setColor(Color.gray);
         		 }
-        		 else
-        			 g.setColor(null); // Temporaire
+        		 else 
+        			 g.setColor(Color.GREEN);
         		 
-        		 g.fillOval(decalage+j*40, i*40, 30, 30);
+        		 if (!principale.getControleur().isOut(i, j))
+        			 g.fillOval(decalage+j*40, i*35, 30, 30);
         		 
         			 
         	 }
