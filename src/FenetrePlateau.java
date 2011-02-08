@@ -77,7 +77,7 @@ public class FenetrePlateau extends JPanel{
 		tabCase[8] = 5;
 		tabCaseAlt[8] = 4;
 
-        
+        /*
         for (int i=0; i<9; i++)
         {
         	for (int j=0; j<tabCase[i]; j++)
@@ -89,7 +89,7 @@ public class FenetrePlateau extends JPanel{
         		donnerContrainte(c,tabCaseAlt[i]+(2*j),i,2,1,0,0);
         		this.add(jb,c);
         	}
-        }
+        }*/
    	}
 	
     public void paintComponent(Graphics g){
