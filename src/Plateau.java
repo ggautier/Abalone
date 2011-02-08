@@ -67,6 +67,7 @@ public class Plateau {
 	 */
 	private void setBille(int ligne, int colonne, Bille newBille) {
 		this.plateau[ligne][colonne] = newBille;
+		//System.out.println("Placement d'une bille en "+ligne+"-"+colonne);
 	}
 	
 	/**remplir
@@ -120,7 +121,7 @@ public class Plateau {
 				while(stk.hasMoreTokens()) {
 					bille = stk.nextToken();
 					if (nbLignes > 4)
-						test = nbBilles + nbLignes - 5;
+						test = nbBilles + nbLignes - 4;
 					else
 						test = nbBilles;
 					
@@ -231,7 +232,7 @@ public class Plateau {
 			
 			for(int j = 0 ; j < nbBilles ; j++) {
 				if (i > 4)
-					test = j + i - 5;
+					test = j + i - 4;
 				else
 					test = j;
 						
