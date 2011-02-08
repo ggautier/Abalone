@@ -30,6 +30,9 @@ public class FenetrePrincipale extends JFrame{
 	private FenetreCommande	commande;
 	
 	private JMenuBar 		menuBar;
+	
+
+
 	private JMenu			fichierMenu;
 	
 	private Controleur	controleur;
@@ -38,6 +41,7 @@ public class FenetrePrincipale extends JFrame{
 	{
 		//Héritage du builder de la super classe JFrame
 		super(titre);
+		this.controleur = new Controleur();
 	
 		//Rendre la fenetre fermable et re-dimensionnable
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,7 +80,7 @@ public class FenetrePrincipale extends JFrame{
         GridBagConstraints c = new GridBagConstraints();
 
         //init du conteneur plateau
-        plateau = new FenetrePlateau();
+        plateau = new FenetrePlateau(this);
         
         //init de commande
         commande = new FenetreCommande();
@@ -111,6 +115,14 @@ public class FenetrePrincipale extends JFrame{
 		gbc.weightx=wx;
 		gbc.weighty=wy;
 		gbc.fill=GridBagConstraints.BOTH;
+	}
+	
+	public Controleur getControleur() {
+		return controleur;
+	}
+
+	public void setControleur(Controleur controleur) {
+		this.controleur = controleur;
 	}
 	
 	//Fonction test du controleur avant implentation dans ce dernier OK !

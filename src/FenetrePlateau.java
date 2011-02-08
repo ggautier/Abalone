@@ -4,13 +4,15 @@ import javax.swing.*;
 public class FenetrePlateau extends JPanel{
 
 	private JPanel	plateau;
+	FenetrePrincipale principale;
 	
 	private int[][]		tabjeu;
 	private int[]		tabCase;
 	private int[]		tabCaseAlt;
 	
-	public FenetrePlateau()
+	public FenetrePlateau(FenetrePrincipale princ)
 	{
+		this.principale = princ;
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 		
@@ -89,6 +91,18 @@ public class FenetrePlateau extends JPanel{
         	}
         }
    	}
+	
+    public void paintComponent(Graphics g){
+        //Vous pourrez voir cette phrase à chaque fois que la méthode est invoquée !
+         System.out.println("Je suis exécutée ! ! !"); 
+         
+         for (int i = 0; i < 9; i++ ) {
+        	 for (int j = 0; j < 9; j++) {
+        		 if (principale.getControleur().getPartie().getPlateau().getBille(i, j) != null)
+        			 g.fillOval(i*10, j*10, 30, 30);
+        	 }
+         }
+  }   
 	
 	void donnerContrainte(GridBagConstraints gbc, int gx, int gy, int gw, int gh, int wx, int wy)
 	{

@@ -32,9 +32,13 @@ public class Main {
 		controleur.getPartie().setPlateau(plat);
 		controleur.getPartie().getPlateau().partie = controleur.getPartie();
 		controleur.getPartie().setControleur(controleur);
-		controleur.selectionner(2,4);
-		controleur.selectionner(2,3);
+		//controleur.selectionner(7,4);
+		controleur.selectionner(6,5);
+		controleur.selectionner(6,4);
+
+		
 		//System.out.println(controleur.isSelectionnee(controleur.getPartie().getPlateau().getBille(5, 5)));
+		controleur.genererCoups();
 		
 		controleur.getPartie().getPlateau().afficher();
 		

@@ -31,23 +31,23 @@ public class Controleur {
 	protected Vector<Vector<Bille>> visees;
 	
 	// Dir
-	public final static int GAUCHE = 01;
-	public final static int DROITE = 21;
-	public final static int BAS_GAUCHE = 12;
-	public final static int HAUT_DROITE = 10;
+	public final static int GAUCHE = 10;
+	public final static int DROITE = 12;
+	public final static int BAS_GAUCHE = 01;
+	public final static int HAUT_DROITE = 21;
 	public final static int HAUT_GAUCHE = 00;
 	public final static int BAS_DROITE = 22;
 	
 	// Axe
-	public final static int GD = 10;
+	public final static int GD = 01;
 	public final static int HG_BD = 11;
-	public final static int HD_BG = 01;
+	public final static int HD_BG = 10;
 	
 	public Controleur()
 	{
+		this.partie = new Partie();
 		this.selectionnees = new Vector<Bille>(3);
 		this.visees = new Vector<Vector<Bille>>(2);
-
 	}
 	
 	//test les coord d'une case, est renvoie  true si s'est une case de sortie.
@@ -172,10 +172,10 @@ public class Controleur {
 	public int getAxe(Bille b1, Bille b2) {
 		int axe = 0;
 		if (b1.getX() - b2.getX() != 0)  // Si Billes sur la meme ligne
-			axe+=GD;
+			axe+=HD_BG;
 
 		if (b1.getY() - b2.getY() != 0)  // Si Billes sur la meme colonne.
-			axe+=HD_BG;
+			axe+=GD;
 		
 		// J'ai fait en sorte que les deux puissent s'additionner de maniere logique (meme ligne + meme colonne)
 		
@@ -184,6 +184,7 @@ public class Controleur {
 	
 	// En gros chantier /!\
 	public Vector<Bille> genererCoups(Vector<Bille> v) {
+		visees.clear();
 		int axe = 0;
 		Bille billeTemp;
 		if (v.size() > 2) // Si au moins deux billes
@@ -210,6 +211,36 @@ public class Controleur {
 		
 		return null;
 	}
+
+	public Vector<Bille> genererCoups() { // Celui la sera utilise
+		visees.clear();
+		int axe = 0;
+		Bille billeTemp;
+		if (selectionnees.size() >= 2) // Si au moins deux billes
+			axe = getAxe(selectionnees.get(0),selectionnees.get(1));
+		
+		System.out.println("Axe : "+axe);
+		switch (axe) {
+		case GD:
+			getAdversairesPoussables(selectionnees,GAUCHE);
+			getAdversairesPoussables(selectionnees,DROITE);
+			break;
+		case HG_BD:
+			getAdversairesPoussables(selectionnees,HAUT_GAUCHE);
+			getAdversairesPoussables(selectionnees,BAS_DROITE);
+			break;
+		
+		case HD_BG:
+			getAdversairesPoussables(selectionnees,HAUT_DROITE);
+			getAdversairesPoussables(selectionnees,BAS_GAUCHE);
+			break;
+			
+		default:
+			break;
+		}
+		
+		return null;
+	}
 	
 	public Vector<Bille> getAdversairesPoussables(Vector<Bille> v, int dir) { // Ici, on determine quelles rangees sont poussables
 		int taille_rangee = v.size();
@@ -219,20 +250,26 @@ public class Controleur {
 		Vector<Bille> vTemp = new Vector<Bille>(2);
 				
 		for(int i=1; i <= 3; i++) {
+			System.out.println("Tour "+i+" en recherche de cibles vers : "+dir+" pour la Bille en ("+billeTete.getX()+","+billeTete.getY()+")");
 			billeTemp = voisine(billeTete,dir,i); // Bille voisinne d'i crans, suivant la direction
 			// Pas encore clairement definie : On verifie si on a une Bille du joueur adverse.
-			if (!partie.getPlateau().caseVide(billeTemp.getX(),billeTemp.getY())) // Si on trouve une case vide, c'est qu'on a deja enregistre toutes les Billes ennemies
-				i = 42; // Moyen bourrin de mettre fin a la boucle.
-			else if (billeTemp.getJoueur() != billeTete.getJoueur())
-				vTemp.add(billeTemp);
-			else if (billeTemp.getJoueur() == billeTete.getJoueur()) // Si un trouve une Bille de notre couleur, alors foutu !
-				vTemp.clear();
+			if (billeTemp != null) {
+				if (!partie.getPlateau().caseVide(billeTemp.getX(),billeTemp.getY())) // Si on trouve une case vide, c'est qu'on a deja enregistre toutes les Billes ennemies
+					i = 42; // Moyen bourrin de mettre fin a la boucle.
+				else if (billeTemp.getJoueur() != billeTete.getJoueur())
+					vTemp.add(billeTemp);
+				else if (billeTemp.getJoueur() == billeTete.getJoueur()) // Si un trouve une Bille de notre couleur, alors foutu !
+					vTemp.clear();
+			}
+			else
+				i = 42;
 		}
 		
 		if (v.size() < vTemp.size()) // Si il y a + de Billes ennemies que de Billes alliees, alors foutu aussi !
 			vTemp.clear();
 		
 		visees.add(vTemp); // On ajoute a la liste des billes visees
+		System.out.println("ajout de "+vTemp.size()+" Billes en cibles");
 		
 		return vTemp; // Pas encore clairement defini, mais l'idee est de retourner la liste de Billes ennemies qu'on pousserait.
 		
@@ -251,18 +288,33 @@ public class Controleur {
 		// HAUT_DROITE : y - 1
 		return billeRetour;
 	}
+
+	/* Memo :
+		public final static int GAUCHE = 10;
+		public final static int DROITE = 12;
+		public final static int BAS_GAUCHE = 01;
+		public final static int HAUT_DROITE = 21;
+		public final static int HAUT_GAUCHE = 00;
+		public final static int BAS_DROITE = 22;
+	*/
 	
 	public Bille getTete(Vector<Bille> v, int dir) {
 		Bille billeTemp = new Bille(-1, -1, null); // Comment declarer une Bille "nulle" ?
-		
-		if (v.size() > 1) {			// Si on a effectivement des Billes.
-			billeTemp = v.get(0);	// On choisis la premiere de la liste.
-			for (int i = 1; i < v.size(); i++) // On scanne le reste de la liste
-				if (voisine(billeTemp,dir,1).equals(v.get(i))) // Si on y trouve une Bille plus "haute" (suivant direction)
-						billeTemp = v.get(i);				  // On la selectionne en tant que Bille choisie
-															  // Et on continue de parcourir la liste.
-		} else if (v.size() == 1)
+		Bille billeTest;
+		System.out.print("cherche Tete en "+dir+" : ");
+
+		if (v.size() > 0) {
 			billeTemp = v.get(0);
+			for (int i = 0; i < v.size(); i++) 
+				for (int j = 1; j <= 2; j++) {
+					billeTest = voisine(billeTemp,dir,j);
+					if (billeTest != null) 
+						if (billeTest.equals(v.get(i)))
+							billeTemp = billeTest;
+					
+					}
+				
+			}
 		
 		return billeTemp;
 	}

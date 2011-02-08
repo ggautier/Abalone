@@ -25,6 +25,12 @@ public class Partie {
 	protected Plateau plateau;
 	protected Controleur controleur;
 
+	public Partie() {
+		Joueur j1 = new Joueur("J1", false, true);
+		Joueur j2 = new Joueur("J2", true, true);
+		this.plateau = new Plateau("./data/plateau/defaut.pl", j1, j2);
+
+	}
 	
 	
 	public Controleur getControleur() {
