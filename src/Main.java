@@ -22,6 +22,7 @@ public class Main {
 	// Maxime : Main secondaire, que j'utilise pour faire des tests. Ne pas supprimer (sorry si j'ai oublie de commenter)
 	
 	public static void main(String[] args) {
+		/*
 		Controleur controleur = new Controleur();
 		Joueur j1 = new Joueur("J1", false, true);
 		Joueur j2 = new Joueur("J2", true, true);
@@ -41,9 +42,14 @@ public class Main {
 		controleur.genererCoups();
 		
 		controleur.getPartie().getPlateau().afficher();
+		*/
 		
 		FenetrePrincipale f = new FenetrePrincipale("Abalone - 1.00");
         f.setSize(new Dimension(950,725));
+        //f.getControleur().selectionner(0, 3);
+        f.getControleur().selectionner(6, 6);
+        f.getControleur().selectionner(6, 5);
+        f.getControleur().genererCoups();
         f.setVisible(true);
 	}
 	

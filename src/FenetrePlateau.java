@@ -122,7 +122,15 @@ public class FenetrePlateau extends JPanel{
         		 if (!principale.getControleur().isOut(i, j))
         			 g.fillOval(decalage+j*45, i*40, 40, 40);
         		 
-        			 
+        		 if (principale.getControleur().isSelectionnee(principale.getControleur().getPartie().getPlateau().getBille(i,j))) {
+        			 g.setColor(Color.BLUE);
+        			 g.drawOval(decalage+j*45, i*40, 40, 40);
+        		 }
+        		 else if (principale.getControleur().isVisee((principale.getControleur().getPartie().getPlateau().getBille(i,j)))) {
+        			g.setColor(Color.RED);
+    			 	g.drawOval(decalage+j*45, i*40, 40, 40);
+        		 }
+
         	 }
          }
   }   
