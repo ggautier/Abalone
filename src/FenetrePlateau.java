@@ -4,7 +4,7 @@ import javax.swing.*;
 public class FenetrePlateau extends JPanel{
 
 	private JPanel	plateau;
-	FenetrePrincipale principale;
+	protected FenetrePrincipale principale;
 	
 	private int[][]		tabjeu;
 	private int[]		tabCase;
@@ -15,7 +15,7 @@ public class FenetrePlateau extends JPanel{
 		this.principale = princ;
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        this.addMouseListener(new EcouteurSouris());
+        this.addMouseListener(new EcouteurSouris(this));
 		
 		tabjeu = new int[11][19];
         
@@ -136,6 +136,17 @@ public class FenetrePlateau extends JPanel{
          }
   }   
 	
+    
+    
+    
+	public FenetrePrincipale getPrincipale() {
+		return principale;
+	}
+
+	public void setPrincipale(FenetrePrincipale principale) {
+		this.principale = principale;
+	}
+
 	void donnerContrainte(GridBagConstraints gbc, int gx, int gy, int gw, int gh, int wx, int wy)
 	{
 		gbc.gridx=gx;

@@ -1,3 +1,4 @@
+import java.awt.Point;
 import java.util.Vector;
 
 /**
@@ -100,6 +101,19 @@ public class Controleur {
 		return false;
 	}
 	
+	public boolean selectionner(Point p) {
+		if (partie.getPlateau().getBille((int)p.getX(), (int)p.getY()) != null) {
+			if (isSelectionnee(partie.getPlateau().getBille((int)p.getX(), (int)p.getY())))
+				selectionnees.remove(partie.getPlateau().getBille((int)p.getX(),(int)p.getY()));
+			else
+				selectionnees.add(partie.getPlateau().getBille((int)p.getX(),(int)p.getY()));
+			
+		}
+		else
+			System.out.println("Pas de bille ici");
+		
+		return false;
+	}
 	
 	public void setSelectionnees(Vector<Bille> selectionnees) {
 		this.selectionnees = selectionnees;
@@ -119,6 +133,20 @@ public class Controleur {
 				;
 	}
 	
+	public Point getBillePointee(Point p) {
+		Point pRetour = new Point();
+		//float decalage = (4- p.getX()) * 20;
+
+		pRetour.setLocation(p.getY()/45, p.getX()/40);
+		
+		return pRetour;
+	}
+	
+	/*
+		 if (!principale.getControleur().isOut(i, j))
+			 g.fillOval(decalage+j*45, i*40, 40, 40);
+	*/		 
+
 	// "true" si la Bille est selectionnee.
 	public boolean isSelectionnee(Bille b) {
 		boolean retour = false;
@@ -320,7 +348,7 @@ public class Controleur {
 		return billeTemp;
 	}
 	                                               
-
+	
 	// (Au passage, desole de n'avoir rien fait aujourd'hui. J'ai reinstalle tout le systeme, et fait quelques exo (rare)
 	  // Je considere le projet comme officiellement entame, donc je m'y mets demain  
 	
