@@ -15,6 +15,7 @@ public class FenetrePlateau extends JPanel{
 		this.principale = princ;
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
+        this.addMouseListener(new EcouteurSouris());
 		
 		tabjeu = new int[11][19];
         
