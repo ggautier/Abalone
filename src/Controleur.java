@@ -51,76 +51,58 @@ public class Controleur {
 		this.visees = new Vector<Vector<Bille>>(2);
 	}
 	
-	//test les coord d'une case, est renvoie  true si s'est une case de sortie.
-	// Version de bourrin
-
-	/*boolean isOut(int i, int j)
-		{
-		boolean good = false;
-		if(i==0 || i==10)
-		{ if(j==4 || j==6 || j==8 || j==10 || j==12 || j==14) {good=true;} }
-		else 
-		if(i==1 || i==9)
-		{ if(j==3 || j==15) { good=true; } }
-		else
-		if(i==2 || i==8)
-		{ if(j==2 || j==16) { good=true; } }
-		else
-		if(i==3 || i==7)
-		{ if(j==1 || j==17) { good=true; } }
-		else
-		if(i==4 || i==6)
-		{ if(j==0 || j==18) { good=true; } }
-		 return good; 
-	}
-	*/
-
-	public Partie getPartie() {
+	public Partie getPartie() 
+	{
 		return partie;
 	}
 
-	public void setPartie(Partie partie) {
+	public void setPartie(Partie partie) 
+	{
 		this.partie = partie;
 	}
 
-	public Vector<Bille> getSelectionnees() {
+	public Vector<Bille> getSelectionnees() 
+	{
 		return selectionnees;
 	}
 
-	public boolean selectionner(int i, int j) {
-		if (partie.getPlateau().getBille(i, j) != null) {
-			if (isSelectionnee(partie.getPlateau().getBille(i, j)))
-				selectionnees.remove(partie.getPlateau().getBille(i,j));
+	public boolean selectionner(int i, int j) 
+	{
+		if (partie.getPlateau().getBille(i, j) != null) 
+		{	if (isSelectionnee(partie.getPlateau().getBille(i, j)))
+				{ selectionnees.remove(partie.getPlateau().getBille(i,j)); }
 			else
-				selectionnees.add(partie.getPlateau().getBille(i,j));
+				{ selectionnees.add(partie.getPlateau().getBille(i,j)); }
 			
 		}
 		else
-			System.out.println("Pas de bille ici");
+			{ System.out.println("Pas de bille ici"); }
 		
 		return false;
 	}
 	
-	public boolean selectionner(Point p) {
-		if (partie.getPlateau().getBille((int)p.getX(), (int)p.getY()) != null) {
-			if (isSelectionnee(partie.getPlateau().getBille((int)p.getX(), (int)p.getY())))
-				selectionnees.remove(partie.getPlateau().getBille((int)p.getX(),(int)p.getY()));
+	public boolean selectionner(Point p) 
+	{
+		if (partie.getPlateau().getBille((int)p.getX(), (int)p.getY()) != null) 
+		{	if (isSelectionnee(partie.getPlateau().getBille((int)p.getX(), (int)p.getY())))
+				{ selectionnees.remove(partie.getPlateau().getBille((int)p.getX(),(int)p.getY())); }
 			else
-				selectionnees.add(partie.getPlateau().getBille((int)p.getX(),(int)p.getY()));
-			
+				{ selectionnees.add(partie.getPlateau().getBille((int)p.getX(),(int)p.getY())); }
 		}
 		else
-			System.out.println("Pas de bille ici");
+			{ System.out.println("Pas de bille ici"); }
 		
 		return false;
 	}
 	
-	public void setSelectionnees(Vector<Bille> selectionnees) {
+	public void setSelectionnees(Vector<Bille> selectionnees) 
+	{
 		this.selectionnees = selectionnees;
 	}
 
 	// Version de programmeur (mais pas forcement plus intelligente, hein)
-	public boolean isOut(int i, int j) {
+	public boolean isOut(int i, int j) 
+	{
 		return  (
 				 (i==0) && ( (j > 4)  ) ||
 				 (i==1) && ( (j > 5)  ) ||
@@ -133,7 +115,8 @@ public class Controleur {
 				;
 	}
 	
-	public Point getBillePointee(Point p) {
+	public Point getBillePointee(Point p) 
+	{
 		System.out.print(p+" -> ");
 		Point pRetour = new Point();
 		double iBille = (p.getY()-20)/40.0;
@@ -160,31 +143,34 @@ public class Controleur {
 	*/		 
 
 	// "true" si la Bille est selectionnee.
-	public boolean isSelectionnee(Bille b) {
-		boolean retour = false;
+	public boolean isSelectionnee(Bille b) 
+	{	boolean retour = false;
 		if (this.selectionnees.size() != 0)
-			for (int i=0; i < this.selectionnees.size(); i++)
-				if (selectionnees.get(i).equals(b))
-					retour = true;
-				
+			{ for (int i=0; i < this.selectionnees.size(); i++) 
+				{ if (selectionnees.get(i).equals(b))
+					{ retour = true;} 
+				}
+			}
 		return retour;
 	}
 	
 	// "true" si la Bille est visee
-	public boolean isVisee(Bille b) {
-		boolean retour = false;
+	public boolean isVisee(Bille b) 
+	{	boolean retour = false;
 		if (this.visees.size() != 0)
-			for (int i=0; i < this.visees.size(); i++)
-				for (int j=0; j < this.visees.get(i).size(); i++)
-					if (visees.get(i).get(j).equals(b))
-						retour = true;
-				
+		{	for (int i=0; i < this.visees.size(); i++)
+			{	for (int j=0; j < this.visees.get(i).size(); i++)
+				{	if (visees.get(i).get(j).equals(b))
+						{ retour = true; }
+				}
+			}
+		}		
 		return retour;
 	}
 		
 	// Retourne un vecteur contenant les 6 billes au alentours de la Bille passee en entree
-	public Vector<Bille> billeAlentours(Bille b) {
-		Vector<Bille> vRetour = new Vector<Bille>(6);
+	public Vector<Bille> billeAlentours(Bille b) 
+	{	Vector<Bille> vRetour = new Vector<Bille>(6);
 		
 		vRetour.addElement(partie.getPlateau().getBille(b.getX()+1,b.getY())); 	// A droite
 		vRetour.addElement(partie.getPlateau().getBille(b.getX()-1,b.getY())); 	// A gauche
@@ -192,8 +178,7 @@ public class Controleur {
 		vRetour.addElement(partie.getPlateau().getBille(b.getX(),b.getY()-1)); 	// En haut a droite
 		vRetour.addElement(partie.getPlateau().getBille(b.getX()-1,b.getY()-1));// En haut a gauche
 		vRetour.addElement(partie.getPlateau().getBille(b.getX()+1,b.getY()+1));// En bas a droite
-
-		
+	
 		return vRetour;
 	
 	}
