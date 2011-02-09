@@ -11,6 +11,10 @@
  */
 
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -37,35 +41,49 @@ public class FenetreSauvegarder extends JDialog {
 		panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 	    GridBagConstraints c = new GridBagConstraints();
-	    /*
-	    donnerContrainte(c,0,0,1,1,0,0);
-		JLabel label = new JLabel("Joueur 1");
-		panel.add(label);
-		
-	    donnerContrainte(c,0,1,1,1,0,0);
-		JTextField textFieldJ1 = new JTextField();
-		textFieldJ1.setColumns(10);
-		panel.add(textFieldJ1,c);
-		
-		donnerContrainte(c,1,0,1,1,0,0);
-		JLabel label2 = new JLabel("Joueur 2");
-		panel.add(label2);
-		
-		donnerContrainte(c,1,1,1,1,0,0);
-		JTextField textFieldJ2 = new JTextField();
-		textFieldJ2.setColumns(10);
-		panel.add(textFieldJ2,c);
-		
-		donnerContrainte(c,4,2,1,1,0,0);
-		JToggleButton boutonOk = new JToggleButton();
-		boutonOk.setName("OK");
-		boutonOk.setText("OK");
-		panel.add(boutonOk,c);
-		*/
+	    
+	    JFileChooser filechoose = new JFileChooser();
+		// Créer un JFileChooser
+		filechoose.setCurrentDirectory(new File(".")); 
+		// Le répertoire source du JFileChooser est le répertoire d’où est lancé notre programme
+		String approve = new String("ENREGISTRER");
+		// Le bouton pour valider l’enregistrement portera la mention ENREGSITRER
+		int resultatEnregistrer = filechoose.showDialog(filechoose, approve); 
+		// Pour afficher le JFileChooser…
+		if (resultatEnregistrer == JFileChooser.APPROVE_OPTION) 
+		// Si l’utilisateur clique sur le bouton ENREGSITRER
+		{ 
+			String monFichier= new String(filechoose.getSelectedFile().toString());
+			// Récupérer le nom du fichier qu’il a spécifié
+			if(monFichier.endsWith(".txt") || monFichier.endsWith(".TXT")) 
+			{;}
+			// Si ce nom de fichier finit par .txt ou .TXT, ne rien faire et passer à la suite
+			else 
+			{
+				monFichier = monFichier + ".txt" ;
+			}
+			// Sinon renommer le fichier pour qu’il porte l’extension .txt
+			{ 
+				try
+				{ 
+					FileWriter lu = new FileWriter(monFichier);
+					// Créer un objet java.io.FileWriter avec comme argument le mon du fichier dans lequel enregsitrer
+					BufferedWriter out = new BufferedWriter(lu);
+					// Mettre le flux en tampon (en cache)
+					// Besoin de la représentation console pour un fichier texte.
+					//out.write(textArea.getText()); 
+					// Balancer dans le flux le contenu de la zone de texte
+					out.close(); 
+					// Fermer le flux (c’est toujours mieux de le fermer explicitement)
+				} 
+				catch (IOException er) 
+				{;}
+			}
+		}
 	    
 	    donnerContrainte(c,0,0,1,1,100,100);
-		JFileChooser fileChooser = new JFileChooser();
-		panel.add(fileChooser);
+		JFileChooser fileChooser = new JFileChooser(new File(System.getProperty("user.dir")));
+		panel.add(fileChooser,c);
 	    
 		return panel;
 	}	
