@@ -17,6 +17,8 @@ public class FenetrePlateau extends JPanel{
         GridBagConstraints c = new GridBagConstraints();
         this.addMouseListener(new EcouteurSouris(this));
 		
+        
+        
 		tabjeu = new int[11][19];
         
        /* for (int i=0;i<11;i++){//on parcours tout le tableau

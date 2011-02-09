@@ -88,11 +88,57 @@ public class Controleur {
 	}
 
 	public boolean selectionner(int i, int j) {
-		if (partie.getPlateau().getBille(i, j) != null) {
-			if (isSelectionnee(partie.getPlateau().getBille(i, j)))
-				selectionnees.remove(partie.getPlateau().getBille(i,j));
-			else
-				selectionnees.add(partie.getPlateau().getBille(i,j));
+		Bille billeTemp = partie.getPlateau().getBille(i, j);
+		if (billeTemp != null) {
+			if (isSelectionnee(billeTemp))
+				selectionnees.remove(billeTemp);
+			else {
+				if (this.selectionnees.size() == 1) {
+					Vector<Bille> voisines = billeAlentours(billeTemp);
+					boolean aCote = false;
+					for (int z = 0; z<voisines.size(); z++)
+						if (isSelectionnee(voisines.get(z)))
+							aCote = true;
+					
+					if (!aCote)
+						selectionnees = new Vector<Bille>(3);
+								
+				}
+				else if (this.selectionnees.size() == 2) {
+					int axe = getAxe(this.selectionnees.get(0),this.selectionnees.get(1));
+					boolean inAxe = false;
+					
+					switch (axe) {
+					case GD:
+						inAxe = (billeTemp.equals(voisine(getTete(selectionnees,GAUCHE),GAUCHE,1)) ||
+								 billeTemp.equals(voisine(getTete(selectionnees,DROITE),DROITE,1)))
+						;
+						break;
+					case HG_BD:
+						inAxe = (billeTemp.equals(voisine(getTete(selectionnees,HAUT_GAUCHE),HAUT_GAUCHE,1)) ||
+								 billeTemp.equals(voisine(getTete(selectionnees,BAS_DROITE),BAS_DROITE,1)))
+						;
+						break;
+					
+					case HD_BG:
+						inAxe = (billeTemp.equals(voisine(getTete(selectionnees,HAUT_DROITE),HAUT_DROITE,1)) ||
+								 billeTemp.equals(voisine(getTete(selectionnees,BAS_GAUCHE),BAS_GAUCHE,1)))
+						;
+						break;
+						
+					default:
+						break;
+					}
+					
+					if(!inAxe)
+						selectionnees = new Vector<Bille>(3);
+								
+				}
+				if ( (selectionnees.size() < 3)) {
+					selectionnees.add(billeTemp);
+					System.out.println("Selection :"+selectionnees.size());
+				}
+			}
 			
 		}
 		else
@@ -102,15 +148,7 @@ public class Controleur {
 	}
 	
 	public boolean selectionner(Point p) {
-		if (partie.getPlateau().getBille((int)p.getX(), (int)p.getY()) != null) {
-			if (isSelectionnee(partie.getPlateau().getBille((int)p.getX(), (int)p.getY())))
-				selectionnees.remove(partie.getPlateau().getBille((int)p.getX(),(int)p.getY()));
-			else
-				selectionnees.add(partie.getPlateau().getBille((int)p.getX(),(int)p.getY()));
-			
-		}
-		else
-			System.out.println("Pas de bille ici");
+		this.selectionner((int) p.getX(),(int) p.getY());
 		
 		return false;
 	}
@@ -134,7 +172,6 @@ public class Controleur {
 	}
 	
 	public Point getBillePointee(Point p) {
-		System.out.print(p+" -> ");
 		Point pRetour = new Point();
 		double iBille = (p.getY()-20)/40.0;
 		int i = (int) Math.round(iBille);
@@ -142,10 +179,7 @@ public class Controleur {
 		double jBille = ((p.getX()-20)-(4-i)*23)/45.0;
 		int j = (int) Math.round(jBille);
 		
-		System.out.print(jBille+","+iBille);
-
 		pRetour.setLocation(i,j);
-		System.out.println("("+pRetour+")");
 
 
 		return pRetour;
@@ -346,9 +380,10 @@ public class Controleur {
 
 		if (v.size() > 0) {
 			billeTemp = v.get(0);
-			for (int i = 0; i < v.size(); i++) 
+			for (int i = 1; i < v.size(); i++) 
 				for (int j = 1; j <= 2; j++) {
 					billeTest = voisine(billeTemp,dir,j);
+					System.out.print("("+billeTest.getX()+","+billeTest.getY()+") ");
 					if (billeTest != null) 
 						if (billeTest.equals(v.get(i)))
 							billeTemp = billeTest;
@@ -357,6 +392,8 @@ public class Controleur {
 				
 			}
 		
+		System.out.println(billeTemp.getX()+","+billeTemp.getY());
+
 		return billeTemp;
 	}
 	                                               
