@@ -4,13 +4,11 @@
  * Un Coup est caractérisé par les informations suivantes :
  * <ul>
  * <li>Un joueur, qui va jouer le coup.</li>
- * <li>Des cases, qui vont correspondre au mouvement joué.</li>
  * <li>Une partie, dans laquelle le coup est joué.</li>
  * </ul>
  * </p>
  * 
  * @see Joueur
- * @see Case
  * @see Partie
  * 
  * @author Lenogue Matthieu

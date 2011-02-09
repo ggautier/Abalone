@@ -21,38 +21,43 @@
 public class Joueur {
 
 	/**
-	 * <p>Le nom du joueur contenue dans une chaine de caractere.</p> 
+	 * Le nom du joueur contenu dans une chaine de caracteres.
 	 */
 	private String nom;
 	
 	/**
-	 * <p>La "couleur" du joueur. Etant donne qu'Abalone se joue a 
-	 * deux joueurs, on peut stocker cette information dans une 
-	 * variable booleenne.</p>
+	 * La "couleur" du joueur.<br>
+	 * Etant donne qu'Abalone se joue a deux joueurs,
+	 * cette information est stockee dans une variable booleenne.
 	 */
 	private boolean	couleur;
 	
 	/**
-	 * <p>Le score personnel du joueur.</p> 
+	 * Le score personnel du joueur.
 	 */
 	private int score;
 	
 	/**
-	 * <p>La variable humain permet de gerer si un coup doit etre joue 
-	 * par un autre joueur, ou joue immediatement par la machine.</p> 
+	 * Indique si le joueur est humain ou non.
 	 */
 	private boolean humain;
 	
+	/**
+	 * Constructeur de la classe Joueur
+	 * 
+	 * @param newNom : le nom du joueur
+	 * @param newCouleur : la couleur du joueur (couleur 1 ou 2)
+	 * @param newHumain : un booleen indiquant si le joueur est humain
+	 */
 	public Joueur(String newNom, boolean newCouleur, boolean newHumain) {
 		this.setNom(newNom);
 		this.setCouleur(newCouleur);
 		this.setHumain(newHumain);
 	}
 	
-	// Section Getters-Setters
-	
 	/**
-	 * Retourne le nom du joueur dans une chaine de caracteres.
+	 * Renvoie le nom du joueur.
+	 * 
      * @return Le nom du joueur. 
      */
 	public String getNom() {
@@ -60,33 +65,35 @@ public class Joueur {
 	}
 	
 	/**
-     * Change le nom du joueur.
-     * @param nom
-     *            Le nouveau nom du joueur.
+     * Modifie le nom du joueur.
+     * 
+     * @param nom : le nouveau nom du joueur.
      */
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
 	
 	/**
-	 * Retourne la valeur binaire du joueur.
-     * @return Le camp du joueur. 
+	 * Renvoie la couleur du joueur.
+	 * 
+     * @return Le couleur du joueur. 
      */
 	public boolean getCouleur() {
 		return couleur;
 	}
 	
 	/**
-     * Change la valeur binaire du camp du joueur.
-     * @param couleur
-     *            Le nouveau camp du joueur.
+     * Modifie la couleur du joueur.
+     * 
+     * @param couleur : la nouvelle couleur du joueur.
      */
 	public void setCouleur(boolean couleur) {
 		this.couleur = couleur;
 	}
 	
 	/**
-	 * Retourne la valeur du score du joueur.
+	 * Renvoie le score du joueur.
+	 * 
      * @return Le score du joueur. 
      */
 	public int getScore() {
@@ -94,33 +101,43 @@ public class Joueur {
 	}
 	
 	/**
-     * Impose une nouvelle valeur du score pour le joueur.
-     * @param score
-     *            Le nouveau score du joueur.
+     * Modifie le score du joueur.
+     * 
+     * @param score : le nouveau score du joueur.
      */
 	public void setScore(int score) {
 		this.score = score;
 	}
 	
 	/**
-	 * Retourne une valeur indiaquant si le joueur est humain, ou non.
-     * @return Le booleen indiquant un joueur humain, ou non. 
+	 * Indique si le joueur est humain ou non.
+	 * 
+     * @return Le booleen indiquant si le joueur est  humain ou non. 
      */
 	public boolean isHumain() {
 		return humain;
 	}
 	
 	/**
-     * Change le degre "d'humanite" d'un joueur.
-     * @param humain
-     *            Le nouveau niveau "d'humanite" du joueur.
+     * Modifie le marqueur de gestion du joueur.
+     * @param humain : le nouveau marqueur de gestion du joueur.<br>True si le joueur est humain.
      */
 	public void setHumain(boolean humain) {
 		this.humain = humain;
 	}
 	
-	public boolean equals(Joueur j) {
-		return (this.couleur == j.couleur && this.nom.equals(j.nom) && this.humain == j.humain);
+	/**
+	 * Test d'egalite entre deux joueurs.
+	 * 
+	 * @param joueur
+	 * @return
+	 * 		<ul>
+	 * 			<li>True si les 2 joueurs sont egaux,</li>
+	 * 			<li>False sinon.</li>
+	 * 		</ul>
+	 */
+	public boolean equals(Joueur joueur) {
+		return (this.couleur == joueur.couleur);
 	}
 	// Fin de Section Getters-Setters
 }

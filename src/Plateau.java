@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 /**
  * <b>Plateau est la classe representant la totalite des cases du plateau de jeu.</b>
  * <p>
- * Un plateau est caracterise par les billes qu'ils contient.
+ * Un plateau est caracterise par les billes qu'il contient.
  * </ul>
  * </p>
  * 
@@ -29,7 +29,8 @@ public class Plateau {
 	 * Le plateau en tant que tel.
 	 */
 	private Bille[][] plateau;
-	public Partie partie; // Temporaire
+	
+	public Partie partie; // A supprimer
 	
 	/**
 	 * Constructeur de la classe PLateau
@@ -43,12 +44,12 @@ public class Plateau {
 	}
 	
 	/**
-	 * Accesseur des billes
+	 * Renvoie une bille placee sur le plateau.
 	 * 
 	 * @param ligne La ligne sur laquelle se trouve la bille a recuperer
 	 * @param colonne La colonne sur laquelle se trouve la bille a recuperer
 	 * 
-	 * @return La bille aux coordonnees passees en parametres
+	 * @return Une bille du plateau
 	 * 
 	 * @see Bille
 	 */
@@ -57,7 +58,7 @@ public class Plateau {
 	}
 	
 	/**
-	 * Mutateur des billes
+	 * Modifie une bille du plateau.
 	 * 
 	 * @param ligne La ligne sur laquelle se trouve la bille a modifier.
 	 * @param colonne La colonne sur laquelle se trouve la bille a modifier.
@@ -70,15 +71,15 @@ public class Plateau {
 		//System.out.println("Placement d'une bille en "+ligne+"-"+colonne);
 	}
 	
-	/**remplir
-	 * Remplit le plateau a partir d'un fichier de configuration
+	/**
+	 * Remplit le plateau a partir d'un fichier de configuration.
 	 * 
 	 * @param fichierConf Chemin du fichier de configuration.
 	 * 
 	 * @return
 	 * 		<ul>
-	 * 			<li>true si le remplissage du plateau reussit</li>
-	 * 			<li>false sinon</li>
+	 * 			<li>True si le remplissage du plateau reussit,</li>
+	 * 			<li>False sinon.</li>
 	 * 		</ul>
 	 */
 	public boolean init(String fichierConf, Joueur joueur1, Joueur joueur2) {
@@ -161,6 +162,7 @@ public class Plateau {
 		return true;
 	}
 	
+	/*
 	public String toString() {
 		String str = "";
 		for(int i=0; i < 9; i++) {
@@ -173,17 +175,18 @@ public class Plateau {
 		}
 		return str;
 	}
+	*/
 	
 	/**
 	 * Teste si une case est vide.
 	 * 
-	 * @param ligne La ligne de la case a tester
-	 * @param colonne La colonne de la classe a tester
+	 * @param ligne : la ligne de la case a tester
+	 * @param colonne : la colonne de la classe a tester
 	 * 
 	 * @return
 	 * 		<ul>
-	 * 			<li>true si la case aux coordonnees passees en paramet9re est vide</li>
-	 * 			<li>false sinon</li>
+	 * 			<li>True si la case est vide,</li>
+	 * 			<li>False sinon.</li>
 	 * 		</ul>
 	 */
 	public boolean caseVide(int ligne, int colonne) {
@@ -199,6 +202,7 @@ public class Plateau {
 
 	}
 	
+	/*
 	public void afficher() {
 		int nbBilles = 0;
 		int test = 0;
@@ -251,4 +255,5 @@ public class Plateau {
 			System.out.println();
 		}
 	}
+	*/
 }
