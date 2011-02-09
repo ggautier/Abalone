@@ -62,15 +62,7 @@ public class Main {
         v.add(f.getControleur().getPartie().getPlateau().getBille(2, 3));
         //v.add(f.getControleur().getPartie().getPlateau().getBille(2, 4));
 
-        System.out.println(f.getControleur().getTete(v, 10));
-        System.out.println(f.getControleur().getTete(v, 12));
-        
-        System.out.println("-----------");
-        
-        System.out.println(">"+f.getControleur().voisine(f.getControleur().getPartie().getPlateau().getBille(1, 2), 10, 1));
-        System.out.println(")(");
-        System.out.println(">"+f.getControleur().voisine(f.getControleur().getPartie().getPlateau().getBille(1, 2), 12, 1));
-    	
+
         /*
         public final static int GAUCHE = 10;
     	public final static int DROITE = 12;

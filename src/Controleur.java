@@ -67,6 +67,7 @@ public class Controleur {
 	}
 
 	public boolean selectionner(int i, int j) {
+		
 		Bille billeTemp = partie.getPlateau().getBille(i, j);
 		if (billeTemp != null) {
 			if (isSelectionnee(billeTemp)) {
@@ -151,6 +152,8 @@ public class Controleur {
 				}
 			}
 		}
+		visees.clear();
+		genererCoups();
 		return true;
 	}
 
@@ -215,13 +218,14 @@ public class Controleur {
 	}
 	
 	// "true" si la Bille est visee
-	public boolean isVisee(Bille b) 
-	{	boolean retour = false;
-		if (this.visees.size() != 0)
-		{	for (int i=0; i < this.visees.size(); i++)
-			{	for (int j=0; j < this.visees.get(i).size(); i++)
-				{	if (visees.get(i).get(j).equals(b))
-						{ retour = true; }
+	public boolean isVisee(Bille b) {	
+		boolean retour = false;
+		if (this.visees.size() != 0) {
+			for (int i=0; i < this.visees.size(); i++) {	
+				for (int j=0; j < this.visees.get(i).size(); j++) {	
+					if (visees.get(i).get(j).equals(b)) { 
+						retour = true; 
+					}
 				}
 			}
 		}		
@@ -346,7 +350,7 @@ public class Controleur {
 			billeTemp = voisine(billeTete,dir,i); // Bille voisinne d'i crans, suivant la direction
 			// Pas encore clairement definie : On verifie si on a une Bille du joueur adverse.
 			if (billeTemp != null) {
-				if (!partie.getPlateau().caseVide(billeTemp.getX(),billeTemp.getY())) // Si on trouve une case vide, c'est qu'on a deja enregistre toutes les Billes ennemies
+				if (partie.getPlateau().caseVide(billeTemp.getX(),billeTemp.getY())) // Si on trouve une case vide, c'est qu'on a deja enregistre toutes les Billes ennemies
 					i = 42; // Moyen bourrin de mettre fin a la boucle.
 				else if (billeTemp.getJoueur() != billeTete.getJoueur())
 					vTemp.add(billeTemp);
@@ -357,7 +361,7 @@ public class Controleur {
 				i = 42;
 		}
 		
-		if (v.size() < vTemp.size()) // Si il y a + de Billes ennemies que de Billes alliees, alors foutu aussi !
+		if (v.size() <= vTemp.size()) // Si il y a + de Billes ennemies que de Billes alliees, alors foutu aussi !
 			vTemp.clear();
 		
 		visees.add(vTemp); // On ajoute a la liste des billes visees
@@ -374,7 +378,7 @@ public class Controleur {
 		int xAjoute = (int) Math.round(dirTemp);
 		double yAjoute = (dirTemp - xAjoute) * 10;
 		
-		System.out.println("Voisine : x+"+xAjoute+", y+"+yAjoute);
+		//System.out.println("Voisine : x+"+xAjoute+", y+"+yAjoute);
 		
 		if (!isOut(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist))
 			billeRetour = partie.getPlateau().getBille(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist);
@@ -397,7 +401,7 @@ public class Controleur {
 	public Bille getTete(Vector<Bille> v, int dir) {
 		Bille billeTemp = new Bille(-1, -1, null); // Comment declarer une Bille "nulle" ?
 		Bille billeTest;
-		System.out.print("cherche Tete en "+dir+" : ");
+		//System.out.print("cherche Tete en "+dir+" : ");
 
 		if (v.size() > 0) {
 			billeTemp = v.get(0);
@@ -413,7 +417,7 @@ public class Controleur {
 				
 		}
 		
-		System.out.println(billeTemp.getX()+","+billeTemp.getY());
+		//System.out.println(billeTemp.getX()+","+billeTemp.getY());
 
 		return billeTemp;
 	}
