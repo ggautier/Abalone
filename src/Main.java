@@ -1,4 +1,5 @@
 import java.awt.Dimension;
+import java.util.Vector;
 
 public class Main {
 
@@ -44,6 +45,8 @@ public class Main {
 		controleur.getPartie().getPlateau().afficher();
 		*/
 		
+		
+		
 		FenetrePrincipale f = new FenetrePrincipale("Abalone - 1.00");
         f.setSize(new Dimension(950,725));
         //f.getControleur().selectionner(0, 3);
@@ -51,6 +54,15 @@ public class Main {
         f.getControleur().selectionner(6, 5);
         f.getControleur().genererCoups();
         f.setVisible(true);
+        
+        Vector<Bille> v = new Vector<Bille>(6);
+        v.add(f.getControleur().getPartie().getPlateau().getBille(2, 2));        
+        v.add(f.getControleur().getPartie().getPlateau().getBille(2, 3));
+        //v.add(f.getControleur().getPartie().getPlateau().getBille(2, 4));
+
+        System.out.println(f.getControleur().getTete(v, 21));
+        System.out.println(f.getControleur().getTete(v, 01));
+
 	}
 	
 }

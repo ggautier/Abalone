@@ -5,9 +5,10 @@
 
 /**
  * <b>Bille est la classe qui represente une bille durant une partie.</b>
- * <p>
- * Une Bille est caracterisee par un joueur qui va la posseder.
- * </p>
+ * <p><ul>
+ * <li>Une Bille est caracterisee par un joueur qui va la posseder.</li>
+ * <li>Des corrdonnees entieres.</li>
+ * </ul></p>
  * 
  * @see Joueur
  * 
@@ -66,8 +67,7 @@ public class Bille {
 	public boolean equals(Bille b) {
 		boolean retour = false;
 		if (b != null)
-			retour = this.getX() == b.getX() && this.getY() == b.getY() && this.getJoueur().equals(b.getJoueur());
-		
+		{ retour = this.getX() == b.getX() && this.getY() == b.getY() && this.getJoueur().equals(b.getJoueur()); }
 		return retour;
 	}
 }
