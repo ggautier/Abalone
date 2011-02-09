@@ -57,7 +57,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
         
-     JMenu fichierMenu = new JMenu("Fichier");
+        JMenu fichierMenu = new JMenu("Fichier");
         
         JMenuItem itemNouveau = new JMenuItem("Nouveau", 'N');
         itemNouveau.addActionListener(this);
