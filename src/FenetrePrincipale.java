@@ -133,14 +133,20 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		Object source = e.getSource();
+		Object source = e.getActionCommand().toString();
 		
-		System.out.println(source.toString());
+		if (source == "Nouveau")
+		{}
+		if (source == "Sauvegarder")
+		{}
+		if (source == "Charger")
+		{}
+		if (source == "Options")
+		{ FenetreOption fenetreOpt = new FenetreOption("Options"); }
+		if (source == "Quitter")
+		{ System.exit(0); }
+
 		
 	}
 
-	
-	public void actionPerformed(ActionEvent e) {
-		FenetreOption fOp = new FenetreOption("Options");
-	}
 }
