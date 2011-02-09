@@ -200,13 +200,19 @@ public class Controleur {
 	public Vector<Bille> billeAlentours(Bille b) 
 	{	Vector<Bille> vRetour = new Vector<Bille>(6);
 		
-		vRetour.addElement(partie.getPlateau().getBille(b.getX()+1,b.getY())); 	// A droite
-		vRetour.addElement(partie.getPlateau().getBille(b.getX()-1,b.getY())); 	// A gauche
-		vRetour.addElement(partie.getPlateau().getBille(b.getX(),b.getY()+1));	// En bas a gauche
-		vRetour.addElement(partie.getPlateau().getBille(b.getX(),b.getY()-1)); 	// En haut a droite
-		vRetour.addElement(partie.getPlateau().getBille(b.getX()-1,b.getY()-1));// En haut a gauche
-		vRetour.addElement(partie.getPlateau().getBille(b.getX()+1,b.getY()+1));// En bas a droite
-	
+		if (!isOut(b.getX()+1,b.getY()))
+			vRetour.addElement(partie.getPlateau().getBille(b.getX()+1,b.getY())); 	// A droite
+		if (!isOut(b.getX()-1,b.getY()))
+			vRetour.addElement(partie.getPlateau().getBille(b.getX()-1,b.getY())); 	// A gauche
+		if (!isOut(b.getX(),b.getY()+1))
+			vRetour.addElement(partie.getPlateau().getBille(b.getX(),b.getY()+1));	// En bas a gauche
+		if (!isOut(b.getX(),b.getY()-1))
+			vRetour.addElement(partie.getPlateau().getBille(b.getX(),b.getY()-1)); 	// En haut a droite
+		if (!isOut(b.getX()-1,b.getY()-1))
+			vRetour.addElement(partie.getPlateau().getBille(b.getX()-1,b.getY()-1));// En haut a gauche
+		if (!isOut(b.getX()+1,b.getY()+1))
+			vRetour.addElement(partie.getPlateau().getBille(b.getX()+1,b.getY()+1));// En bas a droite
+		
 		return vRetour;
 	
 	}
@@ -369,7 +375,7 @@ public class Controleur {
 					
 					}
 				
-			}
+		}
 		
 		System.out.println(billeTemp.getX()+","+billeTemp.getY());
 
