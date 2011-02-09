@@ -21,7 +21,6 @@
  * @version 1.0
  */
 public class Partie {
-	
 	protected Plateau plateau;
 	protected Controleur controleur;
 
