@@ -69,8 +69,40 @@ public class Controleur {
 	public boolean selectionner(int i, int j) {
 		Bille billeTemp = partie.getPlateau().getBille(i, j);
 		if (billeTemp != null) {
-			if (isSelectionnee(billeTemp))
-				selectionnees.remove(billeTemp);
+			if (isSelectionnee(billeTemp)) {
+				if (selectionnees.size() > 2) {
+					boolean milieu = false;
+					int axe = getAxe(this.selectionnees.get(0),this.selectionnees.get(1));
+
+					switch (axe) {
+					case GD:
+						milieu = (!billeTemp.equals(getTete(selectionnees,GAUCHE)) &&
+								 !billeTemp.equals(getTete(selectionnees,DROITE)))
+						;
+						break;
+					case HG_BD:
+						milieu = (!billeTemp.equals(getTete(selectionnees,HAUT_GAUCHE)) &&
+								 !billeTemp.equals(getTete(selectionnees,BAS_DROITE)))
+						;
+						break;
+					
+					case HD_BG:
+						milieu = (!billeTemp.equals(getTete(selectionnees,HAUT_DROITE))) &&
+								 !billeTemp.equals(getTete(selectionnees,BAS_GAUCHE))
+						;
+						
+					default:
+						break;
+					}
+					
+					if (!milieu)
+						selectionnees.remove(billeTemp);
+				}
+				else
+					selectionnees.remove(billeTemp);
+
+
+			}
 			else {
 				if (this.selectionnees.size() == 1) {
 					Vector<Bille> voisines = billeAlentours(billeTemp);
