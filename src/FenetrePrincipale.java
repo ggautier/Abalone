@@ -26,6 +26,11 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class FenetrePrincipale extends JFrame implements ActionListener{
 
@@ -47,7 +52,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		//Héritage du builder de la super classe JFrame
 		super(titre);
 		this.controleur = new Controleur();
-	
+			
 		//Rendre la fenetre fermable et re-dimensionnable
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(true);
@@ -138,9 +143,90 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		if (source == "Nouveau")
 		{}
 		if (source == "Sauvegarder")
-		{ FenetreSauvegarder fenetreSav = new FenetreSauvegarder("Sauvegarder"); }
+		{ 
+			//FenetreSauvegarder fenetreSav = new FenetreSauvegarder("Sauvegarder");
+			JFileChooser filechoose = new JFileChooser();
+			// Créer un JFileChooser
+			filechoose.setCurrentDirectory(new File(".")); 
+			// Le répertoire source du JFileChooser est le répertoire d’où est lancé notre programme
+			String approve = new String("Enregistrer");
+			// Le bouton pour valider l’enregistrement portera la mention ENREGSITRER
+			int resultatEnregistrer = filechoose.showDialog(filechoose, approve); 
+			// Pour afficher le JFileChooser…
+			if (resultatEnregistrer == JFileChooser.APPROVE_OPTION) 
+			// Si l’utilisateur clique sur le bouton ENREGSITRER
+			{ 
+				String monFichier= new String(filechoose.getSelectedFile().toString());
+				// Récupérer le nom du fichier qu’il a spécifié
+				if(monFichier.endsWith(".txt") || monFichier.endsWith(".TXT")) 
+				{;}
+				// Si ce nom de fichier finit par .txt ou .TXT, ne rien faire et passer à la suite
+				else 
+				{
+					monFichier = monFichier + ".txt" ;
+				}
+				// Sinon renommer le fichier pour qu’il porte l’extension .txt
+				{ 
+					try
+					{ 
+						FileWriter lu = new FileWriter(monFichier);
+						// Créer un objet java.io.FileWriter avec comme argument le mon du fichier dans lequel enregsitrer
+						BufferedWriter out = new BufferedWriter(lu);
+						// Mettre le flux en tampon (en cache)
+						
+						// Besoin de la représentation console pour un fichier texte.
+						//out.write(textArea.getText()); 
+						
+						// Balancer dans le flux le contenu de la zone de texte
+						out.close(); 
+						// Fermer le flux (c’est toujours mieux de le fermer explicitement)
+					} 
+					catch (IOException er) 
+					{;}
+				}
+			}
+		}
 		if (source == "Charger")
-		{}
+		{
+			JFileChooser filechoose = new JFileChooser();
+			// Créer un JFileChooser
+			filechoose.setCurrentDirectory(new File("."));
+			// Le répertoire source du JFileChooser est le répertoire d’où est lancé notre programme
+			String approve = new String("Charger");
+			// Le bouton pour valider l’enregistrement portera la mention OUVRIR
+			String monFichier= null; 
+			// On ne sait pas pour l’instant quel sera le fichier à ouvrir
+			int resultatOuvrir = filechoose.showDialog(filechoose, approve); 
+			// Pour afficher le JFileChooser…
+			if(resultatOuvrir == filechoose.APPROVE_OPTION)
+			// Si l’utilisateur clique sur le bouton OUVRIR
+			{
+			  	monFichier = filechoose.getSelectedFile().toString();
+			  	// Récupérer le nom du fichier qu’il a spécifié
+
+			  	try
+			  	{ 
+			  		FileInputStream fis = new FileInputStream(monFichier);
+			  		// Créer un flux d’entrée avec comme paramètre le nom du fichier à ouvrir
+			  		int n = fis.available();
+			  		while(n > 0) // tant qu’il y a des données dans le flux…
+			  		{ 
+			  			byte[] b = new byte[n]; 
+			  			// récupérer le byte à l’endroit n et le stocker dans un tableau de bytes
+			  			int result = fis.read(b); // lire ce tableau de byte à l’endroit désiré
+			  			if (result == -1) 
+			  				break; // si le byte est -1, c’est que le flux est arrivé à sa fin (par définition)
+			  			String s = new String(b);
+			  			// assembler les bytes pour former une chaîne
+			  			
+			  			// Set le plateau avec la partie lue ...
+			  			//textArea.setText(s); //	insérer cette chaîne dans notre composant de texte
+			  		}
+			  	} 
+			  	catch (Exception err) 
+			  	{;}
+		   	}
+		}
 		if (source == "Options")
 		{ FenetreOption fenetreOpt = new FenetreOption("Options"); }
 		if (source == "Quitter")
