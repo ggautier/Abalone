@@ -37,7 +37,7 @@ public class FenetrePrincipale extends JFrame{
 	
 	private Controleur	controleur;
 	
-	public FenetrePrincipale(String titre)
+	public FenetrePrincipale(String titre) 
 	{
 		//Héritage du builder de la super classe JFrame
 		super(titre);
@@ -52,26 +52,26 @@ public class FenetrePrincipale extends JFrame{
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
         
-        JMenu fichierMenu = new JMenu("Fichier");
+     JMenu fichierMenu = new JMenu("Fichier");
         
-        JMenuItem item = new JMenuItem("Nouveau", 'N');
-        //item.addActionListener(afficherMenuListener);
-        fichierMenu.add(item);
+        JMenuItem itemNouveau = new JMenuItem("Nouveau", 'N');
+        //itemNouveau.addActionListener(this);
+        fichierMenu.add(itemNouveau);
         fichierMenu.add(new JSeparator());
-        item = new JMenuItem("Sauvegarder", 'S');
-        //item.addActionListener(afficherMenuListener);
-        fichierMenu.add(item);
-        item = new JMenuItem("Charger", 'C');
-        //item.addActionListener(afficherMenuListener);
-        fichierMenu.add(item);
+        JMenuItem itemSave = new JMenuItem("Sauvegarder", 'S');
+       // itemSave.addActionListener(this);
+        fichierMenu.add(itemSave);
+        JMenuItem itemLoad = new JMenuItem("Charger", 'C');
+        //itemLoad.addActionListener(this);
+        fichierMenu.add(itemLoad);
         fichierMenu.add(new JSeparator());
-        item = new JMenuItem("Options", 'O');
-        //item.addActionListener(afficherMenuListener);
-        fichierMenu.add(item);
+        JMenuItem itemOptions = new JMenuItem("Options", 'O');
+        //itemOptions.addActionListener(this);
+        fichierMenu.add(itemOptions);
         fichierMenu.add(new JSeparator());
-        item = new JMenuItem("Quitter", 'Q');
-        //item.addActionListener(afficherMenuListener);
-        fichierMenu.add(item);
+        JMenuItem itemQuitter = new JMenuItem("Quitter", 'Q');
+       // itemQuitter.addActionListener(this);
+        fichierMenu.add(itemQuitter);
         menuBar.add(fichierMenu);
         
         //init de panel (globale)
@@ -89,10 +89,10 @@ public class FenetrePrincipale extends JFrame{
         info = new FenetreInfo();
         
         //On affecte une position au panel plateau, dans le contenant panel
-        donnerContrainte(c,0,0,1,1,70,70);
+        donnerContrainte(c,0,0,1,1,90,70);
         panel.add(plateau,c);
         
-        donnerContrainte(c,1,0,1,1,30,70);
+        donnerContrainte(c,1,0,1,1,10,70);
         panel.add(commande,c);
         
         donnerContrainte(c,0,1,2,1,100,30);
