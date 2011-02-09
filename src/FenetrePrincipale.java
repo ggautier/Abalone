@@ -22,7 +22,7 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class FenetrePrincipale extends JFrame{
+public class FenetrePrincipale extends JFrame {
 
 	private JPanel 			panel;
 	private FenetrePlateau	plateau;
@@ -55,7 +55,7 @@ public class FenetrePrincipale extends JFrame{
      JMenu fichierMenu = new JMenu("Fichier");
         
         JMenuItem itemNouveau = new JMenuItem("Nouveau", 'N');
-        //itemNouveau.addActionListener(this);
+       // itemNouveau.addActionListener(this);
         fichierMenu.add(itemNouveau);
         fichierMenu.add(new JSeparator());
         JMenuItem itemSave = new JMenuItem("Sauvegarder", 'S');
@@ -66,7 +66,7 @@ public class FenetrePrincipale extends JFrame{
         fichierMenu.add(itemLoad);
         fichierMenu.add(new JSeparator());
         JMenuItem itemOptions = new JMenuItem("Options", 'O');
-        //itemOptions.addActionListener(this);
+       // itemOptions.addActionListener(this);
         fichierMenu.add(itemOptions);
         fichierMenu.add(new JSeparator());
         JMenuItem itemQuitter = new JMenuItem("Quitter", 'Q');
