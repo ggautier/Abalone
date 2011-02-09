@@ -26,8 +26,8 @@ public class FenetreOption extends JDialog {
 	
 	private JPanel 		panel;
 	private JPanel		sousPan;
-	
-	private JTextField textFieldJ2 ;
+	private JButton		bouton1;
+	private JTextField  textFieldJ2 ;
 	
 	public FenetreOption(String titre)
 	{	
@@ -35,28 +35,41 @@ public class FenetreOption extends JDialog {
 	dialog.setSize(300, 200);
 	dialog.setTitle("Options");
 	dialog.setVisible(true);
-	
-	panel = new JPanel();
-	
-	GridBagLayout gridbag = new GridBagLayout();
-    GridBagConstraints c = new GridBagConstraints();
-    
-    donnerContrainte(c,0,0,1,1,100,100);
-	JTextField textFieldJ1 = new JTextField();
-	textFieldJ1.setColumns(10);
-	panel.add(textFieldJ1,c);
-	
-	donnerContrainte(c,1,0,1,1,100,100);
-	JTextField textFieldJ2 = new JTextField();
-	textFieldJ2.setColumns(10);
-	panel.add(textFieldJ2,c);
-	
-	donnerContrainte(c,0,0,1,1,100,100);
-	JLabel label = new JLabel("test");
-	panel.add(label,c);
-	
+	dialog.setContentPane(buildContentPane());
 	}
 	
+	private JPanel buildContentPane(){
+		panel = new JPanel();
+		panel.setLayout(new GridBagLayout());
+	    GridBagConstraints c = new GridBagConstraints();
+	    
+	    donnerContrainte(c,0,0,1,1,0,0);
+		JLabel label = new JLabel("Joueur 1");
+		panel.add(label);
+		
+	    donnerContrainte(c,0,1,1,1,0,0);
+		JTextField textFieldJ1 = new JTextField();
+		textFieldJ1.setColumns(10);
+		panel.add(textFieldJ1,c);
+		
+		donnerContrainte(c,1,0,1,1,0,0);
+		JLabel label2 = new JLabel("Joueur 2");
+		panel.add(label2);
+		
+		donnerContrainte(c,1,1,1,1,0,0);
+		JTextField textFieldJ2 = new JTextField();
+		textFieldJ2.setColumns(10);
+		panel.add(textFieldJ2,c);
+		
+		donnerContrainte(c,4,2,1,1,0,0);
+		JToggleButton boutonOk = new JToggleButton();
+		boutonOk.setName("OK");
+		boutonOk.setText("OK");
+		panel.add(boutonOk,c);
+
+		return panel;
+	}	
+
 	void donnerContrainte(GridBagConstraints gbc, int gx, int gy, int gw, int gh, int wx, int wy)
 	{
 		gbc.gridx=gx;
