@@ -17,16 +17,18 @@ import javax.swing.*;
 
 public class FenetreSauvegarder extends JDialog {
 	
-	private JPanel 		panel;
-	private JPanel		sousPan;
-	private JButton		bouton1;
-	private JTextField  textFieldJ2 ;
+	private JPanel 			panel;
+	private JPanel			sousPan;
+	private JButton			bouton1;
+	private JTextField  	textFieldJ2 ;
+	private JFileChooser	fileChooser;
 	
 	public FenetreSauvegarder(String titre)
 	{	
 	JDialog dialog = new JDialog();
-	dialog.setSize(300, 200);
-	dialog.setTitle("Options");
+	dialog.setSize(500, 350);
+	dialog.setResizable(false);
+	dialog.setTitle(titre);
 	dialog.setVisible(true);
 	dialog.setContentPane(buildContentPane());
 	}
@@ -35,7 +37,7 @@ public class FenetreSauvegarder extends JDialog {
 		panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 	    GridBagConstraints c = new GridBagConstraints();
-	    
+	    /*
 	    donnerContrainte(c,0,0,1,1,0,0);
 		JLabel label = new JLabel("Joueur 1");
 		panel.add(label);
@@ -59,7 +61,12 @@ public class FenetreSauvegarder extends JDialog {
 		boutonOk.setName("OK");
 		boutonOk.setText("OK");
 		panel.add(boutonOk,c);
-
+		*/
+	    
+	    donnerContrainte(c,0,0,1,1,100,100);
+		JFileChooser fileChooser = new JFileChooser();
+		panel.add(fileChooser);
+	    
 		return panel;
 	}	
 

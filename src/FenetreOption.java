@@ -33,7 +33,7 @@ public class FenetreOption extends JDialog {
 	{	
 	JDialog dialog = new JDialog();
 	dialog.setSize(300, 200);
-	dialog.setTitle("Options");
+	dialog.setTitle(titre);
 	dialog.setVisible(true);
 	dialog.setContentPane(buildContentPane());
 	}

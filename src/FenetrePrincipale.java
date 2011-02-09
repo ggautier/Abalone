@@ -138,7 +138,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		if (source == "Nouveau")
 		{}
 		if (source == "Sauvegarder")
-		{}
+		{ FenetreSauvegarder fenetreSav = new FenetreSauvegarder("Sauvegarder"); }
 		if (source == "Charger")
 		{}
 		if (source == "Options")
