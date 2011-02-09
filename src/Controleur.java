@@ -362,7 +362,7 @@ public class Controleur {
 			for (int i = 1; i < v.size(); i++) 
 				for (int j = 1; j <= 2; j++) {
 					billeTest = voisine(billeTemp,dir,j);
-					System.out.print("("+billeTest.getX()+","+billeTest.getY()+") ");
+					//System.out.print("("+billeTest.getX()+","+billeTest.getY()+") ");
 					if (billeTest != null) 
 						if (billeTest.equals(v.get(i)))
 							billeTemp = billeTest;
