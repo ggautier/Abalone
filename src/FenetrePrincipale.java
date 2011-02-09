@@ -21,8 +21,10 @@
 
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class FenetrePrincipale extends JFrame {
+public class FenetrePrincipale extends JFrame implements ActionListener{
 
 	private JPanel 			panel;
 	private FenetrePlateau	plateau;
@@ -66,7 +68,7 @@ public class FenetrePrincipale extends JFrame {
         fichierMenu.add(itemLoad);
         fichierMenu.add(new JSeparator());
         JMenuItem itemOptions = new JMenuItem("Options", 'O');
-       // itemOptions.addActionListener(this);
+        itemOptions.addActionListener(this);
         fichierMenu.add(itemOptions);
         fichierMenu.add(new JSeparator());
         JMenuItem itemQuitter = new JMenuItem("Quitter", 'Q');
@@ -125,5 +127,7 @@ public class FenetrePrincipale extends JFrame {
 		this.controleur = controleur;
 	}
 	
-			
+	public void actionPerformed(ActionEvent e) {
+		FenetreOption fOp = new FenetreOption("Options");
+	}
 }
