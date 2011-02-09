@@ -20,6 +20,9 @@
  */
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -57,14 +60,14 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
      JMenu fichierMenu = new JMenu("Fichier");
         
         JMenuItem itemNouveau = new JMenuItem("Nouveau", 'N');
-       // itemNouveau.addActionListener(this);
+        itemNouveau.addActionListener(this);
         fichierMenu.add(itemNouveau);
         fichierMenu.add(new JSeparator());
         JMenuItem itemSave = new JMenuItem("Sauvegarder", 'S');
-       // itemSave.addActionListener(this);
+        itemSave.addActionListener(this);
         fichierMenu.add(itemSave);
         JMenuItem itemLoad = new JMenuItem("Charger", 'C');
-        //itemLoad.addActionListener(this);
+        itemLoad.addActionListener(this);
         fichierMenu.add(itemLoad);
         fichierMenu.add(new JSeparator());
         JMenuItem itemOptions = new JMenuItem("Options", 'O');
@@ -72,7 +75,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         fichierMenu.add(itemOptions);
         fichierMenu.add(new JSeparator());
         JMenuItem itemQuitter = new JMenuItem("Quitter", 'Q');
-       // itemQuitter.addActionListener(this);
+        itemQuitter.addActionListener(this);
         fichierMenu.add(itemQuitter);
         menuBar.add(fichierMenu);
         
@@ -126,8 +129,24 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 	public void setControleur(Controleur controleur) {
 		this.controleur = controleur;
 	}
-	
+
+	@Override
 	public void actionPerformed(ActionEvent e) {
-		FenetreOption fOp = new FenetreOption("Options");
+		// TODO Auto-generated method stub
+		Object source = e.getActionCommand().toString();
+		
+		if (source == "Nouveau")
+		{}
+		if (source == "Sauvegarder")
+		{ FenetreSauvegarder fenetreSav = new FenetreSauvegarder("Sauvegarder"); }
+		if (source == "Charger")
+		{}
+		if (source == "Options")
+		{ FenetreOption fenetreOpt = new FenetreOption("Options"); }
+		if (source == "Quitter")
+		{ System.exit(0); }
+
+		
 	}
+
 }

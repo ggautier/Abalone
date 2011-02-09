@@ -64,7 +64,21 @@ public class Main {
 
         System.out.println(f.getControleur().getTete(v, 10));
         System.out.println(f.getControleur().getTete(v, 12));
-
+        
+        System.out.println("-----------");
+        
+        System.out.println(">"+f.getControleur().voisine(f.getControleur().getPartie().getPlateau().getBille(1, 2), 10, 1));
+        System.out.println(")(");
+        System.out.println(">"+f.getControleur().voisine(f.getControleur().getPartie().getPlateau().getBille(1, 2), 12, 1));
+    	
+        /*
+        public final static int GAUCHE = 10;
+    	public final static int DROITE = 12;
+    	public final static int BAS_GAUCHE = 01;
+    	public final static int HAUT_DROITE = 21;
+    	public final static int HAUT_GAUCHE = 00;
+    	public final static int BAS_DROITE = 22;
+		*/
 	}
 	
 }

@@ -1,12 +1,5 @@
 /**
- * <b>FenetreOption est la classe permettant l'affichage d'une fenetre subalterne de modification des options de jeu.</b>
- * <p>
- * Une FenetreOption est caractérisee par les informations suivantes :
- * <ul>
- * <li>Une fenetrePrincipale, qui va solliciter l'activation de la fenetre d'options.</li>
- * </ul>
- * </p>
- * 
+ *
  * @see FenetrePrincipale
  * 
  * @author Lenogue Matthieu
@@ -22,17 +15,19 @@ import java.awt.*;
 import javax.swing.*;
 
 
-public class FenetreOption extends JDialog {
+public class FenetreSauvegarder extends JDialog {
 	
-	private JPanel 		panel;
-	private JPanel		sousPan;
-	private JButton		bouton1;
-	private JTextField  textFieldJ2 ;
+	private JPanel 			panel;
+	private JPanel			sousPan;
+	private JButton			bouton1;
+	private JTextField  	textFieldJ2 ;
+	private JFileChooser	fileChooser;
 	
-	public FenetreOption(String titre)
+	public FenetreSauvegarder(String titre)
 	{	
 	JDialog dialog = new JDialog();
-	dialog.setSize(300, 200);
+	dialog.setSize(500, 350);
+	dialog.setResizable(false);
 	dialog.setTitle(titre);
 	dialog.setVisible(true);
 	dialog.setContentPane(buildContentPane());
@@ -42,7 +37,7 @@ public class FenetreOption extends JDialog {
 		panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
 	    GridBagConstraints c = new GridBagConstraints();
-	    
+	    /*
 	    donnerContrainte(c,0,0,1,1,0,0);
 		JLabel label = new JLabel("Joueur 1");
 		panel.add(label);
@@ -66,7 +61,12 @@ public class FenetreOption extends JDialog {
 		boutonOk.setName("OK");
 		boutonOk.setText("OK");
 		panel.add(boutonOk,c);
-
+		*/
+	    
+	    donnerContrainte(c,0,0,1,1,100,100);
+		JFileChooser fileChooser = new JFileChooser();
+		panel.add(fileChooser);
+	    
 		return panel;
 	}	
 

@@ -200,13 +200,19 @@ public class Controleur {
 	public Vector<Bille> billeAlentours(Bille b) 
 	{	Vector<Bille> vRetour = new Vector<Bille>(6);
 		
-		vRetour.addElement(partie.getPlateau().getBille(b.getX()+1,b.getY())); 	// A droite
-		vRetour.addElement(partie.getPlateau().getBille(b.getX()-1,b.getY())); 	// A gauche
-		vRetour.addElement(partie.getPlateau().getBille(b.getX(),b.getY()+1));	// En bas a gauche
-		vRetour.addElement(partie.getPlateau().getBille(b.getX(),b.getY()-1)); 	// En haut a droite
-		vRetour.addElement(partie.getPlateau().getBille(b.getX()-1,b.getY()-1));// En haut a gauche
-		vRetour.addElement(partie.getPlateau().getBille(b.getX()+1,b.getY()+1));// En bas a droite
-	
+		if (!isOut(b.getX()+1,b.getY()))
+			vRetour.addElement(partie.getPlateau().getBille(b.getX()+1,b.getY())); 	// A droite
+		if (!isOut(b.getX()-1,b.getY()))
+			vRetour.addElement(partie.getPlateau().getBille(b.getX()-1,b.getY())); 	// A gauche
+		if (!isOut(b.getX(),b.getY()+1))
+			vRetour.addElement(partie.getPlateau().getBille(b.getX(),b.getY()+1));	// En bas a gauche
+		if (!isOut(b.getX(),b.getY()-1))
+			vRetour.addElement(partie.getPlateau().getBille(b.getX(),b.getY()-1)); 	// En haut a droite
+		if (!isOut(b.getX()-1,b.getY()-1))
+			vRetour.addElement(partie.getPlateau().getBille(b.getX()-1,b.getY()-1));// En haut a gauche
+		if (!isOut(b.getX()+1,b.getY()+1))
+			vRetour.addElement(partie.getPlateau().getBille(b.getX()+1,b.getY()+1));// En bas a droite
+		
 		return vRetour;
 	
 	}
@@ -331,11 +337,15 @@ public class Controleur {
 	
 	
 	public Bille voisine(Bille b, int dir, int dist) {
-		int dirTemp = (dir - 11) / 10;
-		int xAjoute = Math.round(dirTemp);
-		int yAjoute = (dirTemp - xAjoute) * 10;
+		Bille billeRetour = null;
+		double dirTemp = (dir - 11) / 10.0;
+		int xAjoute = (int) Math.round(dirTemp);
+		double yAjoute = (dirTemp - xAjoute) * 10;
 		
-		Bille billeRetour = partie.getPlateau().getBille(b.getX() + xAjoute*dist, b.getY() + yAjoute*dist);
+		System.out.println("Voisine : x+"+xAjoute+", y+"+yAjoute);
+		
+		if (!isOut(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist))
+			billeRetour = partie.getPlateau().getBille(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist);
 
 		// GAUCHE : x - 1;
 		// Droite : x + 1
@@ -369,7 +379,7 @@ public class Controleur {
 					
 					}
 				
-			}
+		}
 		
 		System.out.println(billeTemp.getX()+","+billeTemp.getY());
 
