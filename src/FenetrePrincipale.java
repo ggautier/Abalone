@@ -20,9 +20,12 @@
  */
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
-public class FenetrePrincipale extends JFrame {
+public class FenetrePrincipale extends JFrame implements ActionListener{
 
 	private JPanel 			panel;
 	private FenetrePlateau	plateau;
@@ -55,22 +58,22 @@ public class FenetrePrincipale extends JFrame {
      JMenu fichierMenu = new JMenu("Fichier");
         
         JMenuItem itemNouveau = new JMenuItem("Nouveau", 'N');
-       // itemNouveau.addActionListener(this);
+        itemNouveau.addActionListener(this);
         fichierMenu.add(itemNouveau);
         fichierMenu.add(new JSeparator());
         JMenuItem itemSave = new JMenuItem("Sauvegarder", 'S');
-       // itemSave.addActionListener(this);
+        itemSave.addActionListener(this);
         fichierMenu.add(itemSave);
         JMenuItem itemLoad = new JMenuItem("Charger", 'C');
-        //itemLoad.addActionListener(this);
+        itemLoad.addActionListener(this);
         fichierMenu.add(itemLoad);
         fichierMenu.add(new JSeparator());
         JMenuItem itemOptions = new JMenuItem("Options", 'O');
-       // itemOptions.addActionListener(this);
+        itemOptions.addActionListener(this);
         fichierMenu.add(itemOptions);
         fichierMenu.add(new JSeparator());
         JMenuItem itemQuitter = new JMenuItem("Quitter", 'Q');
-       // itemQuitter.addActionListener(this);
+        itemQuitter.addActionListener(this);
         fichierMenu.add(itemQuitter);
         menuBar.add(fichierMenu);
         
@@ -124,6 +127,16 @@ public class FenetrePrincipale extends JFrame {
 	public void setControleur(Controleur controleur) {
 		this.controleur = controleur;
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object source = e.getSource();
+		
+		System.out.println(source.toString());
+		
+	}
+
 	
 			
 }
