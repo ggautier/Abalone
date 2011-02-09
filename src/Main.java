@@ -56,12 +56,14 @@ public class Main {
         f.setVisible(true);
         
         Vector<Bille> v = new Vector<Bille>(6);
+        System.out.println();
+        System.out.println();
         v.add(f.getControleur().getPartie().getPlateau().getBille(2, 2));        
         v.add(f.getControleur().getPartie().getPlateau().getBille(2, 3));
         //v.add(f.getControleur().getPartie().getPlateau().getBille(2, 4));
 
-        System.out.println(f.getControleur().getTete(v, 21));
-        System.out.println(f.getControleur().getTete(v, 01));
+        System.out.println(f.getControleur().getTete(v, 10));
+        System.out.println(f.getControleur().getTete(v, 12));
 
 	}
 	
