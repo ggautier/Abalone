@@ -52,7 +52,9 @@ public class Main {
         //f.getControleur().selectionner(0, 3);
         f.getControleur().selectionner(6, 6);
         f.getControleur().selectionner(6, 5);
-        f.getControleur().genererCoups();
+        f.getControleur().selectionner(6, 4);
+        f.getControleur().action(12);
+        
         f.setVisible(true);
         
         Vector<Bille> v = new Vector<Bille>(6);

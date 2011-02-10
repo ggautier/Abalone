@@ -186,6 +186,7 @@ public class Controleur {
 		this.selectionnees = selectionnees;
 	}
 
+	
 	// Version de programmeur (mais pas forcement plus intelligente, hein)
 	public boolean isOut(int i, int j) 
 	{
@@ -512,6 +513,35 @@ public class Controleur {
 		
 		return axe;
 	}
+	
+	public boolean action(Vector<Bille> v, int dir) {
+		if (deplacementPossible(v,dir)) {
+			for(int i=0; i < v.size(); i++)
+				deplacerBille(v.get(i),dir);
+		}
+		return true;
+	}
+	
+	public boolean action(int dir) {
+		if (deplacementPossible(selectionnees,dir)) {
+			for(int i=0; i < selectionnees.size(); i++)
+				deplacerBille(selectionnees.get(i),dir);
+		}
+		return true;
+	}
+	
+	public boolean deplacerBille(Bille b, int dir) {
+		Bille billeTemp = b;
+		Point pTemp = voisineP(b, dir, 1);
+		if (billeTemp != null) {
+			partie.plateau.setBille(null, billeTemp.getX(), billeTemp.getY());
+			partie.plateau.setBille(b, (int) pTemp.getX(), (int) pTemp.getY());
+		}
+		
+		
+		return true;
+	}
+
 	/*
 	public final static int GAUCHE = 10;
 	public final static int DROITE = 12;

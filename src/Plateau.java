@@ -56,6 +56,14 @@ public class Plateau {
 		return this.plateau[ligne][colonne];
 	}
 	
+	public void setBille(Bille b, int ligne, int colonne) {
+		this.plateau[ligne][colonne] = b;
+		if (b != null) {
+			this.getBille(ligne,colonne).setX(ligne);
+			this.getBille(ligne,colonne).setY(colonne);
+		}
+		
+	}
 	/**
 	 * Mutateur des billes
 	 * 
