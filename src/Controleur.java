@@ -50,6 +50,22 @@ public class Controleur {
 		this.partie = new Partie();
 		this.selectionnees = new Vector<Bille>(3);
 		this.visees = new Vector<Vector<Bille>>(2);
+		this.coups = new Vector<Integer>(6);
+	}
+	
+	public boolean isNext(Point p) {
+		int dir = 0;
+		boolean retour = false;
+		
+		for (int j=0; j < coups.size(); j++) {
+			dir = coups.get(j);
+			for (int i=0; i < selectionnees.size(); i++)
+				if (voisineP(selectionnees.get(i),dir,1).equals(p)	)
+						retour = true;
+					;
+		}
+		
+		return retour;
 	}
 	
 	public Partie getPartie() 
@@ -397,6 +413,16 @@ public class Controleur {
 		return billeRetour;
 	}
 
+	public Point voisineP(Bille b, int dir, int dist) {
+		double dirTemp = (dir - 11) / 10.0;
+		int xAjoute = (int) Math.round(dirTemp);
+		double yAjoute = (dirTemp - xAjoute) * 10;
+
+		// GAUCHE : x - 1;
+		// Droite : x + 1
+		// HAUT_DROITE : y - 1
+		return new Point(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist);
+	}
 	/* Memo :
 		public final static int GAUCHE = 10;
 		public final static int DROITE = 12;
@@ -438,7 +464,13 @@ public class Controleur {
 				possible = true;
 			else if (isVisee(voisine(v.get(i),dir,1)))
 				possible = true;
-		return true;
+
+		
+		if (possible)
+			coups.add(dir);
+		
+		return possible;
+
 	}
 	                                               
 	
