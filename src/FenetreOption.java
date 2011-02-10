@@ -27,6 +27,7 @@ import javax.swing.border.TitledBorder;
 
 public class FenetreOption extends JDialog implements ActionListener{
 	
+	
 	private JPanel 					panel, sousPanJ1, sousPanJ2 , panelBoutons;
 	private JButton					boutonOk;
 	private JTextField  			textFieldJ2 ;
@@ -42,9 +43,9 @@ public class FenetreOption extends JDialog implements ActionListener{
 	dialog.setVisible(true);
 	dialog.setAlwaysOnTop(true);
 	dialog.setContentPane(buildContentPane());
-	
 	}
 	
+
 	private JPanel buildContentPane(){
 		
 		comboModel1 = new DefaultComboBoxModel();
@@ -69,10 +70,6 @@ public class FenetreOption extends JDialog implements ActionListener{
 	    GridBagConstraints c = new GridBagConstraints();
 	    
 	    
-	    /**
-	     * 
-	     * 
-	     */
 	    donnerContrainte(c,0,0,1,1,0,0);
         this.sousPanJ1 = new JPanel();
         this.sousPanJ1.setLayout(new GridBagLayout());
@@ -88,7 +85,7 @@ public class FenetreOption extends JDialog implements ActionListener{
         this.panelBoutons = new JPanel();
         this.panelBoutons.setLayout(new GridBagLayout());
 
-        /**
+        /*
          * Placement des éléments dans le panel Joueur 1
          * 
          */
@@ -101,7 +98,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 		sousPanJ1.add(choixCouleur1,c);
 		
 		
-        /**
+        /*
          * Placement des éléments dans le panel Joueur 2
          * 
          */
@@ -113,7 +110,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 		donnerContrainte(c,0,1,1,1,0,0);
 		sousPanJ2.add(choixCouleur2,c);
 		
-	     /**
+	     /*
          * Placement des éléments dans le panel Boutons
          * 
          */
@@ -138,7 +135,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 		panel.add(sousPanJ2,c);
 		donnerContrainte(c,0,1,1,1,100,20);
 		panel.add(panelBoutons,c);
-		
+
 
 		return panel;
 		
@@ -164,7 +161,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 		gbc.fill=GridBagConstraints.BOTH;
 	}
 
-	/**
+	/*
 	 * Récupérer couleur sélectionner
 	 * 
 	 */

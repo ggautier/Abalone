@@ -24,10 +24,31 @@ public class Partie {
 	
 	protected Plateau plateau;
 	protected Controleur controleur;
+	protected Joueur j1, j2;
+
+	public Joueur getJ1() {
+		return j1;
+	}
+
+
+	public void setJ1(Joueur j1) {
+		this.j1 = j1;
+	}
+
+
+	public Joueur getJ2() {
+		return j2;
+	}
+
+
+	public void setJ2(Joueur j2) {
+		this.j2 = j2;
+	}
+
 
 	public Partie() {
-		Joueur j1 = new Joueur("J1", false, true);
-		Joueur j2 = new Joueur("J2", true, true);
+		this.j1 = new Joueur("J1", false, true);
+		this.j2 = new Joueur("J2", true, true);
 		this.plateau = new Plateau("./data/plateau/defaut.pl", j1, j2);
 
 	}

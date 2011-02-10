@@ -30,7 +30,7 @@ public class Joueur {
 	 * deux joueurs, on peut stocker cette information dans une 
 	 * variable booleenne.</p>
 	 */
-	private boolean	couleur;
+	private boolean	camps;
 	
 	/**
 	 * <p>Le score personnel du joueur.</p> 
@@ -42,14 +42,53 @@ public class Joueur {
 	 * par un autre joueur, ou joue immediatement par la machine.</p> 
 	 */
 	private boolean humain;
+
+	private int r, g, b;
 	
-	public Joueur(String newNom, boolean newCouleur, boolean newHumain) {
+	public Joueur(String newNom, boolean newCamps, boolean newHumain) {
 		this.setNom(newNom);
-		this.setCouleur(newCouleur);
+		this.setCamps(newCamps);
 		this.setHumain(newHumain);
+		
+		if(this.getCamps())
+		{
+			this.setR(240);
+			this.setG(10);
+			this.setB(10);
+		}
+		else
+		{
+			this.setR(255);
+			this.setG(255);
+			this.setB(255);
+		}
 	}
 	
 	// Section Getters-Setters
+	
+	public int getR() {
+		return r;
+	}
+
+	public void setR(int r) {
+		this.r = r;
+	}
+
+	public int getG() {
+		return g;
+	}
+
+	public void setG(int g) {
+		this.g = g;
+	}
+
+	public int getB() {
+		return b;
+	}
+
+	public void setB(int b) {
+		this.b = b;
+	}
 	
 	/**
 	 * Retourne le nom du joueur dans une chaine de caracteres.
@@ -70,10 +109,10 @@ public class Joueur {
 	
 	/**
 	 * Retourne la valeur binaire du joueur.
-     * @return Le camp du joueur. 
+     * @return Le camps du joueur. 
      */
-	public boolean getCouleur() {
-		return couleur;
+	public boolean getCamps() {
+		return camps;
 	}
 	
 	/**
@@ -81,8 +120,8 @@ public class Joueur {
      * @param couleur
      *            Le nouveau camp du joueur.
      */
-	public void setCouleur(boolean couleur) {
-		this.couleur = couleur;
+	public void setCamps(boolean camps) {
+		this.camps = camps;
 	}
 	
 	/**
@@ -120,7 +159,7 @@ public class Joueur {
 	}
 	
 	public boolean equals(Joueur j) {
-		return (this.couleur == j.couleur && this.nom.equals(j.nom) && this.humain == j.humain);
+		return ((this.camps == j.camps) && this.nom.equals(j.nom) && this.humain == j.humain);
 	}
 	// Fin de Section Getters-Setters
 }
