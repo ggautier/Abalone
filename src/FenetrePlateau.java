@@ -50,6 +50,10 @@ public class FenetrePlateau extends JPanel{
         			g.setColor(Color.RED);
     			 	g.drawOval(decalage+j*45, i*40, 40, 40);
         		 }
+        		 if (principale.getControleur().isNext(new Point(i,j))) {
+         			g.setColor(Color.RED);
+     			 	g.drawOval(decalage+j*45, i*40, 40, 40);
+         		 }
 
         	 }
          }
