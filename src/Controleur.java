@@ -2,13 +2,13 @@ import java.awt.Point;
 import java.util.Vector;
 
 /**
- * <b>Controleur est la classe qui va mettre à jour les informations du modèle, en respectant les règles du jeu.</b>
+ * <b>Controleur est la classe qui va mettre ï¿½ jour les informations du modï¿½le, en respectant les rï¿½gles du jeu.</b>
  * <p>
- * Un Controleur est caractérisé par les informations suivantes :
+ * Un Controleur est caractï¿½risï¿½ par les informations suivantes :
  * <ul>
- * <li>Une partie, qui va servir de point d'accès aux informations du modèle.</li>
- * <li>Une fenêtrePrincipale, qui va solliciter des changements.</li>
- * <li>Un controleurIA, qui peut générer le meilleur coup possible à l'instant.</li>
+ * <li>Une partie, qui va servir de point d'accï¿½s aux informations du modï¿½le.</li>
+ * <li>Une fenï¿½trePrincipale, qui va solliciter des changements.</li>
+ * <li>Un controleurIA, qui peut gï¿½nï¿½rer le meilleur coup possible ï¿½ l'instant.</li>
  * </ul>
  * </p>
  * 
@@ -30,6 +30,7 @@ public class Controleur {
 	protected Partie			partie; 
 	protected Vector<Bille>		selectionnees;
 	protected Vector<Vector<Bille>> visees;
+	protected Vector<Integer> 		coups;
 	
 	// Dir
 	public final static int GAUCHE = 10;
@@ -335,6 +336,13 @@ public class Controleur {
 			break;
 		}
 		
+		deplacementPossible(selectionnees,GAUCHE);
+		deplacementPossible(selectionnees,DROITE);
+		deplacementPossible(selectionnees,HAUT_GAUCHE);
+		deplacementPossible(selectionnees,BAS_DROITE);
+		deplacementPossible(selectionnees,HAUT_DROITE);
+		deplacementPossible(selectionnees,BAS_GAUCHE);
+		
 		return null;
 	}
 	
@@ -420,6 +428,11 @@ public class Controleur {
 		//System.out.println(billeTemp.getX()+","+billeTemp.getY());
 
 		return billeTemp;
+	}
+	
+	public boolean deplacementPossible(Vector<Bille> v, int dir)  {
+		
+		return true;
 	}
 	                                               
 	
