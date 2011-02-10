@@ -431,7 +431,13 @@ public class Controleur {
 	}
 	
 	public boolean deplacementPossible(Vector<Bille> v, int dir)  {
-		
+		Bille billeTemp;
+		boolean possible = false;
+		for (int i = 0; i < v.size(); i++)
+			if (voisine(v.get(i), dir, 1) == null )
+				possible = true;
+			else if (isVisee(voisine(v.get(i),dir,1)))
+				possible = true;
 		return true;
 	}
 	                                               
