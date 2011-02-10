@@ -2,13 +2,13 @@ import java.awt.Point;
 import java.util.Vector;
 
 /**
- * <b>Controleur est la classe qui va mettre à jour les informations du modèle, en respectant les règles du jeu.</b>
+ * <b>Controleur est la classe qui va mettre ï¿½ jour les informations du modï¿½le, en respectant les rï¿½gles du jeu.</b>
  * <p>
- * Un Controleur est caractérisé par les informations suivantes :
+ * Un Controleur est caractï¿½risï¿½ par les informations suivantes :
  * <ul>
- * <li>Une partie, qui va servir de point d'accès aux informations du modèle.</li>
- * <li>Une fenêtrePrincipale, qui va solliciter des changements.</li>
- * <li>Un controleurIA, qui peut générer le meilleur coup possible à l'instant.</li>
+ * <li>Une partie, qui va servir de point d'accï¿½s aux informations du modï¿½le.</li>
+ * <li>Une fenï¿½trePrincipale, qui va solliciter des changements.</li>
+ * <li>Un controleurIA, qui peut gï¿½nï¿½rer le meilleur coup possible ï¿½ l'instant.</li>
  * </ul>
  * </p>
  * 
@@ -30,6 +30,7 @@ public class Controleur {
 	protected Partie			partie; 
 	protected Vector<Bille>		selectionnees;
 	protected Vector<Vector<Bille>> visees;
+	protected Vector<Integer> 		coups;
 	
 	// Dir
 	public final static int GAUCHE = 10;
@@ -67,10 +68,43 @@ public class Controleur {
 	}
 
 	public boolean selectionner(int i, int j) {
+		
 		Bille billeTemp = partie.getPlateau().getBille(i, j);
 		if (billeTemp != null) {
-			if (isSelectionnee(billeTemp))
-				selectionnees.remove(billeTemp);
+			if (isSelectionnee(billeTemp)) {
+				if (selectionnees.size() > 2) {
+					boolean milieu = false;
+					int axe = getAxe(this.selectionnees.get(0),this.selectionnees.get(1));
+
+					switch (axe) {
+					case GD:
+						milieu = (!billeTemp.equals(getTete(selectionnees,GAUCHE)) &&
+								 !billeTemp.equals(getTete(selectionnees,DROITE)))
+						;
+						break;
+					case HG_BD:
+						milieu = (!billeTemp.equals(getTete(selectionnees,HAUT_GAUCHE)) &&
+								 !billeTemp.equals(getTete(selectionnees,BAS_DROITE)))
+						;
+						break;
+					
+					case HD_BG:
+						milieu = (!billeTemp.equals(getTete(selectionnees,HAUT_DROITE))) &&
+								 !billeTemp.equals(getTete(selectionnees,BAS_GAUCHE))
+						;
+						
+					default:
+						break;
+					}
+					
+					if (!milieu)
+						selectionnees.remove(billeTemp);
+				}
+				else
+					selectionnees.remove(billeTemp);
+
+
+			}
 			else {
 				if (this.selectionnees.size() == 1) {
 					Vector<Bille> voisines = billeAlentours(billeTemp);
@@ -119,6 +153,8 @@ public class Controleur {
 				}
 			}
 		}
+		visees.clear();
+		genererCoups();
 		return true;
 	}
 
@@ -183,13 +219,14 @@ public class Controleur {
 	}
 	
 	// "true" si la Bille est visee
-	public boolean isVisee(Bille b) 
-	{	boolean retour = false;
-		if (this.visees.size() != 0)
-		{	for (int i=0; i < this.visees.size(); i++)
-			{	for (int j=0; j < this.visees.get(i).size(); i++)
-				{	if (visees.get(i).get(j).equals(b))
-						{ retour = true; }
+	public boolean isVisee(Bille b) {	
+		boolean retour = false;
+		if (this.visees.size() != 0) {
+			for (int i=0; i < this.visees.size(); i++) {	
+				for (int j=0; j < this.visees.get(i).size(); j++) {	
+					if (visees.get(i).get(j).equals(b)) { 
+						retour = true; 
+					}
 				}
 			}
 		}		
@@ -299,6 +336,13 @@ public class Controleur {
 			break;
 		}
 		
+		deplacementPossible(selectionnees,GAUCHE);
+		deplacementPossible(selectionnees,DROITE);
+		deplacementPossible(selectionnees,HAUT_GAUCHE);
+		deplacementPossible(selectionnees,BAS_DROITE);
+		deplacementPossible(selectionnees,HAUT_DROITE);
+		deplacementPossible(selectionnees,BAS_GAUCHE);
+		
 		return null;
 	}
 	
@@ -314,7 +358,7 @@ public class Controleur {
 			billeTemp = voisine(billeTete,dir,i); // Bille voisinne d'i crans, suivant la direction
 			// Pas encore clairement definie : On verifie si on a une Bille du joueur adverse.
 			if (billeTemp != null) {
-				if (!partie.getPlateau().caseVide(billeTemp.getX(),billeTemp.getY())) // Si on trouve une case vide, c'est qu'on a deja enregistre toutes les Billes ennemies
+				if (partie.getPlateau().caseVide(billeTemp.getX(),billeTemp.getY())) // Si on trouve une case vide, c'est qu'on a deja enregistre toutes les Billes ennemies
 					i = 42; // Moyen bourrin de mettre fin a la boucle.
 				else if (billeTemp.getJoueur() != billeTete.getJoueur())
 					vTemp.add(billeTemp);
@@ -325,7 +369,7 @@ public class Controleur {
 				i = 42;
 		}
 		
-		if (v.size() < vTemp.size()) // Si il y a + de Billes ennemies que de Billes alliees, alors foutu aussi !
+		if (v.size() <= vTemp.size()) // Si il y a + de Billes ennemies que de Billes alliees, alors foutu aussi !
 			vTemp.clear();
 		
 		visees.add(vTemp); // On ajoute a la liste des billes visees
@@ -342,7 +386,7 @@ public class Controleur {
 		int xAjoute = (int) Math.round(dirTemp);
 		double yAjoute = (dirTemp - xAjoute) * 10;
 		
-		System.out.println("Voisine : x+"+xAjoute+", y+"+yAjoute);
+		//System.out.println("Voisine : x+"+xAjoute+", y+"+yAjoute);
 		
 		if (!isOut(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist))
 			billeRetour = partie.getPlateau().getBille(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist);
@@ -365,7 +409,7 @@ public class Controleur {
 	public Bille getTete(Vector<Bille> v, int dir) {
 		Bille billeTemp = new Bille(-1, -1, null); // Comment declarer une Bille "nulle" ?
 		Bille billeTest;
-		System.out.print("cherche Tete en "+dir+" : ");
+		//System.out.print("cherche Tete en "+dir+" : ");
 
 		if (v.size() > 0) {
 			billeTemp = v.get(0);
@@ -381,9 +425,20 @@ public class Controleur {
 				
 		}
 		
-		System.out.println(billeTemp.getX()+","+billeTemp.getY());
+		//System.out.println(billeTemp.getX()+","+billeTemp.getY());
 
 		return billeTemp;
+	}
+	
+	public boolean deplacementPossible(Vector<Bille> v, int dir)  {
+		Bille billeTemp;
+		boolean possible = false;
+		for (int i = 0; i < v.size(); i++)
+			if (voisine(v.get(i), dir, 1) == null )
+				possible = true;
+			else if (isVisee(voisine(v.get(i),dir,1)))
+				possible = true;
+		return true;
 	}
 	                                               
 	
