@@ -464,11 +464,13 @@ public class Controleur {
 				possible = true;
 			else if (isVisee(voisine(v.get(i),dir,1)))
 				possible = true;
+
 		
 		if (possible)
 			coups.add(dir);
 		
 		return possible;
+
 	}
 	                                               
 	
