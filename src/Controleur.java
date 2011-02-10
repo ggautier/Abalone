@@ -535,8 +535,13 @@ public class Controleur {
 		Point pTemp = voisineP(b, dir, 1);
 		if (billeTemp != null) {
 			partie.plateau.setBille(null, billeTemp.getX(), billeTemp.getY());
-			partie.plateau.setBille(b, (int) pTemp.getX(), (int) pTemp.getY());
+			partie.plateau.setBille(billeTemp, (int) pTemp.getX(), (int) pTemp.getY());
+			if (isOut(billeTemp.getX(),billeTemp.getY())) {
+				billeTemp.getJoueur().setScore(billeTemp.getJoueur().getScore()-1);
+				billeTemp = null;
+			}
 		}
+		
 		
 		
 		return true;
