@@ -60,7 +60,7 @@ public class Controleur {
 		for (int j=0; j < coups.size(); j++) {
 			dir = coups.get(j);
 			for (int i=0; i < selectionnees.size(); i++)
-				if (voisineP(getTete(selectionnees,dir),dir,1).equals(p))
+				if (voisineP(selectionnees.get(i),dir,1).equals(p))
 						retour = true;
 					;
 		}
