@@ -34,8 +34,10 @@ public class FenetreOption extends JDialog implements ActionListener{
 	private DefaultComboBoxModel	comboModel1, comboModel2;
 	private JComboBox				choixCouleur1, choixCouleur2;
 	private TitledBorder			title;
+	private FenetrePrincipale		fenetre;
 	
-	public FenetreOption(String titre)
+	
+	public FenetreOption(String titre, JFrame fenetre)
 	{	
 	JDialog dialog = new JDialog();
 	dialog.setSize(300, 200);
@@ -43,26 +45,31 @@ public class FenetreOption extends JDialog implements ActionListener{
 	dialog.setVisible(true);
 	dialog.setAlwaysOnTop(true);
 	dialog.setContentPane(buildContentPane());
+	
+	this.fenetre = (FenetrePrincipale)fenetre;
+
 	}
 	
 
 	private JPanel buildContentPane(){
 		
 		comboModel1 = new DefaultComboBoxModel();
-		comboModel1.addElement("RED");
+		comboModel1.addElement("Rouge");
 		comboModel1.addElement("Bleu");
-		comboModel1.addElement("WHITE");
-		comboModel1.addElement("BLACK");
+		comboModel1.addElement("Blanc");
+		comboModel1.addElement("Noir");
 		
 		comboModel2 = new DefaultComboBoxModel();
-		comboModel2.addElement("RED");
+		comboModel2.addElement("Rouge");
 		comboModel2.addElement("Bleu");
-		comboModel2.addElement("WHITE");
-		comboModel2.addElement("BLACK");
+		comboModel2.addElement("Blanc");
+		comboModel2.addElement("Noir");
 		
 		choixCouleur1 = new JComboBox(comboModel1);
+		choixCouleur1.setName("choixCouleur1");
 		choixCouleur1.addActionListener(this);
 		choixCouleur2 = new JComboBox(comboModel2);
+		choixCouleur2.setName("choixCouleur2");
 		choixCouleur2.addActionListener(this);
 		
 		panel = new JPanel();
@@ -166,15 +173,80 @@ public class FenetreOption extends JDialog implements ActionListener{
 	 * 
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (choixCouleur1.getSelectedItem()=="Bleu"){
-		}
+		
+		Object source = e.getActionCommand();
+		JComboBox cb = (JComboBox)e.getSource();
+        String nameColor = (String)cb.getSelectedItem();
+        String nameCombo = cb.getName();
 
-		Object source = e.getActionCommand().toString();
+		System.out.println("source : "+source);
+		System.out.println("couleur: "+nameCombo + " " + nameColor);
 		
 		if (source == "OK")
-		{System.out.println("Okay");}
+			{
+				if(nameCombo == "choixCouleur1")
+				{
+					if(nameColor == "Rouge")
+					{
+						this.getFenetre().getControleur().getPartie().getJ1().setR(255);
+						this.getFenetre().getControleur().getPartie().getJ1().setG(0);
+						this.getFenetre().getControleur().getPartie().getJ1().setB(0);
+
+					}
+					if(nameColor == "Bleu")
+					{
+						this.getFenetre().getControleur().getPartie().getJ1().setR(0);
+						this.getFenetre().getControleur().getPartie().getJ1().setG(0);
+						this.getFenetre().getControleur().getPartie().getJ1().setB(255);
+					}
+					if(nameColor == "Blanc")
+					{
+						this.getFenetre().getControleur().getPartie().getJ1().setR(255);
+						this.getFenetre().getControleur().getPartie().getJ1().setG(255);
+						this.getFenetre().getControleur().getPartie().getJ1().setB(255);
+					}
+					if(nameColor == "Noir")
+					{
+						this.getFenetre().getControleur().getPartie().getJ1().setR(0);
+						this.getFenetre().getControleur().getPartie().getJ1().setG(0);
+						this.getFenetre().getControleur().getPartie().getJ1().setB(0);
+					}
+				}
+				if(nameCombo == "choixCouleur2")
+				{
+					if(nameColor == "Rouge")
+					{
+						this.getFenetre().getControleur().getPartie().getJ2().setR(255);
+						this.getFenetre().getControleur().getPartie().getJ2().setG(0);
+						this.getFenetre().getControleur().getPartie().getJ2().setB(0);
+
+					}
+					if(nameColor == "Bleu")
+					{
+						this.getFenetre().getControleur().getPartie().getJ2().setR(0);
+						this.getFenetre().getControleur().getPartie().getJ2().setG(0);
+						this.getFenetre().getControleur().getPartie().getJ2().setB(255);
+					}
+					if(nameColor == "Blanc")
+					{
+						this.getFenetre().getControleur().getPartie().getJ2().setR(255);
+						this.getFenetre().getControleur().getPartie().getJ2().setG(255);
+						this.getFenetre().getControleur().getPartie().getJ2().setB(255);
+					}
+					if(nameColor == "Noir")
+					{
+						this.getFenetre().getControleur().getPartie().getJ2().setR(0);
+						this.getFenetre().getControleur().getPartie().getJ2().setG(0);
+						this.getFenetre().getControleur().getPartie().getJ2().setB(0);
+					}
+				}
+			}
 		if (source == "Annuler")
-		{System.out.println("Annuler");
+			{}
 		}
-		}
+
+
+	public FenetrePrincipale getFenetre() {
+		return fenetre;
+	}
 	}

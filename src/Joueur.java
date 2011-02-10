@@ -52,15 +52,15 @@ public class Joueur {
 		
 		if(this.getCamps())
 		{
-			this.setR(240);
-			this.setG(10);
-			this.setB(10);
-		}
-		else
-		{
 			this.setR(255);
 			this.setG(255);
 			this.setB(255);
+		}
+		else
+		{
+			this.setR(0);
+			this.setG(0);
+			this.setB(0);
 		}
 	}
 	

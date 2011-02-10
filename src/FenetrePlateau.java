@@ -53,7 +53,7 @@ public class FenetrePlateau extends JPanel{
         				 g.setColor(Color.gray);
         		 }
         		 else 
-        			 g.setColor(Color.GREEN);
+        			 g.setColor(Color.LIGHT_GRAY);
         		 
         		 if (!principale.getControleur().isOut(i, j))
         			 g.fillOval(decalage+j*45, i*40, 40, 40);

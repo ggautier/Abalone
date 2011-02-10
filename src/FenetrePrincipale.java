@@ -229,7 +229,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		   	}
 		}
 		if (source == "Options")
-		{ FenetreOption fenetreOpt = new FenetreOption("Options"); }
+		{ FenetreOption fenetreOpt = new FenetreOption("Options", this); }
 		if (source == "Quitter")
 		{ System.exit(0); }
 
