@@ -1,4 +1,5 @@
 package modele;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -6,8 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.StringTokenizer;
-
-
 
 /**
  * <b>Plateau est la classe representant la totalite des cases du plateau de jeu.</b>
@@ -39,11 +38,13 @@ public class Plateau {
 	 * Constructeur de la classe PLateau
 	 * 
 	 * @param nomFicConfig Le fichier d'initialisation du plateau
+	 * @param joueur1 : le premier joueur de la partie
+	 * @param joueur2 : le second joueur de la partie
+	 * @throws Exception 
 	 */
-	public Plateau(String nomFicConfig, Joueur joueur1, Joueur joueur2) {
+	public Plateau(String nomFicConfig, Joueur joueur1, Joueur joueur2) throws Exception {
 		this.plateau = new Bille[9][9];
 		this.init(nomFicConfig, joueur1, joueur2);
-		//this.afficher();
 	}
 	
 	/**
@@ -84,8 +85,9 @@ public class Plateau {
 	 * 			<li>True si le remplissage du plateau reussit,</li>
 	 * 			<li>False sinon.</li>
 	 * 		</ul>
+	 * @throws Exception 
 	 */
-	public boolean init(String fichierConf, Joueur joueur1, Joueur joueur2) {
+	public boolean init(String fichierConf, Joueur joueur1, Joueur joueur2) throws Exception {
 		try {
 			BufferedReader buffer = new BufferedReader(new FileReader(fichierConf));
 			
@@ -101,6 +103,9 @@ public class Plateau {
 			while(nbLignes < 9) {
 				ligne = buffer.readLine();
 				
+				if(ligne == null)	// Fin du fichier
+					break;
+				
 				if(ligne.isEmpty())	// Les lignes vides sont ignorees.
 					continue;
 				
@@ -110,6 +115,9 @@ public class Plateau {
 			}
 			
 			buffer.close();
+			
+			if(nbLignes != 9)
+				throw new Exception("Fichier plateau invalide !");
 			
 			StringTokenizer stk;
 			
