@@ -99,6 +99,7 @@ public class FenetreOption extends JDialog implements ActionListener{
     	donnerContrainte(c,0,0,1,1,0,0);
 		JTextField textFieldJ1 = new JTextField();
 		textFieldJ1.setColumns(10);
+		textFieldJ1.setText("Joueur 1");
 		sousPanJ1.add(textFieldJ1,c);
 		
 		donnerContrainte(c,0,1,1,1,0,0);
@@ -112,6 +113,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 		donnerContrainte(c,0,0,1,1,0,0);
 		JTextField textFieldJ2 = new JTextField();
 		textFieldJ2.setColumns(10);
+		textFieldJ2.setText("Joueur 2");
 		sousPanJ2.add(textFieldJ2,c);
 		
 		donnerContrainte(c,0,1,1,1,0,0);
