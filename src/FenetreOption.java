@@ -27,14 +27,17 @@ import javax.swing.border.TitledBorder;
 
 public class FenetreOption extends JDialog implements ActionListener{
 	
+	
 	private JPanel 					panel, sousPanJ1, sousPanJ2 , panelBoutons;
 	private JButton					boutonOk;
 	private JTextField  			textFieldJ2 ;
 	private DefaultComboBoxModel	comboModel1, comboModel2;
 	private JComboBox				choixCouleur1, choixCouleur2;
 	private TitledBorder			title;
+	private FenetrePrincipale		fenetre;
 	
-	public FenetreOption(String titre)
+	
+	public FenetreOption(String titre, JFrame fenetre)
 	{	
 	JDialog dialog = new JDialog();
 	dialog.setSize(300, 200);
@@ -43,25 +46,30 @@ public class FenetreOption extends JDialog implements ActionListener{
 	dialog.setAlwaysOnTop(true);
 	dialog.setContentPane(buildContentPane());
 	
+	this.fenetre = (FenetrePrincipale)fenetre;
+
 	}
 	
+
 	private JPanel buildContentPane(){
 		
 		comboModel1 = new DefaultComboBoxModel();
-		comboModel1.addElement("RED");
+		comboModel1.addElement("Rouge");
 		comboModel1.addElement("Bleu");
-		comboModel1.addElement("WHITE");
-		comboModel1.addElement("BLACK");
+		comboModel1.addElement("Blanc");
+		comboModel1.addElement("Noir");
 		
 		comboModel2 = new DefaultComboBoxModel();
-		comboModel2.addElement("RED");
+		comboModel2.addElement("Rouge");
 		comboModel2.addElement("Bleu");
-		comboModel2.addElement("WHITE");
-		comboModel2.addElement("BLACK");
+		comboModel2.addElement("Blanc");
+		comboModel2.addElement("Noir");
 		
 		choixCouleur1 = new JComboBox(comboModel1);
+		choixCouleur1.setName("choixCouleur1");
 		choixCouleur1.addActionListener(this);
 		choixCouleur2 = new JComboBox(comboModel2);
+		choixCouleur2.setName("choixCouleur2");
 		choixCouleur2.addActionListener(this);
 		
 		panel = new JPanel();
@@ -69,10 +77,6 @@ public class FenetreOption extends JDialog implements ActionListener{
 	    GridBagConstraints c = new GridBagConstraints();
 	    
 	    
-	    /**
-	     * 
-	     * 
-	     */
 	    donnerContrainte(c,0,0,1,1,0,0);
         this.sousPanJ1 = new JPanel();
         this.sousPanJ1.setLayout(new GridBagLayout());
@@ -88,7 +92,7 @@ public class FenetreOption extends JDialog implements ActionListener{
         this.panelBoutons = new JPanel();
         this.panelBoutons.setLayout(new GridBagLayout());
 
-        /**
+        /*
          * Placement des éléments dans le panel Joueur 1
          * 
          */
@@ -101,7 +105,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 		sousPanJ1.add(choixCouleur1,c);
 		
 		
-        /**
+        /*
          * Placement des éléments dans le panel Joueur 2
          * 
          */
@@ -113,7 +117,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 		donnerContrainte(c,0,1,1,1,0,0);
 		sousPanJ2.add(choixCouleur2,c);
 		
-	     /**
+	     /*
          * Placement des éléments dans le panel Boutons
          * 
          */
@@ -138,7 +142,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 		panel.add(sousPanJ2,c);
 		donnerContrainte(c,0,1,1,1,100,20);
 		panel.add(panelBoutons,c);
-		
+
 
 		return panel;
 		
@@ -164,20 +168,85 @@ public class FenetreOption extends JDialog implements ActionListener{
 		gbc.fill=GridBagConstraints.BOTH;
 	}
 
-	/**
+	/*
 	 * Récupérer couleur sélectionner
 	 * 
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (choixCouleur1.getSelectedItem()=="Bleu"){
-		}
+		
+		Object source = e.getActionCommand();
+		JComboBox cb = (JComboBox)e.getSource();
+        String nameColor = (String)cb.getSelectedItem();
+        String nameCombo = cb.getName();
 
-		Object source = e.getActionCommand().toString();
+		System.out.println("source : "+source);
+		System.out.println("couleur: "+nameCombo + " " + nameColor);
 		
 		if (source == "OK")
-		{System.out.println("Okay");}
+			{
+				if(nameCombo == "choixCouleur1")
+				{
+					if(nameColor == "Rouge")
+					{
+						this.getFenetre().getControleur().getPartie().getJ1().setR(255);
+						this.getFenetre().getControleur().getPartie().getJ1().setG(0);
+						this.getFenetre().getControleur().getPartie().getJ1().setB(0);
+
+					}
+					if(nameColor == "Bleu")
+					{
+						this.getFenetre().getControleur().getPartie().getJ1().setR(0);
+						this.getFenetre().getControleur().getPartie().getJ1().setG(0);
+						this.getFenetre().getControleur().getPartie().getJ1().setB(255);
+					}
+					if(nameColor == "Blanc")
+					{
+						this.getFenetre().getControleur().getPartie().getJ1().setR(255);
+						this.getFenetre().getControleur().getPartie().getJ1().setG(255);
+						this.getFenetre().getControleur().getPartie().getJ1().setB(255);
+					}
+					if(nameColor == "Noir")
+					{
+						this.getFenetre().getControleur().getPartie().getJ1().setR(0);
+						this.getFenetre().getControleur().getPartie().getJ1().setG(0);
+						this.getFenetre().getControleur().getPartie().getJ1().setB(0);
+					}
+				}
+				if(nameCombo == "choixCouleur2")
+				{
+					if(nameColor == "Rouge")
+					{
+						this.getFenetre().getControleur().getPartie().getJ2().setR(255);
+						this.getFenetre().getControleur().getPartie().getJ2().setG(0);
+						this.getFenetre().getControleur().getPartie().getJ2().setB(0);
+
+					}
+					if(nameColor == "Bleu")
+					{
+						this.getFenetre().getControleur().getPartie().getJ2().setR(0);
+						this.getFenetre().getControleur().getPartie().getJ2().setG(0);
+						this.getFenetre().getControleur().getPartie().getJ2().setB(255);
+					}
+					if(nameColor == "Blanc")
+					{
+						this.getFenetre().getControleur().getPartie().getJ2().setR(255);
+						this.getFenetre().getControleur().getPartie().getJ2().setG(255);
+						this.getFenetre().getControleur().getPartie().getJ2().setB(255);
+					}
+					if(nameColor == "Noir")
+					{
+						this.getFenetre().getControleur().getPartie().getJ2().setR(0);
+						this.getFenetre().getControleur().getPartie().getJ2().setG(0);
+						this.getFenetre().getControleur().getPartie().getJ2().setB(0);
+					}
+				}
+			}
 		if (source == "Annuler")
-		{System.out.println("Annuler");
+			{}
 		}
-		}
+
+
+	public FenetrePrincipale getFenetre() {
+		return fenetre;
+	}
 	}

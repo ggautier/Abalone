@@ -32,15 +32,31 @@ public class FenetrePlateau extends JPanel{
         		 decalage = (4-i)*23;
                  billeTemp = principale.getControleur().getPartie().getPlateau().getBille(i, j);
         		 if (billeTemp != null) {
-        			 if (billeTemp.getJoueur().getCouleur() == true)
-        				 g.setColor(Color.BLACK);
-        			 else if (billeTemp.getJoueur().getCouleur() == false)
-        				 g.setColor(Color.WHITE);
+        			 if (billeTemp.getJoueur().getCamps() == true)
+        			 { 
+        				 //g.setColor(Color.BLACK);
+        				 int r = this.getPrincipale().getControleur().getPartie().getJ1().getR();
+        				 int v = this.getPrincipale().getControleur().getPartie().getJ1().getG();
+        				 int b = this.getPrincipale().getControleur().getPartie().getJ1().getB();
+
+        				 Color tempColor = new Color(r, v, b);
+        				 g.setColor(tempColor);
+        			 }
+        			 else if (billeTemp.getJoueur().getCamps() == false)
+        			 {	
+        				 //g.setColor(Color.WHITE);
+        				 int r = this.getPrincipale().getControleur().getPartie().getJ2().getR();
+        				 int v = this.getPrincipale().getControleur().getPartie().getJ2().getG();
+        				 int b = this.getPrincipale().getControleur().getPartie().getJ2().getB();
+
+        				 Color tempColor = new Color(r, v, b);
+        				 g.setColor(tempColor);
+        			 }
         			 else if ( !principale.getControleur().isOut(i, j))
         				 g.setColor(Color.gray);
         		 }
         		 else 
-        			 g.setColor(Color.GREEN);
+        			 g.setColor(Color.LIGHT_GRAY);
         		 
         		 if (!principale.getControleur().isOut(i, j))
         			 g.fillOval(decalage+j*45, i*40, 40, 40);

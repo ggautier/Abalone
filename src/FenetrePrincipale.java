@@ -40,12 +40,12 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 	private FenetreCommande	commande;
 	
 	private JMenuBar 		menuBar;
-	
-
 
 	private JMenu			fichierMenu;
 	
 	private Controleur	controleur;
+	
+	private Color colorJ1, colorJ2;
 	
 	public FenetrePrincipale(String titre) 
 	{
@@ -56,6 +56,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		//Rendre la fenetre fermable et re-dimensionnable
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(true);
+        
         
         //On cree un barre de menu (vide), puis on cree le 1er menu "Fichier",
         //dans lequel on ajoute l'item "Nouveau", ....
@@ -148,16 +149,16 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 			JFileChooser filechoose = new JFileChooser();
 			// Créer un JFileChooser
 			filechoose.setCurrentDirectory(new File(".")); 
-			// Le répertoire source du JFileChooser est le répertoire d’où est lancé notre programme
+			// Le répertoire source du JFileChooser est le répertoire d'où est lancé notre programme
 			String approve = new String("Enregistrer");
-			// Le bouton pour valider l’enregistrement portera la mention ENREGSITRER
+			// Le bouton pour valider l'enregistrement portera la mention Enregistrer
 			int resultatEnregistrer = filechoose.showDialog(filechoose, approve); 
-			// Pour afficher le JFileChooser…
+			// Pour afficher le JFileChooser
 			if (resultatEnregistrer == JFileChooser.APPROVE_OPTION) 
-			// Si l’utilisateur clique sur le bouton ENREGSITRER
+			// Si l'utilisateur clique sur le bouton Enregistrer
 			{ 
 				String monFichier= new String(filechoose.getSelectedFile().toString());
-				// Récupérer le nom du fichier qu’il a spécifié
+				// Récupérer le nom du fichier qu'il a spécifié
 				if(monFichier.endsWith(".txt") || monFichier.endsWith(".TXT")) 
 				{;}
 				// Si ce nom de fichier finit par .txt ou .TXT, ne rien faire et passer à la suite
@@ -165,7 +166,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 				{
 					monFichier = monFichier + ".txt" ;
 				}
-				// Sinon renommer le fichier pour qu’il porte l’extension .txt
+				// Sinon renommer le fichier pour qu'il porte l'extension .txt
 				{ 
 					try
 					{ 
@@ -175,11 +176,11 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 						// Mettre le flux en tampon (en cache)
 						
 						// Besoin de la représentation console pour un fichier texte.
-						//out.write(textArea.getText()); 
+						out.write(this.getControleur().getPartie().getPlateau().toString()); 
 						
 						// Balancer dans le flux le contenu de la zone de texte
 						out.close(); 
-						// Fermer le flux (c’est toujours mieux de le fermer explicitement)
+						// Fermer le flux (c'est toujours mieux de le fermer explicitement)
 					} 
 					catch (IOException er) 
 					{;}
@@ -191,31 +192,31 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 			JFileChooser filechoose = new JFileChooser();
 			// Créer un JFileChooser
 			filechoose.setCurrentDirectory(new File("."));
-			// Le répertoire source du JFileChooser est le répertoire d’où est lancé notre programme
+			// Le répertoire source du JFileChooser est le répertoire d'où est lancé notre programme
 			String approve = new String("Charger");
-			// Le bouton pour valider l’enregistrement portera la mention OUVRIR
+			// Le bouton pour valider l'enregistrement portera la mention Charger
 			String monFichier= null; 
-			// On ne sait pas pour l’instant quel sera le fichier à ouvrir
+			// On ne sait pas pour l'instant quel sera le fichier à ouvrir
 			int resultatOuvrir = filechoose.showDialog(filechoose, approve); 
-			// Pour afficher le JFileChooser…
+			// Pour afficher le JFileChooser
 			if(resultatOuvrir == filechoose.APPROVE_OPTION)
-			// Si l’utilisateur clique sur le bouton OUVRIR
+			// Si l'utilisateur clique sur le bouton OUVRIR
 			{
 			  	monFichier = filechoose.getSelectedFile().toString();
-			  	// Récupérer le nom du fichier qu’il a spécifié
+			  	// Récupérer le nom du fichier qu'il a spécifié
 
 			  	try
 			  	{ 
 			  		FileInputStream fis = new FileInputStream(monFichier);
-			  		// Créer un flux d’entrée avec comme paramètre le nom du fichier à ouvrir
+			  		// Créer un flux d'entrée avec comme paramètre le nom du fichier à ouvrir
 			  		int n = fis.available();
-			  		while(n > 0) // tant qu’il y a des données dans le flux…
+			  		while(n > 0) // tant qu'il y a des données dans le flux
 			  		{ 
 			  			byte[] b = new byte[n]; 
-			  			// récupérer le byte à l’endroit n et le stocker dans un tableau de bytes
-			  			int result = fis.read(b); // lire ce tableau de byte à l’endroit désiré
+			  			// récupérer le byte à l'endroit n et le stocker dans un tableau de bytes
+			  			int result = fis.read(b); // lire ce tableau de byte à l'endroit désiré
 			  			if (result == -1) 
-			  				break; // si le byte est -1, c’est que le flux est arrivé à sa fin (par définition)
+			  				break; // si le byte est -1, c'est que le flux est arrivé à sa fin (par définition)
 			  			String s = new String(b);
 			  			// assembler les bytes pour former une chaîne
 			  			
@@ -228,7 +229,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		   	}
 		}
 		if (source == "Options")
-		{ FenetreOption fenetreOpt = new FenetreOption("Options"); }
+		{ FenetreOption fenetreOpt = new FenetreOption("Options", this); }
 		if (source == "Quitter")
 		{ System.exit(0); }
 

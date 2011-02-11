@@ -65,7 +65,7 @@ public class Controleur {
 		for (int j=0; j < coups.size(); j++) {
 			dir = coups.get(j);
 			for (int i=0; i < selectionnees.size(); i++)
-				if (voisineP(selectionnees.get(i),dir,1).equals(p)	)
+				if (voisineP(selectionnees.get(i),dir,1).equals(p))
 						retour = true;
 					;
 		}
@@ -175,6 +175,8 @@ public class Controleur {
 			}
 		}
 		visees.clear();
+		coups.clear();
+		System.out.println("SELECT");
 		genererCoups();
 		return true;
 	}
@@ -189,6 +191,7 @@ public class Controleur {
 		this.selectionnees = selectionnees;
 	}
 
+	
 	// Version de programmeur (mais pas forcement plus intelligente, hein)
 	public boolean isOut(int i, int j) 
 	{
@@ -462,14 +465,28 @@ public class Controleur {
 	}
 	
 	public boolean deplacementPossible(Vector<Bille> v, int dir)  {
-		Bille billeTemp;
+		int axe = 0;
 		boolean possible = false;
-		for (int i = 0; i < v.size(); i++)
-			if (voisine(v.get(i), dir, 1) == null )
+		int proxyVide = 0;
+		if (!v.isEmpty()) { // Si le vecteur n'est pas vide
+			if (v.size() > 1) {
+				axe = getAxe(v.get(0),v.get(1));    		// On recupere l'axe forme par les Billes selectionnees
+				if (axe != dir2axe(dir)) {
+					for (int i = 0; i < v.size(); i++)  		// Pour chaque Bille selectionnee
+						if (voisine(v.get(i), dir, 1) == null ) // On regarde chaque case a cote, vers la direction en parametre
+							proxyVide++;
+					
+					if (proxyVide == v.size())
+						possible = true;
+				}				// Pour les deplacements en ligne, seule la Bille "au bout" nous interesse
+				else if (voisine(getTete(v,dir),dir,1) == null || isVisee(voisine(getTete(v,dir),dir,1))) 
+					possible = true;
+	
+			}
+			else if (voisine(v.get(0),dir,1) == null)
 				possible = true;
-			else if (isVisee(voisine(v.get(i),dir,1)))
-				possible = true;
-
+		}
+		
 		
 		if (possible)
 			coups.add(dir);
@@ -477,7 +494,72 @@ public class Controleur {
 		return possible;
 
 	}
-	                                               
+	
+	public int dir2axe(int dir) {
+		int axe = 0;
+		
+		switch(dir) {
+		case 10:
+		case 12:
+			axe = 01;
+			break;
+		case 01:
+		case 21:
+			axe = 10;
+			break;
+		case 00:
+		case 22:
+			axe = 11;
+			break;
+		default:
+			break;
+			
+		}
+		
+		return axe;
+	}
+	
+	public boolean action(Vector<Bille> v, int dir) {
+		if (deplacementPossible(v,dir)) {
+			for(int i=0; i < v.size(); i++)
+				deplacerBille(v.get(i),dir);
+		}
+		return true;
+	}
+	
+	public boolean action(int dir) {
+		if (deplacementPossible(selectionnees,dir)) {
+			for(int i=0; i < selectionnees.size(); i++)
+				deplacerBille(selectionnees.get(i),dir);
+		}
+		return true;
+	}
+	
+	public boolean deplacerBille(Bille b, int dir) {
+		Bille billeTemp = b;
+		Point pTemp = voisineP(b, dir, 1);
+		if (billeTemp != null) {
+			partie.plateau.setBille(null, billeTemp.getX(), billeTemp.getY());
+			partie.plateau.setBille(billeTemp, (int) pTemp.getX(), (int) pTemp.getY());
+			if (isOut(billeTemp.getX(),billeTemp.getY())) {
+				billeTemp.getJoueur().setScore(billeTemp.getJoueur().getScore()-1);
+				billeTemp = null;
+			}
+		}
+		
+		
+		
+		return true;
+	}
+
+	/*
+	public final static int GAUCHE = 10;
+	public final static int DROITE = 12;
+	public final static int BAS_GAUCHE = 01;
+	public final static int HAUT_DROITE = 21;
+	public final static int HAUT_GAUCHE = 00;
+	public final static int BAS_DROITE = 22;
+	*/
 	
 	// (Au passage, desole de n'avoir rien fait aujourd'hui. J'ai reinstalle tout le systeme, et fait quelques exo (rare)
 	  // Je considere le projet comme officiellement entame, donc je m'y mets demain  
