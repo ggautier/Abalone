@@ -92,15 +92,17 @@ public class Controleur {
 		return selectionnees;
 	}
 
+	// Selectionne une Bille a partir de coordonnees.
 	public boolean selectionner(int i, int j) {
 		
-		Bille billeTemp = partie.getPlateau().getBille(i, j);
-		if (billeTemp != null) {
-			if (isSelectionnee(billeTemp)) {
-				if (selectionnees.size() > 2) {
+		Bille billeTemp = partie.getPlateau().getBille(i, j); // On recupere la Bille pointee.
+		if (billeTemp != null) { // S'il y a effectivement une Bille dans cette case
+			if (isSelectionnee(billeTemp)) { // Si ele est selectionnees ...
+				if (selectionnees.size() > 2) { // ... et qu'il y en a 2 autres qui le sont.
 					boolean milieu = false;
-					int axe = getAxe(this.selectionnees.get(0),this.selectionnees.get(1));
+					int axe = getAxe(this.selectionnees.get(0),this.selectionnees.get(1)); // On recup l'axe
 
+					///// La on determine si la bille est au milieu de la file de selection
 					switch (axe) {
 					case GD:
 						milieu = (!billeTemp.equals(getTete(selectionnees,GAUCHE)) &&
@@ -117,33 +119,35 @@ public class Controleur {
 						milieu = (!billeTemp.equals(getTete(selectionnees,HAUT_DROITE))) &&
 								 !billeTemp.equals(getTete(selectionnees,BAS_GAUCHE))
 						;
+					////
 						
 					default:
 						break;
 					}
 					
-					if (!milieu)
-						selectionnees.remove(billeTemp);
+					if (!milieu) // Si la Bille n'est pas au milieu et qu'elle est deja selectionnee ..
+						selectionnees.remove(billeTemp); // .. alors on la deselectionne
 				}
-				else
+				else // Si moins de 3 Billes sont selectionnes, alors on deselectionne la Bille si elle est deja selectionnee.
 					selectionnees.remove(billeTemp);
 
 
-			}
-			else {
-				if (this.selectionnees.size() == 1) {
-					Vector<Bille> voisines = billeAlentours(billeTemp);
+			} 
+			else { // SI LA BILLE N'EST PAS DEJA SELECTIONNEE
+				if (this.selectionnees.size() == 1) { // S'il y a deja une Bille selectionnee
+					Vector<Bille> voisines = billeAlentours(billeTemp); // On regarde si la Bille qu'on veut selectionner est a cote.
 					boolean aCote = false;
 					for (int z = 0; z<voisines.size(); z++)
 						if (isSelectionnee(voisines.get(z)))
 							aCote = true;
 					
-					if (!aCote)
-						selectionnees = new Vector<Bille>(3);
+					if (!aCote) // Si la Bille qu'on veut selectionner n'est pas a cote d'une Bille deja selectionnee ...
+						selectionnees = new Vector<Bille>(3); // ... alors on deselectionne toutes les Billes avant de selectionner la nouvelle
 								
 				}
-				else if (this.selectionnees.size() == 2) {
+				else if (this.selectionnees.size() == 2) { // Si deux Billes sont deja selectionnees.
 					int axe = getAxe(this.selectionnees.get(0),this.selectionnees.get(1));
+					 // ... meme principe, sauf qu'on veut que la Bille qu'on selectionne soit dans le meme axe que celle deja selectionnees
 					boolean inAxe = false;
 					
 					switch (axe) {
@@ -172,20 +176,22 @@ public class Controleur {
 						selectionnees = new Vector<Bille>(3);
 								
 				}
-				if ( (selectionnees.size() < 3)) {
+				if ( (selectionnees.size() < 3)) { // Enfin, on selectionne la Bille choisie (sauf si 3 sont deja selectionnees.
 					selectionnees.add(billeTemp);
 					System.out.println("Selection :"+selectionnees.size());
 				}
 			}
 		}
+		///// On remet a jour les coups possibles etc ...
 		visees.clear();
 		coups.clear();
-		System.out.println("SELECT");
 		genererCoups();
+		///////
+		
 		return true;
 	}
 
-			
+	// Selectionne une Bille a partir de coordonnees
 	public void selectionner(Point p) {
 		this.selectionner((int) p.getX(), (int) p.getY());
 	}
@@ -196,7 +202,7 @@ public class Controleur {
 	}
 
 	
-	// Version de programmeur (mais pas forcement plus intelligente, hein)
+	// Determine si les coordonnees en entree sont hors-plateau
 	public boolean isOut(int i, int j) 
 	{
 		return  (
@@ -211,6 +217,7 @@ public class Controleur {
 				;
 	}
 	
+	// Retourne une Bille a partir d'un point de coordonnes (utilitaire)
 	public Point getBillePointee(Point p) {
 
 		Point pRetour = new Point();
@@ -294,6 +301,7 @@ public class Controleur {
 	
 	}
 	
+	// Recupere l'axe forme par les deux Billes passees en parametre.
 	public int getAxe(Bille b1, Bille b2) {
 		int axe = 0;
 		if (b1.getX() - b2.getX() != 0)  // Si Billes sur la meme ligne
@@ -307,7 +315,10 @@ public class Controleur {
 		return axe;
 	}
 	
-	// En gros chantier /!\
+	// Permet de mettre a jour dynamiquement :
+	//  - Deplacements possibles
+	//  - Billes adverses qui seront poussees suite au deplacement
+	// (normalement inutile, voir la version plus bas)
 	public Vector<Bille> genererCoups(Vector<Bille> v) {
 		visees.clear();
 		int axe = 0;
@@ -337,6 +348,9 @@ public class Controleur {
 		return null;
 	}
 
+	// Permet de mettre a jour dynamiquement :
+	//  - Deplacements possibles
+	//  - Billes adverses qui seront poussees suite au deplacement
 	public Vector<Bille> genererCoups() { // Celui la sera utilise
 		visees.clear();
 		int axe = 0;
@@ -374,6 +388,7 @@ public class Controleur {
 		return null;
 	}
 	
+	// Recupere les adversaires qui seront pousses si on va dans une direction donnee
 	public Vector<Bille> getAdversairesPoussables(Vector<Bille> v, int dir) { // Ici, on determine quelles rangees sont poussables
 		int taille_rangee = v.size();
 		Boolean vide = false;
@@ -407,7 +422,7 @@ public class Controleur {
 		
 	}
 	
-	
+	// Retourne la Bille voisine de la Bille passee en parametres
 	public Bille voisine(Bille b, int dir, int dist) {
 		Bille billeRetour = null;
 		double dirTemp = (dir - 11) / 10.0;
@@ -425,6 +440,7 @@ public class Controleur {
 		return billeRetour;
 	}
 
+	// Retourne les coordonnees voisines de la Bille passee en parametres
 	public Point voisineP(Bille b, int dir, int dist) {
 		double dirTemp = (dir - 11) / 10.0;
 		int xAjoute = (int) Math.round(dirTemp);
@@ -444,6 +460,7 @@ public class Controleur {
 		public final static int BAS_DROITE = 22;
 	*/
 	
+	// Recupere la Bille en "tete" de file, pour une direction donnee.
 	public Bille getTete(Vector<Bille> v, int dir) {
 		Bille billeTemp = new Bille(-1, -1, null); // Comment declarer une Bille "nulle" ?
 		Bille billeTest;
@@ -468,6 +485,7 @@ public class Controleur {
 		return billeTemp;
 	}
 	
+	// Determine si un deplacement lateral ou en ligne et possible dans une direction donnee.
 	public boolean deplacementPossible(Vector<Bille> v, int dir)  {
 		int axe = 0;
 		boolean possible = false;
@@ -499,6 +517,7 @@ public class Controleur {
 
 	}
 	
+	// On a 6 directions, et trois axes possibles. Methode utilitaire permettant de convertir direction en axe.
 	public int dir2axe(int dir) {
 		int axe = 0;
 		
@@ -531,6 +550,7 @@ public class Controleur {
 		return true;
 	}
 	
+	// Deplacement des Billes selectionnees : Si le deplacement vers la direction "dir" est possible, elle s'effectue.
 	public boolean action(int dir) {
 		if (deplacementPossible(selectionnees,dir)) {
 			for(int i=0; i < selectionnees.size(); i++)
@@ -539,20 +559,20 @@ public class Controleur {
 		return true;
 	}
 	
+	// Methode utilisee pour deplacer la Bille. Ne pas appeller directement (passer par "action")
 	public boolean deplacerBille(Bille b, int dir) {
 		Bille billeTemp = b;
 		Point pTemp = voisineP(b, dir, 1);
-		if (billeTemp != null) {
-			// ca serait pas plutot : partie.plateau.setBille(billeTemp.getX(), billeTemp.getY(), null);
-			partie.plateau.setBille(null, billeTemp.getX(), billeTemp.getY());
-			partie.plateau.setBille(billeTemp, (int) pTemp.getX(), (int) pTemp.getY());
-			if (isOut(billeTemp.getX(),billeTemp.getY())) {
-				billeTemp.getJoueur().setScore(billeTemp.getJoueur().getScore()-1);
+
+		if (billeTemp != null) {	// Si la case n'est pas vide
+			partie.getPlateau().setBille(billeTemp.getX(), billeTemp.getY(), null);
+			partie.getPlateau().setBille((int) pTemp.getX(), (int) pTemp.getY(), billeTemp);
+			if (isOut(billeTemp.getX(),billeTemp.getY())) { // Si la Bille est perdue
+				billeTemp.getJoueur().setScore(billeTemp.getJoueur().getScore()-1); // Le proprio de la Bille baisse son score.
+				// Il faudrait pouvoir recuperer l'adversaire, a partir d'un joueur, afin de monter le score de l'adversaire.
 				billeTemp = null;
 			}
 		}
-		
-		
 		
 		return true;
 	}
@@ -565,9 +585,6 @@ public class Controleur {
 	public final static int HAUT_GAUCHE = 00;
 	public final static int BAS_DROITE = 22;
 	*/
-	
-	// (Au passage, desole de n'avoir rien fait aujourd'hui. J'ai reinstalle tout le systeme, et fait quelques exo (rare)
-	  // Je considere le projet comme officiellement entame, donc je m'y mets demain  
 	
 	/*
 	Si une Bille selectionnee : Que dalle a verifier.
