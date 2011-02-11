@@ -69,7 +69,7 @@ public class Plateau {
 	 * 
 	 * @see Bille
 	 */
-	public void setBille(int ligne, int colonne, Bille newBille) {
+	private void setBille(int ligne, int colonne, Bille newBille) {
 		this.plateau[ligne][colonne] = newBille;
 		//System.out.println("Placement d'une bille en "+ligne+"-"+colonne);
 	}
