@@ -24,27 +24,27 @@ public class Joueur {
 	/**
 	 * <p>Le nom du joueur contenue dans une chaine de caractere.</p> 
 	 */
-	private String nom;
+	protected String nom;
 	
 	/**
 	 * <p>La "couleur" du joueur. Etant donne qu'Abalone se joue a 
 	 * deux joueurs, on peut stocker cette information dans une 
 	 * variable booleenne.</p>
 	 */
-	private boolean	camps;
+	protected boolean	camps;
 	
 	/**
 	 * <p>Le score personnel du joueur.</p> 
 	 */
-	private int score;
+	protected int score;
 	
 	/**
 	 * <p>La variable humain permet de gerer si un coup doit etre joue 
 	 * par un autre joueur, ou joue immediatement par la machine.</p> 
 	 */
-	private boolean humain;
+	protected boolean humain;
 
-	private int r, g, b;
+	protected int r, g, b;
 	
 	public Joueur(String newNom, boolean newCamps, boolean newHumain) {
 		this.setNom(newNom);
@@ -158,9 +158,11 @@ public class Joueur {
 	public void setHumain(boolean humain) {
 		this.humain = humain;
 	}
+	// Fin de Section Getters-Setters
+	
 	
 	public boolean equals(Joueur j) {
-		return ((this.camps == j.camps) && this.nom.equals(j.nom) && this.humain == j.humain);
+			return ((this.camps == j.camps) && (this.nom.equals(j.nom)) && (this.humain == j.humain));
 	}
-	// Fin de Section Getters-Setters
+	
 }
