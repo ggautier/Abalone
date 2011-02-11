@@ -28,7 +28,7 @@ public class Partie {
 	 * 
 	 * @see Plateau
 	 */
-	private Plateau plateau;
+	public Plateau plateau;
 	/**
 	 * Les joueurs de la partie
 	 * 
