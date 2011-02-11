@@ -54,7 +54,12 @@ public class Partie {
 		this.j1 = new Joueur("J1", false, true);
 		this.j2 = new Joueur("J2", true, true);
 		this.plateau = new Plateau("./data/plateau/defaut.pl", j1, j2);
-
+	}
+	
+	public Partie(Joueur newJoueur1, Joueur newJoueur2, Plateau newPlateau) {
+		this.setJ1(newJoueur1);
+		this.setJ2(newJoueur2);
+		this.setPlateau(newPlateau);
 	}
 	
 	
