@@ -1,6 +1,9 @@
 import java.awt.Dimension;
 import java.util.Vector;
 
+import modele.Bille;
+
+
 public class Main {
 
 	/**

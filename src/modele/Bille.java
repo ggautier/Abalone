@@ -1,3 +1,7 @@
+package modele;
+
+
+
 /**
  * <b>Bille est la classe qui represente une bille durant une partie.</b>
  * <p>Une Bille est caracterisee par :
@@ -39,7 +43,7 @@ public class Bille {
 	 * @param player : le joueur auquel appartient la bille
 	 * 
 	 */
-	Bille(int newX, int newY, Joueur player) {
+	public Bille(int newX, int newY, Joueur player) {
 		this.coordX = newX;
 		this.coordY = newY;
 		this.joueur = player;

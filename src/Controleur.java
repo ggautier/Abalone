@@ -1,6 +1,11 @@
 import java.awt.Point;
 import java.util.Vector;
 
+import modele.Bille;
+import modele.Joueur;
+import modele.Partie;
+
+
 /**
  * <b>Controleur est la classe qui va mettre � jour les informations du mod�le, en respectant les r�gles du jeu.</b>
  * <p>

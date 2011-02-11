@@ -1,6 +1,9 @@
 import java.awt.*;
 import javax.swing.*;
 
+import modele.Bille;
+
+
 public class FenetrePlateau extends JPanel{
 
 	private JPanel	plateau;

@@ -1,3 +1,5 @@
+package modele;
+
 /**
  * <b>Partie est la classe regroupant toutes les information du modele sur la partie en cours.</b>
  * <p>
@@ -45,7 +47,7 @@ public class Partie {
 		this.joueurs[0] = j1;
 		this.joueurs[1] = j2;
 		
-		this.plateau = new Plateau("./data/plateau/defaut.pl", j1, j2);
+		this.plateau = new Plateau("./data/plateau/defaut.plt", j1, j2);
 
 	}
 	

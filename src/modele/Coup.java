@@ -1,3 +1,5 @@
+package modele;
+
 /**
  * <b>Coup est la classe qui regroupe toute la séquence de coup joués depuis le début de la partie.</b>
  * <p>

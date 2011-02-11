@@ -3,7 +3,7 @@
  * <p>
  * Un Controleur est caractérisé par les informations suivantes :
  * <ul>
- * <li>Un controleur, qui va solliciter le calcul du meilleur coup suivant la configuration de la partie à l'instant t.</li>
+ * <li>Un controleur qui va solliciter le calcul du meilleur coup suivant la configuration de la partie.</li>
  * </ul>
  * </p>
  * 
