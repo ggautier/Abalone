@@ -27,7 +27,6 @@ import controleur.Controleur;
 public class Partie {
 	
 	public Plateau plateau;
-	protected Controleur controleur;
 	protected Joueur j1, j2;
 
 	public Joueur getJ1() {
@@ -50,7 +49,7 @@ public class Partie {
 	}
 
 
-	public Partie() {
+	public Partie() throws Exception {
 		this.j1 = new Joueur("J1", false, true);
 		this.j2 = new Joueur("J2", true, true);
 		this.plateau = new Plateau("./data/plateau/defaut.pl", j1, j2);
@@ -60,15 +59,6 @@ public class Partie {
 		this.setJ1(newJoueur1);
 		this.setJ2(newJoueur2);
 		this.setPlateau(newPlateau);
-	}
-	
-	
-	public Controleur getControleur() {
-		return controleur;
-	}
-
-	public void setControleur(Controleur controleur) {
-		this.controleur = controleur;
 	}
 
 	public Plateau getPlateau() {
