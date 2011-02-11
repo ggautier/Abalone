@@ -1,3 +1,4 @@
+
 import java.awt.Dimension;
 import java.util.Vector;
 
@@ -5,14 +6,17 @@ import vue.FenetrePrincipale;
 
 import modele.Bille;
 
-
 public class Main {
+
 
 	/**
 	 * @param args
 	 */
 	/*
+>>>>>>> branch 'refs/heads/master' of https://QuentinGautier@github.com/ggautier/Abalone.git
 	public static void main(String[] args) {
+<<<<<<< HEAD
+=======
 		
 		Joueur joueur1 = new Joueur("Jean", false, true);
 		Joueur joueur2 = new Joueur("Jacques", true, true);
@@ -79,5 +83,4 @@ public class Main {
     	public final static int BAS_DROITE = 22;
 		*/
 	}
-	
 }
