@@ -31,15 +31,13 @@ public class FenetreOption extends JDialog implements ActionListener{
 	
 	
 	private JPanel 					panel, sousPanJ1, sousPanJ2 , panelBoutons;
-	private JButton					boutonOk;
-	private JTextField  			textFieldJ2 ;
 	private DefaultComboBoxModel	comboModel1, comboModel2;
 	private JComboBox				choixCouleur1, choixCouleur2;
 	private TitledBorder			title;
 	private FenetrePrincipale		fenetre;
 	
 	
-	public FenetreOption(String titre, JFrame fenetre)
+	public FenetreOption(String titre, FenetrePrincipale fenetre)
 	{	
 	JDialog dialog = new JDialog();
 	dialog.setSize(300, 200);
@@ -48,7 +46,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 	dialog.setAlwaysOnTop(true);
 	dialog.setContentPane(buildContentPane());
 	
-	this.fenetre = (FenetrePrincipale)fenetre;
+	this.fenetre = fenetre;
 
 	}
 	
