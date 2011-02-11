@@ -22,43 +22,77 @@ package modele;
 public class Joueur {
 
 	/**
-	 * Le nom du joueur contenu dans une chaine de caracteres.
+	 * <p>Le nom du joueur contenue dans une chaine de caractere.</p> 
 	 */
 	private String nom;
 	
 	/**
-	 * La "couleur" du joueur.<br>
-	 * Etant donne qu'Abalone se joue a deux joueurs,
-	 * cette information est stockee dans une variable booleenne.
+	 * <p>La "couleur" du joueur. Etant donne qu'Abalone se joue a 
+	 * deux joueurs, on peut stocker cette information dans une 
+	 * variable booleenne.</p>
 	 */
-	private boolean	couleur;
+	private boolean	camps;
 	
 	/**
-	 * Le score personnel du joueur.
+	 * <p>Le score personnel du joueur.</p> 
 	 */
 	private int score;
 	
 	/**
-	 * Indique si le joueur est humain ou non.
+	 * <p>La variable humain permet de gerer si un coup doit etre joue 
+	 * par un autre joueur, ou joue immediatement par la machine.</p> 
 	 */
 	private boolean humain;
+
+	private int r, g, b;
 	
-	/**
-	 * Constructeur de la classe Joueur
-	 * 
-	 * @param newNom : le nom du joueur
-	 * @param newCouleur : la couleur du joueur (couleur 1 ou 2)
-	 * @param newHumain : un booleen indiquant si le joueur est humain
-	 */
-	public Joueur(String newNom, boolean newCouleur, boolean newHumain) {
+	public Joueur(String newNom, boolean newCamps, boolean newHumain) {
 		this.setNom(newNom);
-		this.setCouleur(newCouleur);
+		this.setCamps(newCamps);
 		this.setHumain(newHumain);
+		
+		if(this.getCamps())
+		{
+			this.setR(255);
+			this.setG(255);
+			this.setB(255);
+		}
+		else
+		{
+			this.setR(0);
+			this.setG(0);
+			this.setB(0);
+		}
+	}
+	
+	// Section Getters-Setters
+	
+	public int getR() {
+		return r;
+	}
+
+	public void setR(int r) {
+		this.r = r;
+	}
+
+	public int getG() {
+		return g;
+	}
+
+	public void setG(int g) {
+		this.g = g;
+	}
+
+	public int getB() {
+		return b;
+	}
+
+	public void setB(int b) {
+		this.b = b;
 	}
 	
 	/**
-	 * Renvoie le nom du joueur.
-	 * 
+	 * Retourne le nom du joueur dans une chaine de caracteres.
      * @return Le nom du joueur. 
      */
 	public String getNom() {
@@ -66,35 +100,33 @@ public class Joueur {
 	}
 	
 	/**
-     * Modifie le nom du joueur.
-     * 
-     * @param nom : le nouveau nom du joueur.
+     * Change le nom du joueur.
+     * @param nom
+     *            Le nouveau nom du joueur.
      */
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
 	
 	/**
-	 * Renvoie la couleur du joueur.
-	 * 
-     * @return Le couleur du joueur. 
+	 * Retourne la valeur binaire du joueur.
+     * @return Le camps du joueur. 
      */
-	public boolean getCouleur() {
-		return couleur;
+	public boolean getCamps() {
+		return camps;
 	}
 	
 	/**
-     * Modifie la couleur du joueur.
-     * 
-     * @param couleur : la nouvelle couleur du joueur.
+     * Change la valeur binaire du camp du joueur.
+     * @param couleur
+     *            Le nouveau camp du joueur.
      */
-	public void setCouleur(boolean couleur) {
-		this.couleur = couleur;
+	public void setCamps(boolean camps) {
+		this.camps = camps;
 	}
 	
 	/**
-	 * Renvoie le score du joueur.
-	 * 
+	 * Retourne la valeur du score du joueur.
      * @return Le score du joueur. 
      */
 	public int getScore() {
@@ -102,43 +134,33 @@ public class Joueur {
 	}
 	
 	/**
-     * Modifie le score du joueur.
-     * 
-     * @param score : le nouveau score du joueur.
+     * Impose une nouvelle valeur du score pour le joueur.
+     * @param score
+     *            Le nouveau score du joueur.
      */
 	public void setScore(int score) {
 		this.score = score;
 	}
 	
 	/**
-	 * Indique si le joueur est humain ou non.
-	 * 
-     * @return Le booleen indiquant si le joueur est  humain ou non. 
+	 * Retourne une valeur indiaquant si le joueur est humain, ou non.
+     * @return Le booleen indiquant un joueur humain, ou non. 
      */
 	public boolean isHumain() {
 		return humain;
 	}
 	
 	/**
-     * Modifie le marqueur de gestion du joueur.
-     * @param humain : le nouveau marqueur de gestion du joueur.<br>True si le joueur est humain.
+     * Change le degre "d'humanite" d'un joueur.
+     * @param humain
+     *            Le nouveau niveau "d'humanite" du joueur.
      */
 	public void setHumain(boolean humain) {
 		this.humain = humain;
 	}
 	
-	/**
-	 * Test d'egalite entre deux joueurs.
-	 * 
-	 * @param joueur
-	 * @return
-	 * 		<ul>
-	 * 			<li>True si les 2 joueurs sont egaux,</li>
-	 * 			<li>False sinon.</li>
-	 * 		</ul>
-	 */
-	public boolean equals(Joueur joueur) {
-		return (this.couleur == joueur.couleur);
+	public boolean equals(Joueur j) {
+		return ((this.camps == j.camps) && this.nom.equals(j.nom) && this.humain == j.humain);
 	}
 	// Fin de Section Getters-Setters
 }

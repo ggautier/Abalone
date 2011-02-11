@@ -1,3 +1,4 @@
+package vue;
 /**
  * <b>FenetrePrincipale est la classe principale de la vue, qui permet l'affichage de la fenêtre de jeu.</b>
  * <p>
@@ -24,6 +25,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+
+
+import controleur.Controleur;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.BufferedWriter;

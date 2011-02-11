@@ -1,5 +1,9 @@
+package controleur;
+
 import java.awt.Point;
 import java.util.Vector;
+
+import vue.FenetrePrincipale;
 
 import modele.Bille;
 import modele.Joueur;

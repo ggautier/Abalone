@@ -1,6 +1,8 @@
 import java.awt.Dimension;
 import java.util.Vector;
 
+import vue.FenetrePrincipale;
+
 import modele.Bille;
 
 

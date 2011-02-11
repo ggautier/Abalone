@@ -1,5 +1,8 @@
+package vue;
+
 import java.awt.*;
 import javax.swing.*;
+
 
 import modele.Bille;
 

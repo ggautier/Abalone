@@ -1,3 +1,4 @@
+package vue;
 import java.awt.*;
 
 import javax.swing.*;

@@ -1,3 +1,5 @@
+package controleur;
+
 /**
  * <b>ControleurIA est la classe qui va générer le .</b>
  * <p>

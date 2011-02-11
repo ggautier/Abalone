@@ -1,3 +1,4 @@
+package vue;
 /**
  * <b>FenetreOption est la classe permettant l'affichage d'une fenetre subalterne de modification des options de jeu.</b>
  * <p>
@@ -16,6 +17,7 @@
  * 
  * @version 1.0
  */
+
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

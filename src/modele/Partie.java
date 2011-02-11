@@ -1,13 +1,15 @@
 package modele;
 
+import controleur.Controleur;
+
 /**
  * <b>Partie est la classe regroupant toutes les information du modele sur la partie en cours.</b>
  * <p>
  * Une partie est caracterisee par les informations suivantes :
  * <ul>
- * <li>Deux joueurs dont un qui peut etre l'ordinateur lui-meme.</li>
- * <li>Un plateau representant le plateau de jeu et ses cases.</li>
- * <li>Des coups qui representent la sequence de coups joues depuis le debut de la partie.</li>
+ * <li>Deux joueurs, dont un peut etre l'ordinateur lui-meme.</li>
+ * <li>Un plateau, representant le plateau de jeu, et ses cases.</li>
+ * <li>Des coups, qui representent la sequence de coup joues depuis le debut de la partie.</li>
  * </ul>
  * </p>
  * 
@@ -23,74 +25,54 @@ package modele;
  * @version 1.0
  */
 public class Partie {
-	/**
-	 * Le plateau associe a la partie.
-	 * 
-	 * @see Plateau
-	 */
+	
 	public Plateau plateau;
-	/**
-	 * Les joueurs de la partie
-	 * 
-	 * @see Joueur
-	 */
-	private Joueur[] joueurs;
+	protected Controleur controleur;
+	protected Joueur j1, j2;
 
-	/**
-	 * Constructeur de la classe Partie
-	 */
+	public Joueur getJ1() {
+		return j1;
+	}
+
+
+	public void setJ1(Joueur j1) {
+		this.j1 = j1;
+	}
+
+
+	public Joueur getJ2() {
+		return j2;
+	}
+
+
+	public void setJ2(Joueur j2) {
+		this.j2 = j2;
+	}
+
+
 	public Partie() {
-		Joueur j1 = new Joueur("J1", false, true);
-		Joueur j2 = new Joueur("J2", true, true);
-		
-		this.joueurs = new Joueur[2];
-		this.joueurs[0] = j1;
-		this.joueurs[1] = j2;
-		
-		this.plateau = new Plateau("./data/plateau/defaut.plt", j1, j2);
+		this.j1 = new Joueur("J1", false, true);
+		this.j2 = new Joueur("J2", true, true);
+		this.plateau = new Plateau("./data/plateau/defaut.pl", j1, j2);
 
 	}
 	
-	/**
-	 * Renvoie le plateau associe a la partie
-	 * 
-	 * @return Le plateau associe a la partie
-	 * @see Plateau
-	 */
+	
+	public Controleur getControleur() {
+		return controleur;
+	}
+
+	public void setControleur(Controleur controleur) {
+		this.controleur = controleur;
+	}
+
 	public Plateau getPlateau() {
 		return plateau;
 	}
-	
-	/**
-	 * Renvoie un tableau des 2 joueurs de la partie
-	 * 
-	 * @return Les 2 joueurs de la partie dans un tableau
-	 * @see Joueur
-	 */
-	public Joueur[] getJoueurs() {
-		return joueurs;
+
+	public void setPlateau(Plateau plateau) {
+		this.plateau = plateau;
 	}
 	
-	/**
-	 * Modifie le plateau associe a la partie
-	 * 
-	 * @param plateau : le nouveau plateau
-	 * @see Plateau
-	 */
-	private void setPlateau(Plateau newPlateau) {
-		this.plateau = newPlateau;
-	}
-	
-	/**
-	 * Modifie les joueurs de la partie
-	 * 
-	 * @param newJoueur1
-	 * @param newJoueur2
-	 * 
-	 * @see Joueur
-	 */
-	private void setJoueurs(Joueur newJoueur1, Joueur newJoueur2) {
-		this.joueurs[0] = newJoueur1;
-		this.joueurs[1] = newJoueur2;
-	}
+
 }
