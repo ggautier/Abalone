@@ -72,6 +72,10 @@ public class Plateau {
 	 */
 	public void setBille(int ligne, int colonne, Bille newBille) {
 		this.plateau[ligne][colonne] = newBille;
+		if (newBille != null) {
+			newBille.setX(ligne);
+			newBille.setY(colonne);
+		}
 		//System.out.println("Placement d'une bille en "+ligne+"-"+colonne);
 	}
 	

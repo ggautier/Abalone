@@ -552,8 +552,10 @@ public class Controleur {
 	
 	public boolean action(Vector<Bille> v, int dir) {
 		if (deplacementPossible(v,dir)) {
-			for(int i=0; i < v.size(); i++)
-				deplacerBille(v.get(i),dir);
+			for(int i=0; i < visees.size(); i++)
+				deplacerBille(visees.get(0).get(i),dir);
+			for(int j=0; j < v.size(); j++)
+				deplacerBille(v.get(j),dir);
 		}
 		return true;
 	}
@@ -564,21 +566,25 @@ public class Controleur {
 			for(int i=0; i < selectionnees.size(); i++)
 				deplacerBille(selectionnees.get(i),dir);
 		}
+		this.selectionnees.clear();
+		this.visees.clear();
+		this.coups.clear();
 		return true;
 	}
 	
 	// Methode utilisee pour deplacer la Bille. Ne pas appeller directement (passer par "action")
 	public boolean deplacerBille(Bille b, int dir) {
 		Bille billeTemp = b;
-		Point pTemp = voisineP(b, dir, 1);
+		Point pOld = new Point(b.getX(),b.getY()); // Coordonnees de la Bille avant deplacement
+		Point pTemp = voisineP(b, dir, 1); // Coordonnees apres deplacement
 
 		if (billeTemp != null) {	// Si la case n'est pas vide
-			partie.getPlateau().setBille(billeTemp.getX(), billeTemp.getY(), null);
 			partie.getPlateau().setBille((int) pTemp.getX(), (int) pTemp.getY(), billeTemp);
-			if (isOut(billeTemp.getX(),billeTemp.getY())) { // Si la Bille est perdue
-				billeTemp.getJoueur().setScore(billeTemp.getJoueur().getScore()-1); // Le proprio de la Bille baisse son score.
+			partie.getPlateau().setBille((int) pOld.getX(), (int)pOld.getY(), null);
+			if (isOut((int) pTemp.getX(),(int) pTemp.getY())) { // Si la Bille est perdue
+				partie.getPlateau().getBille((int) pTemp.getX(),(int) pTemp.getY()).getJoueur().setScore(billeTemp.getJoueur().getScore()-1); // Le proprio de la Bille baisse son score.
 				// Il faudrait pouvoir recuperer l'adversaire, a partir d'un joueur, afin de monter le score de l'adversaire.
-				billeTemp = null;
+				partie.getPlateau().setBille((int) pTemp.getX(), (int)pTemp.getY(), null);
 			}
 		}
 		

@@ -64,6 +64,7 @@ public class Main {
         f.getControleur().selectionner(6, 5);
         f.getControleur().selectionner(6, 4);
         f.getControleur().action(12);
+        //f.getControleur().selectionner(0,0);
         
         f.setVisible(true);
         
