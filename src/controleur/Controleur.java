@@ -8,6 +8,7 @@ import vue.FenetrePrincipale;
 import modele.Bille;
 import modele.Joueur;
 import modele.Partie;
+import modele.Plateau;
 
 
 /**
@@ -54,9 +55,16 @@ public class Controleur {
 	public final static int HG_BD = 11;
 	public final static int HD_BG = 10;
 	
-	public Controleur()
+	public Controleur(FenetrePrincipale fen) throws Exception
 	{
-		this.partie = new Partie();
+		this.fenetrePrincipale = fen;
+		/*
+		 * Temporaire
+		*/ 
+		 Joueur j1 = new Joueur("joueur1", true, true);
+		 Joueur j2 = new Joueur("joueur2", false, true);
+		////
+		this.partie = new Partie(j1,j2, new Plateau("./data/plateau/defaut.plt", j1, j2));
 		this.selectionnees = new Vector<Bille>(3);
 		this.visees = new Vector<Vector<Bille>>(2);
 		this.coups = new Vector<Integer>(6);

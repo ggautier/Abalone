@@ -52,11 +52,11 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 	
 	private Color colorJ1, colorJ2;
 	
-	public FenetrePrincipale(String titre) 
+	public FenetrePrincipale(String titre) throws Exception 
 	{
 		//Héritage du builder de la super classe JFrame
 		super(titre);
-		this.controleur = new Controleur();
+		this.controleur = new Controleur(this);
 			
 		//Rendre la fenetre fermable et re-dimensionnable
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -11,6 +11,7 @@ public class Main {
 
 	/**
 	 * @param args
+	 * @throws Exception 
 	 */
 	/*
 >>>>>>> branch 'refs/heads/master' of https://QuentinGautier@github.com/ggautier/Abalone.git
@@ -31,7 +32,7 @@ public class Main {
 	
 	// Maxime : Main secondaire, que j'utilise pour faire des tests. Ne pas supprimer (sorry si j'ai oublie de commenter)
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		/*
 		Controleur controleur = new Controleur();
 		Joueur j1 = new Joueur("J1", false, true);

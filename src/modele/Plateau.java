@@ -30,9 +30,9 @@ public class Plateau {
 	/**
 	 * Le plateau en tant que tel.
 	 */
-	private Bille[][] plateau;
+	protected Bille[][] plateau;
 	
-	public Partie partie; // A supprimer
+	protected Partie partie; // A supprimer
 	
 	/**
 	 * Constructeur de la classe PLateau
@@ -70,10 +70,11 @@ public class Plateau {
 	 * 
 	 * @see Bille
 	 */
-	private void setBille(int ligne, int colonne, Bille newBille) {
+	public void setBille(int ligne, int colonne, Bille newBille) {
 		this.plateau[ligne][colonne] = newBille;
 		//System.out.println("Placement d'une bille en "+ligne+"-"+colonne);
 	}
+	
 	
 	/**
 	 * Remplit le plateau a partir d'un fichier de configuration.
@@ -211,6 +212,22 @@ public class Plateau {
 		}
 		
 
+	}
+
+	public Bille[][] getPlateau() {
+		return plateau;
+	}
+
+	public void setPlateau(Bille[][] plateau) {
+		this.plateau = plateau;
+	}
+
+	public Partie getPartie() {
+		return partie;
+	}
+
+	public void setPartie(Partie partie) {
+		this.partie = partie;
 	}
 	
 	/*
