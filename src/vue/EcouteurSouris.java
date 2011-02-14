@@ -22,10 +22,10 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
     	// Soit la fenetre n'est pas redimensionnable, donc on met des donnees brutes,
     	// sinon on met des variables.
     	 System.out.println(fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()));
-    	 Point pointee = fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint());
-    	 fenetre.getPrincipale().getControleur().selectionner(pointee);
+    	 Point pointee = fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()); // Retourne la case Pointee par la souris.
+    	 fenetre.getPrincipale().getControleur().selectionner(pointee); // Selectionne la Bille pointee par la souris
     	 
-    	 if (fenetre.getPrincipale().getControleur().isDeplacementVise(pointee))
+    	 if (fenetre.getPrincipale().getControleur().isDeplacementVise(pointee)) // Si la case pointee correspond a un deplacement
     		 fenetre.getPrincipale().getControleur().action(fenetre.getPrincipale().getControleur().getDeplacementVise());
     	 fenetre.repaint();
     }
@@ -36,12 +36,13 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
      
      public void mouseMoved(MouseEvent e) {
     	 //fenetre.getPrincipale().getControleur().setPointee(new Bille(null,null,null));
-    	 System.out.println(fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()));
     	 Point pointee = fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint());
-    	 if (!fenetre.getPrincipale().getControleur().isOut((int)pointee.getX(), (int)pointee.getY()))
-    		 fenetre.getPrincipale().getControleur().setPointee(pointee);
     	 
- 		 this.fenetre.getPrincipale().getControleur().majDeplacementVise(pointee);
+    	 
+    	 if (!fenetre.getPrincipale().getControleur().isOut((int)pointee.getX(), (int)pointee.getY())) // Si la case existe
+    		 fenetre.getPrincipale().getControleur().setPointee(pointee); // On pointe
+    	 
+ 		 this.fenetre.getPrincipale().getControleur().majDeplacementVise(pointee); // Mise a jour du deplacement pointe.
 
     	 fenetre.repaint();
       }

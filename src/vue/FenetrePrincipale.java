@@ -99,7 +99,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         plateau = new FenetrePlateau(this);
         
         //init de commande
-        commande = new FenetreCommande();
+        commande = new FenetreCommande(this);
                 
         //init d'info, contenant les scores, tour en cours, ...
         info = new FenetreInfo();
@@ -120,6 +120,12 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 	void refreshPlateau(int[][] tab)
 	{
 		
+	}
+	
+	public void rafraichir() {
+		this.commande.repaint();
+		this.commande.revalidate();
+		this.commande.repaint();
 	}
 	
 	void donnerContrainte(GridBagConstraints gbc, int gx, int gy, int gw, int gh, int wx, int wy)

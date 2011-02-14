@@ -74,12 +74,12 @@ public class Controleur {
 		this.selectionnees = new Vector<Bille>(3);
 		this.visees = new Vector<Vector<Bille>>(2);
 		this.coups = new Vector<Integer>(6);
-		this.deplacementVise = 0;
+		this.deplacementVise = -1;
 	}
 	
 	// Retourne le nombre de coups pour lesquels une Case est cible.
 	public int nbNext(Point p) {
-		int dir = 0;
+		int dir = -1;
 		int retour = 0;
 		
 		for (int j=0; j < coups.size(); j++) {
@@ -87,7 +87,7 @@ public class Controleur {
 			for (int i=0; i < selectionnees.size(); i++)
 				if (voisineP(selectionnees.get(i),dir,1).equals(p))
 						retour++;
-					;
+					
 		}
 		
 		return retour;
@@ -95,8 +95,8 @@ public class Controleur {
 	
 	// Normalement inutile
 	public int nextCoup(Point p) {
-		int dir = 0;
-		int retour = 0;
+		int dir = -1;
+		int retour = -1;
 		
 		for (int j=0; j < coups.size(); j++) {
 			dir = coups.get(j);
@@ -110,16 +110,27 @@ public class Controleur {
 	}
 	
 	public void majDeplacementVise(Point p) {
-		this.deplacementVise = 0;
-		int dir = 0;
+		this.deplacementVise = -1;
+		int dir = -1;
+		System.out.print("maj : ");
 		
 		for (int j=0; j < coups.size(); j++) {
 			dir = coups.get(j);
 			for (int i=0; i < selectionnees.size(); i++)
-				if (nbNext(new Point(selectionnees.get(i).getX(),selectionnees.get(i).getY())) == 1)
-					if (voisineP(selectionnees.get(i),dir,1).equals(p))
+				if (nbNext(new Point(selectionnees.get(i).getX(),selectionnees.get(i).getY())) >= 0) {
+					if (voisineP(selectionnees.get(i),dir,1).equals(p)) {
 						this.deplacementVise = coups.get(j);
-					;
+						System.out.println("Visee !");
+					} 
+					else
+						System.out.println("eesiV !");
+				}
+				else
+					System.out.println("Txen ("+(nbNext(new Point(selectionnees.get(i).getX(),selectionnees.get(i).getY())))+")");
+			
+			
+		
+						
 		}
 		
 	}
@@ -233,7 +244,7 @@ public class Controleur {
 				///// On remet a jour les coups possibles etc ...
 				visees.clear();
 				coups.clear();
-				genererCoups();
+				this.genererCoups();
 				///////
 			}
 
@@ -377,7 +388,7 @@ public class Controleur {
 	// (normalement inutile, voir la version plus bas)
 	public Vector<Bille> genererCoups(Vector<Bille> v) {
 		visees.clear();
-		int axe = 0;
+		int axe = -1;
 		Bille billeTemp;
 		if (v.size() > 2) // Si au moins deux billes
 			axe = getAxe(v.get(0),v.get(1));
@@ -409,31 +420,31 @@ public class Controleur {
 	//  - Billes adverses qui seront poussees suite au deplacement
 	public Vector<Bille> genererCoups() { // Celui la sera utilise
 		visees.clear();
-		int axe = 0;
-		Bille billeTemp;
-		if (selectionnees.size() >= 2) // Si au moins deux billes
+		int axe = -1;
+		//Bille billeTemp;
+		if (selectionnees.size() >= 2) {// Si au moins deux billes
 			axe = getAxe(selectionnees.get(0),selectionnees.get(1));
 		
-		System.out.println("Axe : "+axe);
-		switch (axe) {
-		case GD:
-			getAdversairesPoussables(selectionnees,GAUCHE);
-			getAdversairesPoussables(selectionnees,DROITE);
-			break;
-		case HG_BD:
-			getAdversairesPoussables(selectionnees,HAUT_GAUCHE);
-			getAdversairesPoussables(selectionnees,BAS_DROITE);
-			break;
-		
-		case HD_BG:
-			getAdversairesPoussables(selectionnees,HAUT_DROITE);
-			getAdversairesPoussables(selectionnees,BAS_GAUCHE);
-			break;
+			System.out.println("Axe : "+axe);
+			switch (axe) {
+			case GD:
+				getAdversairesPoussables(selectionnees,GAUCHE);
+				getAdversairesPoussables(selectionnees,DROITE);
+				break;
+			case HG_BD:
+				getAdversairesPoussables(selectionnees,HAUT_GAUCHE);
+				getAdversairesPoussables(selectionnees,BAS_DROITE);
+				break;
 			
-		default:
-			break;
+			case HD_BG:
+				getAdversairesPoussables(selectionnees,HAUT_DROITE);
+				getAdversairesPoussables(selectionnees,BAS_GAUCHE);
+				break;
+				
+			default:
+				break;
+			}
 		}
-		
 		deplacementPossible(selectionnees,GAUCHE);
 		deplacementPossible(selectionnees,DROITE);
 		deplacementPossible(selectionnees,HAUT_GAUCHE);
@@ -543,7 +554,7 @@ public class Controleur {
 	
 	// Determine si un deplacement lateral ou en ligne et possible dans une direction donnee.
 	public boolean deplacementPossible(Vector<Bille> v, int dir)  {
-		int axe = 0;
+		int axe = -1;
 		boolean possible = false;
 		int proxyVide = 0;
 		if (!v.isEmpty()) { // Si le vecteur n'est pas vide
@@ -575,7 +586,7 @@ public class Controleur {
 	
 	// On a 6 directions, et trois axes possibles. Methode utilitaire permettant de convertir direction en axe.
 	public int dir2axe(int dir) {
-		int axe = 0;
+		int axe = -1;
 		
 		switch(dir) {
 		case 10:
@@ -604,20 +615,51 @@ public class Controleur {
 				deplacerBille(visees.get(0).get(i),dir);
 			for(int j=0; j < v.size(); j++)
 				deplacerBille(v.get(j),dir);
+			
+			partie.nextTurn();
 		}
 		return true;
 	}
 	
 	// Deplacement des Billes selectionnees : Si le deplacement vers la direction "dir" est possible, elle s'effectue.
 	public boolean action(int dir) {
+		Bille billeTemp;
 		if (deplacementPossible(selectionnees,dir)) {
-			for(int i=0; i < selectionnees.size(); i++)
-				deplacerBille(selectionnees.get(i),dir);
+			Vector<Bille> ennemies = getVisees(dir);
+			System.out.println("Ennemies : "+ennemies.size());
+			while(!ennemies.isEmpty())  {
+				billeTemp = getTete(ennemies,dir);
+				deplacerBille(billeTemp,dir);
+				ennemies.remove(billeTemp);
+			}
+			
+			while(!selectionnees.isEmpty())  {
+				billeTemp = getTete(selectionnees,dir);
+				deplacerBille(billeTemp,dir);
+				selectionnees.remove(billeTemp);
+			}
+			
+			System.out.println("Alliees : "+selectionnees.size());
+
+			partie.nextTurn();
+
 		}
 		this.selectionnees.clear();
 		this.visees.clear();
 		this.coups.clear();
+		this.deplacementVise = -1;
+		
 		return true;
+	}
+	
+	public Vector<Bille> getVisees(int dir) {
+		Vector<Bille> retour = new Vector<Bille>(2);
+		for (int i=0; i < this.visees.size(); i++)
+			for (int j=0; j < this.visees.get(i).size(); j++)
+				if (visees.get(i).get(j).equals(voisine(getTete(selectionnees,dir),dir,1)))
+					retour = visees.get(i);
+			
+		return retour;
 	}
 	
 	// Methode utilisee pour deplacer la Bille. Ne pas appeller directement (passer par "action")
@@ -627,13 +669,19 @@ public class Controleur {
 		Point pTemp = voisineP(b, dir, 1); // Coordonnees apres deplacement
 
 		if (billeTemp != null) {	// Si la case n'est pas vide
-			partie.getPlateau().setBille((int) pTemp.getX(), (int) pTemp.getY(), billeTemp);
-			partie.getPlateau().setBille((int) pOld.getX(), (int)pOld.getY(), null);
-			if (isOut((int) pTemp.getX(),(int) pTemp.getY())) { // Si la Bille est perdue
-				partie.getPlateau().getBille((int) pTemp.getX(),(int) pTemp.getY()).getJoueur().setScore(billeTemp.getJoueur().getScore()-1); // Le proprio de la Bille baisse son score.
-				// Il faudrait pouvoir recuperer l'adversaire, a partir d'un joueur, afin de monter le score de l'adversaire.
-				partie.getPlateau().setBille((int) pTemp.getX(), (int)pTemp.getY(), null);
+			if (!isOut((int) pTemp.getX(), (int) pTemp.getY())) {
+				partie.getPlateau().setBille((int) pTemp.getX(), (int) pTemp.getY(), billeTemp);
+				partie.getPlateau().setBille((int) pOld.getX() , (int) pOld.getY() , null);
+
 			}
+			else { // Si la Bille en question est sortie ...
+				if (!b.getJoueur().equals(partie.getJCourant()))
+					partie.getJCourant().setScore(partie.getJCourant().getScore()+1); // Le proprio de la Bille baisse son score.
+				else
+					partie.getJCourant().setScore(partie.getJCourant().getScore()-1);
+				this.fenetrePrincipale.rafraichir();
+			}
+	
 		}
 		
 		return true;
@@ -647,7 +695,7 @@ public class Controleur {
 	}
 
 	public void setPointee(Bille pointee) {
-		if(pointee != null) {
+		if(pointee != null && selectionnees.size() < 3) {
 			if(pointee.getJoueur().equals(partie.getJCourant()))
 				this.pointee = pointee;
 			else 
@@ -671,8 +719,6 @@ public class Controleur {
 			if (voisineP(selectionnees.get(i),this.deplacementVise,1).equals(p))
 					retour = true;
 			
-		
-		
 		return retour;
 	}
 
