@@ -38,6 +38,7 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
     	 //fenetre.getPrincipale().getControleur().setPointee(new Bille(null,null,null));
     	 Point pointee = fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint());
     	 
+    
     	 
     	 if (!fenetre.getPrincipale().getControleur().isOut((int)pointee.getX(), (int)pointee.getY())) // Si la case existe
     		 fenetre.getPrincipale().getControleur().setPointee(pointee); // On pointe
