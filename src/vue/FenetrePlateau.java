@@ -17,9 +17,9 @@ public class FenetrePlateau extends JPanel{
 		this.principale = princ;
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        this.addMouseListener(new EcouteurSouris(this));
-
-        
+        EcouteurSouris ecouteurSouris = new EcouteurSouris(this);
+        this.addMouseListener(ecouteurSouris);   
+        this.addMouseMotionListener(ecouteurSouris);
    	}
 	
     public void paintComponent(Graphics g){
@@ -64,16 +64,23 @@ public class FenetrePlateau extends JPanel{
         		 if (!principale.getControleur().isOut(i, j))
         			 g.fillOval(decalage+j*45, i*40, 40, 40);
         		 
+
+
+        		 if (principale.getControleur().isVisee((principale.getControleur().getPartie().getPlateau().getBille(i,j)))) {
+        			g.setColor(Color.RED);
+    			 	g.drawOval(decalage+j*45, i*40, 40, 40);
+        		 }
+        		 if ( (principale.getControleur().getPointee().getY() == j) && (principale.getControleur().getPointee().getX() == i) ) {
+           			g.setColor(Color.PINK);
+      			 	g.drawOval(decalage+j*45, i*40, 40, 40);
+         		 }
+        		 
         		 if (principale.getControleur().isSelectionnee(principale.getControleur().getPartie().getPlateau().getBille(i,j))) {
         			 g.setColor(Color.BLUE);
         			 g.drawOval(decalage+j*45, i*40, 40, 40);
         		 }
-        		 else if (principale.getControleur().isVisee((principale.getControleur().getPartie().getPlateau().getBille(i,j)))) {
-        			g.setColor(Color.RED);
-    			 	g.drawOval(decalage+j*45, i*40, 40, 40);
-        		 }
-        		 if (principale.getControleur().isNext(new Point(i,j))) {
-         			g.setColor(Color.RED);
+        		 else if (principale.getControleur().isNext(new Point(i,j))) {
+         			g.setColor(Color.GREEN);
      			 	g.drawOval(decalage+j*45, i*40, 40, 40);
          		 }
 
