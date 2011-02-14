@@ -103,98 +103,102 @@ public class Controleur {
 	// Selectionne une Bille a partir de coordonnees.
 	public boolean selectionner(int i, int j) {
 		
+		
 		Bille billeTemp = partie.getPlateau().getBille(i, j); // On recupere la Bille pointee.
 		if (billeTemp != null) { // S'il y a effectivement une Bille dans cette case
-			if (isSelectionnee(billeTemp)) { // Si ele est selectionnees ...
-				if (selectionnees.size() > 2) { // ... et qu'il y en a 2 autres qui le sont.
-					boolean milieu = false;
-					int axe = getAxe(this.selectionnees.get(0),this.selectionnees.get(1)); // On recup l'axe
-
-					///// La on determine si la bille est au milieu de la file de selection
-					switch (axe) {
-					case GD:
-						milieu = (!billeTemp.equals(getTete(selectionnees,GAUCHE)) &&
-								 !billeTemp.equals(getTete(selectionnees,DROITE)))
-						;
-						break;
-					case HG_BD:
-						milieu = (!billeTemp.equals(getTete(selectionnees,HAUT_GAUCHE)) &&
-								 !billeTemp.equals(getTete(selectionnees,BAS_DROITE)))
-						;
-						break;
-					
-					case HD_BG:
-						milieu = (!billeTemp.equals(getTete(selectionnees,HAUT_DROITE))) &&
-								 !billeTemp.equals(getTete(selectionnees,BAS_GAUCHE))
-						;
-					////
+			if (billeTemp.getJoueur().equals(this.partie.getJCourant())) {
+				if (isSelectionnee(billeTemp)) { // Si ele est selectionnees ...
+					if (selectionnees.size() > 2) { // ... et qu'il y en a 2 autres qui le sont.
+						boolean milieu = false;
+						int axe = getAxe(this.selectionnees.get(0),this.selectionnees.get(1)); // On recupere l'axe
+	
+						///// La on determine si la bille est au milieu de la file de selection
+						switch (axe) {
+						case GD:
+							milieu = (!billeTemp.equals(getTete(selectionnees,GAUCHE)) &&
+									 !billeTemp.equals(getTete(selectionnees,DROITE)))
+							;
+							break;
+						case HG_BD:
+							milieu = (!billeTemp.equals(getTete(selectionnees,HAUT_GAUCHE)) &&
+									 !billeTemp.equals(getTete(selectionnees,BAS_DROITE)))
+							;
+							break;
 						
-					default:
-						break;
-					}
-					
-					if (!milieu) // Si la Bille n'est pas au milieu et qu'elle est deja selectionnee ..
-						selectionnees.remove(billeTemp); // .. alors on la deselectionne
-				}
-				else // Si moins de 3 Billes sont selectionnes, alors on deselectionne la Bille si elle est deja selectionnee.
-					selectionnees.remove(billeTemp);
-
-
-			} 
-			else { // SI LA BILLE N'EST PAS DEJA SELECTIONNEE
-				if (this.selectionnees.size() == 1) { // S'il y a deja une Bille selectionnee
-					Vector<Bille> voisines = billeAlentours(billeTemp); // On regarde si la Bille qu'on veut selectionner est a cote.
-					boolean aCote = false;
-					for (int z = 0; z<voisines.size(); z++)
-						if (isSelectionnee(voisines.get(z)))
-							aCote = true;
-					
-					if (!aCote) // Si la Bille qu'on veut selectionner n'est pas a cote d'une Bille deja selectionnee ...
-						selectionnees = new Vector<Bille>(3); // ... alors on deselectionne toutes les Billes avant de selectionner la nouvelle
-								
-				}
-				else if (this.selectionnees.size() == 2) { // Si deux Billes sont deja selectionnees.
-					int axe = getAxe(this.selectionnees.get(0),this.selectionnees.get(1));
-					 // ... meme principe, sauf qu'on veut que la Bille qu'on selectionne soit dans le meme axe que celle deja selectionnees
-					boolean inAxe = false;
-					
-					switch (axe) {
-					case GD:
-						inAxe = (billeTemp.equals(voisine(getTete(selectionnees,GAUCHE),GAUCHE,1)) ||
-								 billeTemp.equals(voisine(getTete(selectionnees,DROITE),DROITE,1)))
-						;
-						break;
-					case HG_BD:
-						inAxe = (billeTemp.equals(voisine(getTete(selectionnees,HAUT_GAUCHE),HAUT_GAUCHE,1)) ||
-								 billeTemp.equals(voisine(getTete(selectionnees,BAS_DROITE),BAS_DROITE,1)))
-						;
-						break;
-					
-					case HD_BG:
-						inAxe = (billeTemp.equals(voisine(getTete(selectionnees,HAUT_DROITE),HAUT_DROITE,1)) ||
-								 billeTemp.equals(voisine(getTete(selectionnees,BAS_GAUCHE),BAS_GAUCHE,1)))
-						;
-						break;
+						case HD_BG:
+							milieu = (!billeTemp.equals(getTete(selectionnees,HAUT_DROITE))) &&
+									 !billeTemp.equals(getTete(selectionnees,BAS_GAUCHE))
+							;
+						////
+							
+						default:
+							break;
+						}
 						
-					default:
-						break;
+						if (!milieu) // Si la Bille n'est pas au milieu et qu'elle est deja selectionnee ..
+							selectionnees.remove(billeTemp); // .. alors on la deselectionne
 					}
-					
-					if(!inAxe)
-						selectionnees = new Vector<Bille>(3);
-								
+					else // Si moins de 3 Billes sont selectionnes, alors on deselectionne la Bille si elle est deja selectionnee.
+						selectionnees.remove(billeTemp);
+	
+	
+				} 
+				else { // SI LA BILLE N'EST PAS DEJA SELECTIONNEE
+					if (this.selectionnees.size() == 1) { // S'il y a deja une Bille selectionnee
+						Vector<Bille> voisines = billeAlentours(billeTemp); // On regarde si la Bille qu'on veut selectionner est a cote.
+						boolean aCote = false;
+						for (int z = 0; z<voisines.size(); z++)
+							if (isSelectionnee(voisines.get(z)))
+								aCote = true;
+						
+						if (!aCote) // Si la Bille qu'on veut selectionner n'est pas a cote d'une Bille deja selectionnee ...
+							selectionnees = new Vector<Bille>(3); // ... alors on deselectionne toutes les Billes avant de selectionner la nouvelle
+									
+					}
+					else if (this.selectionnees.size() == 2) { // Si deux Billes sont deja selectionnees.
+						int axe = getAxe(this.selectionnees.get(0),this.selectionnees.get(1));
+						 // ... meme principe, sauf qu'on veut que la Bille qu'on selectionne soit dans le meme axe que celle deja selectionnees
+						boolean inAxe = false;
+						
+						switch (axe) {
+						case GD:
+							inAxe = (billeTemp.equals(voisine(getTete(selectionnees,GAUCHE),GAUCHE,1)) ||
+									 billeTemp.equals(voisine(getTete(selectionnees,DROITE),DROITE,1)))
+							;
+							break;
+						case HG_BD:
+							inAxe = (billeTemp.equals(voisine(getTete(selectionnees,HAUT_GAUCHE),HAUT_GAUCHE,1)) ||
+									 billeTemp.equals(voisine(getTete(selectionnees,BAS_DROITE),BAS_DROITE,1)))
+							;
+							break;
+						
+						case HD_BG:
+							inAxe = (billeTemp.equals(voisine(getTete(selectionnees,HAUT_DROITE),HAUT_DROITE,1)) ||
+									 billeTemp.equals(voisine(getTete(selectionnees,BAS_GAUCHE),BAS_GAUCHE,1)))
+							;
+							break;
+							
+						default:
+							break;
+						}
+						
+						if(!inAxe)
+							selectionnees = new Vector<Bille>(3);
+									
+					}
+					if ( (selectionnees.size() < 3)) { // Enfin, on selectionne la Bille choisie (sauf si 3 sont deja selectionnees.
+						selectionnees.add(billeTemp);
+						System.out.println("Selection :"+selectionnees.size());
+					}
 				}
-				if ( (selectionnees.size() < 3)) { // Enfin, on selectionne la Bille choisie (sauf si 3 sont deja selectionnees.
-					selectionnees.add(billeTemp);
-					System.out.println("Selection :"+selectionnees.size());
-				}
+				///// On remet a jour les coups possibles etc ...
+				visees.clear();
+				coups.clear();
+				genererCoups();
+				///////
 			}
+
 		}
-		///// On remet a jour les coups possibles etc ...
-		visees.clear();
-		coups.clear();
-		genererCoups();
-		///////
 		
 		return true;
 	}
