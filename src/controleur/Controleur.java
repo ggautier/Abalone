@@ -44,6 +44,7 @@ public class Controleur {
 	protected Vector<Vector<Bille>> visees;
 	protected Vector<Integer> 		coups;
 	protected Bille				pointee;
+	protected int		    	deplacementVise;
 	
 
 
@@ -73,21 +74,54 @@ public class Controleur {
 		this.selectionnees = new Vector<Bille>(3);
 		this.visees = new Vector<Vector<Bille>>(2);
 		this.coups = new Vector<Integer>(6);
+		this.deplacementVise = 0;
 	}
 	
-	public boolean isNext(Point p) {
+	// Retourne le nombre de coups pour lesquels une Case est cible.
+	public int nbNext(Point p) {
 		int dir = 0;
-		boolean retour = false;
+		int retour = 0;
 		
 		for (int j=0; j < coups.size(); j++) {
 			dir = coups.get(j);
 			for (int i=0; i < selectionnees.size(); i++)
 				if (voisineP(selectionnees.get(i),dir,1).equals(p))
-						retour = true;
+						retour++;
 					;
 		}
 		
 		return retour;
+	}
+	
+	// Normalement inutile
+	public int nextCoup(Point p) {
+		int dir = 0;
+		int retour = 0;
+		
+		for (int j=0; j < coups.size(); j++) {
+			dir = coups.get(j);
+			for (int i=0; i < selectionnees.size(); i++)
+				if (voisineP(selectionnees.get(i),dir,1).equals(p))
+						retour = coups.get(j);
+					;
+		}
+		
+		return retour;
+	}
+	
+	public void majDeplacementVise(Point p) {
+		this.deplacementVise = 0;
+		int dir = 0;
+		
+		for (int j=0; j < coups.size(); j++) {
+			dir = coups.get(j);
+			for (int i=0; i < selectionnees.size(); i++)
+				if (nbNext(new Point(selectionnees.get(i).getX(),selectionnees.get(i).getY())) == 1)
+					if (voisineP(selectionnees.get(i),dir,1).equals(p))
+						this.deplacementVise = coups.get(j);
+					;
+		}
+		
 	}
 	
 	public Partie getPartie() 
@@ -626,6 +660,31 @@ public class Controleur {
 	public void setPointee(Point p) {
 		this.setPointee(this.partie.getPlateau().getBille((int)p.getX(), (int)p.getY()));
 	}
+	
+	// Determine si un deplacement est pointe par la souris.
+	public boolean isDeplacementVise(Point p) {
+		boolean retour = false;
+
+			//int deplacement = this.nextCoup(p);
+
+		for (int i=0; i < selectionnees.size(); i++)
+			if (voisineP(selectionnees.get(i),this.deplacementVise,1).equals(p))
+					retour = true;
+			
+		
+		
+		return retour;
+	}
+
+	public int getDeplacementVise() {
+		return deplacementVise;
+	}
+
+	public void setDeplacementVise(int deplacementVise) {
+		this.deplacementVise = deplacementVise;
+	}
+	
+	
 	/*
 	public final static int GAUCHE = 10;
 	public final static int DROITE = 12;
