@@ -1,6 +1,8 @@
 package controleur;
 
+import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.PointerInfo;
 import java.util.Vector;
 
 import vue.FenetrePrincipale;
@@ -41,7 +43,10 @@ public class Controleur {
 	protected Vector<Bille>		selectionnees;
 	protected Vector<Vector<Bille>> visees;
 	protected Vector<Integer> 		coups;
+	protected Bille				pointee;
 	
+
+
 	// Dir
 	public final static int GAUCHE = 10;
 	public final static int DROITE = 12;
@@ -199,6 +204,11 @@ public class Controleur {
 			}
 
 		}
+		
+		PointerInfo pointer = MouseInfo.getPointerInfo();
+		Point location = pointer.getLocation();
+		location.setLocation(location.getX()-this.fenetrePrincipale.getLocation().getX(),location.getY()-this.fenetrePrincipale.getLocation().getY()); 
+		System.out.println("La souris se trouve en "+location+"  "+(getBillePointee(location).getX()-1)+","+(getBillePointee(location).getY()-1));
 		
 		return true;
 	}
@@ -594,7 +604,28 @@ public class Controleur {
 		
 		return true;
 	}
+	
+	public Bille getPointee() {
+		if (this.pointee == null) 
+			this.pointee = new Bille(-1,-1,null);
+		
+		return pointee;
+	}
 
+	public void setPointee(Bille pointee) {
+		if(pointee != null) {
+			if(pointee.getJoueur().equals(partie.getJCourant()))
+				this.pointee = pointee;
+			else 
+				this.pointee = null;
+		}
+		else 
+			this.pointee = null;
+	}
+
+	public void setPointee(Point p) {
+		this.setPointee(this.partie.getPlateau().getBille((int)p.getX(), (int)p.getY()));
+	}
 	/*
 	public final static int GAUCHE = 10;
 	public final static int DROITE = 12;
