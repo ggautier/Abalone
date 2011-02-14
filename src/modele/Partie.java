@@ -28,12 +28,14 @@ public class Partie {
 	
 	protected Plateau plateau;
 	protected Controleur controleur;
+	protected Joueur jCourant;
 	
 	protected Joueur j1, j2;
 
 	public Partie(Joueur j1, Joueur j2, Plateau plato) {
 		this.j1 = j1;
 		this.j2 = j2;
+		this.jCourant = this.j1;
 		this.plateau = plato;
 	}
 	
@@ -42,6 +44,17 @@ public class Partie {
 		return j1;
 	}
 
+	// Change de joueur
+	public void nextTurn() {
+		if(this.jCourant.equals(j1))
+			this.jCourant = this.j2;
+		else 
+			this.jCourant = this.j1;
+	}
+	
+	public Joueur getJCourant() {
+		return this.jCourant;
+	}
 
 	public void setJ1(Joueur j1) {
 		this.j1 = j1;
