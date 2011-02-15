@@ -15,13 +15,13 @@ import modele.Plateau;
 
 
 /**
- * <b>Controleur est la classe qui va mettre ï¿½ jour les informations du modï¿½le, en respectant les rï¿½gles du jeu.</b>
+ * <b>Controleur est la classe qui va mettre a jour les informations du modele, en respectant les regles du jeu.</b>
  * <p>
- * Un Controleur est caractï¿½risï¿½ par les informations suivantes :
+ * Un Controleur est caracterise par les informations suivantes :
  * <ul>
- * <li>Une partie, qui va servir de point d'accï¿½s aux informations du modï¿½le.</li>
- * <li>Une fenï¿½trePrincipale, qui va solliciter des changements.</li>
- * <li>Un controleurIA, qui peut gï¿½nï¿½rer le meilleur coup possible ï¿½ l'instant.</li>
+ * <li>Une partie, qui va servir de point d'acces aux informations du modele.</li>
+ * <li>Une fenetrePrincipale, qui va solliciter des changements.</li>
+ * <li>Un controleurIA, qui peut generer le meilleur coup possible a l'instant.</li>
  * </ul>
  * </p>
  * 
@@ -71,7 +71,7 @@ public class Controleur {
 		Joueur j1 = new Joueur("joueur1", true, true);
 		Joueur j2 = new Joueur("joueur2", false, true);
 		////
-		this.partie = new Partie(j1,j2, new Plateau("./data/plateau/defaut.plt", j1, j2));
+		this.partie = new Partie(j1,j2, new Plateau("./data/plateau/test.txt", j1, j2));
 		this.selectionnees = new Vector<Bille>(3);
 		this.visees = new Vector<Vector<Bille>>(2);
 		this.coups = new Vector<Integer>(6);
@@ -136,27 +136,54 @@ public class Controleur {
 		
 	}
 	
+	/**
+	 * Retourne la partie associee au controleur
+	 * 
+	 * @return La partie jouee actuellement et associee au controleur.
+	 */
 	public Partie getPartie() 
 	{
 		return partie;
 	}
 
+	/**
+	 * Modifie la partie associee au controleur
+	 * 
+	 * @param partie : la nouvelle parie associee au controleur
+	 */
 	public void setPartie(Partie partie) 
 	{
 		this.partie = partie;
 	}
-
+	
+	/**
+	 * Retourne l'ensemble des billes selectionnees
+	 * 
+	 * @return Un vecteur contenant les billes actuellement selectionnees
+	 */
 	public Vector<Bille> getSelectionnees() 
 	{
 		return selectionnees;
 	}
 
-	// Selectionne une Bille a partir de coordonnees.
+	/**
+	 * Selectionne une bille
+	 * 
+	 * @param i : la ligne sur laquelle se trouve la bille a selectionner
+	 * @param j : la  colonne sur laquelle se trouve la bille a selectionner
+	 * 
+	 * @return
+	 * 		<ul>
+	 * 			<li>True si la selection reussit,</li>
+	 * 			<li>False sinon.</li>
+	 * 		</ul>
+	 */
 	public boolean selectionner(int i, int j) {
+		Bille billeTemp = partie.getPlateau().getBille(i, j); // Récupération de la bille pointee.
 		
-		
-		Bille billeTemp = partie.getPlateau().getBille(i, j); // On recupere la Bille pointee.
-		if (billeTemp != null) { // S'il y a effectivement une Bille dans cette case
+		// La selection ne peut se faire que s'il y a une bille aux coordonnees indiquees
+		if (billeTemp != null) {
+			// Une bille adverse ne peut etre selectionnee
 			if (billeTemp.getJoueur().equals(this.partie.getJCourant())) {
 				if (isSelectionnee(billeTemp)) { // Si ele est selectionnees ...
 					if (selectionnees.size() > 2) { // ... et qu'il y en a 2 autres qui le sont.

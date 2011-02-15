@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.Random;
+
 import controleur.Controleur;
 
 /**
@@ -35,7 +37,14 @@ public class Partie {
 	public Partie(Joueur j1, Joueur j2, Plateau plato) {
 		this.j1 = j1;
 		this.j2 = j2;
-		this.jCourant = this.j1;
+		
+		int randomJoueur = new Random().nextInt() % 2;
+		
+		if(randomJoueur == 0)
+			this.jCourant = this.j1;
+		else
+			this.jCourant = this.j2;
+		
 		this.plateau = plato;
 	}
 	

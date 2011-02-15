@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -92,82 +93,58 @@ public class Plateau {
 	 * 			<li>True si le remplissage du plateau reussit,</li>
 	 * 			<li>False sinon.</li>
 	 * 		</ul>
-	 * @throws Exception 
+	 * 
+	 * @throws IOException
 	 */
-	public boolean init(String fichierConf, Joueur joueur1, Joueur joueur2) throws Exception {
-		try {
-			BufferedReader buffer = new BufferedReader(new FileReader(fichierConf));
+	public boolean init(String fichierConf, Joueur joueur1, Joueur joueur2) throws IOException {
+		BufferedReader buffer = new BufferedReader(new FileReader(fichierConf));
+		
+		int numLigne = 0;
+		
+		String ligne;
+		LinkedList<String> lignes = new LinkedList<String>();
+		
+		// LECTURE DE LA DECLARATION DU PLATEAU
+		// (9 PREMIERES LIGNES)
+		
+		while(numLigne < 9) {
+			ligne = buffer.readLine();
 			
-			int test = 0;
+			if((ligne == null) || (ligne.isEmpty()))
+				return false;
 			
-			int nbLignes = 0;
-			String ligne;
-			Stack<String> lignes = new Stack<String>();
+			lignes.add(ligne);
 			
-			// LECTURE DE LA DECLARATION DU PLATEAU
-			// (9 PREMIERES LIGNES)
+			numLigne++;
+		}
+		
+		buffer.close();
+		
+		if(numLigne != 9)
+			return false;
+		
+		numLigne = 0;
+		
+		while((lignes.isEmpty() == false) && (numLigne < 9)) {
+			ligne = lignes.removeFirst();
 			
-			while(nbLignes < 9) {
-				ligne = buffer.readLine();
-				
-				if(ligne == null)	// Fin du fichier
-					break;
-				
-				if(ligne.isEmpty())	// Les lignes vides sont ignorees.
-					continue;
-				
-				lignes.push(ligne);	// Stockage des lignes dans une pile
-				
-				nbLignes++;
+			if(ligne.length() != 9)
+				return false;
+			
+			for(int numColonne = 0 ; numColonne < ligne.length() ; numColonne++){
+				if(ligne.charAt(numColonne) == '-')
+					this.setBille(numLigne, numColonne, new Bille(numLigne, numColonne, joueur1));
+				else if(ligne.charAt(numColonne) == '+')
+					this.setBille(numLigne, numColonne, new Bille(numLigne, numColonne, joueur2));
 			}
 			
-			buffer.close();
-			
-			if(nbLignes != 9)
-				throw new Exception("Fichier plateau invalide !");
-			
-			StringTokenizer stk;
-			
-			int nbBilles;
-			nbLignes = 0;
-			
-			while((lignes.isEmpty() == false) && (nbLignes < 9)) {
-				
-				String bille;
-				nbBilles = 0;
-				stk = new StringTokenizer(lignes.pop());
-				
-				while(stk.hasMoreTokens()) {
-					bille = stk.nextToken();
-					if (nbLignes > 4)
-						test = nbBilles + nbLignes - 4;
-					else
-						test = nbBilles;
-					
-					if(bille.equals("0"))
-						this.setBille(nbLignes, test, new Bille(nbLignes, test, joueur1));
-					
-					else if(bille.equals("1"))
-						this.setBille(nbLignes, test, new Bille(nbLignes, test, joueur2));
-					
-					nbBilles++;	// nombre de bille lues pour la ligne courante
-				}
-				
-				nbLignes++; // nombre de lignes lues
-			}
+			numLigne++;
 		}
 		
-		catch (FileNotFoundException e) {
-			System.out.println("Erreur : fichier de plateau \"" + fichierConf + "\" introuvable");
+		if(numLigne == 9)
+			return true;
+		else
 			return false;
-		}
-		
-		catch (IOException e) {
-			System.out.println("Erreur lors de la lecture du fichier \"" + fichierConf + "\"");
-			return false;
-		}
-		
-		return true;
 	}
 	
 	// Temporaire, pour les tests (desole de foutre la zone)
