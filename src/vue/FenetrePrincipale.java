@@ -134,11 +134,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 	public void setPlateau(FenetrePlateau plateau) {
 		this.plateau = plateau;
 	}
-
-	void refreshPlateau(int[][] tab)
-	{
-		
-	}
 	
 	public void rafraichir() {
 		this.commande.repaint();
@@ -167,7 +162,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		Object source = e.getActionCommand().toString();
 		
 		if (source == "Nouveau")
