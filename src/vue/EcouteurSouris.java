@@ -19,10 +19,12 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
     	// Soit la fenetre n'est pas redimensionnable, donc on met des donnees brutes,
     	// sinon on met des variables.
     	 Point pointee = fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()); // Retourne la case Pointee par la souris.
-    	 fenetre.getPrincipale().getControleur().selectionner(pointee); // Selectionne la Bille pointee par la souris
     	 
     	 if (fenetre.getPrincipale().getControleur().isDeplacementVise(pointee)) // Si la case pointee correspond a un deplacement
     		 fenetre.getPrincipale().getControleur().action(fenetre.getPrincipale().getControleur().getDeplacementVise());
+    	 else
+        	 fenetre.getPrincipale().getControleur().selectionner(pointee); // Selectionne la Bille pointee par la souris
+
     	 fenetre.repaint();
     }
 
