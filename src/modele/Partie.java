@@ -38,12 +38,10 @@ public class Partie {
 		this.j1 = j1;
 		this.j2 = j2;
 		
-		int randomJoueur = new Random().nextInt() % 2;
-		
-		if(randomJoueur == 0)
-			this.jCourant = this.j1;
+		if(this.getJ1().getCamps() == false)
+			this.jCourant = this.getJ1();
 		else
-			this.jCourant = this.j2;
+			this.jCourant = this.getJ2();
 		
 		this.plateau = plato;
 	}
