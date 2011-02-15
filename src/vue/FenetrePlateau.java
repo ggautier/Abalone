@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.awt.Color;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -55,7 +57,7 @@ public class FenetrePlateau extends JPanel{
          System.out.println("Je suis exécutée ! ! !"); 
          int decalage = 0;
          Bille billeTemp;
-         g.setColor(Color.YELLOW);
+         g.setColor(Color.WHITE);
          g.fillRect(0, 0, 500, 500);
          g.drawImage(imgPlateau, -20, -20, 450, 400, this);
          
@@ -102,24 +104,25 @@ public class FenetrePlateau extends JPanel{
         			 //g.fillOval(decalage+j*45, i*40, 40, 40);
         		 
         		 if (principale.getControleur().isSelectionnee(principale.getControleur().getPartie().getPlateau().getBille(i,j))) {
-        			 g.setColor(Color.BLUE);
-        			 g.drawOval(decalage+j*45, i*40, 40, 40);
+        			 g.setColor(new Color(0,100,255,90));
+        			 g.fillOval(decalage+j*45, i*40, 40, 40);
         		 }
         		 else if (principale.getControleur().nbNext(new Point(i,j)) > 0) {
-         			g.setColor(Color.DARK_GRAY);
+         			g.setColor(new Color(220,220,220,130));
      			 	g.fillOval(decalage+j*45, i*40, 40, 40);
          		 }
+        		 else if ( (principale.getControleur().getPointee().getY() == j) && (principale.getControleur().getPointee().getX() == i) ) {
+        			 g.setColor(new Color(150,150,220,128));
+       			 	g.fillOval(decalage+j*45, i*40, 40, 40);
+          		 }
 
         		 if (principale.getControleur().isVisee((principale.getControleur().getPartie().getPlateau().getBille(i,j)))) {
-        			g.setColor(Color.RED);
-    			 	g.drawOval(decalage+j*45, i*40, 40, 40);
+        			 g.setColor(new Color(255,0,0,50));
+    			 	g.fillOval(decalage+j*45, i*40, 40, 40);
         		 }
-        		 if ( (principale.getControleur().getPointee().getY() == j) && (principale.getControleur().getPointee().getX() == i) ) {
-           			g.setColor(Color.PINK);
-      			 	g.drawOval(decalage+j*45, i*40, 40, 40);
-         		 }
+
         		 if ( (principale.getControleur().isDeplacementVise(new Point(i,j))) ) {
-            		g.setColor(Color.GREEN);
+            		g.setColor(new Color(0,255,0,108));
        			 	g.fillOval(decalage+j*45, i*40, 40, 40);
           		 }
         		 

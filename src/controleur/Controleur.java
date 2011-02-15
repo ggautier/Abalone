@@ -509,14 +509,19 @@ public class Controleur {
 
 	// Retourne les coordonnees voisines de la Bille passee en parametres
 	public Point voisineP(Bille b, int dir, int dist) {
-		double dirTemp = (dir - 11) / 10.0;
-		int xAjoute = (int) Math.round(dirTemp);
-		double yAjoute = (dirTemp - xAjoute) * 10;
+		Point retour = new Point(-1,-1);
+		
+		if (dir >= 0) {
+			double dirTemp = (dir - 11) / 10.0;
+			int xAjoute = (int) Math.round(dirTemp);
+			double yAjoute = (dirTemp - xAjoute) * 10;
+			retour = new Point(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist);
+		}
 
 		// GAUCHE : x - 1;
 		// Droite : x + 1
 		// HAUT_DROITE : y - 1
-		return new Point(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist);
+		return retour;
 	}
 	/* Memo :
 		public final static int GAUCHE = 10;
@@ -695,14 +700,13 @@ public class Controleur {
 	}
 
 	public void setPointee(Bille pointee) {
+		this.pointee = null;
+		
 		if(pointee != null && selectionnees.size() < 3) {
 			if(pointee.getJoueur().equals(partie.getJCourant()))
 				this.pointee = pointee;
-			else 
-				this.pointee = null;
+
 		}
-		else 
-			this.pointee = null;
 	}
 
 	public void setPointee(Point p) {
@@ -715,10 +719,13 @@ public class Controleur {
 
 			//int deplacement = this.nextCoup(p);
 
+		
 		for (int i=0; i < selectionnees.size(); i++)
 			if (voisineP(selectionnees.get(i),this.deplacementVise,1).equals(p))
 					retour = true;
-			
+		
+					
+		System.out.println(retour);
 		return retour;
 	}
 
