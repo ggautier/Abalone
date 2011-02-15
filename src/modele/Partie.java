@@ -50,12 +50,14 @@ public class Partie {
 
 	// Change de joueur
 	public void nextTurn() {
-		if(this.jCourant.equals(j1))
+		if (this.jCourant.equals(j1))
 			this.jCourant = this.j2;
 		else 
 			this.jCourant = this.j1;
 		
-		this.getControleur().getFenetrePrincipale().getInfo();
+		this.getControleur().getFenetrePrincipale().rafraichir();
+
+		
 	}
 	
 	public Joueur getJCourant() {
