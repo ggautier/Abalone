@@ -41,15 +41,15 @@ public class Controleur {
 	protected ControleurIA		controleurIA;
 	protected FenetrePrincipale	fenetrePrincipale;
 	protected Partie			partie; 
-	protected Vector<Bille>		selectionnees;
-	protected Vector<Vector<Bille>> visees;
-	protected Vector<Integer> 		coups;
-	protected Bille				pointee;
-	protected int		    	deplacementVise;
+	protected Vector<Bille>		selectionnees;  // Contient toutes les Billes actuellement selectionnees.
+	protected Vector<Vector<Bille>> visees;		// Contient les Billes poussables par les Billes selectionnees.
+	protected Vector<Integer> 		coups;		// Contient les directions vers lesquelles les Billes selectionnees peuvent aller.
+	protected Bille				pointee;		// Contient la Bille actuellement pointee par la Souris.
+	protected int		    	deplacementVise;// Contient le "deplacement" pointe par la Souris.
 	
 
 
-	// Dir
+	// Directions, sous la forme lignecolonne : 1=pas de mouvement; 0=mouvement descendant; 2=mouvement montant
 	public final static int GAUCHE = 10;
 	public final static int DROITE = 12;
 	public final static int BAS_GAUCHE = 01;
@@ -57,7 +57,7 @@ public class Controleur {
 	public final static int HAUT_GAUCHE = 00;
 	public final static int BAS_DROITE = 22;
 	
-	// Axe
+	// Axes, sous la forme lignecolonne : 1=mouvement; 0=pas de mouvement
 	public final static int GD = 01;
 	public final static int HG_BD = 11;
 	public final static int HD_BG = 10;
@@ -68,8 +68,8 @@ public class Controleur {
 		/*
 		 * Temporaire
 		*/ 
-		 Joueur j1 = new Joueur("joueur1", true, true);
-		 Joueur j2 = new Joueur("joueur2", false, true);
+		Joueur j1 = new Joueur("joueur1", true, true);
+		Joueur j2 = new Joueur("joueur2", false, true);
 		////
 		this.partie = new Partie(j1,j2, new Plateau("./data/plateau/defaut.plt", j1, j2));
 		this.selectionnees = new Vector<Bille>(3);
@@ -233,7 +233,7 @@ public class Controleur {
 							selectionnees = new Vector<Bille>(3); // ... alors on deselectionne toutes les Billes avant de selectionner la nouvelle
 									
 					}
-					else if (this.selectionnees.size() == 2) { // Si deux Billes sont deja selectionnees.
+					else if (this.selectionnees.size() >= 2) { // Si deux Billes sont deja selectionnees.
 						int axe = getAxe(this.selectionnees.get(0),this.selectionnees.get(1));
 						 // ... meme principe, sauf qu'on veut que la Bille qu'on selectionne soit dans le meme axe que celle deja selectionnees
 						boolean inAxe = false;
@@ -617,7 +617,8 @@ public class Controleur {
 					if (proxyVide == v.size())
 						possible = true;
 				}				// Pour les deplacements en ligne, seule la Bille "au bout" nous interesse
-				else if (voisine(getTete(v,dir),dir,1) == null || isVisee(voisine(getTete(v,dir),dir,1))) 
+				else if ((voisine(getTete(v,dir),dir,1) == null || isVisee(voisine(getTete(v,dir),dir,1))) 
+						&& (!isOut((int)voisineP(getTete(v,dir),dir,1).getX(),(int)voisineP(getTete(v,dir),dir,1).getY()))) 
 					possible = true;
 	
 			}
@@ -725,10 +726,11 @@ public class Controleur {
 			}
 			else { // Si la Bille en question est sortie ...
 				if (!b.getJoueur().equals(partie.getJCourant()))
-					partie.getJCourant().setScore(partie.getJCourant().getScore()+1); // Le proprio de la Bille baisse son score.
+					partie.getJCourant().setScore(partie.getJCourant().getScore()+1); // Le joueur courant augmente son score
 				else
-					partie.getJCourant().setScore(partie.getJCourant().getScore()-1);
+					partie.getJCourant().setScore(partie.getJCourant().getScore()-1); // Normalement inutile (penalite de suicide)
 				this.fenetrePrincipale.rafraichir();
+				
 			}
 	
 		}
@@ -736,6 +738,7 @@ public class Controleur {
 		return true;
 	}
 	
+	// Retourne la Bille pointee par la souris.
 	public Bille getPointee() {
 		if (this.pointee == null) 
 			this.pointee = new Bille(-1,-1,null);
@@ -743,6 +746,7 @@ public class Controleur {
 		return pointee;
 	}
 
+	// Met a jour la Bille pointee par la souris
 	public void setPointee(Bille pointee) {
 		this.pointee = null;
 		
