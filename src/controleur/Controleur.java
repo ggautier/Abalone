@@ -71,7 +71,7 @@ public class Controleur {
 		Joueur j1 = new Joueur("joueur1", true, true);
 		Joueur j2 = new Joueur("joueur2", false, true);
 		////
-		this.partie = new Partie(j1,j2, new Plateau("./data/plateau/test.txt", j1, j2));
+		this.partie = new Partie(j1,j2, new Plateau("./data/plateau/defaut.plt", j1, j2));
 		this.selectionnees = new Vector<Bille>(3);
 		this.visees = new Vector<Vector<Bille>>(2);
 		this.coups = new Vector<Integer>(6);
@@ -786,6 +786,15 @@ public class Controleur {
 	public void setDeplacementVise(int deplacementVise) {
 		this.deplacementVise = deplacementVise;
 	}
+
+	public FenetrePrincipale getFenetrePrincipale() {
+		return fenetrePrincipale;
+	}
+
+	public void setFenetrePrincipale(FenetrePrincipale fenetrePrincipale) {
+		this.fenetrePrincipale = fenetrePrincipale;
+	}
+	
 	
 	
 	/*

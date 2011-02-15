@@ -268,4 +268,14 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		
 	}
 
+	public FenetreInfo getInfo() {
+		return info;
+	}
+
+	public void setInfo(FenetreInfo info) {
+		this.info = info;
+	}
+	
+	
+
 }
