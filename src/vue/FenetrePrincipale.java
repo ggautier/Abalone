@@ -134,11 +134,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 	public void setPlateau(FenetrePlateau plateau) {
 		this.plateau = plateau;
 	}
-
-	void refreshPlateau(int[][] tab)
-	{
-		
-	}
 	
 	public void rafraichir() {
 		this.getInfo().getTourDeJeu().setText(this.getControleur().getPartie().getJCourant().getNom());
@@ -174,7 +169,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		Object source = e.getActionCommand().toString();
 		
 		if (source == "Nouveau")
@@ -211,15 +205,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 						BufferedWriter out = new BufferedWriter(lu);
 						// Mettre le flux en tampon (en cache)
 						
-						// affichage du plateau (toString())
-						out.write(this.getControleur().getPartie().getPlateau().toString()); 
-						out.write("\n");
-						//affichage du joueur actif
-						int i = (this.getControleur().getPartie().getJCourant().getCamps() ? 1 : 0) ;
-						String temp = new String(""+i);
-						out.write(temp);
-						out.write("\n");
 						//affichage du joueur 1 (Nom r g b score humain)
+						String temp = new String();
 						temp = this.getControleur().getPartie().getJ1().getNom() + " ";
 						temp += this.getControleur().getPartie().getJ1().getR() + " ";
 						temp += this.getControleur().getPartie().getJ1().getG() + " ";
@@ -229,6 +216,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 
 						out.write(temp);
 						out.write("\n");
+						
 						
 						//affichage du joueur 2 (Nom r g b score humain)
 						temp = this.getControleur().getPartie().getJ2().getNom() + " ";
@@ -240,6 +228,18 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 
 						out.write(temp);
 						out.write("\n");
+						
+						// affichage du plateau (toString())
+						out.write(this.getControleur().getPartie().getPlateau().toString()); 
+						out.write("\n");
+						//affichage du joueur actif
+						int i = (this.getControleur().getPartie().getJCourant().getCamps() ? 1 : 0) ;
+						temp = ""+i;
+						out.write(temp);
+						out.write("\n");
+						
+						
+						
 
 						// Balancer dans le flux le contenu de la zone de texte
 						out.close(); 
