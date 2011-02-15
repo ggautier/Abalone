@@ -786,6 +786,15 @@ public class Controleur {
 	public void setDeplacementVise(int deplacementVise) {
 		this.deplacementVise = deplacementVise;
 	}
+
+	public FenetrePrincipale getFenetrePrincipale() {
+		return fenetrePrincipale;
+	}
+
+	public void setFenetrePrincipale(FenetrePrincipale fenetrePrincipale) {
+		this.fenetrePrincipale = fenetrePrincipale;
+	}
+	
 	
 	
 	/*
