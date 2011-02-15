@@ -187,8 +187,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 						// Mettre le flux en tampon (en cache)
 						
 						// Besoin de la représentation console pour un fichier texte.
-						out.write(this.getControleur().getPartie().getPlateau().toString()); 
-						
+						//out.write(this.getControleur().getPartie().getPlateau().toString()); 
+						System.out.println(this.getControleur().getPartie().getPlateau().toString());
 						// Balancer dans le flux le contenu de la zone de texte
 						out.close(); 
 						// Fermer le flux (c'est toujours mieux de le fermer explicitement)
