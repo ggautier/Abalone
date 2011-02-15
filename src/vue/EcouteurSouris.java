@@ -5,9 +5,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import modele.Bille;
-
-
 public class EcouteurSouris implements MouseListener, MouseMotionListener {
 
 	
@@ -21,7 +18,6 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
      	// Ici, on balance la selection de la Bille cliquee
     	// Soit la fenetre n'est pas redimensionnable, donc on met des donnees brutes,
     	// sinon on met des variables.
-    	 System.out.println(fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()));
     	 Point pointee = fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()); // Retourne la case Pointee par la souris.
     	 fenetre.getPrincipale().getControleur().selectionner(pointee); // Selectionne la Bille pointee par la souris
     	 
@@ -35,10 +31,7 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
      }
      
      public void mouseMoved(MouseEvent e) {
-    	 //fenetre.getPrincipale().getControleur().setPointee(new Bille(null,null,null));
     	 Point pointee = fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint());
-    	 
-    
     	 
     	 if (!fenetre.getPrincipale().getControleur().isOut((int)pointee.getX(), (int)pointee.getY())) // Si la case existe
     		 fenetre.getPrincipale().getControleur().setPointee(pointee); // On pointe
@@ -50,7 +43,6 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
 
 
      public void mouseEntered(MouseEvent e) {
-    	 //System.out.println(fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()));
 
      }
 
