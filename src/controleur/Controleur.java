@@ -12,13 +12,13 @@ import modele.Plateau;
 
 
 /**
- * <b>Controleur est la classe qui va mettre � jour les informations du mod�le, en respectant les r�gles du jeu.</b>
+ * <b>Controleur est la classe qui va mettre a jour les informations du modele, en respectant les regles du jeu.</b>
  * <p>
- * Un Controleur est caract�ris� par les informations suivantes :
+ * Un Controleur est caracterise par les informations suivantes :
  * <ul>
- * <li>Une partie, qui va servir de point d'acc�s aux informations du mod�le.</li>
- * <li>Une fen�trePrincipale, qui va solliciter des changements.</li>
- * <li>Un controleurIA, qui peut g�n�rer le meilleur coup possible � l'instant.</li>
+ * <li>Une partie, qui va servir de point d'acces aux informations du modele.</li>
+ * <li>Une fenetrePrincipale, qui va solliciter des changements.</li>
+ * <li>Un controleurIA, qui peut generer le meilleur coup possible a l'instant.</li>
  * </ul>
  * </p>
  * 
