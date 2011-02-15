@@ -43,7 +43,7 @@ public class Partie {
 	
 	protected Joueur j1, j2;
 	
-	public Partie(String fichierConfig) {
+	public Partie(String fichierConfig, Controleur cont) {
 		try {
 			System.out.println(this.charger(fichierConfig));
 		}
@@ -55,8 +55,7 @@ public class Partie {
 		else
 			this.jCourant = this.getJ2();
 		
-		this.plateau = plateau;
-		this.controleur = controleur;
+		this.controleur = cont;
 		this.actions = new Vector<String>();
 
 	}
