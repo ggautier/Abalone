@@ -8,30 +8,54 @@ public class PlateauTest extends TestCase {
 		Joueur j1 = new Joueur("Marcel", true , true);
 		Joueur j2 = new Joueur("Yves" , false, false);
 		try{
-			Plateau plato = new Plateau("Plateau", j1, j2);
+			Plateau plato = new Plateau("./data/plateau/defaut.plt", j1, j2);
 			assertEquals(plato.getBille(12, 9),plato.getPlateau());
 		}
 		catch(Exception e){
 			System.out.println(e.getMessage());
 		}
-		
-
 	}
 
 	public void testSetBille() {
-		fail("Not yet implemented");
+		Joueur j1 = new Joueur("Marcel", true , true);
+		Joueur j2 = new Joueur("Yves" , false, false);
+		try{
+			Plateau plato = new Plateau("./data/plateau/defaut.plt", j1, j2);
+			Bille bille1 = new Bille(2, 7, j1);
+			plato.setBille(7,3,bille1);
+			assertEquals(plato.getBille(12, 9),bille1);
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+		}
 	}
-
+/* TODO latter
 	public void testInit() {
-		fail("Not yet implemented");
+	
 	}
-
-	public void testRemplir() {
-		fail("Not yet implemented");
-	}
+*/
 
 	public void testCaseVide() {
-		fail("Not yet implemented");
+		Joueur j1 = new Joueur("Marcel", true , true);
+		Joueur j2 = new Joueur("Yves" , false, false);
+		try{
+			Plateau plato = new Plateau("./data/plateau/defaut.plt", j1, j2);
+			assertTrue(!plato.caseVide(0, 0));
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+		}
 	}
 
+	public void testCaseVide_True() {
+		Joueur j1 = new Joueur("Marcel", true , true);
+		Joueur j2 = new Joueur("Yves" , false, false);
+		try{
+			Plateau plato = new Plateau("./data/plateau/defaut.plt", j1, j2);
+			assertTrue(plato.caseVide(5, 5));
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+	}
 }

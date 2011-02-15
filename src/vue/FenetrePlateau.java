@@ -1,6 +1,13 @@
 package vue;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.awt.Color;
+
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
@@ -11,30 +18,55 @@ public class FenetrePlateau extends JPanel{
 
 	private JPanel	plateau;
 	protected FenetrePrincipale principale;
+	protected BufferedImage imgBilleBlanche, imgBilleNoire, imgVide, imgPlateau;
 		
 	public FenetrePlateau(FenetrePrincipale princ)
 	{
 		this.principale = princ;
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        this.addMouseListener(new EcouteurSouris(this));
-
-        
+        EcouteurSouris ecouteurSouris = new EcouteurSouris(this);
+        this.addMouseListener(ecouteurSouris);   
+        this.addMouseMotionListener(ecouteurSouris);
+        try {
+        	imgBilleBlanche = ImageIO.read(new File("./data/blanche.png"));
+        } 
+        catch (IOException e) {
+        }
+        try {
+        	imgBilleNoire = ImageIO.read(new File("./data/noire.png"));
+        } 
+        catch (IOException e) {
+        }
+        try {
+        	imgVide = ImageIO.read(new File("./data/vide.png"));
+        } 
+        catch (IOException e) {
+        }
+        try {
+        	imgPlateau = ImageIO.read(new File("./data/plateau.png"));
+        } 
+        catch (IOException e) {
+        }
    	}
 	
     public void paintComponent(Graphics g){
+		 BufferedImage image1 = null;
+
         //Vous pourrez voir cette phrase à chaque fois que la méthode est invoquée !
          System.out.println("Je suis exécutée ! ! !"); 
          int decalage = 0;
          Bille billeTemp;
-         g.setColor(Color.YELLOW);
+         g.setColor(Color.WHITE);
          g.fillRect(0, 0, 500, 500);
+         g.drawImage(imgPlateau, -20, -20, 450, 400, this);
          
          for (int i = 0; i < 9; i++ ) {
         	 for (int j = 0; j < 9; j++) {
         		 decalage = (4-i)*23;
                  billeTemp = principale.getControleur().getPartie().getPlateau().getBille(i, j);
         		 if (billeTemp != null) {
+        			 
         			 if (billeTemp.getJoueur().getCamps() == true)
         			 { 
         				 //g.setColor(Color.BLACK);
@@ -44,6 +76,7 @@ public class FenetrePlateau extends JPanel{
 
         				 Color tempColor = new Color(r, v, b);
         				 g.setColor(tempColor);
+        				 image1 = imgBilleBlanche;
         			 }
         			 else if (billeTemp.getJoueur().getCamps() == false)
         			 {	
@@ -54,28 +87,46 @@ public class FenetrePlateau extends JPanel{
 
         				 Color tempColor = new Color(r, v, b);
         				 g.setColor(tempColor);
+        				 image1 = imgBilleNoire;
         			 }
-        			 else if ( !principale.getControleur().isOut(i, j))
+        			 else if ( !principale.getControleur().isOut(i, j)) {
         				 g.setColor(Color.gray);
+        				 image1 = imgVide;
+        			 }
         		 }
-        		 else 
+        		 else {
         			 g.setColor(Color.LIGHT_GRAY);
+        			 image1 = imgVide;
+        		 }
         		 
         		 if (!principale.getControleur().isOut(i, j))
-        			 g.fillOval(decalage+j*45, i*40, 40, 40);
+        			 g.drawImage(image1,decalage+j*45, i*40, 40, 40, this);
+        			 //g.fillOval(decalage+j*45, i*40, 40, 40);
         		 
         		 if (principale.getControleur().isSelectionnee(principale.getControleur().getPartie().getPlateau().getBille(i,j))) {
-        			 g.setColor(Color.BLUE);
-        			 g.drawOval(decalage+j*45, i*40, 40, 40);
+        			 g.setColor(new Color(0,100,255,90));
+        			 g.fillOval(decalage+j*45, i*40, 40, 40);
         		 }
-        		 else if (principale.getControleur().isVisee((principale.getControleur().getPartie().getPlateau().getBille(i,j)))) {
-        			g.setColor(Color.RED);
-    			 	g.drawOval(decalage+j*45, i*40, 40, 40);
-        		 }
-        		 if (principale.getControleur().isNext(new Point(i,j))) {
-         			g.setColor(Color.RED);
-     			 	g.drawOval(decalage+j*45, i*40, 40, 40);
+        		 else if (principale.getControleur().nbNext(new Point(i,j)) > 0) {
+         			g.setColor(new Color(220,220,220,130));
+     			 	g.fillOval(decalage+j*45, i*40, 40, 40);
          		 }
+        		 else if ( (principale.getControleur().getPointee().getY() == j) && (principale.getControleur().getPointee().getX() == i) ) {
+        			 g.setColor(new Color(150,150,220,128));
+       			 	g.fillOval(decalage+j*45, i*40, 40, 40);
+          		 }
+
+        		 if (principale.getControleur().isVisee((principale.getControleur().getPartie().getPlateau().getBille(i,j)))) {
+        			 g.setColor(new Color(255,0,0,50));
+    			 	g.fillOval(decalage+j*45, i*40, 40, 40);
+        		 }
+
+        		 if ( (principale.getControleur().isDeplacementVise(new Point(i,j))) ) {
+            		g.setColor(new Color(0,255,0,108));
+       			 	g.fillOval(decalage+j*45, i*40, 40, 40);
+          		 }
+        		 
+
 
         	 }
          }

@@ -59,20 +59,9 @@ public class Main {
 		
 		FenetrePrincipale f = new FenetrePrincipale("Abalone - 1.00");
         f.setSize(new Dimension(950,725));
-        //f.getControleur().selectionner(0, 3);
-        f.getControleur().selectionner(6, 6);
-        f.getControleur().selectionner(6, 5);
-        f.getControleur().selectionner(6, 4);
-        f.getControleur().action(12);
-        //f.getControleur().selectionner(0,0);
         
         f.setVisible(true);
         
-        Vector<Bille> v = new Vector<Bille>(6);
-        System.out.println();
-        System.out.println();
-        v.add(f.getControleur().getPartie().getPlateau().getBille(2, 2));        
-        v.add(f.getControleur().getPartie().getPlateau().getBille(2, 3));
         //v.add(f.getControleur().getPartie().getPlateau().getBille(2, 4));
 
 

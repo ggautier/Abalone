@@ -10,10 +10,12 @@ public class FenetreCommande extends JPanel{
 	private JLabel 			nomJoueur1, nomJoueur2, billeJoueur1, billeJoueur2;
 	private TitledBorder	title;
 	private JButton			previous, next, hint;
+	protected FenetrePrincipale fenetre;
 	
-	public FenetreCommande()
+	public FenetreCommande(FenetrePrincipale fen)
 	{
 		super();
+		this.fenetre = fen;
 
 		//Déclaration du layout de la partie commande
 		this.setLayout(new GridBagLayout());
@@ -33,8 +35,9 @@ public class FenetreCommande extends JPanel{
         title = BorderFactory.createTitledBorder("Action");
         this.action.setBorder(title);
         
-        billeJoueur1 = new JLabel("14");
-        billeJoueur2 = new JLabel("14");
+        billeJoueur1 = new JLabel(Integer.toString(fenetre.getControleur().getPartie().getJ1().getScore()));
+        billeJoueur2 = new JLabel(Integer.toString(fenetre.getControleur().getPartie().getJ2().getScore()));
+        
         nomJoueur1 = new JLabel("Joueur1");
         nomJoueur2 = new JLabel("Joueur2");
         
@@ -45,14 +48,14 @@ public class FenetreCommande extends JPanel{
         donnerContrainte(c,0,0,2,1,100,100);
         this.joueur1.add(nomJoueur1,c);
         donnerContrainte(c,0,1,1,1,100,100);
-        this.joueur1.add(new JLabel("Billes restantes : "),c);
+        this.joueur1.add(new JLabel("Score : "),c);
         donnerContrainte(c,1,1,1,1,100,100);
         this.joueur1.add(billeJoueur1,c);
         
         donnerContrainte(c,0,0,2,1,100,100);
         this.joueur2.add(nomJoueur2,c);
         donnerContrainte(c,0,1,1,1,100,100);
-        this.joueur2.add(new JLabel("Billes restantes : "),c);
+        this.joueur2.add(new JLabel("Score : "),c);
         donnerContrainte(c,1,1,1,1,100,100);
         this.joueur2.add(billeJoueur2,c);
         
@@ -71,6 +74,13 @@ public class FenetreCommande extends JPanel{
 		donnerContrainte(c,0,2,1,1,100,80);
 		this.add(action,c);
                 
+	}
+	
+	public void repaint() {
+		if (fenetre != null) {
+		billeJoueur1.setText(Integer.toString(fenetre.getControleur().getPartie().getJ1().getScore()));
+		billeJoueur2.setText(Integer.toString(fenetre.getControleur().getPartie().getJ2().getScore()));
+		}
 	}
 	
 	void donnerContrainte(GridBagConstraints gbc, int gx, int gy, int gw, int gh, int wx, int wy)
