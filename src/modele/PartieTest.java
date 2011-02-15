@@ -1,5 +1,6 @@
 package modele;
 
+import controleur.Controleur;
 import junit.framework.TestCase;
 
 public class PartieTest extends TestCase {
@@ -11,7 +12,7 @@ public class PartieTest extends TestCase {
 		
 		try {
 			plateau = new Plateau("./data/plateau/defaut.plt", joueur1, joueur2);
-			Partie partie = new Partie(joueur1, joueur2, plateau);
+			Partie partie = new Partie(joueur1, joueur2, plateau,new Controleur(null));
 			assertEquals(partie.getJ1(), partie.j1);
 		}
 		
@@ -28,7 +29,7 @@ public class PartieTest extends TestCase {
 		
 		try {
 			plateau = new Plateau("./data/plateau/defaut.plt", joueur1, joueur2);
-			Partie partie = new Partie(joueur1, joueur2, plateau);
+			Partie partie = new Partie(joueur1, joueur2, plateau,new Controleur(null));
 			
 			partie.setJ1(joueur3);
 			assertEquals(partie.getJ1(), joueur3);
@@ -46,7 +47,7 @@ public class PartieTest extends TestCase {
 		
 		try {
 			plateau = new Plateau("./data/plateau/defaut.plt", joueur1, joueur2);
-			Partie partie = new Partie(joueur1, joueur2, plateau);
+			Partie partie = new Partie(joueur1, joueur2, plateau,new Controleur(null));
 			assertEquals(partie.getJ2(), partie.j2);
 		}
 		
@@ -63,7 +64,7 @@ public class PartieTest extends TestCase {
 		
 		try {
 			plateau = new Plateau("./data/plateau/defaut.plt", joueur1, joueur2);
-			Partie partie = new Partie(joueur1, joueur2, plateau);
+			Partie partie = new Partie(joueur1, joueur2, plateau,new Controleur(null));
 			
 			partie.setJ2(joueur3);
 			assertEquals(partie.getJ2(), joueur3);
@@ -81,7 +82,7 @@ public class PartieTest extends TestCase {
 		
 		try {
 			plateau = new Plateau("./data/plateau/defaut.plt", joueur1, joueur2);
-			Partie partie = new Partie(joueur1, joueur2, plateau);
+			Partie partie = new Partie(joueur1, joueur2, plateau,new Controleur(null));
 			
 			
 			assertEquals(partie.getPlateau(), plateau);
@@ -101,7 +102,7 @@ public class PartieTest extends TestCase {
 		try {
 			plateau = new Plateau("./data/plateau/defaut.plt", joueur1, joueur2);
 			plateau2 = new Plateau("bidule", joueur1, joueur2);
-			Partie partie = new Partie(joueur1, joueur2, plateau);
+			Partie partie = new Partie(joueur1, joueur2, plateau,new Controleur(null));
 			
 			partie.setPlateau(plateau2);
 			

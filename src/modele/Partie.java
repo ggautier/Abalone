@@ -32,7 +32,7 @@ public class Partie {
 	
 	protected Joueur j1, j2;
 
-	public Partie(Joueur j1, Joueur j2, Plateau plateau) {
+	public Partie(Joueur j1, Joueur j2, Plateau plateau, Controleur controleur) {
 		this.j1 = j1;
 		this.j2 = j2;
 		
@@ -42,6 +42,7 @@ public class Partie {
 			this.jCourant = this.getJ2();
 		
 		this.plateau = plateau;
+		this.controleur = controleur;
 	}
 	
 	public Joueur getJ1() {
