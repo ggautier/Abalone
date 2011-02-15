@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.Vector;
+
 import controleur.Controleur;
 
 /**
@@ -30,6 +32,8 @@ public class Partie {
 	protected Controleur controleur;
 	protected Joueur jCourant;
 	
+	protected Vector<String> actions;
+	
 	protected Joueur j1, j2;
 
 	public Partie(Joueur j1, Joueur j2, Plateau plateau, Controleur controleur) {
@@ -43,6 +47,7 @@ public class Partie {
 		
 		this.plateau = plateau;
 		this.controleur = controleur;
+		this.actions = new Vector<String>();
 	}
 	
 	public Joueur getJ1() {
@@ -97,5 +102,66 @@ public class Partie {
 
 	public void setPlateau(Plateau plateau) {
 		this.plateau = plateau;
+	}
+	
+	public void quickSave() {
+		
+	}
+	
+	public void quickLoad() {
+		
+	}
+	
+	public String toString() {
+		String temp = "";
+
+		/*
+		out.write(temp);
+		out.write("\n");
+		*/
+		
+		
+		
+		temp += getPlateau().toString();
+		temp += "\n";
+		temp += (getJCourant().getCamps() ? 1 : 0);
+		
+		temp += "\n";
+		temp += getJ1().getNom() + " ";
+		temp += getJ1().getR() + " ";
+		temp += getJ1().getG() + " ";
+		temp += getJ1().getB() + " ";
+		temp += getJ1().getScore() + " ";
+		temp += getJ1().isHumain() + " ";
+
+		temp += "\n";
+		/*
+		out.write(temp);
+		out.write("\n");
+		*/
+		
+		//affichage du joueur 2 (Nom r g b score humain)
+		temp += getJ2().getNom() + " ";
+		temp += getJ2().getR() + " ";
+		temp += getJ2().getG() + " ";
+		temp += getJ2().getB() + " ";
+		temp += getJ2().getScore() + " ";
+		temp += getJ2().isHumain() + " ";
+		
+		temp += "\n";
+		
+		/*
+		// affichage du plateau (toString())
+		out.write(this.getControleur().getPartie().getPlateau().toString()); 
+		out.write("\n");
+		//affichage du joueur actif
+		int i = (this.getControleur().getPartie().getJCourant().getCamps() ? 1 : 0) ;
+		temp = ""+i;
+		out.write(temp);
+		out.write("\n");
+		*/
+		
+		
+		return temp;
 	}
 }

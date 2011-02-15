@@ -644,17 +644,13 @@ public class Controleur {
 				billeTemp = getTete(selectionnees,dir);
 				deplacerBille(billeTemp,dir);
 				selectionnees.remove(billeTemp);
-			}
-			
-
-			
-
+			}		
+			partie.nextTurn();
 		}
 		this.selectionnees.clear();
 		this.visees.clear();
 		this.coups.clear();
 		this.deplacementVise = -1;
-		partie.nextTurn();
 		
 		return true;
 	}
