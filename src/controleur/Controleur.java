@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.PointerInfo;
 import java.util.Vector;
 
+import vue.FenetrePlateau;
 import vue.FenetrePrincipale;
 
 import modele.Bille;
@@ -286,13 +287,28 @@ public class Controleur {
 	
 	// Retourne une Bille a partir d'un point de coordonnes (utilitaire)
 	public Point getBillePointee(Point p) {
+		FenetrePlateau fen = this.fenetrePrincipale.getPlateau();
 
+		Point pRetour = new Point();
+		double iBille = (p.getY()-this.fenetrePrincipale.getPlateau().getLongueur()/2)
+				/fen.getLongueur();
+		
+		int i = (int) Math.round(iBille);
+		//int decalage = (int) (4-iBille)*23;
+		double jBille = ((p.getX()-fen.getLongueur()/2)-(4-i)*
+				(int) (fen.getWidth()*0.042)-fen.getOffsetL())
+				/fen.getLargeur();
+		int j = (int) Math.round(jBille);
+		
+		/*
+		pRetour.setLocation(i,j);
 		Point pRetour = new Point();
 		double iBille = (p.getY()-20)/40.0;
 		int i = (int) Math.round(iBille);
 		//int decalage = (int) (4-iBille)*23;
 		double jBille = ((p.getX()-20)-(4-i)*23)/45.0;
 		int j = (int) Math.round(jBille);
+		*/
 		
 		pRetour.setLocation(i,j);
 
@@ -515,7 +531,8 @@ public class Controleur {
 			double dirTemp = (dir - 11) / 10.0;
 			int xAjoute = (int) Math.round(dirTemp);
 			double yAjoute = (dirTemp - xAjoute) * 10;
-			retour = new Point(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist);
+			if (!isOut(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist))
+				retour = new Point(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist);
 		}
 
 		// GAUCHE : x - 1;

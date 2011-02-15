@@ -56,12 +56,19 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 	{
 		//Héritage du builder de la super classe JFrame
 		super(titre);
+		
+
+		
 		this.controleur = new Controleur(this);
 			
 		//Rendre la fenetre fermable et re-dimensionnable
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(true);
-        
+		
+		////// Pas redimensionnable
+		this.setResizable(false);
+		this.setSize(800, 600);
+		this.setLocation((getToolkit().getScreenSize().width-this.getWidth())/2,(getToolkit().getScreenSize().height-this.getHeight())/2);
+		////////////////////////
         
         //On cree un barre de menu (vide), puis on cree le 1er menu "Fichier",
         //dans lequel on ajoute l'item "Nouveau", ....
@@ -97,6 +104,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 
         //init du conteneur plateau
         plateau = new FenetrePlateau(this);
+        plateau.setSize(300, 200);
         
         //init de commande
         commande = new FenetreCommande(this);
@@ -117,6 +125,14 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         this.add(panel);
 	}
 	
+	public FenetrePlateau getPlateau() {
+		return plateau;
+	}
+
+	public void setPlateau(FenetrePlateau plateau) {
+		this.plateau = plateau;
+	}
+
 	void refreshPlateau(int[][] tab)
 	{
 		
