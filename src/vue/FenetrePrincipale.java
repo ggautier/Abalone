@@ -112,7 +112,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         commande = new FenetreCommande(this);
                 
         //init d'info, contenant les scores, tour en cours, ...
-        info = new FenetreInfo();
+        info = new FenetreInfo(this);
         
         //On affecte une position au panel plateau, dans le contenant panel
         donnerContrainte(c,0,0,1,1,90,70);
@@ -253,7 +253,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 			  			// assembler les bytes pour former une chaîne
 			  			
 			  			*/// Set le plateau avec la partie lue ...
-			  			this.getControleur().getPartie().getPlateau().init(monFichier, new Joueur("joueur 1", false, true), new Joueur("joueur 2", true, true));
+			  			this.getControleur().getPartie().getPlateau().init(monFichier, this.getControleur().getPartie().getJ1(), this.getControleur().getPartie().getJ2());
 			  		//}
 			  	} 
 			  	catch (Exception err) 
