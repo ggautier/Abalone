@@ -1,5 +1,5 @@
-joueur1 255 255 255 0 true 
-joueur2 0 0 0 1 true 
+Georges 255 255 255 0 true 
+Bernard 0 0 0 0 true 
 
 +++++oooo
 ++++++ooo
