@@ -136,6 +136,8 @@ public class Plateau {
 					this.setBille(numLigne, numColonne, new Bille(numLigne, numColonne, joueur1));
 				else if(ligne.charAt(numColonne) == '+')
 					this.setBille(numLigne, numColonne, new Bille(numLigne, numColonne, joueur2));
+				else
+					this.setBille(numLigne, numColonne, null);
 			}
 			
 			numLigne++;
