@@ -1,12 +1,13 @@
 package modele;
 
-import java.util.Vector;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 import controleur.Controleur;
@@ -39,13 +40,13 @@ public class Partie {
 	protected Controleur controleur;
 	protected Joueur jCourant;
 	
-	protected Vector<String> actions;
+	protected Stack<String> actions;
 	
 	protected Joueur j1, j2;
 	
 	public Partie(String fichierConfig, Controleur cont) {
 		try {
-			System.out.println(this.charger(fichierConfig));
+			System.out.println(this.chargerParFichier(fichierConfig));
 		}
 		catch(IOException ioe) {
 			System.out.println(ioe.getMessage());
@@ -56,7 +57,7 @@ public class Partie {
 			this.jCourant = this.getJ2();
 		
 		this.controleur = cont;
-		this.actions = new Vector<String>();
+		this.actions = new Stack<String>();
 
 	}
 	
@@ -66,6 +67,7 @@ public class Partie {
 
 	// Change de joueur
 	public void nextTurn() {
+		this.quickSave();
 		if (this.jCourant.equals(j1))
 			this.jCourant = this.j2;
 		else 
@@ -107,11 +109,13 @@ public class Partie {
 	}
 	
 	public void quickSave() {
-		
+		this.actions.push(this.toString());
 	}
 	
-	public void quickLoad() {
-		
+	public void quickLoad() throws IOException {
+		System.out.println("Annulation.");
+		if (!actions.empty())
+			this.charger(this.actions.pop());
 	}
 	
 	public String toString() {
@@ -179,7 +183,7 @@ public class Partie {
 	 * 
 	 * @throws IOException
 	 */
-	public boolean charger(String fichierConf) throws IOException {
+	public boolean chargerParFichier(String fichierConf) throws IOException {
 		
 		BufferedReader buffer=new BufferedReader(new FileReader(fichierConf));
 		StringTokenizer tokenizer;
@@ -313,6 +317,186 @@ public class Partie {
 			return false;
 		
 		this.j2 = new Joueur(nomJoueur, true , (joueurHumain.equals("true")), scoreJoueur, joueurR, joueurG, joueurB);
+		
+		// Chargement du plateau
+		
+		this.plateau = new Plateau();
+		
+		buffer.readLine();
+		
+		int numLigne = 0;
+		
+		while(((ligne = buffer.readLine()) != null) && (ligne.isEmpty() == false)) {
+			
+			if(ligne.length() != 9)
+				return false;
+			
+			for(int numColonne = 0 ; numColonne < ligne.length() ; numColonne++) {
+				
+				if(ligne.charAt(numColonne) == '-')
+					this.getPlateau().setBille(numLigne, numColonne, new Bille(numLigne, numColonne, this.getJ1()));
+					
+				else if(ligne.charAt(numColonne) == '+')
+					this.getPlateau().setBille(numLigne, numColonne, new Bille(numLigne, numColonne, this.getJ2()));
+				
+				else
+					this.getPlateau().setBille(numLigne, numColonne, null);
+			}
+			
+			numLigne++;
+		}
+		
+		// Extraction du joueur actif
+		
+		// Les lignes vides sont ignorees
+		do
+		{
+			ligne = buffer.readLine();
+		}
+		while((ligne != null) && (ligne.isEmpty()));
+		
+		// Echec si la fin du fichier est atteinte
+		if(ligne == null)
+			return false;
+		
+		if(ligne.equals("0"))
+			this.jCourant = this.getJ1();
+		else
+			this.jCourant = this.getJ2();
+		
+		return true;
+	}
+	
+	public boolean charger(String donnees) throws IOException {
+		BufferedReader buffer = new BufferedReader(new StringReader(donnees));
+		StringTokenizer tokenizer;
+		String ligne;
+		
+
+		
+		// Chargement joueur 1
+		
+		// Les lignes vides sont ignorees
+		do
+		{
+			ligne = buffer.readLine();
+		}
+		while((ligne != null) && (ligne.isEmpty()));
+		
+		// Echec si la fin du fichier est atteinte
+		if(ligne == null)
+			return false;
+		
+		tokenizer = new StringTokenizer(ligne, " ");
+		
+		// Extraction des differents elements du joueur
+		
+		if(tokenizer.hasMoreTokens()) {
+			j1.setNom(tokenizer.nextToken());
+		}
+		
+		else
+			return false;
+		
+		if (tokenizer.hasMoreTokens()) {
+			j1.setR(Integer.parseInt(tokenizer.nextToken()));
+		}
+		
+		else
+			return false;
+		
+		if (tokenizer.hasMoreTokens()) {
+			j1.setG(Integer.parseInt(tokenizer.nextToken()));
+		}
+		
+		else
+			return false;
+		
+		if (tokenizer.hasMoreTokens()) {
+			j1.setB(Integer.parseInt(tokenizer.nextToken()));
+		}
+		
+		else
+			return false;
+		
+		if (tokenizer.hasMoreTokens()) {
+			j1.setScore(Integer.parseInt(tokenizer.nextToken()));
+		}
+		
+		else
+			return false;
+		
+		
+		if (tokenizer.hasMoreTokens()) {
+			tokenizer.nextToken(); // JoueurHumain?
+		}
+				
+		else
+			return false;
+		
+		
+		//this.j1 = new Joueur(nomJoueur, false,(joueurHumain.equals("true")), scoreJoueur, joueurR, joueurG, joueurB);
+		
+		// Chargement joueur 2
+		
+		// Les lignes vides sont ignorees
+		do
+		{
+			ligne = buffer.readLine();
+		}
+		while((ligne != null) && (ligne.isEmpty()));
+		
+		// Echec si la fin du fichier est atteinte
+		if(ligne == null)
+			return false;
+		
+		tokenizer = new StringTokenizer(ligne, " ");
+		
+		// Extraction des differents elements du joueur
+		
+		if(tokenizer.hasMoreTokens()) {
+			j2.setNom(tokenizer.nextToken());
+		}
+		
+		else
+			return false;
+		
+		if (tokenizer.hasMoreTokens()) {
+			j2.setR(Integer.parseInt(tokenizer.nextToken()));
+		}
+		
+		else
+			return false;
+		
+		if (tokenizer.hasMoreTokens()) {
+			j2.setG(Integer.parseInt(tokenizer.nextToken()));
+		}
+		
+		else
+			return false;
+		
+		if (tokenizer.hasMoreTokens()) {
+			j2.setB(Integer.parseInt(tokenizer.nextToken()));
+		}
+		
+		else
+			return false;
+		
+		if (tokenizer.hasMoreTokens()) {
+			j2.setScore(Integer.parseInt(tokenizer.nextToken()));
+		}
+		
+		else
+			return false;
+		
+		if (tokenizer.hasMoreTokens()) {
+			tokenizer.nextToken(); // JoueurHumain?
+		}
+				
+		else
+			return false;
+		
+		//this.j2 = new Joueur(nomJoueur, true , (joueurHumain.equals("true")), scoreJoueur, joueurR, joueurG, joueurB);
 		
 		// Chargement du plateau
 		

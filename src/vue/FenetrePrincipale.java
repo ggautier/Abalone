@@ -264,7 +264,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 
 			  	try
 			  	{
-		  			this.getControleur().getPartie().charger(monFichier);
+		  			this.getControleur().getPartie().chargerParFichier(monFichier);
 			  	} 
 			  	catch (IOException ioe) 
 			  	{
