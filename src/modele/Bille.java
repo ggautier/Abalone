@@ -105,17 +105,17 @@ public class Bille {
 		this.joueur = joueur;
 	}
 	
-	/*
+	
 	public String toString() {
 		String str = "o";
-		if (joueur.getCouleur())
+		if (joueur.getCamps())
 			str = "+";
-		if (!joueur.getCouleur())
+		if (!joueur.getCamps())
 			str = "-";
 		
 		return str;
 	}
-	*/
+	
 	
 	/**
 	 * Test d'egalite avec une autre bille.

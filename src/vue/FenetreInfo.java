@@ -22,7 +22,7 @@ public class FenetreInfo extends JPanel{
 
         
         zoneTexte = new JTextArea();
-        zoneTexte.setEditable(true);
+        zoneTexte.setEditable(false);
         
         JScrollPane scrollPane = new JScrollPane(zoneTexte);
         

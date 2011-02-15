@@ -180,7 +180,7 @@ public class Plateau {
 		return true;
 	}
 	
-	/*
+	
 	public String toString() {
 		String str = "";
 		for(int i=0; i < 9; i++) {
@@ -193,7 +193,7 @@ public class Plateau {
 		}
 		return str;
 	}
-	*/
+	
 	
 	/**
 	 * Teste si une case est vide.
