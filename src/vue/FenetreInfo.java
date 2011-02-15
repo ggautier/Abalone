@@ -66,4 +66,22 @@ public class FenetreInfo extends JPanel{
 		gbc.fill=GridBagConstraints.BOTH;
 	}
 
+	public JTextArea getZoneTexte() {
+		return zoneTexte;
+	}
+
+	public void setZoneTexte(JTextArea zoneTexte) {
+		this.zoneTexte = zoneTexte;
+	}
+
+	public JLabel getTourDeJeu() {
+		return tourDeJeu;
+	}
+
+	public void setTourDeJeu(JLabel tourDeJeu) {
+		this.tourDeJeu = tourDeJeu;
+	}
+	
+	
+
 }

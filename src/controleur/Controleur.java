@@ -729,7 +729,6 @@ public class Controleur {
 					partie.getJCourant().setScore(partie.getJCourant().getScore()+1); // Le joueur courant augmente son score
 				else
 					partie.getJCourant().setScore(partie.getJCourant().getScore()-1); // Normalement inutile (penalite de suicide)
-				this.fenetrePrincipale.rafraichir();
 				
 				if (partie.getJCourant().getScore() >= 6)
 					; // Pop-up de fin de partie (et on propose de Rejouer)
