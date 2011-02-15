@@ -62,6 +62,11 @@ public class Main {
         
         f.setVisible(true);
         
+        double note = 
+        	15.0*2+9.65*2+7.43*2+11.15*2+8.75*2+12.58
+        	;
+        note/=11;
+        System.out.println(note);
         //v.add(f.getControleur().getPartie().getPlateau().getBille(2, 4));
 
 

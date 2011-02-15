@@ -1,5 +1,6 @@
 package modele;
 
+import controleur.Controleur;
 import junit.framework.TestCase;
 
 public class PartieTest extends TestCase {

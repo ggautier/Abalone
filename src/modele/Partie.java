@@ -38,7 +38,7 @@ public class Partie {
 	protected Joueur jCourant;
 	
 	protected Joueur j1, j2;
-
+	
 	public Partie(String fichierConfig) {
 		try {
 			System.out.println(this.charger(fichierConfig));
