@@ -6,13 +6,9 @@ import junit.framework.TestCase;
 public class PartieTest extends TestCase {
 
 	public void testGetJ1() {
-		Joueur joueur1 = new Joueur("Rachid", true, false);
-		Joueur joueur2 = new Joueur("Mouloud", false, false);
-		Plateau plateau;
 		
 		try {
-			plateau = new Plateau("./data/plateau/defaut.plt", joueur1, joueur2);
-			Partie partie = new Partie(joueur1, joueur2, plateau,new Controleur(null));
+			Partie partie = new Partie("./data/plateau/defaut.plt");
 			assertEquals(partie.getJ1(), partie.j1);
 		}
 		
@@ -22,17 +18,14 @@ public class PartieTest extends TestCase {
 	}
 
 	public void testSetJ1() {
-		Joueur joueur1 = new Joueur("Rachid", true, false);
-		Joueur joueur2 = new Joueur("Mouloud", false, false);
-		Joueur joueur3 = new Joueur("Abdalah", true, true);
-		Plateau plateau;
+		
+		Joueur joueur = new Joueur("Abdalah", true, true);
 		
 		try {
-			plateau = new Plateau("./data/plateau/defaut.plt", joueur1, joueur2);
-			Partie partie = new Partie(joueur1, joueur2, plateau,new Controleur(null));
+			Partie partie = new Partie("./data/plateau/defaut.plt");
 			
-			partie.setJ1(joueur3);
-			assertEquals(partie.getJ1(), joueur3);
+			partie.setJ1(joueur);
+			assertEquals(partie.getJ1(), joueur);
 		}
 		
 		catch (Exception e) {
@@ -41,13 +34,9 @@ public class PartieTest extends TestCase {
 	}
 
 	public void testGetJ2() {
-		Joueur joueur1 = new Joueur("Rachid", true, false);
-		Joueur joueur2 = new Joueur("Mouloud", false, false);
-		Plateau plateau;
 		
 		try {
-			plateau = new Plateau("./data/plateau/defaut.plt", joueur1, joueur2);
-			Partie partie = new Partie(joueur1, joueur2, plateau,new Controleur(null));
+			Partie partie = new Partie("./data/plateau/defaut.plt");
 			assertEquals(partie.getJ2(), partie.j2);
 		}
 		
@@ -57,17 +46,14 @@ public class PartieTest extends TestCase {
 	}
 
 	public void testSetJ2() {
-		Joueur joueur1 = new Joueur("Rachid", true, false);
-		Joueur joueur2 = new Joueur("Mouloud", false, false);
-		Joueur joueur3 = new Joueur("Abdalah", true, true);
-		Plateau plateau;
+		
+		Joueur joueur = new Joueur("Abdalah", true, true);
 		
 		try {
-			plateau = new Plateau("./data/plateau/defaut.plt", joueur1, joueur2);
-			Partie partie = new Partie(joueur1, joueur2, plateau,new Controleur(null));
+			Partie partie = new Partie("./data/plateau/defaut.plt");
 			
-			partie.setJ2(joueur3);
-			assertEquals(partie.getJ2(), joueur3);
+			partie.setJ2(joueur);
+			assertEquals(partie.getJ2(), joueur);
 		}
 		
 		catch (Exception e) {
@@ -76,16 +62,11 @@ public class PartieTest extends TestCase {
 	}
 
 	public void testGetPlateau() {
-		Joueur joueur1 = new Joueur("Rachid", true, false);
-		Joueur joueur2 = new Joueur("Mouloud", false, false);
-		Plateau plateau;
 		
 		try {
-			plateau = new Plateau("./data/plateau/defaut.plt", joueur1, joueur2);
-			Partie partie = new Partie(joueur1, joueur2, plateau,new Controleur(null));
+			Partie partie = new Partie("./data/plateau/defaut.plt");
 			
-			
-			assertEquals(partie.getPlateau(), plateau);
+			assertEquals(partie.getPlateau(), partie.plateau);
 		}
 		
 		catch (Exception e) {
@@ -94,19 +75,16 @@ public class PartieTest extends TestCase {
 	}
 
 	public void testSetPlateau() {
-		Joueur joueur1 = new Joueur("Rachid", true, false);
-		Joueur joueur2 = new Joueur("Mouloud", false, false);
+		
 		Plateau plateau;
-		Plateau plateau2;
 		
 		try {
-			plateau = new Plateau("./data/plateau/defaut.plt", joueur1, joueur2);
-			plateau2 = new Plateau("bidule", joueur1, joueur2);
-			Partie partie = new Partie(joueur1, joueur2, plateau,new Controleur(null));
+			plateau = new Plateau();
+			Partie partie = new Partie("./data/plateau/defaut.plt");
 			
-			partie.setPlateau(plateau2);
+			partie.setPlateau(plateau);
 			
-			assertEquals(partie.getPlateau(), plateau2);
+			assertEquals(partie.getPlateau(), plateau);
 		}
 		
 		catch (Exception e) {

@@ -17,11 +17,11 @@ public class FenetreCommande extends JPanel{
 		super();
 		this.fenetre = fen;
 
-		//Déclaration du layout de la partie commande
+		//Dï¿½claration du layout de la partie commande
 		this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         
-        //Déclaration des différents sous-parties de commande, GridBagLayout
+        //Dï¿½claration des diffï¿½rents sous-parties de commande, GridBagLayout
         this.joueur1 = new JPanel();
         this.joueur1.setLayout(new GridBagLayout());
         title = BorderFactory.createTitledBorder("Joueur1");

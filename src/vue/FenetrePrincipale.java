@@ -1,11 +1,11 @@
 package vue;
 /**
- * <b>FenetrePrincipale est la classe principale de la vue, qui permet l'affichage de la fenêtre de jeu.</b>
+ * <b>FenetrePrincipale est la classe principale de la vue, qui permet l'affichage de la fenï¿½tre de jeu.</b>
  * <p>
- * Une FenetrePrincipale est caractérisée par les informations suivantes :
+ * Une FenetrePrincipale est caractï¿½risï¿½e par les informations suivantes :
  * <ul>
- * <li>Un controleur, vers lequel la fenêtre va envoyer des demandes de modification.</li>
- * <li>Une partie, que la fenêtre va solliciter pour renouveler l'affichage après une modification.</li>
+ * <li>Un controleur, vers lequel la fenï¿½tre va envoyer des demandes de modification.</li>
+ * <li>Une partie, que la fenï¿½tre va solliciter pour renouveler l'affichage aprï¿½s une modification.</li>
  * </ul>
  * </p>
  * 
@@ -56,7 +56,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 	
 	public FenetrePrincipale(String titre) throws Exception 
 	{
-		//Héritage du builder de la super classe JFrame
+		//Hï¿½ritage du builder de la super classe JFrame
 		super(titre);
 		
 
@@ -177,9 +177,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		{ 
 			//FenetreSauvegarder fenetreSav = new FenetreSauvegarder("Sauvegarder");
 			JFileChooser filechoose = new JFileChooser();
-			// Créer un JFileChooser
+			// Crï¿½er un JFileChooser
 			filechoose.setCurrentDirectory(new File(".")); 
-			// Le répertoire source du JFileChooser est le répertoire d'où est lancé notre programme
+			// Le rï¿½pertoire source du JFileChooser est le rï¿½pertoire d'oï¿½ est lancï¿½ notre programme
 			String approve = new String("Enregistrer");
 			// Le bouton pour valider l'enregistrement portera la mention Enregistrer
 			int resultatEnregistrer = filechoose.showDialog(filechoose, approve); 
@@ -188,10 +188,10 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 			// Si l'utilisateur clique sur le bouton Enregistrer
 			{ 
 				String monFichier= new String(filechoose.getSelectedFile().toString());
-				// Récupérer le nom du fichier qu'il a spécifié
+				// Rï¿½cupï¿½rer le nom du fichier qu'il a spï¿½cifiï¿½
 				if(monFichier.endsWith(".txt") || monFichier.endsWith(".TXT")) 
 				{;}
-				// Si ce nom de fichier finit par .txt ou .TXT, ne rien faire et passer à la suite
+				// Si ce nom de fichier finit par .txt ou .TXT, ne rien faire et passer ï¿½ la suite
 				else 
 				{
 					monFichier = monFichier + ".txt" ;
@@ -201,13 +201,40 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 					try
 					{ 
 						FileWriter lu = new FileWriter(monFichier);
-						// Créer un objet java.io.FileWriter avec comme argument le mon du fichier dans lequel enregsitrer
+						// Crï¿½er un objet java.io.FileWriter avec comme argument le mon du fichier dans lequel enregsitrer
 						BufferedWriter out = new BufferedWriter(lu);
 						// Mettre le flux en tampon (en cache)
 						
 						String temp = this.getControleur().getPartie().toString();
 
 						out.write(temp);
+
+						out.write("\n");
+						
+						
+						//affichage du joueur 2 (Nom r g b score humain)
+						temp = this.getControleur().getPartie().getJ2().getNom() + " ";
+						temp += this.getControleur().getPartie().getJ2().getR() + " ";
+						temp += this.getControleur().getPartie().getJ2().getG() + " ";
+						temp += this.getControleur().getPartie().getJ2().getB() + " ";
+						temp += this.getControleur().getPartie().getJ2().getScore() + " ";
+						temp += this.getControleur().getPartie().getJ2().isHumain() + " ";
+
+						out.write(temp);
+						out.write("\n\n");
+						
+						// affichage du plateau (toString())
+						out.write(this.getControleur().getPartie().getPlateau().toString()); 
+						out.write("\n");
+						//affichage du joueur actif
+						int i = (this.getControleur().getPartie().getJCourant().getCamps() ? 1 : 0) ;
+						temp = ""+i;
+						out.write(temp);
+						out.write("\n");
+						
+						
+						
+
 						// Balancer dans le flux le contenu de la zone de texte
 						out.close(); 
 						// Fermer le flux (c'est toujours mieux de le fermer explicitement)
@@ -220,42 +247,29 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		if (source == "Charger")
 		{
 			JFileChooser filechoose = new JFileChooser();
-			// Créer un JFileChooser
+			// Crï¿½er un JFileChooser
 			filechoose.setCurrentDirectory(new File("."));
-			// Le répertoire source du JFileChooser est le répertoire d'où est lancé notre programme
+			// Le rï¿½pertoire source du JFileChooser est le rï¿½pertoire d'oï¿½ est lancï¿½ notre programme
 			String approve = new String("Charger");
 			// Le bouton pour valider l'enregistrement portera la mention Charger
 			String monFichier= null; 
-			// On ne sait pas pour l'instant quel sera le fichier à ouvrir
+			// On ne sait pas pour l'instant quel sera le fichier ï¿½ ouvrir
 			int resultatOuvrir = filechoose.showDialog(filechoose, approve); 
 			// Pour afficher le JFileChooser
 			if(resultatOuvrir == filechoose.APPROVE_OPTION)
 			// Si l'utilisateur clique sur le bouton OUVRIR
 			{
 			  	monFichier = filechoose.getSelectedFile().toString();
-			  	// Récupérer le nom du fichier qu'il a spécifié
+			  	// Rï¿½cupï¿½rer le nom du fichier qu'il a spï¿½cifiï¿½
 
 			  	try
-			  	{ 
-			  		/*FileInputStream fis = new FileInputStream(monFichier);
-			  		// Créer un flux d'entrée avec comme paramètre le nom du fichier à ouvrir
-			  		int n = fis.available();
-			  		while(n > 0) // tant qu'il y a des données dans le flux
-			  		{ 
-			  			byte[] b = new byte[n]; 
-			  			// récupérer le byte à l'endroit n et le stocker dans un tableau de bytes
-			  			int result = fis.read(b); // lire ce tableau de byte à l'endroit désiré
-			  			if (result == -1) 
-			  				break; // si le byte est -1, c'est que le flux est arrivé à sa fin (par définition)
-			  			String s = new String(b);
-			  			// assembler les bytes pour former une chaîne
-			  			
-			  			*/// Set le plateau avec la partie lue ...
-			  			this.getControleur().getPartie().getPlateau().init(monFichier, this.getControleur().getPartie().getJ1(), this.getControleur().getPartie().getJ2());
-			  		//}
+			  	{
+		  			this.getControleur().getPartie().charger(monFichier);
 			  	} 
-			  	catch (Exception err) 
-			  	{;}
+			  	catch (IOException ioe) 
+			  	{
+			  		System.out.println(ioe.getMessage());
+			  	}
 		   	}
 		}
 		if (source == "Options")

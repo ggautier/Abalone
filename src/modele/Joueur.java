@@ -63,6 +63,18 @@ public class Joueur {
 			this.setG(0);
 			this.setB(0);
 		}
+		
+		this.setScore(0);
+	}
+	
+	public Joueur(String newNom, boolean newCamps , boolean newHumain, int newScore, int couleurR, int couleurG, int couleurB) {
+		this.setNom(newNom);
+		this.setCamps(newCamps);
+		this.setScore(newScore);
+		this.setHumain(newHumain);
+		this.setR(couleurR);
+		this.setG(couleurG);
+		this.setB(couleurB);
 	}
 	
 	// Section Getters-Setters

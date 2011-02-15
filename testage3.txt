@@ -1,0 +1,13 @@
++++++oooo
+++++++ooo
+oo++ooooo
+ooooo+ooo
+ooooooooo
+oooo-o-oo
+ooooo-ooo
+ooo------
+oooo-----
+
+1
+joueur1 255 255 255 0 true 
+joueur2 0 0 0 0 true 

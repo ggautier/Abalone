@@ -1,0 +1,12 @@
+joueur2 0 0 0 0 true 
++++++oooo
+++++++ooo
+oo++ooooo
+ooooo+ooo
+ooooooooo
+oooo-oooo
+ooooo-o-o
+ooo------
+oooo-----
+
+1
