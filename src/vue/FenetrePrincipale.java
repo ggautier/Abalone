@@ -26,6 +26,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import modele.Joueur;
+
 
 import controleur.Controleur;
 
@@ -110,7 +112,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         commande = new FenetreCommande(this);
                 
         //init d'info, contenant les scores, tour en cours, ...
-        info = new FenetreInfo();
+        info = new FenetreInfo(this);
         
         //On affecte une position au panel plateau, dans le contenant panel
         donnerContrainte(c,0,0,1,1,90,70);
@@ -204,7 +206,10 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 						
 						// Besoin de la représentation console pour un fichier texte.
 						out.write(this.getControleur().getPartie().getPlateau().toString()); 
-						
+						out.write("\n");
+						int i = (this.getControleur().getPartie().getJCourant().getCamps() ? 1 : 0) ;
+						String temp = new String(""+i);
+						out.write(temp);
 						// Balancer dans le flux le contenu de la zone de texte
 						out.close(); 
 						// Fermer le flux (c'est toujours mieux de le fermer explicitement)
@@ -234,7 +239,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 
 			  	try
 			  	{ 
-			  		FileInputStream fis = new FileInputStream(monFichier);
+			  		/*FileInputStream fis = new FileInputStream(monFichier);
 			  		// Créer un flux d'entrée avec comme paramètre le nom du fichier à ouvrir
 			  		int n = fis.available();
 			  		while(n > 0) // tant qu'il y a des données dans le flux
@@ -247,9 +252,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 			  			String s = new String(b);
 			  			// assembler les bytes pour former une chaîne
 			  			
-			  			// Set le plateau avec la partie lue ...
-			  			//textArea.setText(s); //	insérer cette chaîne dans notre composant de texte
-			  		}
+			  			*/// Set le plateau avec la partie lue ...
+			  			this.getControleur().getPartie().getPlateau().init(monFichier, this.getControleur().getPartie().getJ1(), this.getControleur().getPartie().getJ2());
+			  		//}
 			  	} 
 			  	catch (Exception err) 
 			  	{;}
