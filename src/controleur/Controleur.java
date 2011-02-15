@@ -135,27 +135,54 @@ public class Controleur {
 		
 	}
 	
+	/**
+	 * Retourne la partie associee au controleur
+	 * 
+	 * @return La partie jouee actuellement et associee au controleur.
+	 */
 	public Partie getPartie() 
 	{
 		return partie;
 	}
 
+	/**
+	 * Modifie la partie associee au controleur
+	 * 
+	 * @param partie : la nouvelle parie associee au controleur
+	 */
 	public void setPartie(Partie partie) 
 	{
 		this.partie = partie;
 	}
-
+	
+	/**
+	 * Retourne l'ensemble des billes selectionnees
+	 * 
+	 * @return Un vecteur contenant les billes actuellement selectionnees
+	 */
 	public Vector<Bille> getSelectionnees() 
 	{
 		return selectionnees;
 	}
 
-	// Selectionne une Bille a partir de coordonnees.
+	/**
+	 * Selectionne une bille
+	 * 
+	 * @param i : la ligne sur laquelle se trouve la bille a selectionner
+	 * @param j : la  colonne sur laquelle se trouve la bille a selectionner
+	 * 
+	 * @return
+	 * 		<ul>
+	 * 			<li>True si la selection reussit,</li>
+	 * 			<li>False sinon.</li>
+	 * 		</ul>
+	 */
 	public boolean selectionner(int i, int j) {
+		Bille billeTemp = partie.getPlateau().getBille(i, j); // Récupération de la bille pointee.
 		
-		
-		Bille billeTemp = partie.getPlateau().getBille(i, j); // On recupere la Bille pointee.
-		if (billeTemp != null) { // S'il y a effectivement une Bille dans cette case
+		// La selection ne peut se faire que s'il y a une bille aux coordonnees indiquees
+		if (billeTemp != null) {
+			// Une bille adverse ne peut etre selectionnee
 			if (billeTemp.getJoueur().equals(this.partie.getJCourant())) {
 				if (isSelectionnee(billeTemp)) { // Si ele est selectionnees ...
 					if (selectionnees.size() > 2) { // ... et qu'il y en a 2 autres qui le sont.
