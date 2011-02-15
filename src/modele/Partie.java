@@ -54,6 +54,8 @@ public class Partie {
 			this.jCourant = this.j2;
 		else 
 			this.jCourant = this.j1;
+		
+		this.getControleur().getFenetrePrincipale().getInfo();
 	}
 	
 	public Joueur getJCourant() {
