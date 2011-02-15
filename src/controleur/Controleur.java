@@ -531,7 +531,8 @@ public class Controleur {
 			double dirTemp = (dir - 11) / 10.0;
 			int xAjoute = (int) Math.round(dirTemp);
 			double yAjoute = (dirTemp - xAjoute) * 10;
-			retour = new Point(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist);
+			if (!isOut(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist))
+				retour = new Point(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist);
 		}
 
 		// GAUCHE : x - 1;
