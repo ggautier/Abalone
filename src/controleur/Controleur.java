@@ -113,7 +113,6 @@ public class Controleur {
 	public void majDeplacementVise(Point p) {
 		this.deplacementVise = -1;
 		int dir = -1;
-		System.out.print("maj : ");
 		
 		for (int j=0; j < coups.size(); j++) {
 			dir = coups.get(j);
@@ -121,17 +120,8 @@ public class Controleur {
 				if (nbNext(new Point(selectionnees.get(i).getX(),selectionnees.get(i).getY())) >= 0) {
 					if (voisineP(selectionnees.get(i),dir,1).equals(p)) {
 						this.deplacementVise = coups.get(j);
-						System.out.println("Visee !");
 					} 
-					else
-						System.out.println("eesiV !");
-				}
-				else
-					System.out.println("Txen ("+(nbNext(new Point(selectionnees.get(i).getX(),selectionnees.get(i).getY())))+")");
-			
-			
-		
-						
+				}			
 		}
 		
 	}
@@ -264,10 +254,9 @@ public class Controleur {
 							selectionnees = new Vector<Bille>(3);
 									
 					}
-					if ( (selectionnees.size() < 3)) { // Enfin, on selectionne la Bille choisie (sauf si 3 sont deja selectionnees.
+					if ( (selectionnees.size() < 3))  // Enfin, on selectionne la Bille choisie (sauf si 3 sont deja selectionnees.
 						selectionnees.add(billeTemp);
-						System.out.println("Selection :"+selectionnees.size());
-					}
+					
 				}
 				///// On remet a jour les coups possibles etc ...
 				visees.clear();
@@ -281,7 +270,6 @@ public class Controleur {
 		PointerInfo pointer = MouseInfo.getPointerInfo();
 		Point location = pointer.getLocation();
 		location.setLocation(location.getX()-this.fenetrePrincipale.getLocation().getX(),location.getY()-this.fenetrePrincipale.getLocation().getY()); 
-		System.out.println("La souris se trouve en "+location+"  "+(getBillePointee(location).getX()-1)+","+(getBillePointee(location).getY()-1));
 		
 		return true;
 	}
@@ -327,29 +315,10 @@ public class Controleur {
 				/fen.getLargeur();
 		int j = (int) Math.round(jBille);
 		
-		/*
 		pRetour.setLocation(i,j);
-		Point pRetour = new Point();
-		double iBille = (p.getY()-20)/40.0;
-		int i = (int) Math.round(iBille);
-		//int decalage = (int) (4-iBille)*23;
-		double jBille = ((p.getX()-20)-(4-i)*23)/45.0;
-		int j = (int) Math.round(jBille);
-		*/
-		
-		pRetour.setLocation(i,j);
-
 
 		return pRetour;
-	}
-	
-	/*
-		 if (!principale.getControleur().isOut(i, j))
-			 g.fillOval(decalage+j*45, i*40, 40, 40);
-			 
-			 
-		decalage = (4-i)*23;
-	*/		 
+	} 
 
 	// "true" si la Bille est selectionnee.
 	public boolean isSelectionnee(Bille b) 
@@ -432,7 +401,6 @@ public class Controleur {
 	public Vector<Bille> genererCoups(Vector<Bille> v) {
 		visees.clear();
 		int axe = -1;
-		Bille billeTemp;
 		if (v.size() > 2) // Si au moins deux billes
 			axe = getAxe(v.get(0),v.get(1));
 		
@@ -468,7 +436,6 @@ public class Controleur {
 		if (selectionnees.size() >= 2) {// Si au moins deux billes
 			axe = getAxe(selectionnees.get(0),selectionnees.get(1));
 		
-			System.out.println("Axe : "+axe);
 			switch (axe) {
 			case GD:
 				getAdversairesPoussables(selectionnees,GAUCHE);
@@ -500,14 +467,12 @@ public class Controleur {
 	
 	// Recupere les adversaires qui seront pousses si on va dans une direction donnee
 	public Vector<Bille> getAdversairesPoussables(Vector<Bille> v, int dir) { // Ici, on determine quelles rangees sont poussables
-		int taille_rangee = v.size();
-		Boolean vide = false;
+
 		Bille billeTete = getTete(v,dir);
 		Bille billeTemp;
 		Vector<Bille> vTemp = new Vector<Bille>(2);
 				
 		for(int i=1; i <= 3; i++) {
-			System.out.println("Tour "+i+" en recherche de cibles vers : "+dir+" pour la Bille en ("+billeTete.getX()+","+billeTete.getY()+")");
 			billeTemp = voisine(billeTete,dir,i); // Bille voisinne d'i crans, suivant la direction
 			// Pas encore clairement definie : On verifie si on a une Bille du joueur adverse.
 			if (billeTemp != null) {
@@ -526,7 +491,6 @@ public class Controleur {
 			vTemp.clear();
 		
 		visees.add(vTemp); // On ajoute a la liste des billes visees
-		System.out.println("ajout de "+vTemp.size()+" Billes en cibles");
 		
 		return vTemp; // Pas encore clairement defini, mais l'idee est de retourner la liste de Billes ennemies qu'on pousserait.
 		
@@ -538,9 +502,7 @@ public class Controleur {
 		double dirTemp = (dir - 11) / 10.0;
 		int xAjoute = (int) Math.round(dirTemp);
 		double yAjoute = (dirTemp - xAjoute) * 10;
-		
-		//System.out.println("Voisine : x+"+xAjoute+", y+"+yAjoute);
-		
+				
 		if (!isOut(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist))
 			billeRetour = partie.getPlateau().getBille(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist);
 
@@ -580,14 +542,12 @@ public class Controleur {
 	public Bille getTete(Vector<Bille> v, int dir) {
 		Bille billeTemp = new Bille(-1, -1, null); // Comment declarer une Bille "nulle" ?
 		Bille billeTest;
-		//System.out.print("cherche Tete en "+dir+" : ");
 
 		if (v.size() > 0) {
 			billeTemp = v.get(0);
 			for (int i = 1; i < v.size(); i++) 
 				for (int j = 1; j <= 2; j++) {
 					billeTest = voisine(billeTemp,dir,j);
-					//System.out.print("("+billeTest.getX()+","+billeTest.getY()+") ");
 					if (billeTest != null) 
 						if (billeTest.equals(v.get(i)))
 							billeTemp = billeTest;
@@ -596,8 +556,6 @@ public class Controleur {
 				
 		}
 		
-		//System.out.println(billeTemp.getX()+","+billeTemp.getY());
-
 		return billeTemp;
 	}
 	
@@ -676,7 +634,6 @@ public class Controleur {
 		Bille billeTemp;
 		if (deplacementPossible(selectionnees,dir)) {
 			Vector<Bille> ennemies = getVisees(dir);
-			System.out.println("Ennemies : "+ennemies.size());
 			while(!ennemies.isEmpty())  {
 				billeTemp = getTete(ennemies,dir);
 				deplacerBille(billeTemp,dir);
@@ -689,15 +646,15 @@ public class Controleur {
 				selectionnees.remove(billeTemp);
 			}
 			
-			System.out.println("Alliees : "+selectionnees.size());
 
-			partie.nextTurn();
+			
 
 		}
 		this.selectionnees.clear();
 		this.visees.clear();
 		this.coups.clear();
 		this.deplacementVise = -1;
+		partie.nextTurn();
 		
 		return true;
 	}
@@ -774,7 +731,6 @@ public class Controleur {
 					retour = true;
 		
 					
-		System.out.println(retour);
 		return retour;
 	}
 
@@ -794,19 +750,8 @@ public class Controleur {
 		this.fenetrePrincipale = fenetrePrincipale;
 	}
 	
-	
-	
 	/*
-	public final static int GAUCHE = 10;
-	public final static int DROITE = 12;
-	public final static int BAS_GAUCHE = 01;
-	public final static int HAUT_DROITE = 21;
-	public final static int HAUT_GAUCHE = 00;
-	public final static int BAS_DROITE = 22;
-	*/
-	
-	/*
-	Si une Bille selectionnee : Que dalle a verifier.
+	Si une Bille selectionnee : Rien a verifier.
 	Si deux ou trois Billes selectionnees : 
 	1. On identifie l'axe forme par ces Billes.
 	2. a) A partir d'une des Billes a l'extremite, on regarde combien il y a de Billes ennemies, et si elles sont suivies d'un vide
