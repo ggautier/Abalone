@@ -1,13 +1,9 @@
 package modele;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Stack;
-import java.util.StringTokenizer;
 
 /**
  * <b>Plateau est la classe representant la totalite des cases du plateau de jeu.</b>
@@ -195,8 +191,6 @@ public class Plateau {
 			System.out.println("Erreur lors du test de vacuite : coordonnees hors plateau");
 			return false;
 		}
-		
-
 	}
 
 	public Bille[][] getPlateau() {
