@@ -39,7 +39,10 @@ public class Partie {
 	
 	protected Joueur j1, j2;
 	
-	public Partie(String fichierConfig) {
+	public Partie(Controleur newControleur, String fichierConfig) {
+		
+		this.setControleur(newControleur);
+		
 		try {
 			System.out.println(this.charger(fichierConfig));
 		}

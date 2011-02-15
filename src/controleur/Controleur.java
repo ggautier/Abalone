@@ -65,7 +65,7 @@ public class Controleur {
 	public Controleur(FenetrePrincipale fen) throws Exception
 	{
 		this.fenetrePrincipale = fen;
-		this.partie = new Partie("./data/plateau/defaut.plt");
+		this.partie = new Partie(this, "./data/plateau/defaut.plt");
 		this.selectionnees = new Vector<Bille>(3);
 		this.visees = new Vector<Vector<Bille>>(2);
 		this.coups = new Vector<Integer>(6);
