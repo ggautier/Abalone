@@ -1,7 +1,5 @@
 package modele;
 
-import java.util.Random;
-
 import controleur.Controleur;
 
 /**
@@ -34,20 +32,17 @@ public class Partie {
 	
 	protected Joueur j1, j2;
 
-	public Partie(Joueur j1, Joueur j2, Plateau plato) {
+	public Partie(Joueur j1, Joueur j2, Plateau plateau) {
 		this.j1 = j1;
 		this.j2 = j2;
 		
-		int randomJoueur = new Random().nextInt() % 2;
-		
-		if(randomJoueur == 0)
-			this.jCourant = this.j1;
+		if(this.getJ1().getCamps() == false)
+			this.jCourant = this.getJ1();
 		else
-			this.jCourant = this.j2;
+			this.jCourant = this.getJ2();
 		
-		this.plateau = plato;
+		this.plateau = plateau;
 	}
-	
 	
 	public Joueur getJ1() {
 		return j1;
@@ -71,16 +66,13 @@ public class Partie {
 		this.j1 = j1;
 	}
 
-
 	public Joueur getJ2() {
 		return j2;
 	}
 
-
 	public void setJ2(Joueur j2) {
 		this.j2 = j2;
 	}
-
 
 	public Partie() throws Exception {
 		this.j1 = new Joueur("J1", false, true);
@@ -88,16 +80,12 @@ public class Partie {
 		this.plateau = new Plateau("./data/plateau/defaut.pl", j1, j2);
 	}
 	
-
-
-	
 	public Controleur getControleur() {
 		return controleur;
 	}
 
 	public void setControleur(Controleur controleur) {
 		this.controleur = controleur;
-
 	}
 
 	public Plateau getPlateau() {
@@ -107,6 +95,4 @@ public class Partie {
 	public void setPlateau(Plateau plateau) {
 		this.plateau = plateau;
 	}
-	
-
 }
