@@ -39,9 +39,8 @@ public class Plateau {
 	 * @param joueur2 : le second joueur de la partie
 	 * @throws Exception 
 	 */
-	public Plateau(String nomFicConfig, Joueur joueur1, Joueur joueur2) throws Exception {
+	public Plateau() {
 		this.plateau = new Bille[9][9];
-		this.init(nomFicConfig, joueur1, joueur2);
 	}
 	
 	/**
@@ -78,73 +77,6 @@ public class Plateau {
 		//System.out.println("Placement d'une bille en "+ligne+"-"+colonne);
 	}
 	
-	
-	/**
-	 * Remplit le plateau a partir d'un fichier de configuration.
-	 * 
-	 * @param fichierConf Chemin du fichier de configuration.
-	 * 
-	 * @return
-	 * 		<ul>
-	 * 			<li>True si le remplissage du plateau reussit,</li>
-	 * 			<li>False sinon.</li>
-	 * 		</ul>
-	 * 
-	 * @throws IOException
-	 */
-	public boolean init(String fichierConf, Joueur joueur1, Joueur joueur2) throws IOException {
-		BufferedReader buffer = new BufferedReader(new FileReader(fichierConf));
-		
-		int numLigne = 0;
-		
-		String ligne;
-		LinkedList<String> lignes = new LinkedList<String>();
-		
-		// LECTURE DE LA DECLARATION DU PLATEAU
-		// (9 PREMIERES LIGNES)
-		
-		while(numLigne < 9) {
-			ligne = buffer.readLine();
-			
-			if((ligne == null) || (ligne.isEmpty()))
-				return false;
-			
-			lignes.add(ligne);
-			
-			numLigne++;
-		}
-		
-		buffer.close();
-		
-		if(numLigne != 9)
-			return false;
-		
-		numLigne = 0;
-		
-		while((lignes.isEmpty() == false) && (numLigne < 9)) {
-			ligne = lignes.removeFirst();
-			
-			if(ligne.length() != 9)
-				return false;
-			
-			for(int numColonne = 0 ; numColonne < ligne.length() ; numColonne++){
-				if(ligne.charAt(numColonne) == '-')
-					this.setBille(numLigne, numColonne, new Bille(numLigne, numColonne, joueur1));
-				else if(ligne.charAt(numColonne) == '+')
-					this.setBille(numLigne, numColonne, new Bille(numLigne, numColonne, joueur2));
-				else
-					this.setBille(numLigne, numColonne, null);
-			}
-			
-			numLigne++;
-		}
-		
-		if(numLigne == 9)
-			return true;
-		else
-			return false;
-	}
-	
 	// Temporaire, pour les tests (desole de foutre la zone)
 	public boolean remplir() {
 		for(int i=0; i < 9; i++)
@@ -154,7 +86,6 @@ public class Plateau {
 		
 		return true;
 	}
-	
 	
 	public String toString() {
 		String str = "";
@@ -168,7 +99,6 @@ public class Plateau {
 		}
 		return str;
 	}
-	
 	
 	/**
 	 * Teste si une case est vide.

@@ -65,13 +65,7 @@ public class Controleur {
 	public Controleur(FenetrePrincipale fen) throws Exception
 	{
 		this.fenetrePrincipale = fen;
-		/*
-		 * Temporaire
-		*/ 
-		Joueur j1 = new Joueur("joueur1", true, true);
-		Joueur j2 = new Joueur("joueur2", false, true);
-		////
-		this.partie = new Partie(j1,j2, new Plateau("./data/plateau/defaut.plt", j1, j2));
+		this.partie = new Partie("./data/plateau/defaut.plt");
 		this.selectionnees = new Vector<Bille>(3);
 		this.visees = new Vector<Vector<Bille>>(2);
 		this.coups = new Vector<Integer>(6);
@@ -169,7 +163,7 @@ public class Controleur {
 	 * 		</ul>
 	 */
 	public boolean selectionner(int i, int j) {
-		Bille billeTemp = partie.getPlateau().getBille(i, j); // Récupération de la bille pointee.
+		Bille billeTemp = partie.getPlateau().getBille(i, j); // Rï¿½cupï¿½ration de la bille pointee.
 		
 		// La selection ne peut se faire que s'il y a une bille aux coordonnees indiquees
 		if (billeTemp != null) {
