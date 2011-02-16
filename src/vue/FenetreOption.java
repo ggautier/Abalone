@@ -34,6 +34,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 	private DefaultComboBoxModel	comboModel1, comboModel2;
 	private JComboBox				choixCouleur1, choixCouleur2;
 	private TitledBorder			title;
+	private JTextField 				textFieldJ1, textFieldJ2;
 	private FenetrePrincipale		fenetre;
 	
 	
@@ -133,7 +134,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 		donnerContrainte(c,1,0,1,1,0,0);
 		JToggleButton boutonOk = new JToggleButton();
 		boutonOk.setText("OK");
-		boutonOk.addActionListener(this);
+		boutonOk.addActionListener(new ActionListenerOption(this));
 		panelBoutons.add(boutonOk,c);
 
 		
@@ -170,34 +171,32 @@ public class FenetreOption extends JDialog implements ActionListener{
 		gbc.fill=GridBagConstraints.BOTH;
 	}
 
-	/*
-	 * Récupérer couleur sélectionner
-	 * 
-	 */
+	// Action effectué au clique du boutton annuler
+	// le bouton OK a son propre listener qui prend la fenetre en param
 	public void actionPerformed(ActionEvent e) {
 		
 		Object source = e.getActionCommand();
-		String nameColor = new String();
-		String nameCombo = new String();
 
-		if(source == "comboBoxChanged")
-		{
-			JComboBox cb = (JComboBox)e.getSource();
-	        nameColor = (String)cb.getSelectedItem();
-	        nameCombo = cb.getName();
 		}
 
-		System.out.println("source : "+source);
-		System.out.println("couleur: "+nameCombo + " " + nameColor);
-		
-		if (source == "OK")
-			{}
-		if (source == "Annuler")
-			{}
-		}
 
+	public JComboBox getChoixCouleur1() {
+		return choixCouleur1;
+	}
+
+	public JComboBox getChoixCouleur2() {
+		return choixCouleur2;
+	}
 
 	public FenetrePrincipale getFenetre() {
 		return fenetre;
+	}
+	
+	public JTextField getTextFieldJ1() {
+		return textFieldJ1;
+	}
+
+	public JTextField getTextFieldJ2() {
+		return textFieldJ2;
 	}
 	}
