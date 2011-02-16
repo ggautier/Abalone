@@ -9,7 +9,7 @@ public class PlateauTest extends TestCase {
 		Joueur j2 = new Joueur("Yves" , false, false);
 		try{
 			Plateau plato = new Plateau();
-			assertEquals(plato.getBille(12, 9),plato.getPlateau());
+			assertEquals(plato.getBille(12, 9),plato.getBilles());
 		}
 		catch(Exception e){
 			System.out.println(e.getMessage());
