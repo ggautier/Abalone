@@ -62,15 +62,15 @@ public class Partie {
 
 	}
 	
+
 	public Joueur getJ1() {
 		return j1;
 	}
 
-	
-	
 	public Joueur getJCourant() {
 		return this.jCourant;
 	}
+	
 
 	public void setJ1(Joueur j1) {
 		this.j1 = j1;
