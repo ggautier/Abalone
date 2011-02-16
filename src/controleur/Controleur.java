@@ -163,7 +163,7 @@ public class Controleur {
 	 * 		</ul>
 	 */
 	public boolean selectionner(int i, int j) {
-		Bille billeTemp = partie.getPlateau().getBille(i, j); // R�cup�ration de la bille pointee.
+		Bille billeTemp = partie.getPlateau().getBille(i, j); // Recuperation de la bille pointee.
 		
 		// La selection ne peut se faire que s'il y a une bille aux coordonnees indiquees
 		if (billeTemp != null) {
@@ -742,6 +742,21 @@ public class Controleur {
 
 	public void setFenetrePrincipale(FenetrePrincipale fenetrePrincipale) {
 		this.fenetrePrincipale = fenetrePrincipale;
+	}
+	
+	public Vector<Bille> getBillesJoueur(Joueur joueur) {
+		
+		Vector<Bille> billesJoueur = new Vector<Bille>();
+		Plateau plateau = this.getPartie().getPlateau();
+		
+		for(int ligne = 0 ; ligne < plateau.getBilles().length ; ligne++) {
+			for(int colonne = 0 ; colonne < plateau.getBilles()[ligne].length ; colonne++) {
+				if(plateau.getBilles()[ligne][colonne].getJoueur().equals(joueur))
+					billesJoueur.add(plateau.getBilles()[ligne][colonne]);
+			}
+		}
+		
+		return billesJoueur;
 	}
 	
 	/*
