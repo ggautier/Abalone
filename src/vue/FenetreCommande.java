@@ -123,7 +123,7 @@ public class FenetreCommande extends JPanel implements ActionListener {
 		if(source == "Unselect")
 		{	
 			//méthode de desélection propre au controleur
-			//this.fenetre.getControleur().deselectionner();
+			this.fenetre.getControleur().deselectionner();
 		}
 	}
 }
