@@ -139,6 +139,12 @@ public class Plateau {
 		this.partie = partie;
 	}
 	
+	public Plateau copy() {
+		Plateau copie = new Plateau();
+		copie.setPlateau(this.getBilles());
+		
+		return copie;
+	}
 	/*
 	public void afficher() {
 		int nbBilles = 0;

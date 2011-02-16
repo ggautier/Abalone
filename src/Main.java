@@ -63,6 +63,13 @@ public class Main {
         
         f.setVisible(true);
         
+
+        f.getControleur().getCoupsPossibles(
+        		f.getControleur().getBillesJoueur(
+        				f.getControleur().getPartie().getJ1()
+        		)
+        );
+        
         double note = 
         	15.0*2+9.65*2+7.43*2+11.15*2+8.75*2+12.58
         	;
