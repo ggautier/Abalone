@@ -29,18 +29,17 @@ import javax.swing.border.TitledBorder;
 
 public class FenetreOption extends JDialog implements ActionListener{
 	
-	
+	private FenetrePrincipale		fenetre;
+	private JDialog					dialog;
 	private JPanel 					panel, sousPanJ1, sousPanJ2 , panelBoutons;
 	private DefaultComboBoxModel	comboModel1, comboModel2;
 	private JComboBox				choixCouleur1, choixCouleur2;
 	private TitledBorder			title;
 	private JTextField 				textFieldJ1, textFieldJ2;
-	private FenetrePrincipale		fenetre;
-	
 	
 	public FenetreOption(String titre, FenetrePrincipale fenetre)
 	{	
-	JDialog dialog = new JDialog();
+	dialog = new JDialog();
 	dialog.setSize(300, 200);
 	dialog.setTitle(titre);
 	dialog.setVisible(true);
@@ -48,7 +47,6 @@ public class FenetreOption extends JDialog implements ActionListener{
 	dialog.setContentPane(buildContentPane());
 	
 	this.fenetre = fenetre;
-
 	}
 	
 
@@ -98,7 +96,7 @@ public class FenetreOption extends JDialog implements ActionListener{
          * 
          */
     	donnerContrainte(c,0,0,1,1,0,0);
-		JTextField textFieldJ1 = new JTextField();
+		textFieldJ1 = new JTextField();
 		textFieldJ1.setColumns(10);
 		textFieldJ1.setText("Joueur 1");
 		sousPanJ1.add(textFieldJ1,c);
@@ -112,7 +110,7 @@ public class FenetreOption extends JDialog implements ActionListener{
          * 
          */
 		donnerContrainte(c,0,0,1,1,0,0);
-		JTextField textFieldJ2 = new JTextField();
+		textFieldJ2 = new JTextField();
 		textFieldJ2.setColumns(10);
 		textFieldJ2.setText("Joueur 2");
 		sousPanJ2.add(textFieldJ2,c);
@@ -134,7 +132,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 		donnerContrainte(c,1,0,1,1,0,0);
 		JToggleButton boutonOk = new JToggleButton();
 		boutonOk.setText("OK");
-		boutonOk.addActionListener(new ActionListenerOption(this));
+		boutonOk.addActionListener(this);
 		panelBoutons.add(boutonOk,c);
 
 		
@@ -177,26 +175,24 @@ public class FenetreOption extends JDialog implements ActionListener{
 		
 		Object source = e.getActionCommand();
 
+		if(source == "OK")
+		{
+			String couleurJ1 = new String(this.choixCouleur1.getSelectedItem().toString());
+			String couleurJ2 = new String(this.choixCouleur2.getSelectedItem().toString());	
+			
+			// On récupère les noms enregistré pour modifier le modèles
+			String nomJ1 = new String(this.textFieldJ1.getText());
+			String nomJ2 = new String(this.textFieldJ2.getText());
+
+			this.fenetre.getControleur().getPartie().getJ1().setNom(nomJ1);
+			this.fenetre.getControleur().getPartie().getJ2().setNom(nomJ2);
+			
+			this.dialog.dispose();
 		}
+		if(source == "Annuler")
+		{
+			this.dialog.dispose();
 
-
-	public JComboBox getChoixCouleur1() {
-		return choixCouleur1;
+		}
 	}
-
-	public JComboBox getChoixCouleur2() {
-		return choixCouleur2;
-	}
-
-	public FenetrePrincipale getFenetre() {
-		return fenetre;
-	}
-	
-	public JTextField getTextFieldJ1() {
-		return textFieldJ1;
-	}
-
-	public JTextField getTextFieldJ2() {
-		return textFieldJ2;
-	}
-	}
+}
