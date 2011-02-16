@@ -6,8 +6,9 @@ import vue.FenetrePrincipale;
 
 import modele.Bille;
 
-public class Main {
 
+
+public class Main {
 
 	/**
 	 * @param args

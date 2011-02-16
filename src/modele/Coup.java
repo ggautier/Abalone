@@ -1,5 +1,10 @@
 package modele;
 
+import java.util.Vector;
+
+import vue.FenetrePrincipale;
+import controleur.ControleurIA;
+
 /**
  * <b>Coup est la classe qui regroupe toute la sequence de coup joues depuis le debut de la partie.</b>
  * <p>
@@ -22,6 +27,27 @@ package modele;
  */
 public class Coup {
 
+	protected Vector<Bille>		billes;  // Contient toutes les Billes actuellement selectionnees.
+	protected int		    	direction;// Contient le "deplacement" pointe par la Souris.
+	
+	public Coup() {
+		
+	}
+	
+	public Coup(Vector<Bille> b, int dir) {
+		this.billes = b;
+		this.direction = dir;
+	}
+	
+	public boolean equals(Coup c) {
+		boolean memesBilles = false;
+		if (billes.equals(c.billes))
+			memesBilles = true;
+		
+		return (this.direction == c.direction && memesBilles);
+	}
+	
+	
 }
 
 /*

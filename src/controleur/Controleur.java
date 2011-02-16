@@ -9,6 +9,7 @@ import vue.FenetrePlateau;
 import vue.FenetrePrincipale;
 
 import modele.Bille;
+import modele.Coup;
 import modele.Joueur;
 import modele.Partie;
 import modele.Plateau;
@@ -56,6 +57,8 @@ public class Controleur {
 	public final static int HAUT_DROITE = 21;
 	public final static int HAUT_GAUCHE = 00;
 	public final static int BAS_DROITE = 22;
+	
+	public final static int[] tabDir = {GAUCHE, DROITE, BAS_GAUCHE, HAUT_DROITE, HAUT_GAUCHE, BAS_DROITE};
 	
 	// Axes, sous la forme lignecolonne : 1=mouvement; 0=pas de mouvement
 	public final static int GD = 01;
@@ -618,7 +621,7 @@ public class Controleur {
 			for(int j=0; j < v.size(); j++)
 				deplacerBille(v.get(j),dir);
 			
-			partie.nextTurn();
+			this.nextTurn();
 		}
 		return true;
 	}
@@ -639,7 +642,7 @@ public class Controleur {
 				deplacerBille(billeTemp,dir);
 				selectionnees.remove(billeTemp);
 			}		
-			partie.nextTurn();
+			this.nextTurn();
 		}
 		this.selectionnees.clear();
 		this.visees.clear();
@@ -753,6 +756,123 @@ public class Controleur {
 		}
 		
 		return billesJoueur;
+	}
+	
+	public Vector<Coup> getCoupsPossibles(Vector<Bille> vIn) {
+		
+		Vector<Coup> coups = new Vector<Coup>();
+		Vector<Bille> billesTestees = new Vector<Bille>(3);
+		int dirTestee = -1;
+
+		
+		
+		// Pour une Bille
+		for (int i=0; i<vIn.size(); i++) {
+			billesTestees.add(vIn.get(i));
+			
+			for (int t=0; t<6; t++) {
+				dirTestee = tabDir[t];
+				if (deplacementPossible(billesTestees,dirTestee))
+					coups.add(new Coup(billesTestees,dirTestee));
+			}
+			billesTestees.clear();
+		}
+		
+		// Pour plusieurs Billes
+		for (int i=0; i<vIn.size(); i++) {
+			billesTestees.add(vIn.get(i));
+			
+			for (int v=0; v<6; v++) {
+				if (voisine(billesTestees.get(i),tabDir[v],1).getJoueur().equals(billesTestees.get(i).getJoueur())) {
+					
+					billesTestees.add(voisine(billesTestees.get(i),tabDir[v],1));
+					int axe = getAxe(selectionnees.get(0),selectionnees.get(1));
+					
+					switch (axe) {
+						case GD:
+							if (deplacementPossible(billesTestees,GAUCHE))
+								coups.add(new Coup(billesTestees,GAUCHE));
+							if (deplacementPossible(billesTestees,DROITE))
+								coups.add(new Coup(billesTestees,DROITE));	
+							break;
+						case HG_BD:
+							if (deplacementPossible(billesTestees,HAUT_GAUCHE))
+								coups.add(new Coup(billesTestees,HAUT_GAUCHE));
+							if (deplacementPossible(billesTestees,BAS_DROITE))
+								coups.add(new Coup(billesTestees,BAS_DROITE));	
+							break;
+						
+						case HD_BG:
+							if (deplacementPossible(billesTestees,HAUT_DROITE))
+								coups.add(new Coup(billesTestees,HAUT_DROITE));
+							if (deplacementPossible(billesTestees,BAS_GAUCHE))
+								coups.add(new Coup(billesTestees,BAS_GAUCHE));	
+							break;
+							
+						default:
+							break;
+					}
+				}
+			}
+			billesTestees.clear();
+
+		}
+
+		for (int i=0; i<vIn.size(); i++) {
+			billesTestees.add(vIn.get(i));
+			
+			for (int v=0; v<6; v++) {
+				if (voisine(billesTestees.get(i),tabDir[v],1).getJoueur().equals(billesTestees.get(i).getJoueur())
+					&& voisine(billesTestees.get(i),tabDir[v],2).getJoueur().equals(billesTestees.get(i).getJoueur())) {
+					
+					billesTestees.add(voisine(billesTestees.get(i),tabDir[v],1));
+					int axe = getAxe(selectionnees.get(0),selectionnees.get(1));
+					
+					switch (axe) {
+						case GD:
+							if (deplacementPossible(billesTestees,GAUCHE))
+								coups.add(new Coup(billesTestees,GAUCHE));
+							if (deplacementPossible(billesTestees,DROITE))
+								coups.add(new Coup(billesTestees,DROITE));	
+							break;
+						case HG_BD:
+							if (deplacementPossible(billesTestees,HAUT_GAUCHE))
+								coups.add(new Coup(billesTestees,HAUT_GAUCHE));
+							if (deplacementPossible(billesTestees,BAS_DROITE))
+								coups.add(new Coup(billesTestees,BAS_DROITE));	
+							break;
+						
+						case HD_BG:
+							if (deplacementPossible(billesTestees,HAUT_DROITE))
+								coups.add(new Coup(billesTestees,HAUT_DROITE));
+							if (deplacementPossible(billesTestees,BAS_GAUCHE))
+								coups.add(new Coup(billesTestees,BAS_GAUCHE));	
+							break;
+							
+						default:
+							break;
+					}
+				}
+			}
+			billesTestees.clear();
+
+		}
+		
+		System.out.println(coups.size());
+		
+		return coups;
+	}
+	
+	// Change de joueur
+	public void nextTurn() {
+		if (this.partie.getjCourant().equals(partie.getJ1()))
+			this.getPartie().setjCourant(partie.getJ2());
+		else 
+			this.getPartie().setjCourant(partie.getJ1());
+		
+		this.getPartie().quickSave();
+		
+		this.getFenetrePrincipale().rafraichir();
 	}
 	
 	/*
