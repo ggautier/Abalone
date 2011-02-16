@@ -62,10 +62,6 @@ public class Partie {
 
 	}
 	
-	public Joueur getJ1() {
-		return j1;
-	}
-
 	// Change de joueur
 	public void nextTurn() {
 		if (this.jCourant.equals(j1))
@@ -80,6 +76,10 @@ public class Partie {
 	
 	public Joueur getJCourant() {
 		return this.jCourant;
+	}
+	
+	public Joueur getJ1() {
+		return j1;
 	}
 
 	public void setJ1(Joueur j1) {
