@@ -1,5 +1,7 @@
 package controleur;
 
+import modele.Partie;
+import modele.Plateau;
 import utils.ArbreCoups;
 
 /**
@@ -27,7 +29,7 @@ public class ControleurIA {
 	 * 
 	 * @see Controleur
 	 */
-	private Controleur controleur;
+	private Controleur controleurPartie;
 	
 	/**
 	 * L'arbre des coups possibles
@@ -37,7 +39,13 @@ public class ControleurIA {
 	private ArbreCoups arbreCoups;
 	
 	public ControleurIA(Controleur newControleur) {
-		this.setControleur(newControleur);
+		this.setControleurPartie(newControleur);
+	}
+	
+	public void test() {
+		Plateau pTemp = this.getControleurPartie().getPartie().getPlateau().copy();
+		
+		
 	}
 	
 	/**
@@ -47,8 +55,8 @@ public class ControleurIA {
 	 * 
 	 * @see Controleur
 	 */
-	public Controleur getControleur() {
-		return this.controleur;
+	public Controleur getControleurPartie() {
+		return this.controleurPartie;
 	}
 	
 	/**
@@ -69,8 +77,8 @@ public class ControleurIA {
 	 * 
 	 * @see Controleur
 	 */
-	public void setControleur(Controleur newControleur) {
-		this.controleur = newControleur;
+	public void setControleurPartie(Controleur newControleur) {
+		this.controleurPartie = newControleur;
 	}
 	
 	/**
@@ -87,4 +95,6 @@ public class ControleurIA {
 	public void construireArbre() {
 		
 	}
+	
+	
 }

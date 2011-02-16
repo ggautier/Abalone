@@ -107,6 +107,10 @@ public class Controleur {
 		return retour;
 	}
 	
+	public void deselectionner() {
+		this.selectionnees.clear();
+	}
+	
 	public void majDeplacementVise(Point p) {
 		this.deplacementVise = -1;
 		int dir = -1;
@@ -477,8 +481,10 @@ public class Controleur {
 					i = 42; // Moyen bourrin de mettre fin a la boucle.
 				else if (billeTemp.getJoueur() != billeTete.getJoueur())
 					vTemp.add(billeTemp);
-				else if (billeTemp.getJoueur() == billeTete.getJoueur()) // Si un trouve une Bille de notre couleur, alors foutu !
+				else if (billeTemp.getJoueur().equals(billeTete.getJoueur())) { // Si un trouve une Bille de notre couleur, alors foutu !
 					vTemp.clear();
+					i = 42;
+				}
 			}
 			else
 				i = 42;
@@ -614,6 +620,8 @@ public class Controleur {
 		return axe;
 	}
 	
+	
+	
 	public boolean action(Vector<Bille> v, int dir) {
 		if (deplacementPossible(v,dir)) {
 			for(int i=0; i < visees.size(); i++)
@@ -648,6 +656,11 @@ public class Controleur {
 		this.visees.clear();
 		this.coups.clear();
 		this.deplacementVise = -1;
+        getCoupsPossibles(
+        		getBillesJoueur(
+        				getPartie().getJ1()
+        		)
+        );
 		
 		return true;
 	}
@@ -750,8 +763,9 @@ public class Controleur {
 		
 		for(int ligne = 0 ; ligne < plateau.getBilles().length ; ligne++) {
 			for(int colonne = 0 ; colonne < plateau.getBilles()[ligne].length ; colonne++) {
-				if(plateau.getBilles()[ligne][colonne].getJoueur().equals(joueur))
-					billesJoueur.add(plateau.getBilles()[ligne][colonne]);
+				if(plateau.getBille(ligne,colonne) != null)
+					if(plateau.getBille(ligne,colonne).getJoueur().equals(joueur))
+						billesJoueur.add(plateau.getBilles()[ligne][colonne]);
 			}
 		}
 		
@@ -762,6 +776,7 @@ public class Controleur {
 		
 		Vector<Coup> coups = new Vector<Coup>();
 		Vector<Bille> billesTestees = new Vector<Bille>(3);
+		Bille bTemp, bTemp2;
 		int dirTestee = -1;
 
 		
@@ -783,36 +798,38 @@ public class Controleur {
 			billesTestees.add(vIn.get(i));
 			
 			for (int v=0; v<6; v++) {
-				if (voisine(billesTestees.get(i),tabDir[v],1).getJoueur().equals(billesTestees.get(i).getJoueur())) {
-					
-					billesTestees.add(voisine(billesTestees.get(i),tabDir[v],1));
-					int axe = getAxe(selectionnees.get(0),selectionnees.get(1));
-					
-					switch (axe) {
-						case GD:
-							if (deplacementPossible(billesTestees,GAUCHE))
-								coups.add(new Coup(billesTestees,GAUCHE));
-							if (deplacementPossible(billesTestees,DROITE))
-								coups.add(new Coup(billesTestees,DROITE));	
-							break;
-						case HG_BD:
-							if (deplacementPossible(billesTestees,HAUT_GAUCHE))
-								coups.add(new Coup(billesTestees,HAUT_GAUCHE));
-							if (deplacementPossible(billesTestees,BAS_DROITE))
-								coups.add(new Coup(billesTestees,BAS_DROITE));	
-							break;
+				bTemp = voisine(billesTestees.get(0),tabDir[v],1);
+				if (bTemp != null)
+					if (bTemp.getJoueur().equals(billesTestees.get(0).getJoueur())) {
 						
-						case HD_BG:
-							if (deplacementPossible(billesTestees,HAUT_DROITE))
-								coups.add(new Coup(billesTestees,HAUT_DROITE));
-							if (deplacementPossible(billesTestees,BAS_GAUCHE))
-								coups.add(new Coup(billesTestees,BAS_GAUCHE));	
-							break;
+						billesTestees.add(bTemp);
+						int axe = getAxe(billesTestees.get(0),billesTestees.get(1));
+						
+						switch (axe) {
+							case GD:
+								if (deplacementPossible(billesTestees,GAUCHE))
+									coups.add(new Coup(billesTestees,GAUCHE));
+								if (deplacementPossible(billesTestees,DROITE))
+									coups.add(new Coup(billesTestees,DROITE));	
+								break;
+							case HG_BD:
+								if (deplacementPossible(billesTestees,HAUT_GAUCHE))
+									coups.add(new Coup(billesTestees,HAUT_GAUCHE));
+								if (deplacementPossible(billesTestees,BAS_DROITE))
+									coups.add(new Coup(billesTestees,BAS_DROITE));	
+								break;
 							
-						default:
-							break;
+							case HD_BG:
+								if (deplacementPossible(billesTestees,HAUT_DROITE))
+									coups.add(new Coup(billesTestees,HAUT_DROITE));
+								if (deplacementPossible(billesTestees,BAS_GAUCHE))
+									coups.add(new Coup(billesTestees,BAS_GAUCHE));	
+								break;
+								
+							default:
+								break;
+						}
 					}
-				}
 			}
 			billesTestees.clear();
 
@@ -822,37 +839,41 @@ public class Controleur {
 			billesTestees.add(vIn.get(i));
 			
 			for (int v=0; v<6; v++) {
-				if (voisine(billesTestees.get(i),tabDir[v],1).getJoueur().equals(billesTestees.get(i).getJoueur())
-					&& voisine(billesTestees.get(i),tabDir[v],2).getJoueur().equals(billesTestees.get(i).getJoueur())) {
-					
-					billesTestees.add(voisine(billesTestees.get(i),tabDir[v],1));
-					int axe = getAxe(selectionnees.get(0),selectionnees.get(1));
-					
-					switch (axe) {
-						case GD:
-							if (deplacementPossible(billesTestees,GAUCHE))
-								coups.add(new Coup(billesTestees,GAUCHE));
-							if (deplacementPossible(billesTestees,DROITE))
-								coups.add(new Coup(billesTestees,DROITE));	
-							break;
-						case HG_BD:
-							if (deplacementPossible(billesTestees,HAUT_GAUCHE))
-								coups.add(new Coup(billesTestees,HAUT_GAUCHE));
-							if (deplacementPossible(billesTestees,BAS_DROITE))
-								coups.add(new Coup(billesTestees,BAS_DROITE));	
-							break;
+				bTemp = voisine(billesTestees.get(0),tabDir[v],1);
+				bTemp2 = voisine(billesTestees.get(0),tabDir[v],2);
+				if (bTemp != null && bTemp2 != null)
+					if (bTemp.getJoueur().equals(billesTestees.get(0).getJoueur())
+						&& bTemp2.getJoueur().equals(billesTestees.get(0).getJoueur())) {
 						
-						case HD_BG:
-							if (deplacementPossible(billesTestees,HAUT_DROITE))
-								coups.add(new Coup(billesTestees,HAUT_DROITE));
-							if (deplacementPossible(billesTestees,BAS_GAUCHE))
-								coups.add(new Coup(billesTestees,BAS_GAUCHE));	
-							break;
+						billesTestees.add(bTemp);
+						billesTestees.add(bTemp2);
+						int axe = getAxe(billesTestees.get(0),billesTestees.get(1));
+						
+						switch (axe) {
+							case GD:
+								if (deplacementPossible(billesTestees,GAUCHE))
+									coups.add(new Coup(billesTestees,GAUCHE));
+								if (deplacementPossible(billesTestees,DROITE))
+									coups.add(new Coup(billesTestees,DROITE));	
+								break;
+							case HG_BD:
+								if (deplacementPossible(billesTestees,HAUT_GAUCHE))
+									coups.add(new Coup(billesTestees,HAUT_GAUCHE));
+								if (deplacementPossible(billesTestees,BAS_DROITE))
+									coups.add(new Coup(billesTestees,BAS_DROITE));	
+								break;
 							
-						default:
-							break;
+							case HD_BG:
+								if (deplacementPossible(billesTestees,HAUT_DROITE))
+									coups.add(new Coup(billesTestees,HAUT_DROITE));
+								if (deplacementPossible(billesTestees,BAS_GAUCHE))
+									coups.add(new Coup(billesTestees,BAS_GAUCHE));	
+								break;
+								
+							default:
+								break;
+						}
 					}
-				}
 			}
 			billesTestees.clear();
 
