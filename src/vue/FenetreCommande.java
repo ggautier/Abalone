@@ -1,10 +1,13 @@
 package vue;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-public class FenetreCommande extends JPanel{
+public class FenetreCommande extends JPanel implements ActionListener {
 	
 	private JPanel			joueur1, joueur2, action;
 	private JLabel 			nomJoueur1, nomJoueur2, billeJoueur1, billeJoueur2;
@@ -42,6 +45,8 @@ public class FenetreCommande extends JPanel{
         nomJoueur2 = new JLabel("Joueur2");
         
         previous = new JButton("Cancel");
+        previous.addActionListener(this);
+        
         next = new JButton("Next");
         hint = new JButton("Conseil");
 
@@ -92,5 +97,16 @@ public class FenetreCommande extends JPanel{
 		gbc.weightx=wx;
 		gbc.weighty=wy;
 		gbc.fill=GridBagConstraints.BOTH;
+	}
+
+
+	public void actionPerformed(ActionEvent arg0) {
+		try {
+			this.fenetre.getControleur().getPartie().quickLoad();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

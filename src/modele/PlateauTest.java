@@ -8,7 +8,7 @@ public class PlateauTest extends TestCase {
 		Joueur j1 = new Joueur("Marcel", true , true);
 		Joueur j2 = new Joueur("Yves" , false, false);
 		try{
-			Plateau plato = new Plateau("./data/plateau/defaut.plt", j1, j2);
+			Plateau plato = new Plateau();
 			assertEquals(plato.getBille(12, 9),plato.getPlateau());
 		}
 		catch(Exception e){
@@ -20,7 +20,7 @@ public class PlateauTest extends TestCase {
 		Joueur j1 = new Joueur("Marcel", true , true);
 		Joueur j2 = new Joueur("Yves" , false, false);
 		try{
-			Plateau plato = new Plateau("./data/plateau/defaut.plt", j1, j2);
+			Plateau plato = new Plateau();
 			Bille bille1 = new Bille(2, 7, j1);
 			plato.setBille(7,3,bille1);
 			assertEquals(plato.getBille(12, 9),bille1);
@@ -39,7 +39,7 @@ public class PlateauTest extends TestCase {
 		Joueur j1 = new Joueur("Marcel", true , true);
 		Joueur j2 = new Joueur("Yves" , false, false);
 		try{
-			Plateau plato = new Plateau("./data/plateau/defaut.plt", j1, j2);
+			Plateau plato = new Plateau();
 			assertTrue(!plato.caseVide(0, 0));
 		}
 		catch(Exception e){
@@ -51,7 +51,7 @@ public class PlateauTest extends TestCase {
 		Joueur j1 = new Joueur("Marcel", true , true);
 		Joueur j2 = new Joueur("Yves" , false, false);
 		try{
-			Plateau plato = new Plateau("./data/plateau/defaut.plt", j1, j2);
+			Plateau plato = new Plateau();
 			assertTrue(plato.caseVide(5, 5));
 		}
 		catch(Exception e){

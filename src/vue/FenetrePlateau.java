@@ -60,8 +60,6 @@ public class FenetrePlateau extends JPanel{
         catch (IOException e) {
         }
         
-
-
    	}
 	
     public void paintComponent(Graphics g){

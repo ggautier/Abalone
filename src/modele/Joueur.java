@@ -1,4 +1,5 @@
 package modele;
+
 /**
  * <b>Joueur est la classe representant un joueur actif lors d'une partie.</b>
  * <p>

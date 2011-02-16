@@ -123,7 +123,7 @@ public class Plateau {
 		}
 	}
 
-	public Bille[][] getPlateau() {
+	public Bille[][] getBilles() {
 		return plateau;
 	}
 

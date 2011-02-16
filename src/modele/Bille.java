@@ -1,7 +1,5 @@
 package modele;
 
-
-
 /**
  * <b>Bille est la classe qui represente une bille durant une partie.</b>
  * <p>Une Bille est caracterisee par :

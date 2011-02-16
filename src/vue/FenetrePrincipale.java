@@ -205,16 +205,10 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 						BufferedWriter out = new BufferedWriter(lu);
 						// Mettre le flux en tampon (en cache)
 						
-						//affichage du joueur 1 (Nom r g b score humain)
-						String temp = new String();
-						temp = this.getControleur().getPartie().getJ1().getNom() + " ";
-						temp += this.getControleur().getPartie().getJ1().getR() + " ";
-						temp += this.getControleur().getPartie().getJ1().getG() + " ";
-						temp += this.getControleur().getPartie().getJ1().getB() + " ";
-						temp += this.getControleur().getPartie().getJ1().getScore() + " ";
-						temp += this.getControleur().getPartie().getJ1().isHumain() + " ";
+						String temp = this.getControleur().getPartie().toString();
 
 						out.write(temp);
+
 						out.write("\n");
 						
 						
@@ -270,7 +264,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 
 			  	try
 			  	{
-		  			this.getControleur().getPartie().charger(monFichier);
+		  			this.getControleur().getPartie().chargerParFichier(monFichier);
 			  	} 
 			  	catch (IOException ioe) 
 			  	{
