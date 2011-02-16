@@ -107,6 +107,10 @@ public class Controleur {
 		return retour;
 	}
 	
+	public void deselectionner() {
+		this.selectionnees.clear();
+	}
+	
 	public void majDeplacementVise(Point p) {
 		this.deplacementVise = -1;
 		int dir = -1;
@@ -615,6 +619,8 @@ public class Controleur {
 		
 		return axe;
 	}
+	
+	
 	
 	public boolean action(Vector<Bille> v, int dir) {
 		if (deplacementPossible(v,dir)) {
