@@ -62,25 +62,15 @@ public class Partie {
 
 	}
 	
-	// Change de joueur
-	public void nextTurn() {
-		if (this.jCourant.equals(j1))
-			this.jCourant = this.j2;
-		else 
-			this.jCourant = this.j1;
-		
-		this.quickSave();
-		
-		this.getControleur().getFenetrePrincipale().rafraichir();
+
+	public Joueur getJ1() {
+		return j1;
 	}
-	
+
 	public Joueur getJCourant() {
 		return this.jCourant;
 	}
 	
-	public Joueur getJ1() {
-		return j1;
-	}
 
 	public void setJ1(Joueur j1) {
 		this.j1 = j1;
@@ -567,4 +557,14 @@ public class Partie {
 		
 		return true;
 	}
+
+	public Joueur getjCourant() {
+		return jCourant;
+	}
+
+	public void setjCourant(Joueur jCourant) {
+		this.jCourant = jCourant;
+	}
+	
+	
 }
