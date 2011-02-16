@@ -12,7 +12,7 @@ public class FenetreCommande extends JPanel implements ActionListener {
 	private JPanel			joueur1, joueur2, action;
 	private JLabel 			nomJoueur1, nomJoueur2, billeJoueur1, billeJoueur2;
 	private TitledBorder	title;
-	private JButton			previous, next, hint;
+	private JButton			previous, unselect, hint;
 	protected FenetrePrincipale fenetre;
 	
 	public FenetreCommande(FenetrePrincipale fen)
@@ -46,9 +46,13 @@ public class FenetreCommande extends JPanel implements ActionListener {
         
         previous = new JButton("Cancel");
         previous.addActionListener(this);
-        
-        next = new JButton("Next");
+                
+        unselect = new JButton("Unselect");
+        unselect.addActionListener(this);
+
         hint = new JButton("Conseil");
+        hint.addActionListener(this);
+
 
         donnerContrainte(c,0,0,2,1,100,100);
         this.joueur1.add(nomJoueur1,c);
@@ -67,7 +71,7 @@ public class FenetreCommande extends JPanel implements ActionListener {
         donnerContrainte(c,0,0,1,1,0,0);
         this.action.add(previous,c);
         donnerContrainte(c,1,0,1,1,0,0);
-        this.action.add(next,c);
+        this.action.add(unselect,c);
         donnerContrainte(c,0,1,2,1,0,0);
         this.action.add(hint,c);
      
@@ -100,13 +104,26 @@ public class FenetreCommande extends JPanel implements ActionListener {
 	}
 
 
-	public void actionPerformed(ActionEvent arg0) {
-		try {
-			this.fenetre.getControleur().getPartie().quickLoad();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public void actionPerformed(ActionEvent e) {
+		Object source = e.getActionCommand().toString();
+
+		System.out.println(source);
+		if(source == "Cancel")
+		{	
+			try 
+			{
+				this.fenetre.getControleur().getPartie().quickLoad();
+			} 
+			catch (IOException ex) 
+			{
+				// TODO Auto-generated catch block
+				ex.printStackTrace();
+			}
 		}
-		
+		if(source == "Unselect")
+		{	
+			//méthode de desélection propre au controleur
+			//this.fenetre.getControleur().deselectionner();
+		}
 	}
 }

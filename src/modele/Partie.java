@@ -107,7 +107,7 @@ public class Partie {
 	
 	public void quickLoad() throws IOException {
 		System.out.println("Annulation...");
-		if (!actions.empty()) {
+		if (actions.size() > 1) {
 			this.actions.pop();
 			this.charger(this.actions.pop());
 		}
