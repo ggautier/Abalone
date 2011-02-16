@@ -177,72 +177,21 @@ public class FenetreOption extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		
 		Object source = e.getActionCommand();
-		JComboBox cb = (JComboBox)e.getSource();
-        String nameColor = (String)cb.getSelectedItem();
-        String nameCombo = cb.getName();
+		String nameColor = new String();
+		String nameCombo = new String();
+
+		if(source == "comboBoxChanged")
+		{
+			JComboBox cb = (JComboBox)e.getSource();
+	        nameColor = (String)cb.getSelectedItem();
+	        nameCombo = cb.getName();
+		}
 
 		System.out.println("source : "+source);
 		System.out.println("couleur: "+nameCombo + " " + nameColor);
 		
 		if (source == "OK")
-			{
-				if(nameCombo == "choixCouleur1")
-				{
-					if(nameColor == "Rouge")
-					{
-						this.getFenetre().getControleur().getPartie().getJ1().setR(255);
-						this.getFenetre().getControleur().getPartie().getJ1().setG(0);
-						this.getFenetre().getControleur().getPartie().getJ1().setB(0);
-
-					}
-					if(nameColor == "Bleu")
-					{
-						this.getFenetre().getControleur().getPartie().getJ1().setR(0);
-						this.getFenetre().getControleur().getPartie().getJ1().setG(0);
-						this.getFenetre().getControleur().getPartie().getJ1().setB(255);
-					}
-					if(nameColor == "Blanc")
-					{
-						this.getFenetre().getControleur().getPartie().getJ1().setR(255);
-						this.getFenetre().getControleur().getPartie().getJ1().setG(255);
-						this.getFenetre().getControleur().getPartie().getJ1().setB(255);
-					}
-					if(nameColor == "Noir")
-					{
-						this.getFenetre().getControleur().getPartie().getJ1().setR(0);
-						this.getFenetre().getControleur().getPartie().getJ1().setG(0);
-						this.getFenetre().getControleur().getPartie().getJ1().setB(0);
-					}
-				}
-				if(nameCombo == "choixCouleur2")
-				{
-					if(nameColor == "Rouge")
-					{
-						this.getFenetre().getControleur().getPartie().getJ2().setR(255);
-						this.getFenetre().getControleur().getPartie().getJ2().setG(0);
-						this.getFenetre().getControleur().getPartie().getJ2().setB(0);
-
-					}
-					if(nameColor == "Bleu")
-					{
-						this.getFenetre().getControleur().getPartie().getJ2().setR(0);
-						this.getFenetre().getControleur().getPartie().getJ2().setG(0);
-						this.getFenetre().getControleur().getPartie().getJ2().setB(255);
-					}
-					if(nameColor == "Blanc")
-					{
-						this.getFenetre().getControleur().getPartie().getJ2().setR(255);
-						this.getFenetre().getControleur().getPartie().getJ2().setG(255);
-						this.getFenetre().getControleur().getPartie().getJ2().setB(255);
-					}
-					if(nameColor == "Noir")
-					{
-						this.getFenetre().getControleur().getPartie().getJ2().setR(0);
-						this.getFenetre().getControleur().getPartie().getJ2().setG(0);
-						this.getFenetre().getControleur().getPartie().getJ2().setB(0);
-					}
-				}
-			}
+			{}
 		if (source == "Annuler")
 			{}
 		}
