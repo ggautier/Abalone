@@ -109,6 +109,10 @@ public class Controleur {
 	
 	public void deselectionner() {
 		this.selectionnees.clear();
+		this.visees.clear();
+		this.coups.clear();
+		
+		this.fenetrePrincipale.rafraichir();
 	}
 	
 	public void majDeplacementVise(Point p) {

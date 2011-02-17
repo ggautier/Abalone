@@ -1,5 +1,8 @@
 package controleur;
 
+import java.util.Vector;
+
+import modele.Coup;
 import modele.Partie;
 import modele.Plateau;
 import utils.ArbreCoups;
@@ -40,12 +43,27 @@ public class ControleurIA {
 	
 	public ControleurIA(Controleur newControleur) {
 		this.setControleurPartie(newControleur);
+		
 	}
 	
-	public void test() {
+	public void meilleurCoup() {
 		Plateau pTemp = this.getControleurPartie().getPartie().getPlateau().copy();
+		Vector<Coup> vCoups = new Vector<Coup>();
+		int profondeur = 1;
 		
-		
+		for (int p=0; p<profondeur; p++) {
+			
+			
+	        vCoups = getControleurPartie().getCoupsPossibles(
+	        		getControleurPartie().getBillesJoueur(
+	        				getControleurPartie().getPartie().getJ2()
+	        			)
+	        		);
+	        for (int i=0; i<vCoups.size(); i++)
+	        	this.arbreCoups.addFils(vCoups.get(i));
+	         
+		}
+        
 	}
 	
 	/**

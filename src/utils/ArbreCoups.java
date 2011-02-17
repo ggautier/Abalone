@@ -105,4 +105,8 @@ public class ArbreCoups {
 	public void setFils(List<ArbreCoups> newFils) {
 		this.fils = newFils;
 	}
+	
+	public void addFils(Coup fils) {
+		this.fils.add(new ArbreCoups(fils));
+	}
 }
