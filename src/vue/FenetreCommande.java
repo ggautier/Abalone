@@ -27,11 +27,11 @@ public class FenetreCommande extends JPanel implements ActionListener {
         //D�claration des diff�rents sous-parties de commande, GridBagLayout
         this.joueur1 = new JPanel();
         this.joueur1.setLayout(new GridBagLayout());
-        title = BorderFactory.createTitledBorder("Joueur1");
+        title = BorderFactory.createTitledBorder("Joueur 1");
         this.joueur1.setBorder(title);
         this.joueur2 = new JPanel();
         this.joueur2.setLayout(new GridBagLayout());
-        title = BorderFactory.createTitledBorder("Joueur2");
+        title = BorderFactory.createTitledBorder("Joueur 2");
         this.joueur2.setBorder(title);
         this.action = new JPanel();
         this.action.setLayout(new GridBagLayout());
@@ -41,8 +41,8 @@ public class FenetreCommande extends JPanel implements ActionListener {
         billeJoueur1 = new JLabel(Integer.toString(fenetre.getControleur().getPartie().getJ1().getScore()));
         billeJoueur2 = new JLabel(Integer.toString(fenetre.getControleur().getPartie().getJ2().getScore()));
         
-        nomJoueur1 = new JLabel("Joueur1");
-        nomJoueur2 = new JLabel("Joueur2");
+        nomJoueur1 = new JLabel(this.fenetre.getControleur().getPartie().getJ1().getNom());
+        nomJoueur2 = new JLabel(this.fenetre.getControleur().getPartie().getJ2().getNom());
         
         previous = new JButton("Cancel");
         previous.addActionListener(this);
@@ -129,4 +129,14 @@ public class FenetreCommande extends JPanel implements ActionListener {
 			
 		}
 	}
+
+	public JLabel getNomJoueur1() {
+		return nomJoueur1;
+	}
+
+	public JLabel getNomJoueur2() {
+		return nomJoueur2;
+	}
+
+	
 }

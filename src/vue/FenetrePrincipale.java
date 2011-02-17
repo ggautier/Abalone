@@ -59,8 +59,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		//H�ritage du builder de la super classe JFrame
 		super(titre);
 		
-
-		
 		this.controleur = new Controleur(this);
 			
 		//Rendre la fenetre fermable et re-dimensionnable
@@ -172,7 +170,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		Object source = e.getActionCommand().toString();
 		
 		if (source == "Nouveau")
-		{}
+		{ FenetreOver fenetreOver = new FenetreOver("Fin de partie", this); }
 		if (source == "Sauvegarder")
 		{ 
 			//FenetreSauvegarder fenetreSav = new FenetreSauvegarder("Sauvegarder");
@@ -273,7 +271,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		   	}
 		}
 		if (source == "Options")
-		{ FenetreOption fenetreOpt = new FenetreOption("Options", this); }
+		{ 
+			FenetreOption fenetreOpt = new FenetreOption("Options", this); 
+		}
 		if (source == "Quitter")
 		{ System.exit(0); }
 
@@ -287,6 +287,15 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 	public void setInfo(FenetreInfo info) {
 		this.info = info;
 	}
+
+	public FenetreCommande getCommande() {
+		return commande;
+	}
+
+	public void setCommande(FenetreCommande commande) {
+		this.commande = commande;
+	}
+	
 	
 	
 

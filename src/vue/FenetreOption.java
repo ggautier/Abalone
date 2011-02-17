@@ -39,14 +39,16 @@ public class FenetreOption extends JDialog implements ActionListener{
 	
 	public FenetreOption(String titre, FenetrePrincipale fenetre)
 	{	
-	dialog = new JDialog();
-	dialog.setSize(300, 200);
-	dialog.setTitle(titre);
-	dialog.setVisible(true);
-	dialog.setAlwaysOnTop(true);
-	dialog.setContentPane(buildContentPane());
+		this.fenetre = fenetre;
+		dialog = new JDialog();
+		dialog.setSize(300, 200);
+		dialog.setTitle(titre);
+		dialog.setVisible(true);
+		dialog.setAlwaysOnTop(true);
+		
+		dialog.setContentPane(buildContentPane());
 	
-	this.fenetre = fenetre;
+
 	}
 	
 
@@ -76,7 +78,6 @@ public class FenetreOption extends JDialog implements ActionListener{
 	    GridBagConstraints c = new GridBagConstraints();
 	    
 	    
-	    donnerContrainte(c,0,0,1,1,0,0);
         this.sousPanJ1 = new JPanel();
         this.sousPanJ1.setLayout(new GridBagLayout());
         title = BorderFactory.createTitledBorder("Joueur1");
@@ -98,9 +99,9 @@ public class FenetreOption extends JDialog implements ActionListener{
     	donnerContrainte(c,0,0,1,1,0,0);
 		textFieldJ1 = new JTextField();
 		textFieldJ1.setColumns(10);
-		textFieldJ1.setText("Joueur 1");
+		textFieldJ1.setText(this.fenetre.getControleur().getPartie().getJ1().getNom());
 		sousPanJ1.add(textFieldJ1,c);
-		
+				
 		donnerContrainte(c,0,1,1,1,0,0);
 		sousPanJ1.add(choixCouleur1,c);
 		
@@ -112,7 +113,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 		donnerContrainte(c,0,0,1,1,0,0);
 		textFieldJ2 = new JTextField();
 		textFieldJ2.setColumns(10);
-		textFieldJ2.setText("Joueur 2");
+		textFieldJ2.setText(this.fenetre.getControleur().getPartie().getJ2().getNom());
 		sousPanJ2.add(textFieldJ2,c);
 		
 		donnerContrainte(c,0,1,1,1,0,0);
@@ -124,13 +125,13 @@ public class FenetreOption extends JDialog implements ActionListener{
          */
 		
 		donnerContrainte(c,0,0,1,1,0,0);
-		JToggleButton boutonAnnuler = new JToggleButton();
+		JButton boutonAnnuler = new JButton();
 		boutonAnnuler.addActionListener(this);
 		boutonAnnuler.setText("Annuler");
 		panelBoutons.add(boutonAnnuler,c);
 		
 		donnerContrainte(c,1,0,1,1,0,0);
-		JToggleButton boutonOk = new JToggleButton();
+		JButton boutonOk = new JButton();
 		boutonOk.setText("OK");
 		boutonOk.addActionListener(this);
 		panelBoutons.add(boutonOk,c);
@@ -185,7 +186,9 @@ public class FenetreOption extends JDialog implements ActionListener{
 			String nomJ2 = new String(this.textFieldJ2.getText());
 
 			this.fenetre.getControleur().getPartie().getJ1().setNom(nomJ1);
+			this.fenetre.getCommande().getNomJoueur1().setText(nomJ1);
 			this.fenetre.getControleur().getPartie().getJ2().setNom(nomJ2);
+			this.fenetre.getCommande().getNomJoueur2().setText(nomJ2);
 			
 			this.dialog.dispose();
 		}
