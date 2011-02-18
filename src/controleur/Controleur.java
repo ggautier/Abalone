@@ -641,11 +641,12 @@ public class Controleur {
 	// Deplacement des Billes selectionnees : Si le deplacement vers la direction "dir" est possible, elle s'effectue.
 	public boolean action(int dir) {
 		Bille billeTemp;
+		boolean expulsee = false;
 		if (deplacementPossible(selectionnees,dir)) {
 			Vector<Bille> ennemies = getVisees(dir);
 			while(!ennemies.isEmpty())  {
 				billeTemp = getTete(ennemies,dir);
-				deplacerBille(billeTemp,dir);
+				expulsee = deplacerBille(billeTemp,dir);
 				ennemies.remove(billeTemp);
 			}
 			
@@ -666,7 +667,7 @@ public class Controleur {
         		)
         );
 		
-		return true;
+		return expulsee;
 	}
 	
 	public Vector<Bille> getVisees(int dir) {
@@ -682,6 +683,7 @@ public class Controleur {
 	// Methode utilisee pour deplacer la Bille. Ne pas appeller directement (passer par "action")
 	public boolean deplacerBille(Bille b, int dir) {
 		Bille billeTemp = b;
+		boolean out = false;
 		Point pOld = new Point(b.getX(),b.getY()); // Coordonnees de la Bille avant deplacement
 		Point pTemp = voisineP(b, dir, 1); // Coordonnees apres deplacement
 
@@ -692,6 +694,7 @@ public class Controleur {
 
 			}
 			else { // Si la Bille en question est sortie ...
+				out = true;
 				if (!b.getJoueur().equals(partie.getJCourant()))
 					partie.getJCourant().setScore(partie.getJCourant().getScore()+1); // Le joueur courant augmente son score
 				else
@@ -703,7 +706,7 @@ public class Controleur {
 	
 		}
 		
-		return true;
+		return out;
 	}
 	
 	// Retourne la Bille pointee par la souris.

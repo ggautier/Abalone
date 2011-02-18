@@ -34,6 +34,11 @@ public class ControleurIA {
 	 */
 	private Controleur controleurPartie;
 	
+	protected Controleur controleurVirtuel;
+	
+	
+	protected Partie partieVirtuelle; // Sera utilisee pour les simulations.
+	
 	/**
 	 * L'arbre des coups possibles
 	 * 
@@ -41,18 +46,25 @@ public class ControleurIA {
 	 */
 	private ArbreCoups arbreCoups;
 	
-	public ControleurIA(Controleur newControleur) {
-		this.setControleurPartie(newControleur);
+	// Le controleur possede une partie virtuelle dont il recopie regulierement le plateau a partir de celui d'origine
+	public ControleurIA(Controleur controleur) throws Exception {
 		
+		this.controleurPartie = controleur;
+		this.controleurVirtuel = new Controleur(null);
+		this.partieVirtuelle = new Partie(this.controleurVirtuel,null);
+		
+		this.partieVirtuelle.setPlateau(this.controleurPartie.getPartie().getPlateau().copy());
+		this.partieVirtuelle.setJ1(this.controleurPartie.getPartie().getJ1());
+		this.partieVirtuelle.setJ2(this.controleurPartie.getPartie().getJ2());
 	}
 	
 	public void meilleurCoup() {
-		Plateau pTemp = this.getControleurPartie().getPartie().getPlateau().copy();
+		this.partieVirtuelle.setPlateau(this.controleurPartie.getPartie().getPlateau().copy());
+		
 		Vector<Coup> vCoups = new Vector<Coup>();
 		int profondeur = 1;
 		
 		for (int p=0; p<profondeur; p++) {
-			
 			
 	        vCoups = getControleurPartie().getCoupsPossibles(
 	        		getControleurPartie().getBillesJoueur(
