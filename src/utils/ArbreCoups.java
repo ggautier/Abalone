@@ -65,6 +65,27 @@ public class ArbreCoups {
 	 * @see ArbreCoups#scoreCoup
 	 */
 	public int getScoreCoup() {
+		int score = 0;
+		if (this.isFeuille())
+			score = this.scoreCoup;
+		else {
+			for (int i=0; i<fils.size(); i++)
+				score = fils.get(i).getScoreCoup();
+		}
+		
+		return this.scoreCoup;
+	}
+	
+	public int getScoreMaxCoup() {
+		int score = 0;
+		if (this.isFeuille())
+			score = this.scoreCoup;
+		else {
+			for (int i=0; i<fils.size(); i++)
+				if (fils.get(i).getScoreCoup() > score)
+					score = fils.get(i).getScoreCoup();
+		}
+		
 		return this.scoreCoup;
 	}
 	
@@ -113,4 +134,7 @@ public class ArbreCoups {
 	public void addFils(Coup fils) {
 		this.fils.add(new ArbreCoups(fils));
 	}
+	
+	
+	
 }
