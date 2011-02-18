@@ -106,6 +106,10 @@ public class ArbreCoups {
 		this.fils = newFils;
 	}
 	
+	public boolean isFeuille() {
+		return (fils.isEmpty());
+	}
+	
 	public void addFils(Coup fils) {
 		this.fils.add(new ArbreCoups(fils));
 	}
