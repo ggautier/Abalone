@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.PointerInfo;
 import java.util.Vector;
 
+import vue.FenetreOver;
 import vue.FenetrePlateau;
 import vue.FenetrePrincipale;
 
@@ -666,6 +667,14 @@ public class Controleur {
         				getPartie().getJ1()
         		)
         );
+        
+        if (expulsee) {
+        	if (this.getPartie().getJ1().getScore() > 5)
+        		new FenetreOver("Victoire de "+this.getPartie().getJ1().getNom(),this.getFenetrePrincipale());
+        	else if (this.getPartie().getJ2().getScore() > 5)
+        		new FenetreOver("Victoire de "+this.getPartie().getJ2().getNom(),this.getFenetrePrincipale());
+
+        }
 		
 		return expulsee;
 	}
@@ -700,8 +709,6 @@ public class Controleur {
 				else
 					partie.getJCourant().setScore(partie.getJCourant().getScore()-1); // Normalement inutile (penalite de suicide)
 				
-				if (partie.getJCourant().getScore() >= 6)
-					; // Pop-up de fin de partie (et on propose de Rejouer)
 			}
 	
 		}
