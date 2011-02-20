@@ -210,188 +210,6 @@ public class Partie {
 		System.out.print("<<"+strTotal+">>");
 		this.charger(strTotal);
 		
-		/*
-		StringTokenizer tokenizer;
-		String ligne;
-		
-		int joueurR;
-		int joueurG;
-		int joueurB;
-		int scoreJoueur;
-		String nomJoueur;
-		String joueurHumain;
-		
-		// Chargement joueur 1
-		
-		// Les lignes vides sont ignorees
-		do
-		{
-			ligne = buffer.readLine();
-		}
-		while((ligne != null) && (ligne.isEmpty()));
-		
-		// Echec si la fin du fichier est atteinte
-		if(ligne == null)
-			return false;
-		
-		tokenizer = new StringTokenizer(ligne, " ");
-		
-		// Extraction des differents elements du joueur
-		
-		if(tokenizer.hasMoreTokens()) {
-			nomJoueur = tokenizer.nextToken();
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurR = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurG = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurB = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			scoreJoueur = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurHumain = tokenizer.nextToken();
-		}
-		
-		else
-			return false;
-		
-		this.j1 = new Joueur(nomJoueur, false,(joueurHumain.equals("true")), scoreJoueur, joueurR, joueurG, joueurB);
-		
-		// Chargement joueur 2
-		
-		// Les lignes vides sont ignorees
-		do
-		{
-			ligne = buffer.readLine();
-		}
-		while((ligne != null) && (ligne.isEmpty()));
-		
-		// Echec si la fin du fichier est atteinte
-		if(ligne == null)
-			return false;
-		
-		tokenizer = new StringTokenizer(ligne, " ");
-		
-		// Extraction des differents elements du joueur
-		
-		if(tokenizer.hasMoreTokens()) {
-			nomJoueur = tokenizer.nextToken();
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurR = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurG = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurB = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			scoreJoueur = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurHumain = tokenizer.nextToken();
-		}
-		
-		else
-			return false;
-		
-		this.j2 = new Joueur(nomJoueur, true , (joueurHumain.equals("true")), scoreJoueur, joueurR, joueurG, joueurB);
-		
-		// Chargement du plateau
-		
-		this.plateau = new Plateau();
-		
-		buffer.readLine();
-		
-		int numLigne = 0;
-		
-		while(((ligne = buffer.readLine()) != null) && (ligne.isEmpty() == false)) {
-			
-			if(ligne.length() != 9)
-				return false;
-			
-			for(int numColonne = 0 ; numColonne < ligne.length() ; numColonne++) {
-				
-				if(ligne.charAt(numColonne) == '-')
-					this.getPlateau().setBille(numLigne, numColonne, new Bille(numLigne, numColonne, this.getJ1()));
-					
-				else if(ligne.charAt(numColonne) == '+')
-					this.getPlateau().setBille(numLigne, numColonne, new Bille(numLigne, numColonne, this.getJ2()));
-				
-				else
-					this.getPlateau().setBille(numLigne, numColonne, null);
-			}
-			
-			numLigne++;
-		}
-		
-		// Extraction du joueur actif
-		
-		// Les lignes vides sont ignorees
-		do
-		{
-			ligne = buffer.readLine();
-		}
-		while((ligne != null) && (ligne.isEmpty()));
-		
-		// Echec si la fin du fichier est atteinte
-		if(ligne == null)
-			return false;
-		
-		if(ligne.equals("0"))
-			this.jCourant = this.getJ1();
-		else
-			this.jCourant = this.getJ2();
-		
-		this.quickSave();
-
-		*/
 		return true;
 	}
 	
@@ -465,10 +283,7 @@ public class Partie {
 			else
 				j1.setHumain(false);
 		}
-		
-		
-		//this.j1 = new Joueur(nomJoueur, false,(joueurHumain.equals("true")), scoreJoueur, joueurR, joueurG, joueurB);
-		
+				
 		// Chargement joueur 2
 		
 		// Les lignes vides sont ignorees
@@ -582,12 +397,6 @@ public class Partie {
 		else
 			this.jCourant = this.getJ2();
 		
-
-		
-		
-
-		
-		//this.j2 = new Joueur(nomJoueur, true , (joueurHumain.equals("true")), scoreJoueur, joueurR, joueurG, joueurB);
 		
 		this.quickSave();
 
