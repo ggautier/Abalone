@@ -68,11 +68,8 @@ public class FenetrePlateau extends JPanel{
 		 this.longueur = 55;
 		 this.largeur = 60;
 		 
-		 System.out.println(getSize());
 		 BufferedImage image1 = null;
-
-        //Vous pourrez voir cette phrase à chaque fois que la méthode est invoquée !
-         System.out.println("Je suis exécutée ! ! !"); 
+		 
          Bille billeTemp;
          g.setColor(Color.WHITE);
          /* Test avec variables */

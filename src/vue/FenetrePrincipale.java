@@ -59,8 +59,10 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		//H�ritage du builder de la super classe JFrame
 		super(titre);
 		
+		//this.controleur = Controleur.getInstance(this);
 		this.controleur = new Controleur(this);
-			
+		this.controleur.initControleurIA();
+		
 		//Rendre la fenetre fermable et re-dimensionnable
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

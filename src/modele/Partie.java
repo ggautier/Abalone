@@ -51,17 +51,26 @@ public class Partie {
 		
 		try {
 			this.chargerParFichier(fichierConfig);
+			
+			if(this.getJ1().getCamps() == false)
+				this.jCourant = this.getJ1();
+			else
+				this.jCourant = this.getJ2();
 		}
-		catch(IOException ioe) {
-			System.out.println(ioe.getMessage());
+		
+		catch(NullPointerException npe) {
 		}
-		if(this.getJ1().getCamps() == false)
-			this.jCourant = this.getJ1();
-		else
-			this.jCourant = this.getJ2();
-
+		
+		catch (IOException ioe) {
+		}
 	}
 	
+	public Joueur getJoueur(boolean camps) {
+		if(this.getJ1().getCamps() == camps)
+			return this.getJ1();
+		else
+			return this.getJ2();
+	}
 
 	public Joueur getJ1() {
 		return j1;

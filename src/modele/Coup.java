@@ -34,20 +34,37 @@ public class Coup {
 		
 	}
 	
-	public Coup(Vector<Bille> b, int dir) {
-		this.billes = b;
+	public Coup(Vector<Bille> billes, int dir) {
+		this.billes = billes;
 		this.direction = dir;
 	}
 	
-	public boolean equals(Coup c) {
+	public boolean equals(Coup coup2) {
 		boolean memesBilles = false;
-		if (billes.equals(c.billes))
+		if (billes.equals(coup2.billes))
 			memesBilles = true;
 		
-		return (this.direction == c.direction && memesBilles);
+		return (this.direction == coup2.direction && memesBilles);
 	}
 	
+	public String toString() {
+		String str = new String();
+		
+		for(int i = 0 ; i < this.billes.size() ; i++)
+			str += this.billes.get(i) + " ";
+		
+		str += ": " + this.direction;
+		
+		return str;
+	}
 	
+	public int nbBilles() {
+		return this.billes.size();
+	}
+	
+	public Joueur getJoueur() {
+		return this.billes.get(0).getJoueur();
+	}
 }
 
 /*

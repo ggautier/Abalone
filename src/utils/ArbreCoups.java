@@ -1,6 +1,6 @@
 package utils;
 
-import java.util.List;
+import java.util.LinkedList;
 
 import modele.Coup;
 
@@ -15,7 +15,7 @@ public class ArbreCoups {
 	
 	/**
 	 * Le "score" du coup associe au noeud
-	 * Calcul� comme suit :
+	 * Calcul� comme suit :
 	 *  +1 si joueur courant tue une bille adverse
 	 *  -1 si joueur courant perd un bille
 	 *  0 sinon
@@ -29,7 +29,11 @@ public class ArbreCoups {
 	 * 
 	 * @see List
 	 */
-	private List<ArbreCoups> fils;
+	private LinkedList<ArbreCoups> fils;
+	
+	public ArbreCoups() {
+		this.fils = new LinkedList<ArbreCoups>();
+	}
 	
 	/**
 	 * Constructeur de la classe ArbreCoups
@@ -37,7 +41,8 @@ public class ArbreCoups {
 	 * @param newCoup : le coup associe au noeud
 	 */
 	public ArbreCoups(Coup newCoup) {
-		
+		this.setCoup(newCoup);
+		this.fils = new LinkedList<ArbreCoups>();
 	}
 	
 	/**
@@ -46,8 +51,10 @@ public class ArbreCoups {
 	 * @param newCoup : le coup associe au noeud
 	 * @param newFils : les fils du noeud
 	 */
-	public ArbreCoups(Coup newCoup, List<ArbreCoups> newFils) {
+	public ArbreCoups(Coup newCoup, LinkedList<ArbreCoups> newFils) {
 		
+		this.setCoup(newCoup);
+		this.setFils(newFils);
 	}
 	
 	/**
@@ -65,7 +72,9 @@ public class ArbreCoups {
 	 * @see ArbreCoups#scoreCoup
 	 */
 	public int getScoreCoup() {
+		
 		int score = 0;
+		
 		if (this.isFeuille())
 			score = this.scoreCoup;
 		else {
@@ -77,9 +86,12 @@ public class ArbreCoups {
 	}
 	
 	public int getScoreMaxCoup() {
+		
 		int score = 0;
+		
 		if (this.isFeuille())
 			score = this.scoreCoup;
+		
 		else {
 			for (int i=0; i<fils.size(); i++)
 				if (fils.get(i).getScoreCoup() > score)
@@ -94,8 +106,19 @@ public class ArbreCoups {
 	 * 
 	 * @return Les fils du noeud
 	 */
-	public List<ArbreCoups> getFils() {
+	public LinkedList<ArbreCoups> getFils() {
 		return this.fils;
+	}
+	
+	/**
+	 * Retourne un fils du noeud
+	 * 
+	 * @param index : l'index du fils à retourner
+	 * 
+	 * @return Le fils du noeud à l'index demande dans la liste des fils
+	 */
+	public ArbreCoups getFils(int index) {
+		return this.fils.get(index);
 	}
 	
 	/**
@@ -123,8 +146,8 @@ public class ArbreCoups {
 	 * 
 	 * @param newFils : Une liste contenant les nouveaux fils du noeud
 	 */
-	public void setFils(List<ArbreCoups> newFils) {
-		this.fils = newFils;
+	public void setFils(LinkedList<ArbreCoups> newFils) {
+		this.fils = (LinkedList<ArbreCoups>) newFils.clone();
 	}
 	
 	public boolean isFeuille() {
@@ -135,6 +158,15 @@ public class ArbreCoups {
 		this.fils.add(new ArbreCoups(fils));
 	}
 	
-	
-	
+	public void afficher(int indentation) {
+		
+		for(int i = 0 ; i < indentation ; i++)
+			System.out.print("   ");
+		
+		System.out.println(this.getCoup());
+		
+		for(int index = 0 ; index < this.getFils().size() ; index++) {
+			this.getFils(index).afficher(indentation + 1);
+		}
+	}
 }

@@ -66,14 +66,20 @@ public class Controleur {
 	public final static int HG_BD = 11;
 	public final static int HD_BG = 10;
 	
+	private static Controleur instance = null;
+	
 	public Controleur(FenetrePrincipale fen) throws Exception
 	{
 		this.fenetrePrincipale = fen;
-		this.partie = new Partie(this, "./data/plateau/defaut.plt");
+		this.partie = new Partie(this, "./data/plateau/defautDebug.plt");
 		this.selectionnees = new Vector<Bille>(3);
 		this.visees = new Vector<Vector<Bille>>(2);
 		this.coups = new Vector<Integer>(6);
 		this.deplacementVise = -1;
+	}
+	
+	public void initControleurIA() throws Exception {
+		this.controleurIA = new ControleurIA(this);
 	}
 	
 	// Retourne le nombre de coups pour lesquels une Case est cible.
@@ -662,11 +668,8 @@ public class Controleur {
 		this.visees.clear();
 		this.coups.clear();
 		this.deplacementVise = -1;
-        getCoupsPossibles(
-        		getBillesJoueur(
-        				getPartie().getJ1()
-        		)
-        );
+        
+        this.controleurIA.construireArbre();
         
         if (expulsee) {
         	if (this.getPartie().getJ1().getScore() > 5)
@@ -786,7 +789,13 @@ public class Controleur {
 		return billesJoueur;
 	}
 	
-	public Vector<Coup> getCoupsPossibles(Vector<Bille> vIn) {
+	/**
+	 * Retourne les coups possibles avec un ensemble de billes
+	 * 
+	 * @param billesJoueur
+	 * @return
+	 */
+	public Vector<Coup> getCoupsPossibles(Vector<Bille> billesJoueur) {
 		
 		Vector<Coup> coups = new Vector<Coup>();
 		Vector<Bille> billesTestees = new Vector<Bille>(3);
@@ -795,62 +804,77 @@ public class Controleur {
 
 		
 		
-		// Pour une Bille
-		for (int i=0; i<vIn.size(); i++) {
-			billesTestees.add(vIn.get(i));
+		// Pour une bille
+		
+		for (int i = 0 ; i < billesJoueur.size() ; i++) {
+			billesTestees.add(billesJoueur.get(i));
 			
-			for (int t=0; t<6; t++) {
+			for (int t = 0 ; t < 6 ; t++) {
+				
 				dirTestee = tabDir[t];
+				
 				if (deplacementPossible(billesTestees,dirTestee))
-					coups.add(new Coup(billesTestees,dirTestee));
+					coups.add(new Coup((Vector<Bille>) billesTestees.clone(),dirTestee));
 			}
+			
 			billesTestees.clear();
 		}
 		
-		// Pour plusieurs Billes
-		for (int i=0; i<vIn.size(); i++) {
-			billesTestees.add(vIn.get(i));
+		// Pour deux billes
+		
+		for (int i=0; i<billesJoueur.size(); i++)
+		{
+			billesTestees.add(billesJoueur.get(i));
 			
-			for (int v=0; v<6; v++) {
+			for (int v=0; v<6; v++)
+			{
 				bTemp = voisine(billesTestees.get(0),tabDir[v],1);
 				if (bTemp != null)
-					if (bTemp.getJoueur().equals(billesTestees.get(0).getJoueur())) {
-						
+				{
+					if (bTemp.getJoueur().equals(billesTestees.get(0).getJoueur()))
+					{
 						billesTestees.add(bTemp);
+						
 						int axe = getAxe(billesTestees.get(0),billesTestees.get(1));
 						
 						switch (axe) {
 							case GD:
 								if (deplacementPossible(billesTestees,GAUCHE))
-									coups.add(new Coup(billesTestees,GAUCHE));
+									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),GAUCHE));
 								if (deplacementPossible(billesTestees,DROITE))
-									coups.add(new Coup(billesTestees,DROITE));	
+									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),DROITE));	
 								break;
 							case HG_BD:
 								if (deplacementPossible(billesTestees,HAUT_GAUCHE))
-									coups.add(new Coup(billesTestees,HAUT_GAUCHE));
+									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),HAUT_GAUCHE));
 								if (deplacementPossible(billesTestees,BAS_DROITE))
-									coups.add(new Coup(billesTestees,BAS_DROITE));	
+									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),BAS_DROITE));	
 								break;
 							
 							case HD_BG:
 								if (deplacementPossible(billesTestees,HAUT_DROITE))
-									coups.add(new Coup(billesTestees,HAUT_DROITE));
+									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),HAUT_DROITE));
 								if (deplacementPossible(billesTestees,BAS_GAUCHE))
-									coups.add(new Coup(billesTestees,BAS_GAUCHE));	
+									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),BAS_GAUCHE));	
 								break;
 								
 							default:
 								break;
 						}
+						
+						billesTestees.remove(bTemp);
 					}
+				}
 			}
+			
 			billesTestees.clear();
-
 		}
-
-		for (int i=0; i<vIn.size(); i++) {
-			billesTestees.add(vIn.get(i));
+		
+		// Pour trois billes
+		
+		for (int i=0; i<billesJoueur.size(); i++) {
+			
+			billesTestees.add(billesJoueur.get(i));
 			
 			for (int v=0; v<6; v++) {
 				bTemp = voisine(billesTestees.get(0),tabDir[v],1);
@@ -866,34 +890,37 @@ public class Controleur {
 						switch (axe) {
 							case GD:
 								if (deplacementPossible(billesTestees,GAUCHE))
-									coups.add(new Coup(billesTestees,GAUCHE));
+									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),GAUCHE));
 								if (deplacementPossible(billesTestees,DROITE))
-									coups.add(new Coup(billesTestees,DROITE));	
+									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),DROITE));	
 								break;
 							case HG_BD:
 								if (deplacementPossible(billesTestees,HAUT_GAUCHE))
-									coups.add(new Coup(billesTestees,HAUT_GAUCHE));
+									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),HAUT_GAUCHE));
 								if (deplacementPossible(billesTestees,BAS_DROITE))
-									coups.add(new Coup(billesTestees,BAS_DROITE));	
+									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),BAS_DROITE));	
 								break;
 							
 							case HD_BG:
 								if (deplacementPossible(billesTestees,HAUT_DROITE))
-									coups.add(new Coup(billesTestees,HAUT_DROITE));
+									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),HAUT_DROITE));
 								if (deplacementPossible(billesTestees,BAS_GAUCHE))
-									coups.add(new Coup(billesTestees,BAS_GAUCHE));	
+									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),BAS_GAUCHE));	
 								break;
 								
 							default:
 								break;
 						}
+						
+						billesTestees.remove(bTemp);
+						billesTestees.remove(bTemp2);
 					}
 			}
+			
 			billesTestees.clear();
-
 		}
 		
-		System.out.println(coups.size());
+		System.out.println("Nombre de coups possibles : " + coups.size());
 		
 		return coups;
 	}

@@ -2,7 +2,9 @@ package controleur;
 
 import java.util.Vector;
 
+import modele.Bille;
 import modele.Coup;
+import modele.Joueur;
 import modele.Partie;
 import modele.Plateau;
 import utils.ArbreCoups;
@@ -34,10 +36,15 @@ public class ControleurIA {
 	 */
 	private Controleur controleurPartie;
 	
-	protected Controleur controleurVirtuel;
+	/**
+	 * Le controleur associe a la partie virtuelle
+	 * 
+	 * @see Controleur
+	 */
+	private Controleur controleurVirtuel;
 	
 	
-	protected Partie partieVirtuelle; // Sera utilisee pour les simulations.
+	private Partie partieVirtuelle; // Sera utilisee pour les simulations.
 	
 	/**
 	 * L'arbre des coups possibles
@@ -56,6 +63,8 @@ public class ControleurIA {
 		this.partieVirtuelle.setPlateau(this.controleurPartie.getPartie().getPlateau().copy());
 		this.partieVirtuelle.setJ1(this.controleurPartie.getPartie().getJ1());
 		this.partieVirtuelle.setJ2(this.controleurPartie.getPartie().getJ2());
+		this.partieVirtuelle.setjCourant(this.controleurPartie.getPartie().getJCourant());
+		this.arbreCoups = new ArbreCoups(null);
 	}
 	
 	public void meilleurCoup() {
@@ -71,11 +80,12 @@ public class ControleurIA {
 	        				getControleurPartie().getPartie().getJ2()
 	        			)
 	        		);
+	        
 	        for (int i=0; i<vCoups.size(); i++)
 	        	this.arbreCoups.addFils(vCoups.get(i));
-	         
 		}
         
+		this.arbreCoups.afficher(0);
 	}
 	
 	/**
@@ -123,8 +133,35 @@ public class ControleurIA {
 	}
 	
 	public void construireArbre() {
+		this.partieVirtuelle.setPlateau(this.controleurPartie.getPartie().getPlateau().copy());
 		
+		this.arbreCoups = new ArbreCoups();
+		
+		this.construireFils(this.arbreCoups);
+		
+		for(int index = 0 ; index < this.arbreCoups.getFils().size() ; index++) {
+			System.out.println("Construction fils " + index);
+			this.construireFils(this.arbreCoups.getFils(index));
+		}
+		
+		this.arbreCoups.afficher(0);
 	}
 	
-	
+	public void construireFils(ArbreCoups noeud) {
+		
+		Joueur joueur;
+		
+		// Recuperation du joueur adverse au joueur du noeud pere
+		
+		if(noeud.getCoup() == null)
+			joueur = this.partieVirtuelle.getJoueur(!this.partieVirtuelle.getJCourant().getCamps());
+		else
+			joueur = this.partieVirtuelle.getJoueur(!noeud.getCoup().getJoueur().getCamps());
+		
+		Vector<Coup> coups = getControleurPartie().getCoupsPossibles(
+        						getControleurPartie().getBillesJoueur(joueur));
+		
+		for (int i = 0 ; i < coups.size() ; i++)
+        	noeud.addFils(coups.get(i));
+	}
 }
