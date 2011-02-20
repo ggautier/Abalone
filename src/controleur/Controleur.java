@@ -669,9 +669,9 @@ public class Controleur {
         );
         
         if (expulsee) {
-        	if (this.getPartie().getJ1().getScore() > 0)
+        	if (this.getPartie().getJ1().getScore() > 5)
         		new FenetreOver("Victoire de "+this.getPartie().getJ1().getNom(),this.getFenetrePrincipale());
-        	else if (this.getPartie().getJ2().getScore() > 0)
+        	else if (this.getPartie().getJ2().getScore() > 5)
         		new FenetreOver("Victoire de "+this.getPartie().getJ2().getNom(),this.getFenetrePrincipale());
 
         }
