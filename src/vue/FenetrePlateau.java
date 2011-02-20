@@ -40,22 +40,22 @@ public class FenetrePlateau extends JPanel{
         this.addMouseListener(ecouteurSouris);   
         this.addMouseMotionListener(ecouteurSouris);
         try {
-        	imgBilleBlanche = ImageIO.read(new File("./data/blanche.png"));
+        	imgBilleBlanche = ImageIO.read(new File("./data/img/blanche.png"));
         } 
         catch (IOException e) {
         }
         try {
-        	imgBilleNoire = ImageIO.read(new File("./data/noire.png"));
+        	imgBilleNoire = ImageIO.read(new File("./data/img/noire.png"));
         } 
         catch (IOException e) {
         }
         try {
-        	imgVide = ImageIO.read(new File("./data/vide.png"));
+        	imgVide = ImageIO.read(new File("./data/img/vide.png"));
         } 
         catch (IOException e) {
         }
         try {
-        	imgPlateau = ImageIO.read(new File("./data/plateau.png"));
+        	imgPlateau = ImageIO.read(new File("./data/img/plateau.png"));
         } 
         catch (IOException e) {
         }
