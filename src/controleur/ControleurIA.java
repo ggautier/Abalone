@@ -63,7 +63,7 @@ public class ControleurIA {
 		this.partieVirtuelle.setPlateau(this.controleurPartie.getPartie().getPlateau().copy());
 		this.partieVirtuelle.setJ1(this.controleurPartie.getPartie().getJ1());
 		this.partieVirtuelle.setJ2(this.controleurPartie.getPartie().getJ2());
-		this.partieVirtuelle.setjCourant(this.controleurPartie.getPartie().getJCourant());
+		this.partieVirtuelle.setJCourant(this.controleurPartie.getPartie().getJCourant());
 		this.arbreCoups = new ArbreCoups(null);
 	}
 	
@@ -140,7 +140,6 @@ public class ControleurIA {
 		this.construireFils(this.arbreCoups);
 		
 		for(int index = 0 ; index < this.arbreCoups.getFils().size() ; index++) {
-			System.out.println("Construction fils " + index);
 			this.construireFils(this.arbreCoups.getFils(index));
 		}
 		

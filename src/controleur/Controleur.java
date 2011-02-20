@@ -71,7 +71,7 @@ public class Controleur {
 	public Controleur(FenetrePrincipale fen) throws Exception
 	{
 		this.fenetrePrincipale = fen;
-		this.partie = new Partie(this, "./data/plateau/defautDebug.plt");
+		this.partie = new Partie(this, "./data/plateau/defaut.plt");
 		this.selectionnees = new Vector<Bille>(3);
 		this.visees = new Vector<Vector<Bille>>(2);
 		this.coups = new Vector<Integer>(6);
@@ -920,17 +920,15 @@ public class Controleur {
 			billesTestees.clear();
 		}
 		
-		System.out.println("Nombre de coups possibles : " + coups.size());
-		
 		return coups;
 	}
 	
 	// Change de joueur
 	public void nextTurn() {
-		if (this.partie.getjCourant().equals(partie.getJ1()))
-			this.getPartie().setjCourant(partie.getJ2());
+		if (this.partie.getJCourant().equals(partie.getJ1()))
+			this.getPartie().setJCourant(partie.getJ2());
 		else 
-			this.getPartie().setjCourant(partie.getJ1());
+			this.getPartie().setJCourant(partie.getJ1());
 		
 		this.getPartie().quickSave();
 		

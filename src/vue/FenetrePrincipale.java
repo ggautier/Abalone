@@ -59,9 +59,10 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		//H�ritage du builder de la super classe JFrame
 		super(titre);
 		
-		//this.controleur = Controleur.getInstance(this);
+		/*
 		this.controleur = new Controleur(this);
 		this.controleur.initControleurIA();
+		*/
 		
 		//Rendre la fenetre fermable et re-dimensionnable
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -103,6 +104,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
+        
+		this.controleur = new Controleur(this);
+		this.controleur.initControleurIA();
 
         //init du conteneur plateau
         plateau = new FenetrePlateau(this);
@@ -113,6 +117,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
                 
         //init d'info, contenant les scores, tour en cours, ...
         info = new FenetreInfo(this);
+        
+
+        
         
         //On affecte une position au panel plateau, dans le contenant panel
         donnerContrainte(c,0,0,1,1,90,70);
@@ -125,6 +132,10 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         panel.add(info,c);
         
         this.add(panel);
+        
+        this.rafraichir();
+        
+
 	}
 	
 	public FenetrePlateau getPlateau() {
@@ -136,7 +147,12 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 	}
 	
 	public void rafraichir() {
-		this.getInfo().getTourDeJeu().setText(this.getControleur().getPartie().getJCourant().getNom());
+		this.getInfo().getTourDeJeu().setText(
+				this.getControleur().
+					getPartie().
+						getJCourant().
+							getNom());
+		
 		this.getInfo().getTourDeJeu().repaint();
 		this.getInfo().getTourDeJeu().revalidate();
 		this.getInfo().getTourDeJeu().repaint();
@@ -209,33 +225,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 
 						out.write(temp);
 
-						out.write("\n");
-						
-						
-						//affichage du joueur 2 (Nom r g b score humain)
-						temp = this.getControleur().getPartie().getJ2().getNom() + " ";
-						temp += this.getControleur().getPartie().getJ2().getR() + " ";
-						temp += this.getControleur().getPartie().getJ2().getG() + " ";
-						temp += this.getControleur().getPartie().getJ2().getB() + " ";
-						temp += this.getControleur().getPartie().getJ2().getScore() + " ";
-						temp += this.getControleur().getPartie().getJ2().isHumain() + " ";
-
-						out.write(temp);
-						out.write("\n\n");
-						
-						// affichage du plateau (toString())
-						out.write(this.getControleur().getPartie().getPlateau().toString()); 
-						out.write("\n");
-						//affichage du joueur actif
-						int i = (this.getControleur().getPartie().getJCourant().getCamps() ? 1 : 0) ;
-						temp = ""+i;
-						out.write(temp);
-						out.write("\n");
-						
-						
-						
-
-						// Balancer dans le flux le contenu de la zone de texte
+									// Balancer dans le flux le contenu de la zone de texte
 						out.close(); 
 						// Fermer le flux (c'est toujours mieux de le fermer explicitement)
 					} 
@@ -262,6 +252,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 			  	monFichier = filechoose.getSelectedFile().toString();
 			  	// R�cup�rer le nom du fichier qu'il a sp�cifi�
 
+			  	
 			  	try
 			  	{
 		  			this.getControleur().getPartie().chargerParFichier(monFichier);

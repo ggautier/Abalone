@@ -40,22 +40,22 @@ public class FenetrePlateau extends JPanel{
         this.addMouseListener(ecouteurSouris);   
         this.addMouseMotionListener(ecouteurSouris);
         try {
-        	imgBilleBlanche = ImageIO.read(new File("./data/blanche.png"));
+        	imgBilleBlanche = ImageIO.read(new File("./data/img/blanche.png"));
         } 
         catch (IOException e) {
         }
         try {
-        	imgBilleNoire = ImageIO.read(new File("./data/noire.png"));
+        	imgBilleNoire = ImageIO.read(new File("./data/img/noire.png"));
         } 
         catch (IOException e) {
         }
         try {
-        	imgVide = ImageIO.read(new File("./data/vide.png"));
+        	imgVide = ImageIO.read(new File("./data/img/vide.png"));
         } 
         catch (IOException e) {
         }
         try {
-        	imgPlateau = ImageIO.read(new File("./data/plateau.png"));
+        	imgPlateau = ImageIO.read(new File("./data/img/plateau.png"));
         } 
         catch (IOException e) {
         }
@@ -74,7 +74,7 @@ public class FenetrePlateau extends JPanel{
          g.setColor(Color.WHITE);
          /* Test avec variables */
          g.fillRect(0, 0, this.getWidth(), this.getHeight());
-         g.drawImage(imgPlateau,(int) (this.getWidth()*0.08), 0, (int) (this.getWidth()*0.85), this.getHeight(), this);
+         g.drawImage(imgPlateau,(int) (this.getWidth()*0.085), 0, (int) (this.getWidth()*0.85), this.getHeight(), this);
          //
          
          for (int i = 0; i < 9; i++ ) {

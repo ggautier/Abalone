@@ -49,6 +49,9 @@ public class Partie {
 		this.setControleur(newControleur);
 		this.actions = new Stack<String>();
 		
+		this.setJ1(new Joueur("J1", false, true));
+		this.setJ2(new Joueur("J2", true, true));
+		
 		try {
 			this.chargerParFichier(fichierConfig);
 			
@@ -59,27 +62,16 @@ public class Partie {
 		}
 		
 		catch(NullPointerException npe) {
+			System.out.println(npe.getMessage());
 		}
-		
 		catch (IOException ioe) {
+			System.out.println(ioe.getMessage());
 		}
-	}
-	
-	public Joueur getJoueur(boolean camps) {
-		if(this.getJ1().getCamps() == camps)
-			return this.getJ1();
-		else
-			return this.getJ2();
 	}
 
 	public Joueur getJ1() {
 		return j1;
 	}
-
-	public Joueur getJCourant() {
-		return this.jCourant;
-	}
-	
 
 	public void setJ1(Joueur j1) {
 		this.j1 = j1;
@@ -91,6 +83,21 @@ public class Partie {
 
 	public void setJ2(Joueur j2) {
 		this.j2 = j2;
+	}
+	
+	public Joueur getJCourant() {
+		return this.jCourant;
+	}
+	
+	public void setJCourant(Joueur jCourant) {
+		this.jCourant = jCourant;
+	}
+	
+	public Joueur getJoueur(boolean camps) {
+		if(this.getJ1().getCamps() == camps)
+			return this.getJ1();
+		else
+			return this.getJ2();
 	}
 	
 	public Controleur getControleur() {
@@ -126,63 +133,8 @@ public class Partie {
 		this.getControleur().getFenetrePrincipale().rafraichir();
 	}
 	
-	public String toString() {
-		String temp = "";
-
-		/*
-		out.write(temp);
-		out.write("\n");
-		*/
-		
-		temp += getPlateau().toString();
-		temp += "\n";
-
-		temp += (getJCourant().getCamps() ? 1 : 0);
-		
-		temp += "\n";
-		temp += "\n";
-
-		temp += getJ1().getNom() + " ";
-		temp += getJ1().getR() + " ";
-		temp += getJ1().getG() + " ";
-		temp += getJ1().getB() + " ";
-		temp += getJ1().getScore() + " ";
-		temp += getJ1().isHumain() + " ";
-
-		temp += "\n";
-		temp += "\n";
-
-		/*
-		out.write(temp);
-		out.write("\n");
-		*/
-		
-		//affichage du joueur 2 (Nom r g b score humain)
-		temp += getJ2().getNom() + " ";
-		temp += getJ2().getR() + " ";
-		temp += getJ2().getG() + " ";
-		temp += getJ2().getB() + " ";
-		temp += getJ2().getScore() + " ";
-		temp += getJ2().isHumain() + " ";
-		
-		temp += "\n";
-		
-		/*
-		// affichage du plateau (toString())
-		out.write(this.getControleur().getPartie().getPlateau().toString()); 
-		out.write("\n");
-		//affichage du joueur actif
-		int i = (this.getControleur().getPartie().getJCourant().getCamps() ? 1 : 0) ;
-		temp = ""+i;
-		out.write(temp);
-		out.write("\n");
-		*/
-		
-		
-		return temp;
-	}
 	/**
-	 * 
+	 * Charge une partie a partir d'un fichier de sauvegarde
 	 * 
 	 * @param fichierConf : le chemin du fichier d'initialisation de partie
 	 * 
@@ -196,245 +148,37 @@ public class Partie {
 	 */
 	public boolean chargerParFichier(String fichierConf) throws IOException {
 		
-		BufferedReader buffer=new BufferedReader(new FileReader(fichierConf));
-		StringTokenizer tokenizer;
-		String ligne;
+		BufferedReader buffer = new BufferedReader(new FileReader(fichierConf));
+		String strTemp = "";
+		String strTotal = "";
 		
-		int joueurR;
-		int joueurG;
-		int joueurB;
-		int scoreJoueur;
-		String nomJoueur;
-		String joueurHumain;
 		
-		// Chargement joueur 1
-		
-		// Les lignes vides sont ignorees
-		do
-		{
-			ligne = buffer.readLine();
-		}
-		while((ligne != null) && (ligne.isEmpty()));
-		
-		// Echec si la fin du fichier est atteinte
-		if(ligne == null)
-			return false;
-		
-		tokenizer = new StringTokenizer(ligne, " ");
-		
-		// Extraction des differents elements du joueur
-		
-		if(tokenizer.hasMoreTokens()) {
-			nomJoueur = tokenizer.nextToken();
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurR = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurG = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurB = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			scoreJoueur = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurHumain = tokenizer.nextToken();
-		}
-		
-		else
-			return false;
-		
-		this.j1 = new Joueur(nomJoueur, false,(joueurHumain.equals("true")), scoreJoueur, joueurR, joueurG, joueurB);
-		
-		// Chargement joueur 2
-		
-		// Les lignes vides sont ignorees
-		do
-		{
-			ligne = buffer.readLine();
-		}
-		while((ligne != null) && (ligne.isEmpty()));
-		
-		// Echec si la fin du fichier est atteinte
-		if(ligne == null)
-			return false;
-		
-		tokenizer = new StringTokenizer(ligne, " ");
-		
-		// Extraction des differents elements du joueur
-		
-		if(tokenizer.hasMoreTokens()) {
-			nomJoueur = tokenizer.nextToken();
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurR = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurG = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurB = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			scoreJoueur = Integer.parseInt(tokenizer.nextToken());
-		}
-		
-		else
-			return false;
-		
-		if (tokenizer.hasMoreTokens()) {
-			joueurHumain = tokenizer.nextToken();
-		}
-		
-		else
-			return false;
-		
-		this.j2 = new Joueur(nomJoueur, true , (joueurHumain.equals("true")), scoreJoueur, joueurR, joueurG, joueurB);
-		
-		// Chargement du plateau
-		
-		this.plateau = new Plateau();
-		
-		buffer.readLine();
-		
-		int numLigne = 0;
-		
-		while(((ligne = buffer.readLine()) != null) && (ligne.isEmpty() == false)) {
-			
-			if(ligne.length() != 9)
-				return false;
-			
-			for(int numColonne = 0 ; numColonne < ligne.length() ; numColonne++) {
-				
-				if(ligne.charAt(numColonne) == '-')
-					this.getPlateau().setBille(numLigne, numColonne, new Bille(numLigne, numColonne, this.getJ1()));
-					
-				else if(ligne.charAt(numColonne) == '+')
-					this.getPlateau().setBille(numLigne, numColonne, new Bille(numLigne, numColonne, this.getJ2()));
-				
-				else
-					this.getPlateau().setBille(numLigne, numColonne, null);
+		do {
+			strTemp = buffer.readLine();
+			if (strTemp != null) {
+				strTotal += strTemp;
+				strTotal += "\n";
 			}
-			
-			numLigne++;
-		}
+		} while (strTemp != null);
 		
-		// Extraction du joueur actif
 		
-		// Les lignes vides sont ignorees
-		do
-		{
-			ligne = buffer.readLine();
-		}
-		while((ligne != null) && (ligne.isEmpty()));
-		
-		// Echec si la fin du fichier est atteinte
-		if(ligne == null)
-			return false;
-		
-		if(ligne.equals("0"))
-			this.jCourant = this.getJ1();
-		else
-			this.jCourant = this.getJ2();
-		
-		this.quickSave();
-
+		buffer.close();
+		System.out.print("<<"+strTotal+">>");
+		this.charger(strTotal);
 		
 		return true;
 	}
 	
 	public boolean charger(String donnees) throws IOException {
+		
+		
 		BufferedReader buffer = new BufferedReader(new StringReader(donnees));
 		StringTokenizer tokenizer;
 		String ligne;
 		System.out.println(donnees);
 
 		
-		// Chargement du plateau
-		
-		this.plateau = new Plateau();
-		
-		int numLigne = 0;
-		
-		while(((ligne = buffer.readLine()) != null) && (ligne.isEmpty() == false)) {
-			
-			if(ligne.length() != 9)
-				return false;
-			
-			for(int numColonne = 0 ; numColonne < ligne.length() ; numColonne++) {
-				
-				if(ligne.charAt(numColonne) == '-')
-					this.getPlateau().setBille(numLigne, numColonne, new Bille(numLigne, numColonne, this.getJ1()));
-					
-				else if(ligne.charAt(numColonne) == '+')
-					this.getPlateau().setBille(numLigne, numColonne, new Bille(numLigne, numColonne, this.getJ2()));
-				
-				else
-					this.getPlateau().setBille(numLigne, numColonne, null);
-			}
-			
-			numLigne++;
-		}
-		
-		// Extraction du joueur actif
-		
-		// Les lignes vides sont ignorees
-		do
-		{
-			ligne = buffer.readLine();
-		}
-		while((ligne != null) && (ligne.isEmpty()));
-		
-		// Echec si la fin du fichier est atteinte
-		if(ligne == null)
-			return false;
-		
-		if(ligne.equals("0"))
-			this.jCourant = this.getJ1();
-		else
-			this.jCourant = this.getJ2();
-		
-		
-		
-		//// JOUEURS
+//// JOUEURS
 		
 		// Chargement joueur 1
 		
@@ -495,10 +239,7 @@ public class Partie {
 			else
 				j1.setHumain(false);
 		}
-		
-		
-		//this.j1 = new Joueur(nomJoueur, false,(joueurHumain.equals("true")), scoreJoueur, joueurR, joueurG, joueurB);
-		
+				
 		// Chargement joueur 2
 		
 		// Les lignes vides sont ignorees
@@ -557,23 +298,98 @@ public class Partie {
 			else
 				j2.setHumain(false);
 		}
-
 		
-		//this.j2 = new Joueur(nomJoueur, true , (joueurHumain.equals("true")), scoreJoueur, joueurR, joueurG, joueurB);
+		
+		// Retour a la ligne
+		ligne = buffer.readLine();
+		
+		// Echec si la fin du fichier est atteinte
+		if(ligne == null)
+			return false;
+		
+		// Chargement du plateau
+		
+		this.plateau = new Plateau();
+		
+		int numLigne = 0;
+		
+		while(((ligne = buffer.readLine()) != null) && (ligne.isEmpty() == false)) {
+			
+			if(ligne.length() != 9)
+				return false;
+			
+			for(int numColonne = 0 ; numColonne < ligne.length() ; numColonne++) {
+				
+				if(ligne.charAt(numColonne) == '-')
+					this.getPlateau().setBille(numLigne, numColonne, new Bille(numLigne, numColonne, this.getJ1()));
+					
+				else if(ligne.charAt(numColonne) == '+')
+					this.getPlateau().setBille(numLigne, numColonne, new Bille(numLigne, numColonne, this.getJ2()));
+				
+				else
+					this.getPlateau().setBille(numLigne, numColonne, null);
+			}
+			
+			numLigne++;
+		}
+		
+		// Extraction du joueur actif
+		
+		// Les lignes vides sont ignorees
+		do
+		{
+			ligne = buffer.readLine();
+		}
+		while((ligne != null) && (ligne.isEmpty()));
+		
+		
+		// Echec si la fin du fichier est atteinte
+		if(ligne == null)
+			return false;
+		
+		
+		if(ligne.equals("0"))
+			this.jCourant = this.getJ1();
+		else
+			this.jCourant = this.getJ2();
+		
 		
 		this.quickSave();
 
 		
 		return true;
 	}
-
-	public Joueur getjCourant() {
-		return jCourant;
-	}
-
-	public void setjCourant(Joueur jCourant) {
-		this.jCourant = jCourant;
-	}
 	
-	
+	public String toString() {
+		String temp = "";
+
+		temp += getJ1().getNom() + " ";
+		temp += getJ1().getR() + " ";
+		temp += getJ1().getG() + " ";
+		temp += getJ1().getB() + " ";
+		temp += getJ1().getScore() + " ";
+		temp += getJ1().isHumain() + " ";
+
+		temp += "\n";
+		
+		//affichage du joueur 2 (Nom r g b score humain)
+		temp += getJ2().getNom() + " ";
+		temp += getJ2().getR() + " ";
+		temp += getJ2().getG() + " ";
+		temp += getJ2().getB() + " ";
+		temp += getJ2().getScore() + " ";
+		temp += getJ2().isHumain() + " ";
+		
+		temp += "\n";
+		temp += "\n";
+
+		temp += getPlateau().toString();
+
+		
+		temp += "\n";
+		
+		temp += (getJCourant().getCamps() ? 1 : 0);
+		
+		return temp;
+	}
 }

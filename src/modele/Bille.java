@@ -103,7 +103,7 @@ public class Bille {
 		this.joueur = joueur;
 	}
 	
-	/*
+	
 	public String toString() {
 		String str = "o";
 		if (joueur.getCamps())
@@ -113,8 +113,9 @@ public class Bille {
 		
 		return str;
 	}
-	*/
 	
+	// Version utilisee pour le developpement de l'IA
+	/*
 	public String toString() {
 		String str = new String();
 		
@@ -122,11 +123,12 @@ public class Bille {
 		
 		if (joueur.getCamps())
 			str += " J2";
-		if (!joueur.getCamps())
+		else
 			str += " J1";
 		
 		return str;
 	}
+	*/
 	
 	/**
 	 * Test d'egalite avec une autre bille.
