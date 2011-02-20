@@ -77,7 +77,7 @@ public class FenetrePlateau extends JPanel{
          g.setColor(Color.WHITE);
          /* Test avec variables */
          g.fillRect(0, 0, this.getWidth(), this.getHeight());
-         g.drawImage(imgPlateau,(int) (this.getWidth()*0.08), 0, (int) (this.getWidth()*0.85), this.getHeight(), this);
+         g.drawImage(imgPlateau,(int) (this.getWidth()*0.085), 0, (int) (this.getWidth()*0.85), this.getHeight(), this);
          //
          
          for (int i = 0; i < 9; i++ ) {
