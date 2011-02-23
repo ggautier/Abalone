@@ -75,11 +75,12 @@ public class ArbreCoups {
 		
 		int score = 0;
 		
-		if (this.isFeuille())
-			score = this.scoreCoup;
-		else {
-			for (int i=0; i<fils.size(); i++)
-				score = fils.get(i).getScoreCoup();
+		if(this.isFeuille() == false) {
+			
+			score = this.getFils().size();
+			
+			for(int i = 0 ; i < this.getFils().size() ; i++)
+				score += this.getFils().get(i).getScoreCoup();
 		}
 		
 		return this.scoreCoup;
@@ -163,7 +164,7 @@ public class ArbreCoups {
 		for(int i = 0 ; i < indentation ; i++)
 			System.out.print("   ");
 		
-		System.out.println(this.getCoup());
+		System.out.println(this.getCoup() + " (" + this.getFils().size() +")");
 		
 		for(int index = 0 ; index < this.getFils().size() ; index++) {
 			this.getFils(index).afficher(indentation + 1);

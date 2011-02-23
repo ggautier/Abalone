@@ -3,8 +3,7 @@ package controleur;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
-import java.util.Vector;
-
+import java.util.ArrayList;
 import vue.FenetreOver;
 import vue.FenetrePlateau;
 import vue.FenetrePrincipale;
@@ -43,9 +42,9 @@ public class Controleur {
 	protected ControleurIA		controleurIA;
 	protected FenetrePrincipale	fenetrePrincipale;
 	protected Partie			partie; 
-	protected Vector<Bille>		selectionnees;  // Contient toutes les Billes actuellement selectionnees.
-	protected Vector<Vector<Bille>> visees;		// Contient les Billes poussables par les Billes selectionnees.
-	protected Vector<Integer> 		coups;		// Contient les directions vers lesquelles les Billes selectionnees peuvent aller.
+	protected ArrayList<Bille>		selectionnees;  // Contient toutes les Billes actuellement selectionnees.
+	protected ArrayList<ArrayList<Bille>> visees;		// Contient les Billes poussables par les Billes selectionnees.
+	protected ArrayList<Integer> 		coups;		// Contient les directions vers lesquelles les Billes selectionnees peuvent aller.
 	protected Bille				pointee;		// Contient la Bille actuellement pointee par la Souris.
 	protected int		    	deplacementVise;// Contient le "deplacement" pointe par la Souris.
 	
@@ -66,16 +65,18 @@ public class Controleur {
 	public final static int HG_BD = 11;
 	public final static int HD_BG = 10;
 	
-	private static Controleur instance = null;
-	
 	public Controleur(FenetrePrincipale fen) throws Exception
 	{
 		this.fenetrePrincipale = fen;
-		this.partie = new Partie(this, "./data/plateau/defaut.plt");
-		this.selectionnees = new Vector<Bille>(3);
-		this.visees = new Vector<Vector<Bille>>(2);
-		this.coups = new Vector<Integer>(6);
+		this.partie = new Partie(this, "./data/plateau/defautDebug.plt");
+		this.selectionnees = new ArrayList<Bille>(3);
+		this.visees = new ArrayList<ArrayList<Bille>>(2);
+		this.coups = new ArrayList<Integer>(6);
 		this.deplacementVise = -1;
+	}
+	
+	public ControleurIA getControleurIA() {
+		return this.controleurIA;
 	}
 	
 	public void initControleurIA() throws Exception {
@@ -129,7 +130,7 @@ public class Controleur {
 		for (int j=0; j < coups.size(); j++) {
 			dir = coups.get(j);
 			for (int i=0; i < selectionnees.size(); i++)
-				if (nbNext(new Point(selectionnees.get(i).getX(),selectionnees.get(i).getY())) >= 0) {
+				if (nbNext(new Point(selectionnees.get(i).getColonne(),selectionnees.get(i).getLigne())) >= 0) {
 					if (voisineP(selectionnees.get(i),dir,1).equals(p)) {
 						this.deplacementVise = coups.get(j);
 					} 
@@ -163,7 +164,7 @@ public class Controleur {
 	 * 
 	 * @return Un vecteur contenant les billes actuellement selectionnees
 	 */
-	public Vector<Bille> getSelectionnees() 
+	public ArrayList<Bille> getSelectionnees() 
 	{
 		return selectionnees;
 	}
@@ -225,14 +226,14 @@ public class Controleur {
 				} 
 				else { // SI LA BILLE N'EST PAS DEJA SELECTIONNEE
 					if (this.selectionnees.size() == 1) { // S'il y a deja une Bille selectionnee
-						Vector<Bille> voisines = billeAlentours(billeTemp); // On regarde si la Bille qu'on veut selectionner est a cote.
+						ArrayList<Bille> voisines = billeAlentours(billeTemp); // On regarde si la Bille qu'on veut selectionner est a cote.
 						boolean aCote = false;
 						for (int z = 0; z<voisines.size(); z++)
 							if (isSelectionnee(voisines.get(z)))
 								aCote = true;
 						
 						if (!aCote) // Si la Bille qu'on veut selectionner n'est pas a cote d'une Bille deja selectionnee ...
-							selectionnees = new Vector<Bille>(3); // ... alors on deselectionne toutes les Billes avant de selectionner la nouvelle
+							selectionnees = new ArrayList<Bille>(3); // ... alors on deselectionne toutes les Billes avant de selectionner la nouvelle
 									
 					}
 					else if (this.selectionnees.size() >= 2) { // Si deux Billes sont deja selectionnees.
@@ -263,7 +264,7 @@ public class Controleur {
 						}
 						
 						if(!inAxe)
-							selectionnees = new Vector<Bille>(3);
+							selectionnees = new ArrayList<Bille>(3);
 									
 					}
 					if ( (selectionnees.size() < 3))  // Enfin, on selectionne la Bille choisie (sauf si 3 sont deja selectionnees.
@@ -291,7 +292,7 @@ public class Controleur {
 		this.selectionner((int) p.getX(), (int) p.getY());
 	}
 	
-	public void setSelectionnees(Vector<Bille> selectionnees) 
+	public void setSelectionnees(ArrayList<Bille> selectionnees) 
 	{
 		this.selectionnees = selectionnees;
 	}
@@ -360,29 +361,29 @@ public class Controleur {
 	}
 		
 	// Retourne un vecteur contenant les 6 billes au alentours de la Bille passee en entree
-	public Vector<Bille> billeAlentours(Bille b) 
-	{	Vector<Bille> vRetour = new Vector<Bille>(6);
+	public ArrayList<Bille> billeAlentours(Bille b) 
+	{	ArrayList<Bille> vRetour = new ArrayList<Bille>(6);
 		
-		if (!isOut(b.getX()+1,b.getY()))
-			vRetour.addElement(partie.getPlateau().getBille(b.getX()+1,b.getY())); 	// A droite
-		if (!isOut(b.getX()-1,b.getY()))
-			vRetour.addElement(partie.getPlateau().getBille(b.getX()-1,b.getY())); 	// A gauche
-		if (!isOut(b.getX(),b.getY()+1))
-			vRetour.addElement(partie.getPlateau().getBille(b.getX(),b.getY()+1));	// En bas a gauche
-		if (!isOut(b.getX(),b.getY()-1))
-			vRetour.addElement(partie.getPlateau().getBille(b.getX(),b.getY()-1)); 	// En haut a droite
-		if (!isOut(b.getX()-1,b.getY()-1))
-			vRetour.addElement(partie.getPlateau().getBille(b.getX()-1,b.getY()-1));// En haut a gauche
-		if (!isOut(b.getX()+1,b.getY()+1))
-			vRetour.addElement(partie.getPlateau().getBille(b.getX()+1,b.getY()+1));// En bas a droite
+		if (!isOut(b.getLigne()+1,b.getColonne()))
+			vRetour.add(partie.getPlateau().getBille(b.getLigne()+1,b.getColonne())); 	// A droite
+		if (!isOut(b.getLigne()-1,b.getColonne()))
+			vRetour.add(partie.getPlateau().getBille(b.getLigne()-1,b.getColonne())); 	// A gauche
+		if (!isOut(b.getLigne(),b.getColonne()+1))
+			vRetour.add(partie.getPlateau().getBille(b.getLigne(),b.getColonne()+1));	// En bas a gauche
+		if (!isOut(b.getLigne(),b.getColonne()-1))
+			vRetour.add(partie.getPlateau().getBille(b.getLigne(),b.getColonne()-1)); 	// En haut a droite
+		if (!isOut(b.getLigne()-1,b.getColonne()-1))
+			vRetour.add(partie.getPlateau().getBille(b.getLigne()-1,b.getColonne()-1));// En haut a gauche
+		if (!isOut(b.getLigne()+1,b.getColonne()+1))
+			vRetour.add(partie.getPlateau().getBille(b.getLigne()+1,b.getColonne()+1));// En bas a droite
 		
 		return vRetour;
 	
 	}
 	
 	// Retourne un Vecteur contenant les Billes, parmi celles passees en entree, sont de la meme Couleur
-	Vector<Bille> billeCouleur(Vector<Bille> v, Joueur j) {
-		Vector<Bille> vRetour = new Vector<Bille>(6);
+	ArrayList<Bille> billeCouleur(ArrayList<Bille> v, Joueur j) {
+		ArrayList<Bille> vRetour = new ArrayList<Bille>(6);
 		
 		for(int i = 0; i <= v.size(); i++)
 			if(v.get(i).getJoueur() == j)
@@ -395,10 +396,10 @@ public class Controleur {
 	// Recupere l'axe forme par les deux Billes passees en parametre.
 	public int getAxe(Bille b1, Bille b2) {
 		int axe = 0;
-		if (b1.getX() - b2.getX() != 0)  // Si Billes sur la meme ligne
+		if (b1.getLigne() - b2.getLigne() != 0)  // Si Billes sur la meme ligne
 			axe+=HD_BG;
 
-		if (b1.getY() - b2.getY() != 0)  // Si Billes sur la meme colonne.
+		if (b1.getColonne() - b2.getColonne() != 0)  // Si Billes sur la meme colonne.
 			axe+=GD;
 		
 		// J'ai fait en sorte que les deux puissent s'additionner de maniere logique (meme ligne + meme colonne)
@@ -410,7 +411,7 @@ public class Controleur {
 	//  - Deplacements possibles
 	//  - Billes adverses qui seront poussees suite au deplacement
 	// (normalement inutile, voir la version plus bas)
-	public Vector<Bille> genererCoups(Vector<Bille> v) {
+	public ArrayList<Bille> genererCoups(ArrayList<Bille> v) {
 		visees.clear();
 		int axe = -1;
 		if (v.size() > 2) // Si au moins deux billes
@@ -441,7 +442,7 @@ public class Controleur {
 	// Permet de mettre a jour dynamiquement :
 	//  - Deplacements possibles
 	//  - Billes adverses qui seront poussees suite au deplacement
-	public Vector<Bille> genererCoups() { // Celui la sera utilise
+	public ArrayList<Bille> genererCoups() { // Celui la sera utilise
 		visees.clear();
 		int axe = -1;
 		//Bille billeTemp;
@@ -467,6 +468,7 @@ public class Controleur {
 				break;
 			}
 		}
+		
 		deplacementPossible(selectionnees,GAUCHE);
 		deplacementPossible(selectionnees,DROITE);
 		deplacementPossible(selectionnees,HAUT_GAUCHE);
@@ -478,17 +480,17 @@ public class Controleur {
 	}
 	
 	// Recupere les adversaires qui seront pousses si on va dans une direction donnee
-	public Vector<Bille> getAdversairesPoussables(Vector<Bille> v, int dir) { // Ici, on determine quelles rangees sont poussables
+	public ArrayList<Bille> getAdversairesPoussables(ArrayList<Bille> v, int dir) { // Ici, on determine quelles rangees sont poussables
 
 		Bille billeTete = getTete(v,dir);
 		Bille billeTemp;
-		Vector<Bille> vTemp = new Vector<Bille>(2);
+		ArrayList<Bille> vTemp = new ArrayList<Bille>(2);
 				
 		for(int i=1; i <= 3; i++) {
 			billeTemp = voisine(billeTete,dir,i); // Bille voisinne d'i crans, suivant la direction
 			// Pas encore clairement definie : On verifie si on a une Bille du joueur adverse.
 			if (billeTemp != null) {
-				if (partie.getPlateau().caseVide(billeTemp.getX(),billeTemp.getY())) // Si on trouve une case vide, c'est qu'on a deja enregistre toutes les Billes ennemies
+				if (partie.getPlateau().caseVide(billeTemp.getLigne(),billeTemp.getColonne())) // Si on trouve une case vide, c'est qu'on a deja enregistre toutes les Billes ennemies
 					i = 42; // Moyen bourrin de mettre fin a la boucle.
 				else if (billeTemp.getJoueur() != billeTete.getJoueur())
 					vTemp.add(billeTemp);
@@ -511,21 +513,134 @@ public class Controleur {
 	}
 	
 	// Retourne la Bille voisine de la Bille passee en parametres
+	/*
 	public Bille voisine(Bille b, int dir, int dist) {
 		Bille billeRetour = null;
 		double dirTemp = (dir - 11) / 10.0;
 		int xAjoute = (int) Math.round(dirTemp);
 		double yAjoute = (dirTemp - xAjoute) * 10;
 				
-		if (!isOut(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist))
-			billeRetour = partie.getPlateau().getBille(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist);
+		if (!isOut(b.getLigne() + (int) xAjoute*dist, b.getColonne() + (int) yAjoute*dist)) {
+			billeRetour = partie.getPlateau().getBille(b.getLigne() + (int) xAjoute*dist, b.getColonne() + (int) yAjoute*dist);
+			System.out.println(b + " - " + billeRetour + " (" + dir + ")");
+		}
 
 		// GAUCHE : x - 1;
 		// Droite : x + 1
 		// HAUT_DROITE : y - 1
 		return billeRetour;
 	}
-
+	*/
+	
+	public Bille voisine(Bille b, int dir, int dist) {
+		switch(dir) {
+		
+			// GAUCHE
+			case GAUCHE :
+				
+				// System.out.print(b + " : test gauche (" + b.getLigne() + "," + (b.getColonne() - 1) + ")");
+				
+				if((b.getColonne() > 0) && (this.getPartie().getPlateau().getBille(b.getLigne(), b.getColonne() - 1) != null)) {
+					// System.out.println(" X");
+					return this.getPartie().getPlateau().getBille(b.getLigne(), b.getColonne() - 1);
+				}
+				
+				/*
+				else
+					System.out.println();
+				*/
+				
+				break;
+			
+			// DROITE
+			case DROITE :
+				
+				// System.out.print(b + " : test droite (" + b.getLigne() + "," + (b.getColonne() + 1) + ")");
+				
+				if((b.getColonne() < 8) && (this.getPartie().getPlateau().getBille(b.getLigne(), b.getColonne() + 1) != null)) {
+					// System.out.println(" X");
+					return this.getPartie().getPlateau().getBille(b.getLigne(), b.getColonne() + 1);
+				}
+				
+				/*
+				else
+					System.out.println();
+				*/
+				
+				break;
+			
+			// HAUT GAUCHE
+			case HAUT_GAUCHE :
+				
+				// System.out.print(b + " : test haut gauche (" + (b.getLigne() - 1) + "," + (b.getColonne() - 1) + ")");
+				
+				if((b.getLigne() > 0) && (b.getColonne() > 0) && (this.getPartie().getPlateau().getBille(b.getLigne() - 1, b.getColonne() - 1) != null)) {
+					// System.out.println(" X");
+					return this.getPartie().getPlateau().getBille(b.getLigne() - 1, b.getColonne() - 1);
+				}
+				
+				/*
+				else
+					System.out.println();
+				*/
+				
+				break;
+			
+			// HAUT DROITE
+			case HAUT_DROITE :
+				
+				// System.out.print(b + " : test haut droite (" + (b.getLigne() - 1) + "," + b.getColonne() + ")");
+				
+				if((b.getLigne() > 0) && (this.getPartie().getPlateau().getBille(b.getLigne() - 1, b.getColonne()) != null)) {
+					// System.out.println(" X");
+					return this.getPartie().getPlateau().getBille(b.getLigne() - 1, b.getColonne());
+				}
+				
+				/*
+				else
+					System.out.println();
+				*/
+				
+				break;
+				
+			// BAS GAUCHE
+			case BAS_GAUCHE :
+				
+				// System.out.print(b + " : test bas gauche (" + (b.getLigne() + 1) + "," + b.getColonne() + ")");
+				
+				if((b.getLigne() < 8) && (b.getColonne() > 0) && (this.getPartie().getPlateau().getBille(b.getLigne() + 1, b.getColonne()) != null)) {
+					// System.out.println(" X");
+					return this.getPartie().getPlateau().getBille(b.getLigne() + 1, b.getColonne());
+				}
+				
+				/*
+				else
+					System.out.println();
+				*/
+				
+				break;
+				
+			// BAS DROITE
+			case BAS_DROITE :
+				
+				// System.out.print(b + " : test bas droite (" + (b.getLigne() + 1) + "," + (b.getColonne() + 1) + ")");
+				
+				if((b.getLigne() < 8) && (b.getColonne() < 8) && (this.getPartie().getPlateau().getBille(b.getLigne() + 1, b.getColonne() + 1) != null)) {
+					//System.out.println(" X");
+					return this.getPartie().getPlateau().getBille(b.getLigne() + 1, b.getColonne() + 1);
+				}
+				
+				/*
+				else
+					System.out.println();
+				*/
+				
+				break;
+		}
+		
+		return null;
+	}
+	
 	// Retourne les coordonnees voisines de la Bille passee en parametres
 	public Point voisineP(Bille b, int dir, int dist) {
 		Point retour = new Point(-1,-1);
@@ -534,8 +649,8 @@ public class Controleur {
 			double dirTemp = (dir - 11) / 10.0;
 			int xAjoute = (int) Math.round(dirTemp);
 			double yAjoute = (dirTemp - xAjoute) * 10;
-			if (!isOut(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist))
-				retour = new Point(b.getX() + (int) xAjoute*dist, b.getY() + (int) yAjoute*dist);
+			if (!isOut(b.getLigne() + (int) xAjoute*dist, b.getColonne() + (int) yAjoute*dist))
+				retour = new Point(b.getLigne() + (int) xAjoute*dist, b.getColonne() + (int) yAjoute*dist);
 		}
 
 		// GAUCHE : x - 1;
@@ -553,7 +668,7 @@ public class Controleur {
 	*/
 	
 	// Recupere la Bille en "tete" de file, pour une direction donnee.
-	public Bille getTete(Vector<Bille> v, int dir) {
+	public Bille getTete(ArrayList<Bille> v, int dir) {
 		Bille billeTemp = new Bille(-1, -1, null); // Comment declarer une Bille "nulle" ?
 		Bille billeTest;
 
@@ -574,30 +689,96 @@ public class Controleur {
 	}
 	
 	// Determine si un deplacement lateral ou en ligne et possible dans une direction donnee.
-	public boolean deplacementPossible(Vector<Bille> v, int dir)  {
+	public boolean deplacementPossible(ArrayList<Bille> v, int dir)  {
 		int axe = -1;
 		boolean possible = false;
 		int proxyVide = 0;
+		Bille b; // DBG
+		
 		if (!v.isEmpty()) { // Si le vecteur n'est pas vide
+			
 			if (v.size() > 1) {
+				
 				axe = getAxe(v.get(0),v.get(1));    		// On recupere l'axe forme par les Billes selectionnees
-				if (axe != dir2axe(dir)) {
+				
+				if (axe != dir2axe(dir)) {	// Si deplacement lateral
+					
 					for (int i = 0; i < v.size(); i++)  		// Pour chaque Bille selectionnee
 						if (voisine(v.get(i), dir, 1) == null ) // On regarde chaque case a cote, vers la direction en parametre
 							proxyVide++;
 					
-					if (proxyVide == v.size())
+					if (proxyVide == v.size())	// Toutes les billes selectionnees peuvent etre deplacees
 						possible = true;
-				}				// Pour les deplacements en ligne, seule la Bille "au bout" nous interesse
+				}
+				
+				// Pour les deplacements en ligne, seule la Bille "au bout" nous interesse
 				else if ((voisine(getTete(v,dir),dir,1) == null || isVisee(voisine(getTete(v,dir),dir,1))) 
-						&& (!isOut((int)voisineP(getTete(v,dir),dir,1).getX(),(int)voisineP(getTete(v,dir),dir,1).getY()))) 
+							&& (!isOut((int)voisineP(getTete(v,dir),dir,1).getX(),(int)voisineP(getTete(v,dir),dir,1).getY()))) 
 					possible = true;
 	
 			}
-			else if (voisine(v.get(0),dir,1) == null)
-				possible = true;
+			
+			else if(voisine(v.get(0),dir,1) == null) {
+				// System.out.println("DBG deplacementPossible(" + v.get(0) + "," + dir + ")");	// DBG
+				
+				switch(dir) {
+					
+					case GAUCHE :
+						if(!isOut(v.get(0).getLigne(), v.get(0).getColonne() - 1))
+						{
+							possible = true;
+							// System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
+						}
+						
+						break;
+					
+					case DROITE :
+						if(!isOut(v.get(0).getLigne(), v.get(0).getColonne() + 1))
+						{
+							possible = true;
+							// System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
+						}
+						
+						break;
+						
+					case HAUT_GAUCHE :
+						if(!isOut(v.get(0).getLigne() - 1, v.get(0).getColonne() - 1))
+						{
+							possible = true;
+							// System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
+						}
+						
+						break;
+					
+					case HAUT_DROITE :
+						if(!isOut(v.get(0).getLigne() - 1, v.get(0).getColonne()))
+						{
+							possible = true;
+							// System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
+						}
+						
+						break;
+						
+					case BAS_GAUCHE :
+						if(!isOut(v.get(0).getLigne() + 1, v.get(0).getColonne()))
+						{
+							possible = true;
+							// System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
+						}
+						
+						break;
+						
+					case BAS_DROITE :
+						if(!isOut(v.get(0).getLigne() + 1, v.get(0).getColonne() + 1))
+						{
+							possible = true;
+							// System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
+						}
+						
+						break;
+				}
+			}
 		}
-		
 		
 		if (possible)
 			coups.add(dir);
@@ -633,7 +814,7 @@ public class Controleur {
 	
 	
 	
-	public boolean action(Vector<Bille> v, int dir) {
+	public boolean action(ArrayList<Bille> v, int dir) {
 		if (deplacementPossible(v,dir)) {
 			for(int i=0; i < visees.size(); i++)
 				deplacerBille(visees.get(0).get(i),dir);
@@ -650,7 +831,7 @@ public class Controleur {
 		Bille billeTemp;
 		boolean expulsee = false;
 		if (deplacementPossible(selectionnees,dir)) {
-			Vector<Bille> ennemies = getVisees(dir);
+			ArrayList<Bille> ennemies = getVisees(dir);
 			while(!ennemies.isEmpty())  {
 				billeTemp = getTete(ennemies,dir);
 				expulsee = deplacerBille(billeTemp,dir);
@@ -669,8 +850,6 @@ public class Controleur {
 		this.coups.clear();
 		this.deplacementVise = -1;
         
-        this.controleurIA.construireArbre();
-        
         if (expulsee) {
         	if (this.getPartie().getJ1().getScore() > 5)
         		new FenetreOver("Victoire de "+this.getPartie().getJ1().getNom(),this.getFenetrePrincipale());
@@ -682,8 +861,8 @@ public class Controleur {
 		return expulsee;
 	}
 	
-	public Vector<Bille> getVisees(int dir) {
-		Vector<Bille> retour = new Vector<Bille>(2);
+	public ArrayList<Bille> getVisees(int dir) {
+		ArrayList<Bille> retour = new ArrayList<Bille>(2);
 		for (int i=0; i < this.visees.size(); i++)
 			for (int j=0; j < this.visees.get(i).size(); j++)
 				if (visees.get(i).get(j).equals(voisine(getTete(selectionnees,dir),dir,1)))
@@ -696,7 +875,7 @@ public class Controleur {
 	public boolean deplacerBille(Bille b, int dir) {
 		Bille billeTemp = b;
 		boolean out = false;
-		Point pOld = new Point(b.getX(),b.getY()); // Coordonnees de la Bille avant deplacement
+		Point pOld = new Point(b.getLigne(),b.getColonne()); // Coordonnees de la Bille avant deplacement
 		Point pTemp = voisineP(b, dir, 1); // Coordonnees apres deplacement
 
 		if (billeTemp != null) {	// Si la case n'est pas vide
@@ -773,9 +952,9 @@ public class Controleur {
 		this.fenetrePrincipale = fenetrePrincipale;
 	}
 	
-	public Vector<Bille> getBillesJoueur(Joueur joueur) {
+	public ArrayList<Bille> getBillesJoueur(Joueur joueur) {
 		
-		Vector<Bille> billesJoueur = new Vector<Bille>();
+		ArrayList<Bille> billesJoueur = new ArrayList<Bille>();
 		Plateau plateau = this.getPartie().getPlateau();
 		
 		for(int ligne = 0 ; ligne < plateau.getBilles().length ; ligne++) {
@@ -795,10 +974,10 @@ public class Controleur {
 	 * @param billesJoueur
 	 * @return
 	 */
-	public Vector<Coup> getCoupsPossibles(Vector<Bille> billesJoueur) {
+	public ArrayList<Coup> getCoupsPossibles(ArrayList<Bille> billesJoueur) {
 		
-		Vector<Coup> coups = new Vector<Coup>();
-		Vector<Bille> billesTestees = new Vector<Bille>(3);
+		ArrayList<Coup> coups = new ArrayList<Coup>();
+		ArrayList<Bille> billesTestees = new ArrayList<Bille>(3);
 		Bille bTemp, bTemp2;
 		int dirTestee = -1;
 
@@ -814,7 +993,7 @@ public class Controleur {
 				dirTestee = tabDir[t];
 				
 				if (deplacementPossible(billesTestees,dirTestee))
-					coups.add(new Coup((Vector<Bille>) billesTestees.clone(),dirTestee));
+					coups.add(new Coup((ArrayList<Bille>) billesTestees.clone(),dirTestee, billesTestees.get(0).getJoueur()));
 			}
 			
 			billesTestees.clear();
@@ -839,23 +1018,30 @@ public class Controleur {
 						
 						switch (axe) {
 							case GD:
+								/*
 								if (deplacementPossible(billesTestees,GAUCHE))
-									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),GAUCHE));
+									coups.add(new Coup((ArrayList<Bille>) billesTestees.clone(),GAUCHE, billesTestees.get(0).getJoueur()));
+								*/
 								if (deplacementPossible(billesTestees,DROITE))
-									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),DROITE));	
+									coups.add(new Coup((ArrayList<Bille>) billesTestees.clone(),DROITE, billesTestees.get(0).getJoueur()));
+										
 								break;
 							case HG_BD:
+								/*
 								if (deplacementPossible(billesTestees,HAUT_GAUCHE))
-									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),HAUT_GAUCHE));
+									coups.add(new Coup((ArrayList<Bille>) billesTestees.clone(),HAUT_GAUCHE, billesTestees.get(0).getJoueur()));
+								*/
 								if (deplacementPossible(billesTestees,BAS_DROITE))
-									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),BAS_DROITE));	
+									coups.add(new Coup((ArrayList<Bille>) billesTestees.clone(),BAS_DROITE, billesTestees.get(0).getJoueur()));	
 								break;
 							
 							case HD_BG:
 								if (deplacementPossible(billesTestees,HAUT_DROITE))
-									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),HAUT_DROITE));
+									coups.add(new Coup((ArrayList<Bille>) billesTestees.clone(),HAUT_DROITE, billesTestees.get(0).getJoueur()));
+								/*
 								if (deplacementPossible(billesTestees,BAS_GAUCHE))
-									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),BAS_GAUCHE));	
+									coups.add(new Coup((ArrayList<Bille>) billesTestees.clone(),BAS_GAUCHE, billesTestees.get(0).getJoueur()));	
+								*/
 								break;
 								
 							default:
@@ -870,7 +1056,7 @@ public class Controleur {
 			billesTestees.clear();
 		}
 		
-		// Pour trois billes
+		// Pour trois billesArrayList
 		
 		for (int i=0; i<billesJoueur.size(); i++) {
 			
@@ -890,22 +1076,22 @@ public class Controleur {
 						switch (axe) {
 							case GD:
 								if (deplacementPossible(billesTestees,GAUCHE))
-									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),GAUCHE));
+									coups.add(new Coup((ArrayList<Bille>) billesTestees.clone(),GAUCHE, billesTestees.get(0).getJoueur()));
 								if (deplacementPossible(billesTestees,DROITE))
-									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),DROITE));	
+									coups.add(new Coup((ArrayList<Bille>) billesTestees.clone(),DROITE, billesTestees.get(0).getJoueur()));	
 								break;
 							case HG_BD:
 								if (deplacementPossible(billesTestees,HAUT_GAUCHE))
-									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),HAUT_GAUCHE));
+									coups.add(new Coup((ArrayList<Bille>) billesTestees.clone(),HAUT_GAUCHE, billesTestees.get(0).getJoueur()));
 								if (deplacementPossible(billesTestees,BAS_DROITE))
-									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),BAS_DROITE));	
+									coups.add(new Coup((ArrayList<Bille>) billesTestees.clone(),BAS_DROITE, billesTestees.get(0).getJoueur()));	
 								break;
 							
 							case HD_BG:
 								if (deplacementPossible(billesTestees,HAUT_DROITE))
-									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),HAUT_DROITE));
+									coups.add(new Coup((ArrayList<Bille>) billesTestees.clone(),HAUT_DROITE, billesTestees.get(0).getJoueur()));
 								if (deplacementPossible(billesTestees,BAS_GAUCHE))
-									coups.add(new Coup((Vector<Bille>) billesTestees.clone(),BAS_GAUCHE));	
+									coups.add(new Coup((ArrayList<Bille>) billesTestees.clone(),BAS_GAUCHE, billesTestees.get(0).getJoueur()));	
 								break;
 								
 							default:
@@ -932,7 +1118,11 @@ public class Controleur {
 		
 		this.getPartie().quickSave();
 		
-		this.getFenetrePrincipale().rafraichir();
+		if(!this.getPartie().getJCourant().isHumain())
+			this.controleurIA.construireArbre();
+		
+		if(this.getFenetrePrincipale() != null)
+			this.getFenetrePrincipale().rafraichir();
 	}
 	
 	/*

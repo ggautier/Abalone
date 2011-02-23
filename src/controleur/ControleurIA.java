@@ -1,12 +1,11 @@
 package controleur;
 
-import java.util.Vector;
+import java.io.IOException;
+import java.util.ArrayList;
 
-import modele.Bille;
 import modele.Coup;
 import modele.Joueur;
 import modele.Partie;
-import modele.Plateau;
 import utils.ArbreCoups;
 
 /**
@@ -64,28 +63,11 @@ public class ControleurIA {
 		this.partieVirtuelle.setJ1(this.controleurPartie.getPartie().getJ1());
 		this.partieVirtuelle.setJ2(this.controleurPartie.getPartie().getJ2());
 		this.partieVirtuelle.setJCourant(this.controleurPartie.getPartie().getJCourant());
-		this.arbreCoups = new ArbreCoups(null);
+		this.init();
 	}
 	
-	public void meilleurCoup() {
-		this.partieVirtuelle.setPlateau(this.controleurPartie.getPartie().getPlateau().copy());
-		
-		Vector<Coup> vCoups = new Vector<Coup>();
-		int profondeur = 1;
-		
-		for (int p=0; p<profondeur; p++) {
-			
-	        vCoups = getControleurPartie().getCoupsPossibles(
-	        		getControleurPartie().getBillesJoueur(
-	        				getControleurPartie().getPartie().getJ2()
-	        			)
-	        		);
-	        
-	        for (int i=0; i<vCoups.size(); i++)
-	        	this.arbreCoups.addFils(vCoups.get(i));
-		}
-        
-		this.arbreCoups.afficher(0);
+	private void init() {
+		this.arbreCoups = new ArbreCoups();
 	}
 	
 	/**
@@ -97,6 +79,14 @@ public class ControleurIA {
 	 */
 	public Controleur getControleurPartie() {
 		return this.controleurPartie;
+	}
+	
+	public Controleur getControleurVirtuel() {
+		return this.controleurVirtuel;
+	}
+	
+	public Partie getPartieVirtuelle() {
+		return this.partieVirtuelle;
 	}
 	
 	/**
@@ -121,6 +111,14 @@ public class ControleurIA {
 		this.controleurPartie = newControleur;
 	}
 	
+	public void setControleurVirtuel(Controleur newControleur) {
+		this.controleurVirtuel = newControleur;
+	}
+	
+	public void setPartieVirtuelle(Partie newPartie) {
+		this.partieVirtuelle = newPartie;
+	}
+	
 	/**
 	 * Modifie l'arbre des coups possibles
 	 * 
@@ -132,35 +130,73 @@ public class ControleurIA {
 		this.arbreCoups = newArbre;
 	}
 	
-	public void construireArbre() {
-		this.partieVirtuelle.setPlateau(this.controleurPartie.getPartie().getPlateau().copy());
+	public void meilleurCoup() {
+		this.getPartieVirtuelle().setPlateau(this.getControleurPartie().getPartie().getPlateau().copy());
 		
-		this.arbreCoups = new ArbreCoups();
+		ArrayList<Coup> vCoups = new ArrayList<Coup>();
+		int profondeur = 1;
 		
-		this.construireFils(this.arbreCoups);
-		
-		for(int index = 0 ; index < this.arbreCoups.getFils().size() ; index++) {
-			this.construireFils(this.arbreCoups.getFils(index));
+		for (int p=0; p<profondeur; p++) {
+			
+	        vCoups = getControleurPartie().getCoupsPossibles(
+	        		getControleurPartie().getBillesJoueur(
+	        				getControleurPartie().getPartie().getJ2()
+	        			)
+	        		);
+	        
+	        for (int i=0; i<vCoups.size(); i++)
+	        	this.getArbreCoups().addFils(vCoups.get(i));
 		}
-		
-		this.arbreCoups.afficher(0);
+        
+		this.getArbreCoups().afficher(0);
 	}
 	
-	public void construireFils(ArbreCoups noeud) {
+	public void construireArbre() {
+		this.getPartieVirtuelle().setPlateau(this.getControleurPartie().getPartie().getPlateau().copy());
+		
+		this.init();
+		
+		this.construireFils(this.getArbreCoups());
+		
+		for(int index = 0 ; index < this.getArbreCoups().getFils().size() ; index++) {
+			this.construireFils(this.getArbreCoups().getFils(index));
+		}
+		
+		this.getArbreCoups().afficher(0);
+	}
+	
+	private void construireFils(ArbreCoups noeud) {
 		
 		Joueur joueur;
 		
-		// Recuperation du joueur adverse au joueur du noeud pere
+		if(noeud.getCoup() != null) {
+			
+			// Application du coup dans la prtie virtuelle
+			//this.getControleurVirtuel().setSelectionnees(noeud.getCoup().getBilles());
+			//this.getControleurVirtuel().action(noeud.getCoup().getDirection());
+			
+			System.out.println("DBG " + noeud.getCoup().getBilles());
+			
+			joueur = this.getPartieVirtuelle().getJoueur(!noeud.getCoup().getJoueur().getCamps());
+		}
 		
-		if(noeud.getCoup() == null)
-			joueur = this.partieVirtuelle.getJoueur(!this.partieVirtuelle.getJCourant().getCamps());
 		else
-			joueur = this.partieVirtuelle.getJoueur(!noeud.getCoup().getJoueur().getCamps());
+			joueur = this.getPartieVirtuelle().getJoueur(!this.getPartieVirtuelle().getJCourant().getCamps());
 		
-		Vector<Coup> coups = getControleurPartie().getCoupsPossibles(
+		ArrayList<Coup> coups = getControleurPartie().getCoupsPossibles(
         						getControleurPartie().getBillesJoueur(joueur));
 		
 		for (int i = 0 ; i < coups.size() ; i++)
         	noeud.addFils(coups.get(i));
+		
+		/*
+		try {
+			if(noeud.getCoup() != null) {
+				this.getPartieVirtuelle().quickLoad();
+			}
+		}
+		
+		catch (IOException e) {}
+		*/
 	}
 }

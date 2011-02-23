@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import vue.FenetrePrincipale;
@@ -27,16 +28,32 @@ import controleur.ControleurIA;
  */
 public class Coup {
 
-	protected Vector<Bille>		billes;  // Contient toutes les Billes actuellement selectionnees.
-	protected int		    	direction;// Contient le "deplacement" pointe par la Souris.
+	private ArrayList<Bille> billes;	// Contient toutes les Billes actuellement selectionnees.
+	private int	direction;				// Contient le "deplacement" pointe par la Souris.
+	private Joueur joueur;
 	
-	public Coup() {
-		
+	public Coup() {}
+	
+	public Coup(ArrayList<Bille> billes, int dir, Joueur newJoueur) {
+		this.billes = (ArrayList<Bille>) billes.clone();
+		this.direction = dir;
+		this.joueur = newJoueur;
 	}
 	
-	public Coup(Vector<Bille> billes, int dir) {
-		this.billes = billes;
-		this.direction = dir;
+	public ArrayList<Bille> getBilles() {
+		return this.billes;
+	}
+	
+	public int getDirection() {
+		return this.direction;
+	}
+	
+	public Joueur getJoueur() {
+		return this.joueur;
+	}
+	
+	public int nbBilles() {
+		return this.billes.size();
 	}
 	
 	public boolean equals(Coup coup2) {
@@ -56,14 +73,6 @@ public class Coup {
 		str += ": " + this.direction;
 		
 		return str;
-	}
-	
-	public int nbBilles() {
-		return this.billes.size();
-	}
-	
-	public Joueur getJoueur() {
-		return this.billes.get(0).getJoueur();
 	}
 }
 

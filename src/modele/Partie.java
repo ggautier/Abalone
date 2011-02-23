@@ -130,7 +130,8 @@ public class Partie {
 		else
 			System.out.println("Pas de coup precedent");
 		
-		this.getControleur().getFenetrePrincipale().rafraichir();
+		if(this.getControleur().getFenetrePrincipale() != null)
+			this.getControleur().getFenetrePrincipale().rafraichir();
 	}
 	
 	/**

@@ -70,8 +70,8 @@ public class Plateau {
 		//if (!this.getPartie().getControleur().isOut(ligne,colonne)) {
 			this.plateau[ligne][colonne] = newBille;
 			if (newBille != null) {
-				newBille.setX(ligne);
-				newBille.setY(colonne);
+				newBille.setLigne(ligne);
+				newBille.setColonne(colonne);
 			}
 		//}
 		//System.out.println("Placement d'une bille en "+ligne+"-"+colonne);

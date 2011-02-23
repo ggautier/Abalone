@@ -4,34 +4,34 @@ import junit.framework.TestCase;
 
 public class BilleTest extends TestCase {
 
-	public void testGetX() {
+	public void testGetLigne() {
 		Joueur joueur = new Joueur("Jose", false, false);
 		Bille bille = new Bille(4, 5, joueur);
 		
-		assertEquals(bille.getX(), bille.coordX);
+		assertEquals(bille.getLigne(), 4);
 	}
 
-	public void testSetX() {
+	public void testSetLigne() {
 		Joueur joueur = new Joueur("Jose", false, false);
 		Bille bille = new Bille(4, 5, joueur);
 		
-		bille.setX(12);
-		assertEquals(12, bille.coordX);
+		bille.setLigne(12);
+		assertEquals(bille.getLigne(), 12);
 	}
 
-	public void testGetY() {
+	public void testGetColonne() {
 		Joueur joueur = new Joueur("Jose", false, false);
 		Bille bille = new Bille(4, 5, joueur);
 		
-		assertEquals(bille.getY(), bille.coordY);
+		assertEquals(bille.getColonne(), 5);
 	}
 
-	public void testSetY() {
+	public void testSetColonne() {
 		Joueur joueur = new Joueur("Jose", false, false);
 		Bille bille = new Bille(4, 5, joueur);
 		
-		bille.setY(12);
-		assertEquals(12, bille.coordY);
+		bille.setColonne(12);
+		assertEquals(12, bille.getColonne());
 	}
 
 	public void testGetJoueur() {

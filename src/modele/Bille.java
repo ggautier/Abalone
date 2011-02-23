@@ -21,11 +21,11 @@ public class Bille {
 	/**
 	 * La ligne du plateau sur laquelle se trouve la bille.
 	 */
-	protected int coordX;
+	protected int ligne;
 	/**
 	 * La colonne du plateau sur laquelle se trouve la bille.
 	 */
-	protected int coordY;
+	protected int colonne;
 	/**
 	 * Le joueur auquel appartient la bille.
 	 * 
@@ -37,13 +37,13 @@ public class Bille {
 	 * Constructeur de la classe Bille
 	 * 
 	 * @param newX : la ligne du plateau sur laquelle se trouve la bille
-	 * @param newY : la colonne du plateau sur laquelle se trouve la bille
+	 * @param newColonne : la colonne du plateau sur laquelle se trouve la bille
 	 * @param player : le joueur auquel appartient la bille
 	 * 
 	 */
-	public Bille(int newX, int newY, Joueur player) {
-		this.coordX = newX;
-		this.coordY = newY;
+	public Bille(int newLigne, int newColonne, Joueur player) {
+		this.ligne = newLigne;
+		this.colonne = newColonne;
 		this.joueur = player;
 	}
 
@@ -52,17 +52,17 @@ public class Bille {
 	 * 
 	 * @return La ligne du plateau sur laquelle se trouve la bille
 	 */
-	public int getX() {
-		return coordX;
+	public int getLigne() {
+		return ligne;
 	}
 
 	/**
 	 * Modifie la ligne du plateau sur laquelle se trouve la bille
 	 * 
-	 * @param coordX : la nouvelle ligne sur laquelle se trouve de la bille
+	 * @param newLigne : la nouvelle ligne sur laquelle se trouve de la bille
 	 */
-	public void setX(int coordX) {
-		this.coordX = coordX;
+	public void setLigne(int newLigne) {
+		this.ligne = newLigne;
 	}
 
 	/**
@@ -70,17 +70,17 @@ public class Bille {
 	 * 
 	 * @return La colonne du plateau sur laquelle se trouve la bille
 	 */
-	public int getY() {
-		return coordY;
+	public int getColonne() {
+		return colonne;
 	}
 
 	/**
 	 * Modifie la colonne du plateau sur laquelle se trouve la bille
 	 * 
-	 * @param coordY : la nouvelle colonne sur laquelle se trouve de la bille
+	 * @param newColonne : la nouvelle colonne sur laquelle se trouve de la bille
 	 */
-	public void setY(int coordY) {
-		this.coordY = coordY;
+	public void setColonne(int newColonne) {
+		this.colonne = newColonne;
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class Bille {
 		this.joueur = joueur;
 	}
 	
-	
+	/*
 	public String toString() {
 		String str = "o";
 		if (joueur.getCamps())
@@ -113,13 +113,13 @@ public class Bille {
 		
 		return str;
 	}
+	*/
 	
 	// Version utilisee pour le developpement de l'IA
-	/*
 	public String toString() {
 		String str = new String();
 		
-		str = "(" + this.getX() + "," + this.getY() + ")";
+		str = "(" + this.getLigne() + "," + this.getColonne() + ")";
 		
 		if (joueur.getCamps())
 			str += " J2";
@@ -128,7 +128,6 @@ public class Bille {
 		
 		return str;
 	}
-	*/
 	
 	/**
 	 * Test d'egalite avec une autre bille.
@@ -138,7 +137,7 @@ public class Bille {
 	public boolean equals(Bille bille) {
 		boolean retour = false;
 		if (bille != null)
-		{ retour = this.getX() == bille.getX() && this.getY() == bille.getY() && this.getJoueur().equals(bille.getJoueur()); }
+		{ retour = this.getLigne() == bille.getLigne() && this.getColonne() == bille.getColonne() && this.getJoueur().equals(bille.getJoueur()); }
 		return retour;
 	}
 }

@@ -106,8 +106,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         GridBagConstraints c = new GridBagConstraints();
         
 		this.controleur = new Controleur(this);
-		this.controleur.initControleurIA();
-
+		this.getControleur().initControleurIA();
+		this.getControleur().getControleurIA().construireArbre();
+		
         //init du conteneur plateau
         plateau = new FenetrePlateau(this);
         plateau.setSize(300, 200);
