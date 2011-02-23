@@ -53,8 +53,8 @@ public class Controleur {
 	// Directions, sous la forme lignecolonne : 1=pas de mouvement; 0=mouvement descendant; 2=mouvement montant
 	public final static int GAUCHE = 10;
 	public final static int DROITE = 12;
-	public final static int BAS_GAUCHE = 01;
-	public final static int HAUT_DROITE = 21;
+	public final static int BAS_GAUCHE = 21;
+	public final static int HAUT_DROITE = 01;
 	public final static int HAUT_GAUCHE = 00;
 	public final static int BAS_DROITE = 22;
 	
@@ -727,7 +727,7 @@ public class Controleur {
 						if(!isOut(v.get(0).getLigne(), v.get(0).getColonne() - 1))
 						{
 							possible = true;
-							// System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
+							System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
 						}
 						
 						break;
@@ -736,7 +736,7 @@ public class Controleur {
 						if(!isOut(v.get(0).getLigne(), v.get(0).getColonne() + 1))
 						{
 							possible = true;
-							// System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
+							System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
 						}
 						
 						break;
@@ -745,7 +745,7 @@ public class Controleur {
 						if(!isOut(v.get(0).getLigne() - 1, v.get(0).getColonne() - 1))
 						{
 							possible = true;
-							// System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
+							System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
 						}
 						
 						break;
@@ -754,7 +754,7 @@ public class Controleur {
 						if(!isOut(v.get(0).getLigne() - 1, v.get(0).getColonne()))
 						{
 							possible = true;
-							// System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
+							System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
 						}
 						
 						break;
@@ -763,7 +763,7 @@ public class Controleur {
 						if(!isOut(v.get(0).getLigne() + 1, v.get(0).getColonne()))
 						{
 							possible = true;
-							// System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
+							System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
 						}
 						
 						break;
@@ -772,7 +772,7 @@ public class Controleur {
 						if(!isOut(v.get(0).getLigne() + 1, v.get(0).getColonne() + 1))
 						{
 							possible = true;
-							// System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
+							System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
 						}
 						
 						break;
