@@ -68,7 +68,7 @@ public class Controleur {
 	public Controleur(FenetrePrincipale fen) throws Exception
 	{
 		this.fenetrePrincipale = fen;
-		this.partie = new Partie(this, "./data/plateau/defaut.plt");
+		this.partie = new Partie(this, "./data/plateau/defautDebug.plt");
 		this.selectionnees = new ArrayList<Bille>(3);
 		this.visees = new ArrayList<ArrayList<Bille>>(2);
 		this.coups = new ArrayList<Integer>(6);
@@ -80,9 +80,10 @@ public class Controleur {
 	}
 	
 	public void initControleurIA() throws Exception {
-		this.controleurIA = new ControleurIA(this);
+		this.controleurIA = ControleurIA.getInstance(this);
 	}
 	
+
 	// Retourne le nombre de coups pour lesquels une Case est cible.
 	public int nbNext(Point p) {
 		int dir = -1;
@@ -292,8 +293,7 @@ public class Controleur {
 		this.selectionner((int) p.getX(), (int) p.getY());
 	}
 	
-	public void setSelectionnees(ArrayList<Bille> selectionnees) 
-	{
+	public void setSelectionnees(ArrayList<Bille> selectionnees) {
 		this.selectionnees = selectionnees;
 	}
 
@@ -334,14 +334,15 @@ public class Controleur {
 	} 
 
 	// "true" si la Bille est selectionnee.
-	public boolean isSelectionnee(Bille b) 
-	{	boolean retour = false;
-		if (this.selectionnees.size() != 0)
-			{ for (int i=0; i < this.selectionnees.size(); i++) 
-				{ if (selectionnees.get(i).equals(b))
-					{ retour = true;} 
-				}
-			}
+	public boolean isSelectionnee(Bille b)  {	
+		boolean retour = false;
+		if (b != null) {
+			if (this.selectionnees.size() != 0)
+				 for (int i=0; i < this.selectionnees.size(); i++) 
+					 if (selectionnees.get(i).equals(b))
+						 retour = true;
+		}	
+				
 		return retour;
 	}
 	
@@ -521,7 +522,6 @@ public class Controleur {
 				
 		if (!isOut(b.getLigne() + (int) xAjoute*dist, b.getColonne() + (int) yAjoute*dist)) {
 			billeRetour = partie.getPlateau().getBille(b.getLigne() + (int) xAjoute*dist, b.getColonne() + (int) yAjoute*dist);
-			System.out.println("DBG " + b + " - " + billeRetour + " (" + dir + ")");
 		}
 
 		// GAUCHE : x - 1;
@@ -530,6 +530,7 @@ public class Controleur {
 		return billeRetour;
 	}
 	
+
 	/*
 	public Bille voisine(Bille b, int dir, int dist) {
 		switch(dir) {
@@ -635,10 +636,11 @@ public class Controleur {
 	}
 	*/
 	
+
 	// Retourne les coordonnees voisines de la Bille passee en parametres
 	public Point voisineP(Bille b, int dir, int dist) {
 		Point retour = new Point(-1,-1);
-		
+		System.out.println("DBG 404 :"+b);
 		if (dir >= 0) {
 			double dirTemp = (dir - 11) / 10.0;
 			int xAjoute = (int) Math.round(dirTemp);
@@ -750,55 +752,37 @@ public class Controleur {
 					
 					case GAUCHE :
 						if(!isOut(v.get(0).getLigne(), v.get(0).getColonne() - 1))
-						{
 							possible = true;
-							System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
-						}
 						
 						break;
 					
 					case DROITE :
 						if(!isOut(v.get(0).getLigne(), v.get(0).getColonne() + 1))
-						{
 							possible = true;
-							System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
-						}
 						
 						break;
 						
 					case HAUT_GAUCHE :
 						if(!isOut(v.get(0).getLigne() - 1, v.get(0).getColonne() - 1))
-						{
 							possible = true;
-							System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
-						}
 						
 						break;
 					
 					case HAUT_DROITE :
 						if(!isOut(v.get(0).getLigne() - 1, v.get(0).getColonne()))
-						{
 							possible = true;
-							System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
-						}
 						
 						break;
 						
 					case BAS_GAUCHE :
 						if(!isOut(v.get(0).getLigne() + 1, v.get(0).getColonne()))
-						{
 							possible = true;
-							System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
-						}
 						
 						break;
 						
 					case BAS_DROITE :
 						if(!isOut(v.get(0).getLigne() + 1, v.get(0).getColonne() + 1))
-						{
 							possible = true;
-							System.out.println(v.get(0) + " : " + dir + " OK");	// DBG
-						}
 						
 						break;
 				}
@@ -855,7 +839,8 @@ public class Controleur {
 	public boolean action(int dir) {
 		Bille billeTemp;
 		boolean expulsee = false;
-		if (deplacementPossible(selectionnees,dir)) {
+		boolean deplacement = deplacementPossible(selectionnees,dir);
+		if (deplacement) {
 			ArrayList<Bille> ennemies = getVisees(dir);
 			while(!ennemies.isEmpty())  {
 				billeTemp = getTete(ennemies,dir);
@@ -868,6 +853,7 @@ public class Controleur {
 				deplacerBille(billeTemp,dir);
 				selectionnees.remove(billeTemp);
 			}		
+			
 			this.nextTurn();
 		}
 		this.selectionnees.clear();
@@ -882,6 +868,9 @@ public class Controleur {
         		new FenetreOver("Victoire de "+this.getPartie().getJ2().getNom(),this.getFenetrePrincipale());
 
         }
+        
+        if (deplacement)
+        	this.nextTurn();
 		
 		return expulsee;
 	}
@@ -1136,6 +1125,8 @@ public class Controleur {
 	
 	// Change de joueur
 	public void nextTurn() {
+
+		
 		if (this.partie.getJCourant().equals(partie.getJ1()))
 			this.getPartie().setJCourant(partie.getJ2());
 		else 
@@ -1143,11 +1134,16 @@ public class Controleur {
 		
 		this.getPartie().quickSave();
 		
-		if(!this.getPartie().getJCourant().isHumain())
+		if((ControleurIA.arbre == false) && (!this.getPartie().getJCourant().isHumain())) {
 			this.controleurIA.construireArbre();
+			this.controleurIA.jouer();
+		}
 		
-		if(this.getFenetrePrincipale() != null)
+		if(this.getFenetrePrincipale() != null) {
+			controleurIA.arbre = false;
 			this.getFenetrePrincipale().rafraichir();
+			
+		}
 	}
 	
 	/*

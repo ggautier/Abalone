@@ -107,7 +107,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         
 		this.controleur = new Controleur(this);
 		this.getControleur().initControleurIA();
-		this.getControleur().getControleurIA().construireArbre();
+		this.getControleur().getControleurIA().getControleurVirtuel().initControleurIA();
 		
         //init du conteneur plateau
         plateau = new FenetrePlateau(this);
