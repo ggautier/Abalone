@@ -513,7 +513,7 @@ public class Controleur {
 	}
 	
 	// Retourne la Bille voisine de la Bille passee en parametres
-	/*
+	
 	public Bille voisine(Bille b, int dir, int dist) {
 		Bille billeRetour = null;
 		double dirTemp = (dir - 11) / 10.0;
@@ -530,8 +530,8 @@ public class Controleur {
 		// HAUT_DROITE : y - 1
 		return billeRetour;
 	}
-	*/
 	
+	/*
 	public Bille voisine(Bille b, int dir, int dist) {
 		switch(dir) {
 		
@@ -548,7 +548,7 @@ public class Controleur {
 				/*
 				else
 					System.out.println();
-				*/
+				
 				
 				break;
 			
@@ -565,7 +565,7 @@ public class Controleur {
 				/*
 				else
 					System.out.println();
-				*/
+				
 				
 				break;
 			
@@ -582,7 +582,7 @@ public class Controleur {
 				/*
 				else
 					System.out.println();
-				*/
+				
 				
 				break;
 			
@@ -599,7 +599,7 @@ public class Controleur {
 				/*
 				else
 					System.out.println();
-				*/
+				
 				
 				break;
 				
@@ -616,7 +616,7 @@ public class Controleur {
 				/*
 				else
 					System.out.println();
-				*/
+				
 				
 				break;
 				
@@ -633,13 +633,14 @@ public class Controleur {
 				/*
 				else
 					System.out.println();
-				*/
+				
 				
 				break;
 		}
 		
 		return null;
 	}
+	*/
 	
 	// Retourne les coordonnees voisines de la Bille passee en parametres
 	public Point voisineP(Bille b, int dir, int dist) {
@@ -658,14 +659,7 @@ public class Controleur {
 		// HAUT_DROITE : y - 1
 		return retour;
 	}
-	/* Memo :
-		public final static int GAUCHE = 10;
-		public final static int DROITE = 12;
-		public final static int BAS_GAUCHE = 01;
-		public final static int HAUT_DROITE = 21;
-		public final static int HAUT_GAUCHE = 00;
-		public final static int BAS_DROITE = 22;
-	*/
+
 	
 	// Recupere la Bille en "tete" de file, pour une direction donnee.
 	public Bille getTete(ArrayList<Bille> v, int dir) {
