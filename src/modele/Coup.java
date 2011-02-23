@@ -1,5 +1,6 @@
 package modele;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -28,19 +29,25 @@ import controleur.ControleurIA;
  */
 public class Coup {
 
-	private ArrayList<Bille> billes;	// Contient toutes les Billes actuellement selectionnees.
+	private ArrayList<Point> billes;	// Contient toutes les Billes actuellement selectionnees.
 	private int	direction;				// Contient le "deplacement" pointe par la Souris.
 	private Joueur joueur;
 	
-	public Coup() {}
-	
-	public Coup(ArrayList<Bille> billes, int dir, Joueur newJoueur) {
-		this.billes = (ArrayList<Bille>) billes.clone();
-		this.direction = dir;
-		this.joueur = newJoueur;
+	public Coup() {
+		this.billes = new ArrayList<Point>();
 	}
 	
-	public ArrayList<Bille> getBilles() {
+	public Coup(ArrayList<Bille> billes, int dir, Joueur newJoueur) {
+		
+		this.direction = dir;
+		this.joueur = newJoueur;
+		this.billes = new ArrayList<Point>();
+		
+		for (int i=0; i < billes.size(); i++)
+			this.billes.add(new Point(billes.get(i).getLigne(),billes.get(i).getColonne()));
+	}
+	
+	public ArrayList<Point> getBilles() {
 		return this.billes;
 	}
 	

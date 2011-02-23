@@ -114,8 +114,7 @@ public class Bille {
 	}
 	
 	// Version utilisee pour le developpement de l'IA
-	/*
-	public String toString() {
+	public String afficher() {
 		String str = new String();
 		
 		str = "(" + this.getLigne() + "," + this.getColonne() + ")";
@@ -127,7 +126,6 @@ public class Bille {
 		
 		return str;
 	}
-	*/
 	
 	/**
 	 * Test d'egalite avec une autre bille.
