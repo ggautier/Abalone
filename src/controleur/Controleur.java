@@ -485,7 +485,7 @@ public class Controleur {
 		Bille billeTete = getTete(v,dir);
 		Bille billeTemp;
 		ArrayList<Bille> vTemp = new ArrayList<Bille>(2);
-				
+		
 		for(int i=1; i <= 3; i++) {
 			billeTemp = voisine(billeTete,dir,i); // Bille voisinne d'i crans, suivant la direction
 			// Pas encore clairement definie : On verifie si on a une Bille du joueur adverse.
@@ -509,11 +509,9 @@ public class Controleur {
 		visees.add(vTemp); // On ajoute a la liste des billes visees
 		
 		return vTemp; // Pas encore clairement defini, mais l'idee est de retourner la liste de Billes ennemies qu'on pousserait.
-		
 	}
 	
 	// Retourne la Bille voisine de la Bille passee en parametres
-	/*
 	public Bille voisine(Bille b, int dir, int dist) {
 		Bille billeRetour = null;
 		double dirTemp = (dir - 11) / 10.0;
@@ -522,7 +520,7 @@ public class Controleur {
 				
 		if (!isOut(b.getLigne() + (int) xAjoute*dist, b.getColonne() + (int) yAjoute*dist)) {
 			billeRetour = partie.getPlateau().getBille(b.getLigne() + (int) xAjoute*dist, b.getColonne() + (int) yAjoute*dist);
-			System.out.println(b + " - " + billeRetour + " (" + dir + ")");
+			System.out.println("DBG " + b + " - " + billeRetour + " (" + dir + ")");
 		}
 
 		// GAUCHE : x - 1;
@@ -530,116 +528,63 @@ public class Controleur {
 		// HAUT_DROITE : y - 1
 		return billeRetour;
 	}
-	*/
 	
+	/*
 	public Bille voisine(Bille b, int dir, int dist) {
 		switch(dir) {
 		
 			// GAUCHE
 			case GAUCHE :
-				
-				// System.out.print(b + " : test gauche (" + b.getLigne() + "," + (b.getColonne() - 1) + ")");
-				
 				if((b.getColonne() > 0) && (this.getPartie().getPlateau().getBille(b.getLigne(), b.getColonne() - 1) != null)) {
-					// System.out.println(" X");
 					return this.getPartie().getPlateau().getBille(b.getLigne(), b.getColonne() - 1);
 				}
-				
-				/*
-				else
-					System.out.println();
-				*/
 				
 				break;
 			
 			// DROITE
 			case DROITE :
-				
-				// System.out.print(b + " : test droite (" + b.getLigne() + "," + (b.getColonne() + 1) + ")");
-				
 				if((b.getColonne() < 8) && (this.getPartie().getPlateau().getBille(b.getLigne(), b.getColonne() + 1) != null)) {
-					// System.out.println(" X");
 					return this.getPartie().getPlateau().getBille(b.getLigne(), b.getColonne() + 1);
 				}
-				
-				/*
-				else
-					System.out.println();
-				*/
 				
 				break;
 			
 			// HAUT GAUCHE
 			case HAUT_GAUCHE :
-				
-				// System.out.print(b + " : test haut gauche (" + (b.getLigne() - 1) + "," + (b.getColonne() - 1) + ")");
-				
 				if((b.getLigne() > 0) && (b.getColonne() > 0) && (this.getPartie().getPlateau().getBille(b.getLigne() - 1, b.getColonne() - 1) != null)) {
-					// System.out.println(" X");
 					return this.getPartie().getPlateau().getBille(b.getLigne() - 1, b.getColonne() - 1);
 				}
-				
-				/*
-				else
-					System.out.println();
-				*/
 				
 				break;
 			
 			// HAUT DROITE
 			case HAUT_DROITE :
-				
-				// System.out.print(b + " : test haut droite (" + (b.getLigne() - 1) + "," + b.getColonne() + ")");
-				
 				if((b.getLigne() > 0) && (this.getPartie().getPlateau().getBille(b.getLigne() - 1, b.getColonne()) != null)) {
-					// System.out.println(" X");
 					return this.getPartie().getPlateau().getBille(b.getLigne() - 1, b.getColonne());
 				}
-				
-				/*
-				else
-					System.out.println();
-				*/
 				
 				break;
 				
 			// BAS GAUCHE
 			case BAS_GAUCHE :
-				
-				// System.out.print(b + " : test bas gauche (" + (b.getLigne() + 1) + "," + b.getColonne() + ")");
-				
 				if((b.getLigne() < 8) && (b.getColonne() > 0) && (this.getPartie().getPlateau().getBille(b.getLigne() + 1, b.getColonne()) != null)) {
-					// System.out.println(" X");
 					return this.getPartie().getPlateau().getBille(b.getLigne() + 1, b.getColonne());
 				}
-				
-				/*
-				else
-					System.out.println();
-				*/
 				
 				break;
 				
 			// BAS DROITE
 			case BAS_DROITE :
-				
-				// System.out.print(b + " : test bas droite (" + (b.getLigne() + 1) + "," + (b.getColonne() + 1) + ")");
-				
 				if((b.getLigne() < 8) && (b.getColonne() < 8) && (this.getPartie().getPlateau().getBille(b.getLigne() + 1, b.getColonne() + 1) != null)) {
-					//System.out.println(" X");
 					return this.getPartie().getPlateau().getBille(b.getLigne() + 1, b.getColonne() + 1);
 				}
-				
-				/*
-				else
-					System.out.println();
-				*/
 				
 				break;
 		}
 		
 		return null;
 	}
+	*/
 	
 	// Retourne les coordonnees voisines de la Bille passee en parametres
 	public Point voisineP(Bille b, int dir, int dist) {

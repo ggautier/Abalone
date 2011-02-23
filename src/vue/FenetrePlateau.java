@@ -136,7 +136,7 @@ public class FenetrePlateau extends JPanel{
 
         		 if (principale.getControleur().isVisee((principale.getControleur().getPartie().getPlateau().getBille(i,j)))) {
         			 g.setColor(new Color(255,0,0,50));
-    			 	g.fillOval(this.offsetL+this.decalage+i*largeur, this.offsetH+j*longueur, longueur, longueur);
+    			 	g.fillOval(this.offsetL+this.decalage+j*largeur, this.offsetH+i*longueur, longueur, longueur);
         		 }
 
         		 if ( (principale.getControleur().isDeplacementVise(new Point(i,j))) ) {
