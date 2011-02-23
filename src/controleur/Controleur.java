@@ -68,7 +68,7 @@ public class Controleur {
 	public Controleur(FenetrePrincipale fen) throws Exception
 	{
 		this.fenetrePrincipale = fen;
-		this.partie = new Partie(this, "./data/plateau/defautDebug.plt");
+		this.partie = new Partie(this, "./data/plateau/defaut.plt");
 		this.selectionnees = new ArrayList<Bille>(3);
 		this.visees = new ArrayList<ArrayList<Bille>>(2);
 		this.coups = new ArrayList<Integer>(6);
@@ -697,16 +697,54 @@ public class Controleur {
 		
 		if (!v.isEmpty()) { // Si le vecteur n'est pas vide
 			
-			if (v.size() > 1) {
+			if (v.size() > 1) {	// Si plus d'une bille est selectionnee
 				
 				axe = getAxe(v.get(0),v.get(1));    		// On recupere l'axe forme par les Billes selectionnees
 				
 				if (axe != dir2axe(dir)) {	// Si deplacement lateral
 					
-					for (int i = 0; i < v.size(); i++)  		// Pour chaque Bille selectionnee
-						if (voisine(v.get(i), dir, 1) == null ) // On regarde chaque case a cote, vers la direction en parametre
-							proxyVide++;
-					
+					for(int i = 0; i < v.size(); i++)  		// Pour chaque Bille selectionnee
+						if(voisine(v.get(i), dir, 1) == null) // On regarde chaque case a cote, vers la direction en parametre
+						{
+							switch(dir) {
+							
+								case GAUCHE :
+									if(!isOut(v.get(i).getLigne(), v.get(i).getColonne() - 1))
+										proxyVide++;
+									
+									break;
+								
+								case DROITE :
+									if(!isOut(v.get(i).getLigne(), v.get(i).getColonne() + 1))
+										proxyVide++;
+									
+									break;
+								
+								case HAUT_GAUCHE :
+									if(!isOut(v.get(i).getLigne() - 1, v.get(i).getColonne() - 1))
+										proxyVide++;
+									
+									break;
+	
+								case HAUT_DROITE :
+									if(!isOut(v.get(i).getLigne() - 1, v.get(i).getColonne()))
+										proxyVide++;
+									
+									break;
+								
+								case BAS_GAUCHE :
+									if(!isOut(v.get(0).getLigne() + 1, v.get(0).getColonne()))
+										proxyVide++;
+									
+									break;
+									
+								case BAS_DROITE :
+									if(!isOut(v.get(0).getLigne() + 1, v.get(0).getColonne() + 1))
+										proxyVide++;
+									
+									break;
+							}
+						}
 					if (proxyVide == v.size())	// Toutes les billes selectionnees peuvent etre deplacees
 						possible = true;
 				}
