@@ -42,6 +42,7 @@ public class Controleur {
 	protected ControleurIA		controleurIA;
 	protected FenetrePrincipale	fenetrePrincipale;
 	protected Partie			partie; 
+	
 	protected ArrayList<Bille>		selectionnees;  // Contient toutes les Billes actuellement selectionnees.
 	protected ArrayList<ArrayList<Bille>> visees;		// Contient les Billes poussables par les Billes selectionnees.
 	protected ArrayList<Integer> 		coups;		// Contient les directions vers lesquelles les Billes selectionnees peuvent aller.
@@ -79,11 +80,14 @@ public class Controleur {
 		return this.controleurIA;
 	}
 	
+	public void setControleurIA(ControleurIA newIA) {
+		this.controleurIA = newIA;
+	}
+	
 	public void initControleurIA() throws Exception {
 		this.controleurIA = ControleurIA.getInstance(this);
 	}
 	
-
 	// Retourne le nombre de coups pour lesquels une Case est cible.
 	public int nbNext(Point p) {
 		int dir = -1;
@@ -91,10 +95,10 @@ public class Controleur {
 		
 		for (int j=0; j < coups.size(); j++) {
 			dir = coups.get(j);
+			
 			for (int i=0; i < selectionnees.size(); i++)
 				if (voisineP(selectionnees.get(i),dir,1).equals(p))
 						retour++;
-					
 		}
 		
 		return retour;
@@ -346,6 +350,16 @@ public class Controleur {
 		return retour;
 	}
 	
+	public ArrayList<Bille> getVisees(int dir) {
+		ArrayList<Bille> retour = new ArrayList<Bille>(2);
+		for (int i=0; i < this.visees.size(); i++)
+			for (int j=0; j < this.visees.get(i).size(); j++)
+				if (visees.get(i).get(j).equals(voisine(getTete(selectionnees,dir),dir,1)))
+					retour = visees.get(i);
+			
+		return retour;
+	}
+	
 	// "true" si la Bille est visee
 	public boolean isVisee(Bille b) {	
 		boolean retour = false;
@@ -359,6 +373,10 @@ public class Controleur {
 			}
 		}		
 		return retour;
+	}
+	
+	public void setVisees(ArrayList<ArrayList<Bille>> newVisees) {
+		this.visees = newVisees;
 	}
 		
 	// Retourne un vecteur contenant les 6 billes au alentours de la Bille passee en entree
@@ -379,19 +397,6 @@ public class Controleur {
 			vRetour.add(partie.getPlateau().getBille(b.getLigne()+1,b.getColonne()+1));// En bas a droite
 		
 		return vRetour;
-	
-	}
-	
-	// Retourne un Vecteur contenant les Billes, parmi celles passees en entree, sont de la meme Couleur
-	ArrayList<Bille> billeCouleur(ArrayList<Bille> v, Joueur j) {
-		ArrayList<Bille> vRetour = new ArrayList<Bille>(6);
-		
-		for(int i = 0; i <= v.size(); i++)
-			if(v.get(i).getJoueur() == j)
-				vRetour.add(v.get(i));		// Si la Bille a la meme Couleur, on l'ajoute au Vecteur de retour.
-				
-		return vRetour;
-	
 	}
 	
 	// Recupere l'axe forme par les deux Billes passees en parametre.
@@ -640,7 +645,7 @@ public class Controleur {
 	// Retourne les coordonnees voisines de la Bille passee en parametres
 	public Point voisineP(Bille b, int dir, int dist) {
 		Point retour = new Point(-1,-1);
-		System.out.println("DBG 404 :"+b);
+		
 		if (dir >= 0) {
 			double dirTemp = (dir - 11) / 10.0;
 			int xAjoute = (int) Math.round(dirTemp);
@@ -821,8 +826,6 @@ public class Controleur {
 		return axe;
 	}
 	
-	
-	
 	public boolean action(ArrayList<Bille> v, int dir) {
 		if (deplacementPossible(v,dir)) {
 			for(int i=0; i < visees.size(); i++)
@@ -830,7 +833,7 @@ public class Controleur {
 			for(int j=0; j < v.size(); j++)
 				deplacerBille(v.get(j),dir);
 			
-			this.nextTurn();
+			this.nextTurn(false);
 		}
 		return true;
 	}
@@ -854,35 +857,30 @@ public class Controleur {
 				selectionnees.remove(billeTemp);
 			}		
 			
-			this.nextTurn();
 		}
 		this.selectionnees.clear();
 		this.visees.clear();
 		this.coups.clear();
 		this.deplacementVise = -1;
+		
+		if (this.getFenetrePrincipale() != null) {
+			this.getFenetrePrincipale().rafraichir();
+	        
+	        if (expulsee) {
+	        	if (this.getPartie().getJ1().getScore() > 5)
+	        		new FenetreOver("Victoire de "+this.getPartie().getJ1().getNom(),this.getFenetrePrincipale());
+	        	else if (this.getPartie().getJ2().getScore() > 5)
+	        		new FenetreOver("Victoire de "+this.getPartie().getJ2().getNom(),this.getFenetrePrincipale());
+	
+	        }
+		}
         
-        if (expulsee) {
-        	if (this.getPartie().getJ1().getScore() > 5)
-        		new FenetreOver("Victoire de "+this.getPartie().getJ1().getNom(),this.getFenetrePrincipale());
-        	else if (this.getPartie().getJ2().getScore() > 5)
-        		new FenetreOver("Victoire de "+this.getPartie().getJ2().getNom(),this.getFenetrePrincipale());
-
+        if (deplacement) {
+        	this.nextTurn(false);
         }
-        
-        if (deplacement)
-        	this.nextTurn();
+        	
 		
 		return expulsee;
-	}
-	
-	public ArrayList<Bille> getVisees(int dir) {
-		ArrayList<Bille> retour = new ArrayList<Bille>(2);
-		for (int i=0; i < this.visees.size(); i++)
-			for (int j=0; j < this.visees.get(i).size(); j++)
-				if (visees.get(i).get(j).equals(voisine(getTete(selectionnees,dir),dir,1)))
-					retour = visees.get(i);
-			
-		return retour;
 	}
 	
 	// Methode utilisee pour deplacer la Bille. Ne pas appeller directement (passer par "action")
@@ -1124,26 +1122,25 @@ public class Controleur {
 	}
 	
 	// Change de joueur
-	public void nextTurn() {
+	public void nextTurn(boolean virtual) {
 
-		
+		this.getPartie().quickSave();
+
 		if (this.partie.getJCourant().equals(partie.getJ1()))
 			this.getPartie().setJCourant(partie.getJ2());
 		else 
 			this.getPartie().setJCourant(partie.getJ1());
 		
-		this.getPartie().quickSave();
 		
-		if((ControleurIA.arbre == false) && (!this.getPartie().getJCourant().isHumain())) {
-			this.controleurIA.construireArbre();
+		System.out.println("-> Au tour de "+this.getPartie().getJCourant().getNom()+" ("+(this.getFenetrePrincipale() == null ? "VIRTUEL" : "REEL") +")");
+		
+		if ( (this.getFenetrePrincipale() != null) && (!this.getPartie().getJCourant().isHumain()) ) {
 			this.controleurIA.jouer();
 		}
 		
-		if(this.getFenetrePrincipale() != null) {
-			controleurIA.arbre = false;
+		if(this.getFenetrePrincipale() != null) 
 			this.getFenetrePrincipale().rafraichir();
-			
-		}
+
 	}
 	
 	/*

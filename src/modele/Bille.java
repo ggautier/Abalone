@@ -114,6 +114,7 @@ public class Bille {
 	}
 	
 	// Version utilisee pour le developpement de l'IA
+
 	public String afficher() {
 		String str = new String();
 		
@@ -126,6 +127,7 @@ public class Bille {
 		
 		return str;
 	}
+
 	
 	/**
 	 * Test d'egalite avec une autre bille.

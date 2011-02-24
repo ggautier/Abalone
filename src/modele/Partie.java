@@ -163,7 +163,7 @@ public class Partie {
 		
 		
 		buffer.close();
-		System.out.print("<<"+strTotal+">>");
+		//System.out.print("<<"+strTotal+">>");
 		this.charger(strTotal);
 		
 		return true;
@@ -175,7 +175,7 @@ public class Partie {
 		BufferedReader buffer = new BufferedReader(new StringReader(donnees));
 		StringTokenizer tokenizer;
 		String ligne;
-		System.out.println(donnees);
+		//System.out.println(donnees);
 
 		
 //// JOUEURS

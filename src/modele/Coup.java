@@ -75,7 +75,7 @@ public class Coup {
 		String str = new String();
 		
 		for(int i = 0 ; i < this.billes.size() ; i++)
-			str += this.billes.get(i) + " ";
+			str += (int) this.billes.get(i).getX() + "," + (int) this.billes.get(i).getY() + "   ";
 		
 		str += ": " + this.direction;
 		
