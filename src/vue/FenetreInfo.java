@@ -42,12 +42,12 @@ public class FenetreInfo extends JPanel{
         donnerContrainte(c,0,0,1,1,0,0);
 		this.misc.add(labelTour,c);
 		
-        donnerContrainte(c,1,0,1,1,100,100);
+        donnerContrainte(c,1,0,1,1,0,0);
 		this.misc.add(tourDeJeu,c);
 		
-		donnerContrainte(c,0,0,1,1,75,100);
+		donnerContrainte(c,0,0,1,1,70,100);
 		this.add(texte,c);
-		donnerContrainte(c,1,0,1,1,25,100);
+		donnerContrainte(c,1,0,1,1,30,100);
 		this.add(misc,c);
 	}
 	
