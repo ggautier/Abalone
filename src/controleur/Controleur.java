@@ -640,7 +640,7 @@ public class Controleur {
 	// Retourne les coordonnees voisines de la Bille passee en parametres
 	public Point voisineP(Bille b, int dir, int dist) {
 		Point retour = new Point(-1,-1);
-		System.out.println("DBG Voisine :"+b);
+		
 		if (dir >= 0) {
 			double dirTemp = (dir - 11) / 10.0;
 			int xAjoute = (int) Math.round(dirTemp);
@@ -872,8 +872,11 @@ public class Controleur {
 	        }
 		}
         
-        if (deplacement)
+        if (deplacement) {
+        	System.out.println("DBG action : Changement de joueur " + (this.getFenetrePrincipale() != null ? "REEL" : "VIRTUEL"));
         	this.nextTurn(false);
+        }
+        	
 		
 		return expulsee;
 	}
@@ -1140,6 +1143,9 @@ public class Controleur {
 		if ((this.getFenetrePrincipale() != null) && (!this.getPartie().getJCourant().isHumain())) {
 			this.controleurIA.jouer();
 		}
+		
+		if(this.getFenetrePrincipale() != null) 
+			this.getFenetrePrincipale().rafraichir();
 
 	}
 	

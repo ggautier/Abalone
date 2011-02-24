@@ -148,11 +148,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 	}
 	
 	public void rafraichir() {
-		this.getInfo().getTourDeJeu().setText(
-				this.getControleur().
-					getPartie().
-						getJCourant().
-							getNom());
+		this.getInfo().getTourDeJeu().setText(this.getControleur().getPartie().getJCourant().getNom()
+				+ " - " + ((this.getControleur().getPartie().getJCourant().isHumain()) ? "humain" : "cpu"));
 		
 		this.getInfo().getTourDeJeu().repaint();
 		this.getInfo().getTourDeJeu().revalidate();
