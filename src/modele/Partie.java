@@ -54,19 +54,18 @@ public class Partie {
 		
 		try {
 			this.chargerParFichier(fichierConfig);
-			
-			if(this.getJ1().getCamps() == false)
-				this.jCourant = this.getJ1();
-			else
-				this.jCourant = this.getJ2();
 		}
-		
 		catch(NullPointerException npe) {
 			System.out.println(npe.getMessage());
 		}
 		catch (IOException ioe) {
 			System.out.println(ioe.getMessage());
 		}
+		
+		if(this.getJ1().getCamps() == false)
+			this.jCourant = this.getJ1();
+		else
+			this.jCourant = this.getJ2();
 	}
 
 	public Joueur getJ1() {
