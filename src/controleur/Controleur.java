@@ -876,7 +876,6 @@ public class Controleur {
 		}
         
         if (deplacement) {
-        	System.out.println("DBG action : Changement de joueur " + (this.getFenetrePrincipale() != null ? "REEL" : "VIRTUEL"));
         	this.nextTurn(false);
         }
         	
@@ -1135,15 +1134,17 @@ public class Controleur {
 	// Change de joueur
 	public void nextTurn(boolean virtual) {
 
-		
+		this.getPartie().quickSave();
+
 		if (this.partie.getJCourant().equals(partie.getJ1()))
 			this.getPartie().setJCourant(partie.getJ2());
 		else 
 			this.getPartie().setJCourant(partie.getJ1());
 		
-		this.getPartie().quickSave();
 		
-		if ((this.getFenetrePrincipale() != null) && (!this.getPartie().getJCourant().isHumain())) {
+		System.out.println("-> Au tour de "+this.getPartie().getJCourant().getNom()+" ("+(this.getFenetrePrincipale() == null ? "VIRTUEL" : "REEL") +")");
+		
+		if ( (this.getFenetrePrincipale() != null) && (!this.getPartie().getJCourant().isHumain()) ) {
 			this.controleurIA.jouer();
 		}
 		
