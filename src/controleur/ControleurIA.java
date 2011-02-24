@@ -218,7 +218,7 @@ public class ControleurIA {
 		System.out.println("\n\n\nDBG : "+indexCoup);
 		ArrayList<Bille> aSelectionner = new ArrayList<Bille>();
 		for (int i=0; i < this.getArbreCoups().getFils().get(indexCoup).getCoup().getBilles().size(); i++) {
-			bTemp = this.getControleurVirtuel().getPartie().getPlateau().getBille(
+			bTemp = this.getControleurPartie().getPartie().getPlateau().getBille(
 					(int) this.getArbreCoups().getFils().get(indexCoup).getCoup().getBilles().get(i).getX(), (int) this.getArbreCoups().getFils().get(indexCoup).getCoup().getBilles().get(i).getY());
 			if (bTemp != null)
 				aSelectionner.add(bTemp);
