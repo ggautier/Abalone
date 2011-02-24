@@ -79,11 +79,14 @@ public class Controleur {
 		return this.controleurIA;
 	}
 	
+	public void setControleurIA(ControleurIA newIA) {
+		this.controleurIA = newIA;
+	}
+	
 	public void initControleurIA() throws Exception {
 		this.controleurIA = ControleurIA.getInstance(this);
 	}
 	
-
 	// Retourne le nombre de coups pour lesquels une Case est cible.
 	public int nbNext(Point p) {
 		int dir = -1;
@@ -91,10 +94,10 @@ public class Controleur {
 		
 		for (int j=0; j < coups.size(); j++) {
 			dir = coups.get(j);
+			
 			for (int i=0; i < selectionnees.size(); i++)
 				if (voisineP(selectionnees.get(i),dir,1).equals(p))
 						retour++;
-					
 		}
 		
 		return retour;
