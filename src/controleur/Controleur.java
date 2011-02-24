@@ -375,6 +375,7 @@ public class Controleur {
 		return retour;
 	}
 	
+	// Utilisee uniquement pour les tests
 	public void setVisees(ArrayList<ArrayList<Bille>> newVisees) {
 		this.visees = newVisees;
 	}

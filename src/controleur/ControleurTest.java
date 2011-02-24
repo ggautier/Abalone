@@ -240,19 +240,42 @@ public class ControleurTest extends TestCase {
 		}
 	}
 	
-	public void testIsSelectionnee() {
+	public void testIsSelectionnee_true() {
 		
 		try {
 			Controleur controleur = new Controleur(new FenetrePrincipale("titre"));
 			ArrayList<Bille> billes = new ArrayList<Bille>();
 			Bille bille = new Bille(2, 2, new Joueur("nom", true, true));
+			Bille bille2 = new Bille(3, 5, new Joueur("nom2", false, true));
 			
 			billes.add(bille);
+			billes.add(bille2);
 			
 			controleur.setSelectionnees(billes);
 			
-			assertTrue(controleur.isSelectionnee(bille));
+			assertTrue((controleur.isSelectionnee(bille)) && (controleur.isSelectionnee(bille2)));
 		}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+			fail("Exception levee");
+		}
+	}
+		
+		public void testIsSelectionnee_false() {
+			
+			try {
+				Controleur controleur = new Controleur(new FenetrePrincipale("titre"));
+				ArrayList<Bille> billes = new ArrayList<Bille>();
+				Bille bille = new Bille(2, 2, new Joueur("nom", true, true));
+				Bille bille2 = new Bille(3, 5, new Joueur("nom2", false, true));
+				
+				billes.add(bille);
+				
+				controleur.setSelectionnees(billes);
+				
+				assertFalse(controleur.isSelectionnee(bille2));
+			}
 	
 		catch (Exception e) {
 			e.printStackTrace();
@@ -260,116 +283,186 @@ public class ControleurTest extends TestCase {
 		}
 	}
 
+	public void testSetVisees() {
+		
+		try {
+			Controleur controleur = new Controleur(new FenetrePrincipale("titre"));
+			
+			ArrayList<ArrayList<Bille>> viseesTest = new ArrayList<ArrayList<Bille>>();
+			
+			ArrayList<Bille> billes1 = new ArrayList<Bille>();
+			ArrayList<Bille> billes2 = new ArrayList<Bille>();
+			
+			Bille bille1 = new Bille(2, 2, new Joueur("nom", true, true));
+			Bille bille2 = new Bille(3, 5, new Joueur("nom2", false, true));
+			Bille bille3 = new Bille(6, 6, new Joueur("nom", true, true));
+			Bille bille4 = new Bille(7, 3, new Joueur("nom2", false, true));
+			
+			billes1.add(bille1);
+			billes1.add(bille2);
+			billes2.add(bille3);
+			billes2.add(bille4);
+			
+			viseesTest.add(billes1);
+			viseesTest.add(billes2);
+			
+			controleur.setVisees(viseesTest);
+			
+			assertFalse((controleur.isVisee(bille1))
+							& (controleur.isVisee(bille2))
+							& (controleur.isVisee(bille3))
+							& (controleur.isVisee(bille4)));
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+			fail("Exception levee");
+		}
+	}
+	
+	public void testIsVisee() {
+		fail("Pas encore implemente");
+	}
+	
 	public void testGetVisees() {
-		fail("Pas encore implémenté");
+		
+		try {
+			Controleur controleur = new Controleur(new FenetrePrincipale("titre"));
+			
+			controleur.selectionner(2, 2);
+			controleur.selectionner(3, 2);
+			
+			ArrayList<Bille> billes = new ArrayList<Bille>();
+			ArrayList<ArrayList<Bille>> viseesTest = new ArrayList<ArrayList<Bille>>();
+			
+			billes.add(controleur.getPartie().getPlateau().getBille(4, 2));
+			viseesTest.add(billes);
+			
+			controleur.setVisees(viseesTest);
+			
+			System.out.println(controleur.visees);
+			assertFalse(controleur.getVisees(21).isEmpty()) ;
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+			fail("Exception levee");
+		}
+	}
+	
+	public void testVoisine() {
+		
+		try {
+			Controleur controleur = new Controleur(new FenetrePrincipale("titre"));
+			
+			assertTrue((controleur.voisine(controleur.getPartie().getPlateau().getBille(2, 2), 21, 1).getLigne() == 3)
+				&& (controleur.voisine(controleur.getPartie().getPlateau().getBille(2, 2), 21, 1).getColonne() == 2));
+		}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+			fail("Exception levee");
+		}
 	}
 	
 	public void testNbNext() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testNextCoup() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testMajDeplacementVise() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testGetBillePointee() {
-		fail("Pas encore implémenté");
-	}
-
-	public void testIsVisee() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testBilleAlentours() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testGetAxe() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testGenererCoupsArrayListOfBille() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testGenererCoups() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testGetAdversairesPoussables() {
-		fail("Pas encore implémenté");
-	}
-
-	public void testVoisine() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testVoisineP() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testGetTete() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testDeplacementPossible() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testDir2axe() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testActionArrayListOfBilleInt() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testActionInt() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testDeplacerBille() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testGetPointee() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testSetPointeeBille() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testSetPointeePoint() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testIsDeplacementVise() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testGetDeplacementVise() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testSetDeplacementVise() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testGetBillesJoueur() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testGetCoupsPossibles() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 	public void testNextTurn() {
-		fail("Pas encore implémenté");
+		fail("Pas encore implemente");
 	}
 
 }
