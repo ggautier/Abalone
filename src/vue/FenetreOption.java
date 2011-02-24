@@ -36,6 +36,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 	private JComboBox				choixCouleur1, choixCouleur2;
 	private TitledBorder			title;
 	private JTextField 				textFieldJ1, textFieldJ2;
+	private JCheckBox				ai1, ai2;
 	
 	public FenetreOption(String titre, FenetrePrincipale fenetre)
 	{	
@@ -105,6 +106,11 @@ public class FenetreOption extends JDialog implements ActionListener{
 		donnerContrainte(c,0,1,1,1,0,0);
 		sousPanJ1.add(choixCouleur1,c);
 		
+		ai1 = new JCheckBox("IA", !this.fenetre.getControleur().getPartie().getJ1().isHumain());
+		ai1.setEnabled(false);
+		ai1.addActionListener(this);
+		donnerContrainte(c,0,2,1,1,0,0);
+		sousPanJ1.add(ai1,c);
 		
         /*
          * Placement des éléments dans le panel Joueur 2
@@ -118,6 +124,11 @@ public class FenetreOption extends JDialog implements ActionListener{
 		
 		donnerContrainte(c,0,1,1,1,0,0);
 		sousPanJ2.add(choixCouleur2,c);
+		
+		ai2 = new JCheckBox("IA", !this.fenetre.getControleur().getPartie().getJ2().isHumain());
+		ai2.addActionListener(this);
+		donnerContrainte(c,0,2,1,1,0,0);
+		sousPanJ2.add(ai2,c);
 		
 	     /*
          * Placement des éléments dans le panel Boutons
@@ -175,7 +186,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		
 		Object source = e.getActionCommand();
-
+		
 		if(source == "OK")
 		{
 			String couleurJ1 = new String(this.choixCouleur1.getSelectedItem().toString());
@@ -198,4 +209,16 @@ public class FenetreOption extends JDialog implements ActionListener{
 
 		}
 	}
+
+
+	public JCheckBox getAi1() {
+		return ai1;
+	}
+
+
+	public JCheckBox getAi2() {
+		return ai2;
+	}
+	
+	
 }
