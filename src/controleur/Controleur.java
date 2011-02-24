@@ -42,6 +42,7 @@ public class Controleur {
 	protected ControleurIA		controleurIA;
 	protected FenetrePrincipale	fenetrePrincipale;
 	protected Partie			partie; 
+	
 	protected ArrayList<Bille>		selectionnees;  // Contient toutes les Billes actuellement selectionnees.
 	protected ArrayList<ArrayList<Bille>> visees;		// Contient les Billes poussables par les Billes selectionnees.
 	protected ArrayList<Integer> 		coups;		// Contient les directions vers lesquelles les Billes selectionnees peuvent aller.
@@ -349,6 +350,16 @@ public class Controleur {
 		return retour;
 	}
 	
+	public ArrayList<Bille> getVisees(int dir) {
+		ArrayList<Bille> retour = new ArrayList<Bille>(2);
+		for (int i=0; i < this.visees.size(); i++)
+			for (int j=0; j < this.visees.get(i).size(); j++)
+				if (visees.get(i).get(j).equals(voisine(getTete(selectionnees,dir),dir,1)))
+					retour = visees.get(i);
+			
+		return retour;
+	}
+	
 	// "true" si la Bille est visee
 	public boolean isVisee(Bille b) {	
 		boolean retour = false;
@@ -362,6 +373,10 @@ public class Controleur {
 			}
 		}		
 		return retour;
+	}
+	
+	public void setVisees(ArrayList<ArrayList<Bille>> newVisees) {
+		this.visees = newVisees;
 	}
 		
 	// Retourne un vecteur contenant les 6 billes au alentours de la Bille passee en entree
@@ -382,19 +397,6 @@ public class Controleur {
 			vRetour.add(partie.getPlateau().getBille(b.getLigne()+1,b.getColonne()+1));// En bas a droite
 		
 		return vRetour;
-	
-	}
-	
-	// Retourne un Vecteur contenant les Billes, parmi celles passees en entree, sont de la meme Couleur
-	ArrayList<Bille> billeCouleur(ArrayList<Bille> v, Joueur j) {
-		ArrayList<Bille> vRetour = new ArrayList<Bille>(6);
-		
-		for(int i = 0; i <= v.size(); i++)
-			if(v.get(i).getJoueur() == j)
-				vRetour.add(v.get(i));		// Si la Bille a la meme Couleur, on l'ajoute au Vecteur de retour.
-				
-		return vRetour;
-	
 	}
 	
 	// Recupere l'axe forme par les deux Billes passees en parametre.
@@ -824,8 +826,6 @@ public class Controleur {
 		return axe;
 	}
 	
-	
-	
 	public boolean action(ArrayList<Bille> v, int dir) {
 		if (deplacementPossible(v,dir)) {
 			for(int i=0; i < visees.size(); i++)
@@ -882,16 +882,6 @@ public class Controleur {
         	
 		
 		return expulsee;
-	}
-	
-	public ArrayList<Bille> getVisees(int dir) {
-		ArrayList<Bille> retour = new ArrayList<Bille>(2);
-		for (int i=0; i < this.visees.size(); i++)
-			for (int j=0; j < this.visees.get(i).size(); j++)
-				if (visees.get(i).get(j).equals(voisine(getTete(selectionnees,dir),dir,1)))
-					retour = visees.get(i);
-			
-		return retour;
 	}
 	
 	// Methode utilisee pour deplacer la Bille. Ne pas appeller directement (passer par "action")
