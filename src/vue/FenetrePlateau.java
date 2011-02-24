@@ -62,7 +62,7 @@ public class FenetrePlateau extends JPanel{
         
    	}
 	
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
 		 this.offsetL = (int) (this.getWidth()*0.13);
 		 this.offsetH = (int) (this.getHeight()*0.015);
 		 this.longueur = 55;

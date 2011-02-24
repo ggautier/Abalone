@@ -57,6 +57,12 @@ public class ArbreCoups {
 		this.setFils(newFils);
 	}
 	
+	public ArbreCoups(ArbreCoups arbreCoups) {
+		this.coup = arbreCoups.getCoup();
+		this.fils = arbreCoups.getFils();
+		this.scoreCoup = arbreCoups.getScoreCoup();
+	}
+
 	/**
 	 * Retourne le coup associe au noeud
 	 * 
@@ -160,7 +166,7 @@ public class ArbreCoups {
 	}
 	
 	public void afficher(int indentation) {
-		
+
 		for(int i = 0 ; i < indentation ; i++)
 			System.out.print("   ");
 		
