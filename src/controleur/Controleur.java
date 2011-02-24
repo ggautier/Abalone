@@ -513,6 +513,7 @@ public class Controleur {
 	}
 	
 	// Retourne la Bille voisine de la Bille passee en parametres
+
 	public Bille voisine(Bille b, int dir, int dist) {
 		Bille billeRetour = null;
 		double dirTemp = (dir - 11) / 10.0;
@@ -529,10 +530,117 @@ public class Controleur {
 		return billeRetour;
 	}
 	
+
+	/*
+	public Bille voisine(Bille b, int dir, int dist) {
+		switch(dir) {
+		
+			// GAUCHE
+			case GAUCHE :
+				if((b.getColonne() > 0) && (this.getPartie().getPlateau().getBille(b.getLigne(), b.getColonne() - 1) != null)) {
+					return this.getPartie().getPlateau().getBille(b.getLigne(), b.getColonne() - 1);
+				}
+<<<<<<< HEAD
+				
+				/*
+				else
+					System.out.println();
+				
+=======
+>>>>>>> branch 'refs/heads/master' of https://Latoof@github.com/ggautier/Abalone.git
+				
+				break;
+			
+			// DROITE
+			case DROITE :
+				if((b.getColonne() < 8) && (this.getPartie().getPlateau().getBille(b.getLigne(), b.getColonne() + 1) != null)) {
+					return this.getPartie().getPlateau().getBille(b.getLigne(), b.getColonne() + 1);
+				}
+<<<<<<< HEAD
+				
+				/*
+				else
+					System.out.println();
+				
+=======
+>>>>>>> branch 'refs/heads/master' of https://Latoof@github.com/ggautier/Abalone.git
+				
+				break;
+			
+			// HAUT GAUCHE
+			case HAUT_GAUCHE :
+				if((b.getLigne() > 0) && (b.getColonne() > 0) && (this.getPartie().getPlateau().getBille(b.getLigne() - 1, b.getColonne() - 1) != null)) {
+					return this.getPartie().getPlateau().getBille(b.getLigne() - 1, b.getColonne() - 1);
+				}
+<<<<<<< HEAD
+				
+				/*
+				else
+					System.out.println();
+				
+=======
+>>>>>>> branch 'refs/heads/master' of https://Latoof@github.com/ggautier/Abalone.git
+				
+				break;
+			
+			// HAUT DROITE
+			case HAUT_DROITE :
+				if((b.getLigne() > 0) && (this.getPartie().getPlateau().getBille(b.getLigne() - 1, b.getColonne()) != null)) {
+					return this.getPartie().getPlateau().getBille(b.getLigne() - 1, b.getColonne());
+				}
+<<<<<<< HEAD
+				
+				/*
+				else
+					System.out.println();
+				
+=======
+>>>>>>> branch 'refs/heads/master' of https://Latoof@github.com/ggautier/Abalone.git
+				
+				break;
+				
+			// BAS GAUCHE
+			case BAS_GAUCHE :
+				if((b.getLigne() < 8) && (b.getColonne() > 0) && (this.getPartie().getPlateau().getBille(b.getLigne() + 1, b.getColonne()) != null)) {
+					return this.getPartie().getPlateau().getBille(b.getLigne() + 1, b.getColonne());
+				}
+<<<<<<< HEAD
+				
+				/*
+				else
+					System.out.println();
+				
+=======
+>>>>>>> branch 'refs/heads/master' of https://Latoof@github.com/ggautier/Abalone.git
+				
+				break;
+				
+			// BAS DROITE
+			case BAS_DROITE :
+				if((b.getLigne() < 8) && (b.getColonne() < 8) && (this.getPartie().getPlateau().getBille(b.getLigne() + 1, b.getColonne() + 1) != null)) {
+					return this.getPartie().getPlateau().getBille(b.getLigne() + 1, b.getColonne() + 1);
+				}
+<<<<<<< HEAD
+				
+				/*
+				else
+					System.out.println();
+				
+=======
+>>>>>>> branch 'refs/heads/master' of https://Latoof@github.com/ggautier/Abalone.git
+				
+				break;
+		}
+		
+		return null;
+	}
+	*/
+	
+
 	// Retourne les coordonnees voisines de la Bille passee en parametres
 	public Point voisineP(Bille b, int dir, int dist) {
 		Point retour = new Point(-1,-1);
-		System.out.println("DBG 404 :"+b);
+		System.out.println("DBG Voisine :"+b);
 		if (dir >= 0) {
 			double dirTemp = (dir - 11) / 10.0;
 			int xAjoute = (int) Math.round(dirTemp);
@@ -546,14 +654,7 @@ public class Controleur {
 		// HAUT_DROITE : y - 1
 		return retour;
 	}
-	/* Memo :
-		public final static int GAUCHE = 10;
-		public final static int DROITE = 12;
-		public final static int BAS_GAUCHE = 01;
-		public final static int HAUT_DROITE = 21;
-		public final static int HAUT_GAUCHE = 00;
-		public final static int BAS_DROITE = 22;
-	*/
+
 	
 	// Recupere la Bille en "tete" de file, pour une direction donnee.
 	public Bille getTete(ArrayList<Bille> v, int dir) {
@@ -729,7 +830,7 @@ public class Controleur {
 			for(int j=0; j < v.size(); j++)
 				deplacerBille(v.get(j),dir);
 			
-			this.nextTurn();
+			this.nextTurn(false);
 		}
 		return true;
 	}
@@ -753,23 +854,26 @@ public class Controleur {
 				selectionnees.remove(billeTemp);
 			}		
 			
-			this.nextTurn();
 		}
 		this.selectionnees.clear();
 		this.visees.clear();
 		this.coups.clear();
 		this.deplacementVise = -1;
-        
-        if (expulsee) {
-        	if (this.getPartie().getJ1().getScore() > 5)
-        		new FenetreOver("Victoire de "+this.getPartie().getJ1().getNom(),this.getFenetrePrincipale());
-        	else if (this.getPartie().getJ2().getScore() > 5)
-        		new FenetreOver("Victoire de "+this.getPartie().getJ2().getNom(),this.getFenetrePrincipale());
-
-        }
+		
+		if (this.getFenetrePrincipale() != null) {
+			this.getFenetrePrincipale().rafraichir();
+	        
+	        if (expulsee) {
+	        	if (this.getPartie().getJ1().getScore() > 5)
+	        		new FenetreOver("Victoire de "+this.getPartie().getJ1().getNom(),this.getFenetrePrincipale());
+	        	else if (this.getPartie().getJ2().getScore() > 5)
+	        		new FenetreOver("Victoire de "+this.getPartie().getJ2().getNom(),this.getFenetrePrincipale());
+	
+	        }
+		}
         
         if (deplacement)
-        	this.nextTurn();
+        	this.nextTurn(false);
 		
 		return expulsee;
 	}
@@ -1023,7 +1127,7 @@ public class Controleur {
 	}
 	
 	// Change de joueur
-	public void nextTurn() {
+	public void nextTurn(boolean virtual) {
 
 		
 		if (this.partie.getJCourant().equals(partie.getJ1()))
@@ -1033,16 +1137,10 @@ public class Controleur {
 		
 		this.getPartie().quickSave();
 		
-		if((ControleurIA.arbre == false) && (!this.getPartie().getJCourant().isHumain())) {
-			this.controleurIA.construireArbre();
+		if ((this.getFenetrePrincipale() != null) && (!this.getPartie().getJCourant().isHumain())) {
 			this.controleurIA.jouer();
 		}
-		
-		if(this.getFenetrePrincipale() != null) {
-			controleurIA.arbre = false;
-			this.getFenetrePrincipale().rafraichir();
-			
-		}
+
 	}
 	
 	/*

@@ -66,6 +66,7 @@ public class ControleurIA {
 		
 
 		this.init();
+		this.construireArbre();
 	}
 	
 	public static ControleurIA getInstance(Controleur newControleur) {
@@ -156,8 +157,6 @@ public class ControleurIA {
 		
 		ControleurIA.arbre = true;
 		
-		this.init();
-		
 		this.construireFils(this.getArbreCoups());
 		
 		for(int index = 0 ; index < this.getArbreCoups().getFils().size() ; index++) {
@@ -165,6 +164,22 @@ public class ControleurIA {
 		}
 		
 		this.getArbreCoups().afficher(0);
+	}
+	
+	public void pousserArbre(ArbreCoups arb) {
+
+		
+		if (!arb.isFeuille()) { // Si ce n'est pas une feuille
+			if (arb.getCoup() != null) // NULL si on est au premier noeud, donc on s'occupe des fils
+				this.simulerCoup(arb.getCoup()); // On execute le coup virtuellement, pour que le plateau avance dans l'arbre
+			for (int i=0; i<arb.getFils().size(); i++) // Puis, pour chaque fils ... 
+				pousserArbre(arb.getFils(i));		   // ... on refait, cette procedure.
+			
+		}
+		else {// Si c'est une feuille (aucune branche en dessous)
+			construireFils(arb); // On genere d'autres coups
+		}
+		
 	}
 	
 	private void construireFils(ArbreCoups noeud) {
@@ -175,22 +190,7 @@ public class ControleurIA {
 		
 		if(noeud.getCoup() != null) {
 			
-			// Application du coup dans la prtie virtuelle
-			Bille bTemp;
-			ArrayList<Bille> aSelectionner = new ArrayList<Bille>();
-			for (int i=0; i < noeud.getCoup().getBilles().size(); i++) {
-				bTemp = this.getControleurVirtuel().getPartie().getPlateau().getBille(
-						(int) noeud.getCoup().getBilles().get(i).getX(), (int) noeud.getCoup().getBilles().get(i).getY());
-				if (bTemp != null)
-					aSelectionner.add(bTemp);
-				else 
-					System.out.println("DBG : NULLEUH "+noeud.getCoup().getBilles().get(i).getX()+","+noeud.getCoup().getBilles().get(i).getY());
-			}
-			
-			this.getControleurPartie().setSelectionnees(aSelectionner);
-			
-			this.getControleurVirtuel().setSelectionnees(aSelectionner);
-			this.getControleurVirtuel().action(noeud.getCoup().getDirection());
+			this.simulerCoup(noeud.getCoup());
 			
 			joueur = this.getControleurVirtuel().getPartie().getJoueur(!noeud.getCoup().getJoueur().getCamps());
 		}
@@ -211,14 +211,39 @@ public class ControleurIA {
 		catch (IOException e) {}
 	}
 	
+	public void simulerCoup(Coup coup) {
+		// Application du coup dans la prtie virtuelle
+		Bille bTemp;
+		ArrayList<Bille> aSelectionner = new ArrayList<Bille>();
+		if (coup == null)
+			System.out.println("Coup NULLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+		for (int i=0; i < coup.getBilles().size(); i++) {
+			bTemp = this.getControleurVirtuel().getPartie().getPlateau().getBille(
+					(int) coup.getBilles().get(i).getX(), (int) coup.getBilles().get(i).getY());
+			if (bTemp != null)
+				aSelectionner.add(bTemp);
+			else 
+				System.out.println("DBG : NULLEUH "+coup.getBilles().get(i).getX()+","+coup.getBilles().get(i).getY());
+		}
+		
+		//this.getControleurPartie().setSelectionnees(aSelectionner);
+		
+		this.getControleurVirtuel().setSelectionnees(aSelectionner);
+		this.getControleurVirtuel().action(coup.getDirection());
+		
+	}
+	
 	public void jouer() {
+		System.out.println(">> JE SUIS IA, et je JOOOOOOUUEE ! <<\n\n\n");
+		this.pousserArbre(this.arbreCoups);
 		
 		int indexCoup = new Random().nextInt(this.getArbreCoups().getFils().size() - 1);
 		Bille bTemp;
 		System.out.println("\n\n\nDBG : "+indexCoup);
 		ArrayList<Bille> aSelectionner = new ArrayList<Bille>();
 		for (int i=0; i < this.getArbreCoups().getFils().get(indexCoup).getCoup().getBilles().size(); i++) {
-			bTemp = this.getControleurVirtuel().getPartie().getPlateau().getBille(
+			System.out.println("JEU : Selection de la Bille "+i);
+			bTemp = this.getControleurPartie().getPartie().getPlateau().getBille(
 					(int) this.getArbreCoups().getFils().get(indexCoup).getCoup().getBilles().get(i).getX(), (int) this.getArbreCoups().getFils().get(indexCoup).getCoup().getBilles().get(i).getY());
 			if (bTemp != null)
 				aSelectionner.add(bTemp);
@@ -227,6 +252,10 @@ public class ControleurIA {
 
 		}
 		this.getControleurPartie().setSelectionnees(aSelectionner);
-		System.out.println(this.getControleurPartie().getSelectionnees());
-		this.getControleurPartie().action(this.getArbreCoups().getFils(indexCoup).getCoup().getDirection());	}
+		System.out.println("Direction "+this.getArbreCoups().getFils(indexCoup).getCoup().getDirection());
+		this.getControleurPartie().action(this.getArbreCoups().getFils(indexCoup).getCoup().getDirection());
+		
+		init();
+		// arbre = false;
+	}
 }
