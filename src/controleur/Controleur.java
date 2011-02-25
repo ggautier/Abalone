@@ -4,6 +4,8 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
 import java.util.ArrayList;
+import java.util.ResourceBundle.Control;
+
 import vue.FenetreOver;
 import vue.FenetrePlateau;
 import vue.FenetrePrincipale;
@@ -41,34 +43,69 @@ public class Controleur {
 
 	/**
 	 * Le controleur de l'IA
+	 * 
+	 * @see ControleurIA
+	 * @see Controleur#getControleurIA()
+	 * @see Controleur#setControleurIA(ControleurIA)
+	 * @see Controleur#initControleurIA()
 	 */
-	protected ControleurIA		controleurIA;
+	protected ControleurIA controleurIA;
 	/**
 	 * La fenetre principale
+	 * 
+	 * @see FenetrePrincipale
+	 * @see Controleur#getFenetrePrincipale()
+	 * @see Controleur#setFenetrePrincipale(FenetrePrincipale)
 	 */
-	protected FenetrePrincipale	fenetrePrincipale;
+	protected FenetrePrincipale fenetrePrincipale;
 	/**
 	 * La partie supervisee par le controleur
+	 * 
+	 * @see Partie
+	 * @see Controleur#getPartie()
+	 * @see Controleur#setPartie(Partie)
 	 */
-	protected Partie			partie; 
+	protected Partie partie; 
 	/**
 	 * Ensemble des billes selectionnees par le joueur courant
+	 * 
+	 * @see Bille
+	 * @see Controleur#getSelectionnees()
+	 * @see Controleur#setSelectionnees(ArrayList)
+	 * @see Controleur#selectionner(Point)
+	 * @see Controleur#selectionner(int, int)
+	 * @see Controleur#deselectionner()
 	 */
-	protected ArrayList<Bille>		selectionnees;
+	protected ArrayList<Bille> selectionnees;
 	/**
 	 * Ensemble des billes poussables par les billes selectionnees
+	 * 
+	 * @see Bille
+	 * @see Controleur#getVisees(int)
+	 * @see Controleur#setVisees(ArrayList)
 	 */
 	protected ArrayList<ArrayList<Bille>> visees;
 	/**
 	 * Ensemble des directions possibles pour les coups jouables avec les billes selectionnees
+	 * 
+	 * @see Controleur#genererCoups()
 	 */
 	protected ArrayList<Integer> coups;
 	/**
 	 * La bille actuellement pointee par le curseur de la souris
+	 * 
+	 * @see Bille
+	 * @see Controleur#getPartie()
+	 * @see Controleur#setPointee(Point)
+	 * @see Controleur#setPointee(Bille)
 	 */
 	protected Bille	pointee;
 	/**
 	 * Le deplacement actuellement pointee par le curseur de la souris
+	 * 
+	 * @see Controleur#getDeplacementVise()
+	 * @see Controleur#majDeplacementVise(Point)
+	 * @see Controleur#setDeplacementVise(int)
 	 */
 	protected int deplacementVise;
 	
@@ -165,6 +202,44 @@ public class Controleur {
 	}
 	
 	/**
+	 * Retourne la fenetre principale
+	 * 
+	 * @return La fenetre principale associee au controleur
+	 */
+	public FenetrePrincipale getFenetrePrincipale() {
+		return fenetrePrincipale;
+	}
+
+	/**
+	 * Modifie la fenetre principale associee au controleur
+	 * 
+	 * @param fenetrePrincipale : La fenetre principale a associer au controleur
+	 */
+	public void setFenetrePrincipale(FenetrePrincipale fenetrePrincipale) {
+		this.fenetrePrincipale = fenetrePrincipale;
+	}
+	
+	/**
+	 * Retourne la partie associee au controleur
+	 * 
+	 * @return La partie jouee actuellement et associee au controleur.
+	 */
+	public Partie getPartie() 
+	{
+		return partie;
+	}
+
+	/**
+	 * Modifie la partie associee au controleur
+	 * 
+	 * @param partie : la nouvelle parie associee au controleur
+	 */
+	public void setPartie(Partie partie) 
+	{
+		this.partie = partie;
+	}
+	
+	/**
 	 * Retourne le controleur de l'intelligence artificielle
 	 * 
 	 * @return Le controleur de l'intelligence artificielle associe au controleur
@@ -202,41 +277,6 @@ public class Controleur {
 	}
 	
 	/**
-	 * Retourne la partie associee au controleur
-	 * 
-	 * @return La partie jouee actuellement et associee au controleur.
-	 */
-	public Partie getPartie() 
-	{
-		return partie;
-	}
-
-	/**
-	 * Modifie la partie associee au controleur
-	 * 
-	 * @param partie : la nouvelle parie associee au controleur
-	 */
-	public void setPartie(Partie partie) 
-	{
-		this.partie = partie;
-	}
-	
-	/**
-	 * Deselectionne toute bille selectionnee
-	 * 
-	 * @see Controleur#selectionner(int, int)
-	 * @see Controleur#selectionner(Point)
-	 * @see Controleur#getSelectionnees()
-	 */
-	public void deselectionner() {
-		this.selectionnees.clear();
-		this.visees.clear();
-		this.coups.clear();
-		
-		this.fenetrePrincipale.rafraichir();
-	}
-	
-	/**
 	 * Retourne l'ensemble des billes selectionnees
 	 * 
 	 * @return Un vecteur contenant les billes actuellement selectionnees
@@ -246,7 +286,22 @@ public class Controleur {
 		return selectionnees;
 	}
 	
-	// Retourne la Bille pointee par la souris.
+	/**
+	 * Modifie l'ensemble de billes selectionnees<br>
+	 * 
+	 * A n'utiliser que pour des tests !
+	 * 
+	 * @param selectionnees :  Le nouvel ensemble de billes selectionnees
+	 */
+	protected void setSelectionnees(ArrayList<Bille> selectionnees) {
+		this.selectionnees = selectionnees;
+	}
+	
+	/**
+	 * Retourne la bille pointee par le curseur de la souris
+	 * 
+	 * @return La bille pointee par le curseur de la souris
+	 */
 	public Bille getPointee() {
 		if (this.pointee == null) 
 			this.pointee = new Bille(-1,-1,null);
@@ -254,8 +309,14 @@ public class Controleur {
 		return pointee;
 	}
 	
-	// Met a jour la Bille pointee par la souris
-	public void setPointee(Bille pointee) {
+	/**
+	 * Modifie la bille pointee par le curseur de la souris<br>
+	 * 
+	 * A n'utiliser que pour des tests !
+	 * 
+	 * @param pointee : la nouvelle bille pointee par le curseur de la souris
+	 */
+	protected void setPointee(Bille pointee) {
 		this.pointee = null;
 		
 		if(pointee != null && selectionnees.size() < 3) {
@@ -265,54 +326,44 @@ public class Controleur {
 		}
 	}
 
-	public void setPointee(Point p) {
-		this.setPointee(this.partie.getPlateau().getBille((int)p.getX(), (int)p.getY()));
+	/**
+	 * Modifie la bille pointee par le curseur de la souris
+	 * 
+	 * @param coordBille : les coordonnees de la bille pointee par le curseur de la souris
+	 */
+	public void setPointee(Point coordBille) {
+		this.setPointee(this.partie.getPlateau().getBille((int) coordBille.getX(), (int) coordBille.getY()));
 	}
 	
+	/**
+	 * Retourne le deplacement point&eacute; par le curseur de la souris
+	 *  
+	 * @return Le deplacement point&eacute; par le curseur de la souris
+	 */
 	public int getDeplacementVise() {
 		return deplacementVise;
 	}
-
-	public void setDeplacementVise(int deplacementVise) {
+	
+	/**
+	 * Modifie le deplacement point&eacute; par le curseur de la souris<br>
+	 * 
+	 * A n'utiliser que pour des tests !
+	 *  
+	 * @return Le nouveau deplacement point&eacute; par le curseur de la souris
+	 */
+	protected void setDeplacementVise(int deplacementVise) {
 		this.deplacementVise = deplacementVise;
 	}
-
-	public FenetrePrincipale getFenetrePrincipale() {
-		return fenetrePrincipale;
-	}
-
-	public void setFenetrePrincipale(FenetrePrincipale fenetrePrincipale) {
-		this.fenetrePrincipale = fenetrePrincipale;
-	}
 	
-	// Retourne une Bille a partir d'un point de coordonnes (utilitaire)
-	public Point getBillePointee(Point p) {
-		FenetrePlateau fen = this.fenetrePrincipale.getPlateau();
-
-		Point pRetour = new Point();
-		double iBille = (p.getY()-this.fenetrePrincipale.getPlateau().getLongueur()/2)
-				/fen.getLongueur();
-		
-		int i = (int) Math.round(iBille);
-		//int decalage = (int) (4-iBille)*23;
-		double jBille = ((p.getX()-fen.getLongueur()/2)-(4-i)*
-				(int) (fen.getWidth()*0.042)-fen.getOffsetL())
-				/fen.getLargeur();
-		int j = (int) Math.round(jBille);
-		
-		pRetour.setLocation(i,j);
-
-		return pRetour;
-	}
-
-	public ArrayList<Bille> getVisees(int dir) {
-		ArrayList<Bille> retour = new ArrayList<Bille>(2);
-		for (int i=0; i < this.visees.size(); i++)
-			for (int j=0; j < this.visees.get(i).size(); j++)
-				if (visees.get(i).get(j).equals(voisine(getTete(selectionnees,dir),dir,1)))
-					retour = visees.get(i);
-			
-		return retour;
+	/**
+	 * Modifie l'ensemble des billes visees<br>
+	 * 
+	 * A n'utiliser que pour des tests !
+	 * 
+	 * @param newVisees : Le nouvel ensemble de billes visees par les coups jouables actuellemnt
+	 */
+	protected void setVisees(ArrayList<ArrayList<Bille>> newVisees) {
+		this.visees = newVisees;
 	}
 	
 	/**
@@ -432,14 +483,59 @@ public class Controleur {
 		
 		return true;
 	}
-
-	// Selectionne une Bille a partir de coordonnees
-	public void selectionner(Point p) {
-		this.selectionner((int) p.getX(), (int) p.getY());
+	
+	/**
+	 * Permet de selectionner une bille
+	 * 
+	 * @param coordBille : less coordonnees de la billes a selectionner
+	 */
+	public void selectionner(Point coordBille) {
+		this.selectionner((int) coordBille.getX(), (int) coordBille.getY());
 	}
 	
-	public void setSelectionnees(ArrayList<Bille> selectionnees) {
-		this.selectionnees = selectionnees;
+	/**
+	 * Deselectionne toute bille selectionnee
+	 * 
+	 * @see Controleur#selectionner(int, int)
+	 * @see Controleur#selectionner(Point)
+	 * @see Controleur#getSelectionnees()
+	 */
+	public void deselectionner() {
+		this.selectionnees.clear();
+		this.visees.clear();
+		this.coups.clear();
+		
+		this.fenetrePrincipale.rafraichir();
+	}
+	
+	// Retourne une Bille a partir d'un point de coordonnes (utilitaire)
+	public Point getBillePointee(Point p) {
+		FenetrePlateau fen = this.fenetrePrincipale.getPlateau();
+
+		Point pRetour = new Point();
+		double iBille = (p.getY()-this.fenetrePrincipale.getPlateau().getLongueur()/2)
+				/fen.getLongueur();
+		
+		int i = (int) Math.round(iBille);
+		//int decalage = (int) (4-iBille)*23;
+		double jBille = ((p.getX()-fen.getLongueur()/2)-(4-i)*
+				(int) (fen.getWidth()*0.042)-fen.getOffsetL())
+				/fen.getLargeur();
+		int j = (int) Math.round(jBille);
+		
+		pRetour.setLocation(i,j);
+
+		return pRetour;
+	}
+
+	public ArrayList<Bille> getVisees(int dir) {
+		ArrayList<Bille> retour = new ArrayList<Bille>(2);
+		for (int i=0; i < this.visees.size(); i++)
+			for (int j=0; j < this.visees.get(i).size(); j++)
+				if (visees.get(i).get(j).equals(voisine(getTete(selectionnees,dir),dir,1)))
+					retour = visees.get(i);
+			
+		return retour;
 	}
 
 	public void majDeplacementVise(Point p) {
@@ -534,11 +630,6 @@ public class Controleur {
 			}
 		}		
 		return retour;
-	}
-	
-	// Utilisee uniquement pour les tests
-	public void setVisees(ArrayList<ArrayList<Bille>> newVisees) {
-		this.visees = newVisees;
 	}
 		
 	// Retourne un vecteur contenant les 6 billes au alentours de la Bille passee en entree
