@@ -5,6 +5,19 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import modele.Joueur;
+/**
+ * <b>EcouteurSouris est la classe qui détecte les interactions de l'utilisateur sur la fenetre plateau.</b>
+ * 
+ * @see FenetrePlateau
+ * 
+ * @author Lenogue Matthieu
+ * @author Gautier Quentin
+ * @author Gautier Gaetan
+ * @author Ouary Maxime
+ * 
+ * @version 1.0
+ */
 public class EcouteurSouris implements MouseListener, MouseMotionListener {
 
 	
@@ -15,7 +28,7 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
 	}
 	
     public void mousePressed(MouseEvent e) {
-     	// Ici, on balance la selection de la Bille cliquee
+     	// Ici, on dépose la selection de la Bille cliquee
     	// Soit la fenetre n'est pas redimensionnable, donc on met des donnees brutes,
     	// sinon on met des variables.
     	 Point pointee = fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()); // Retourne la case Pointee par la souris.

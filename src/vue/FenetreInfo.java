@@ -2,6 +2,18 @@ package vue;
 import java.awt.*;
 
 import javax.swing.*;
+/**
+ * <b>FenetreCommande est la classe qui affichera le futur t'chat et il affiche le tour du joueur</b>
+ * 
+ * @see FenetrePrincipale
+ * 
+ * @author Lenogue Matthieu
+ * @author Gautier Quentin
+ * @author Gautier Gaetan
+ * @author Ouary Maxime
+ * 
+ * @version 1.0
+ */
 
 public class FenetreInfo extends JPanel{
 	

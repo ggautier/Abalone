@@ -8,7 +8,19 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-
+/**
+ * <b>FenetreOver est la classe qui affiche la fin de partie avec le nom du vainqueur
+ * ainsi que la proposition de recommencer.</b>
+ * 
+ * @see FenetrePrincipale
+ * 
+ * @author Lenogue Matthieu
+ * @author Gautier Quentin
+ * @author Gautier Gaetan
+ * @author Ouary Maxime
+ * 
+ * @version 1.0
+ */
 
 public class FenetreOver extends JDialog implements ActionListener{
 	

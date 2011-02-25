@@ -28,9 +28,6 @@ public class Plateau {
 	 * Le plateau en tant que tel.
 	 */
 	protected Bille[][] plateau;
-	
-	protected Partie partie; // A supprimer
-	
 	/**
 	 * Constructeur de la classe PLateau
 	 * 
@@ -67,26 +64,18 @@ public class Plateau {
 	 * @see Bille
 	 */
 	public void setBille(int ligne, int colonne, Bille newBille) {
-		//if (!this.getPartie().getControleur().isOut(ligne,colonne)) {
-			this.plateau[ligne][colonne] = newBille;
-			if (newBille != null) {
-				newBille.setLigne(ligne);
-				newBille.setColonne(colonne);
-			}
-		//}
-		//System.out.println("Placement d'une bille en "+ligne+"-"+colonne);
+		this.plateau[ligne][colonne] = newBille;
+		if (newBille != null) {
+			newBille.setLigne(ligne);
+			newBille.setColonne(colonne);
+		}
 	}
 	
-	// Temporaire, pour les tests (desole de foutre la zone)
-	public boolean remplir() {
-		for(int i=0; i < 9; i++)
-			for(int j=0; j < 9; j++)
-				setBille(i,j,new Bille(i, j, null));
-		
-		
-		return true;
-	}
-	
+	/**
+	 *	Affiche l'etat du plateau
+	 *
+	 *  @see Bille
+	 */
 	public String toString() {
 		String str = "";
 		for(int i=0; i < 9; i++) {
@@ -122,7 +111,6 @@ public class Plateau {
 			return false;
 		}
 	}
-
 	public Bille[][] getBilles() {
 		return plateau;
 	}
@@ -131,74 +119,4 @@ public class Plateau {
 		this.plateau = plateau;
 	}
 
-	public Partie getPartie() {
-		return partie;
-	}
-
-	public void setPartie(Partie partie) {
-		this.partie = partie;
-	}
-	
-	/*
-	public Plateau copy() {
-		Plateau copie = new Plateau();
-		copie.setPlateau(this.getBilles());
-		
-		return copie;
-	}
-	*/
-	/*
-	public void afficher() {
-		int nbBilles = 0;
-		int test = 0;
-		
-		for(int i = 0 ; i < 9 ; i++) {
-			switch(i) {
-				case 0 :
-					nbBilles = 5; break;
-				case 1 :
-					nbBilles = 6; break;
-				case 2 :
-					nbBilles = 7; break;
-				case 3 :
-					nbBilles = 8; break;
-				case 4 :
-					nbBilles = 9; break;
-				case 5 :
-					nbBilles = 8; break;
-				case 6 :
-					nbBilles = 7; break;
-				case 7 :
-					nbBilles = 6; break;
-				case 8 :
-					nbBilles = 5;
-			}
-			
-
-
-			for (int b=0; b<9-nbBilles; b++)
-				System.out.print("  ");
-			
-			for(int j = 0 ; j < nbBilles ; j++) {
-				if (i > 4)
-					test = j + i - 4;
-				else
-					test = j;
-						
-				if (plateau[i][test] != null) {
-					if (partie.getControleur().isSelectionnee(plateau[i][test]))
-						System.out.print("["+plateau[i][test]+"]" + " ");
-					else if (partie.getControleur().isVisee(plateau[i][test]))
-						System.out.print("{"+plateau[i][test]+"}" + " ");
-					else
-						System.out.print("("+plateau[i][test]+")" + " ");			
-				}
-				else
-					System.out.print("(o) ");
-			}
-			
-			System.out.println();
-		}
-	}
-	*/
 }

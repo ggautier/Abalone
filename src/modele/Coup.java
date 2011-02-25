@@ -31,6 +31,12 @@ public class Coup {
 
 	/**
 	 * les Billes actuellement selectionnees
+	 * 
+	 * @see bille
+	 * @see Coup#getBilles()
+	 * @see Coup#nbBilles()
+	 * @see Coup#equals(Coup)
+	 * @see Coup#toString()
 	 */
 	private ArrayList<Point> billes;
 	/**

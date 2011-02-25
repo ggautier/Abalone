@@ -7,14 +7,51 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import controleur.Controleur;
+
+import modele.Joueur;
+/**
+ * <b>FenetreCommande est la classe qui affichera le futur t'chat.</b>
+ * 
+ * @see FenetrePrincipale
+ * 
+ * @author Lenogue Matthieu
+ * @author Gautier Quentin
+ * @author Gautier Gaetan
+ * @author Ouary Maxime
+ * 
+ * @version 1.0
+ */
 public class FenetreCommande extends JPanel implements ActionListener {
-	
+	/**
+	 *  panneaux permettant de placer les différents éléments sur la FenetreCommande
+	 *  
+	 */
 	private JPanel			joueur1, joueur2, action;
+	/**
+	 * Labels pour afficher les noms des joueurs et leur scores
+	 */
 	private JLabel 			nomJoueur1, nomJoueur2, billeJoueur1, billeJoueur2;
+	/**
+	 *  Titre pour les différents pannels 
+	 */
 	private TitledBorder	title;
+	/**
+	 * 	Boutons pour les actions
+	 */
 	private JButton			previous, unselect, hint;
+	/**
+	 *  fenetre source	
+	 * 
+	 * @see FenetrePrincipale
+	 */
 	protected FenetrePrincipale fenetre;
 	
+	/**
+	 * Constructeur de la fenetre principale 
+	 * 
+	 * @param fen : nom de la fenetre
+	 */
 	public FenetreCommande(FenetrePrincipale fen)
 	{
 		super();
@@ -85,6 +122,11 @@ public class FenetreCommande extends JPanel implements ActionListener {
                 
 	}
 	
+	/**
+	 * Affiche score des joueurs
+	 * 
+	 * @see Controleur
+	 */
 	public void repaint() {
 		if (fenetre != null) {
 		billeJoueur1.setText(Integer.toString(fenetre.getControleur().getPartie().getJ1().getScore()));
@@ -92,6 +134,17 @@ public class FenetreCommande extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Contraintes de placement dans la fenetre
+	 * 
+	 * @param gbc : ensemble des contraintes
+	 * @param gx : contraintes sur x
+	 * @param gy : contraintes sur y
+	 * @param gw : contraintes sur la largeur
+	 * @param gh : contraintes sur la hauteur
+	 * @param wx : taille en % sur x
+	 * @param wy : taille en % sur y
+	 */
 	void donnerContrainte(GridBagConstraints gbc, int gx, int gy, int gw, int gh, int wx, int wy)
 	{
 		gbc.gridx=gx;
@@ -103,7 +156,10 @@ public class FenetreCommande extends JPanel implements ActionListener {
 		gbc.fill=GridBagConstraints.BOTH;
 	}
 
-
+	/**
+	 * Actif dès l'action de l'utilisateur sur un widget.
+	 * 
+	 */
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getActionCommand().toString();
 
@@ -126,14 +182,25 @@ public class FenetreCommande extends JPanel implements ActionListener {
 		}
 		if(source == "Conseil")
 		{	
-			
+			/*
+			 * A faire 
+			 * */
 		}
 	}
-
+	/**
+	 * retourne le nom du joueur 1
+	 * 
+	 * @return nom du joueur 1
+	 */
 	public JLabel getNomJoueur1() {
 		return nomJoueur1;
 	}
 
+	/**
+	 * retourne le nom du joueur 2
+	 * 
+	 * @return nom du joueur 2
+	 */
 	public JLabel getNomJoueur2() {
 		return nomJoueur2;
 	}

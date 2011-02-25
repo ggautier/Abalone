@@ -35,11 +35,26 @@ import controleur.Controleur;
  * @version 1.0
  */
 public class Partie {
-	
+	/**
+	 * le plateau de la partie
+	 * 
+	 */
 	protected Plateau plateau;
+	/**
+	 * le controleur qui supervise la partie
+	 * 
+	 * @see Controleur
+	 */
 	protected Controleur controleur;
+	/**
+	 *  le joueur courant jouant la partie
+	 *  
+	 *  @see Joueur
+	 */
 	protected Joueur jCourant;
-	
+	/**
+	 * 
+	 */
 	protected Stack<String> actions;
 	
 	protected Joueur j1, j2;
@@ -163,25 +178,22 @@ public class Partie {
 		
 		
 		buffer.close();
-		//System.out.print("<<"+strTotal+">>");
 		this.charger(strTotal);
 		
 		return true;
 	}
 	
-	public boolean charger(String donnees) throws IOException {
-		
-		
+	/**
+	 * Charge une partie ulterieurement chargee depuis un fichier
+	 * 
+	 * @throws IOException
+	 */
+	public boolean charger(String donnees) throws IOException {		
 		BufferedReader buffer = new BufferedReader(new StringReader(donnees));
 		StringTokenizer tokenizer;
-		String ligne;
-		//System.out.println(donnees);
-
-		
-//// JOUEURS
-		
+		String ligne;	
+		//// JOUEURS
 		// Chargement joueur 1
-		
 		// Les lignes vides sont ignorees
 		do
 		{
@@ -334,14 +346,12 @@ public class Partie {
 		}
 		
 		// Extraction du joueur actif
-		
 		// Les lignes vides sont ignorees
 		do
 		{
 			ligne = buffer.readLine();
 		}
 		while((ligne != null) && (ligne.isEmpty()));
-		
 		
 		// Echec si la fin du fichier est atteinte
 		if(ligne == null)
@@ -351,18 +361,19 @@ public class Partie {
 		if(ligne.equals("0"))
 			this.jCourant = this.getJ1();
 		else
-			this.jCourant = this.getJ2();
-		
+			this.jCourant = this.getJ2();	
 		
 		this.quickSave();
-
-		
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @return chaine de caracteres qui affiche les joueurs, le joueur courant , le plateau.
+	 */
 	public String toString() {
 		String temp = "";
-
+		//affichage du joueur 1 (Nom r g b score humain)
 		temp += getJ1().getNom() + " ";
 		temp += getJ1().getR() + " ";
 		temp += getJ1().getG() + " ";

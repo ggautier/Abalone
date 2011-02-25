@@ -12,11 +12,22 @@ import javax.swing.*;
 
 
 import modele.Bille;
-
+/**
+ * <b>FenetrePlateau est la classe qui affiche le plateau de jeu, les billes de chaque joueur et sur lequel 
+ * le joueur joue.</b>
+ * 
+ * @see FenetrePrincipale
+ * 
+ * @author Lenogue Matthieu
+ * @author Gautier Quentin
+ * @author Gautier Gaetan
+ * @author Ouary Maxime
+ * 
+ * @version 1.0
+ */
 
 public class FenetrePlateau extends JPanel{
 
-	private JPanel	plateau;
 	protected FenetrePrincipale principale;
 	protected BufferedImage imgBilleBlanche, imgBilleNoire, imgVide, imgPlateau;
 	

@@ -32,7 +32,7 @@ public class Joueur {
 	 * deux joueurs, on peut stocker cette information dans une 
 	 * variable booleenne.</p>
 	 */
-	protected boolean	camps;
+	protected boolean camps;
 	
 	/**
 	 * <p>Le score personnel du joueur.</p> 
@@ -68,6 +68,17 @@ public class Joueur {
 		this.setScore(0);
 	}
 	
+	/**
+	 * Constructeur de la classe Joueur
+	 * 
+	 * @param newNom : le nom du joueur contenue dans une chaine de caractere
+	 * @param newCamps : le camps du joueur dans un booleen 
+	 * @param newHumain : le joueur adverse humain ou CPU
+	 * @param newScore : le score personnel du joueur
+	 * @param couleurR : couleur du joueur rouge, comprise entre 0 et 255 
+	 * @param couleurG : couleur du joueur verte, comprise entre 0 et 255 
+	 * @param couleurB : couleur du joueur bleue, comprise entre 0 et 255 
+	 */
 	public Joueur(String newNom, boolean newCamps , boolean newHumain, int newScore, int couleurR, int couleurG, int couleurB) {
 		this.setNom(newNom);
 		this.setCamps(newCamps);
