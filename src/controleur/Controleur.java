@@ -669,38 +669,6 @@ public class Controleur {
 	// Permet de mettre a jour dynamiquement :
 	//  - Deplacements possibles
 	//  - Billes adverses qui seront poussees suite au deplacement
-	// (normalement inutile, voir la version plus bas)
-	public ArrayList<Bille> genererCoups(ArrayList<Bille> v) {
-		visees.clear();
-		int axe = -1;
-		if (v.size() > 2) // Si au moins deux billes
-			axe = getAxe(v.get(0),v.get(1));
-		
-		switch (axe) {
-		case GD:
-			getAdversairesPoussables(v,GAUCHE);
-			getAdversairesPoussables(v,DROITE);
-			break;
-		case HG_BD:
-			getAdversairesPoussables(v,HAUT_GAUCHE);
-			getAdversairesPoussables(v,BAS_DROITE);
-			break;
-		
-		case HD_BG:
-			getAdversairesPoussables(v,HAUT_DROITE);
-			getAdversairesPoussables(v,BAS_GAUCHE);
-			break;
-			
-		default:
-			break;
-		}
-		
-		return null;
-	}
-
-	// Permet de mettre a jour dynamiquement :
-	//  - Deplacements possibles
-	//  - Billes adverses qui seront poussees suite au deplacement
 	public ArrayList<Bille> genererCoups() { // Celui la sera utilise
 		visees.clear();
 		int axe = -1;
