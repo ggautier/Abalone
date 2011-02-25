@@ -16,13 +16,13 @@ import modele.Plateau;
 
 
 /**
- * <b>Controleur est la classe qui va mettre a jour les informations du modele, en respectant les regles du jeu.</b>
+ * <b>Controleur est la classe qui va effectuer les calculs necessaires au jeu et mettre a jour les informations du modele.</b>
  * <p>
  * Un Controleur est caracterise par les informations suivantes :
  * <ul>
- * <li>Une partie, qui va servir de point d'acces aux informations du modele.</li>
- * <li>Une fenetrePrincipale, qui va solliciter des changements.</li>
- * <li>Un controleurIA, qui peut generer le meilleur coup possible a l'instant.</li>
+ * <li>Une partie qui sert de point d'acces aux informations du modele.</li>
+ * <li>Une fenetre principale, racine de la vue.</li>
+ * <li>Un controleurIA qui gère l'intelligence artificielle du programme.</li>
  * </ul>
  * </p>
  * 
@@ -39,109 +39,166 @@ import modele.Plateau;
  */
 public class Controleur {
 
+	/**
+	 * Le controleur de l'IA
+	 */
 	protected ControleurIA		controleurIA;
+	/**
+	 * La fenetre principale
+	 */
 	protected FenetrePrincipale	fenetrePrincipale;
+	/**
+	 * La partie supervisee par le controleur
+	 */
 	protected Partie			partie; 
+	/**
+	 * Ensemble des billes selectionnees par le joueur courant
+	 */
+	protected ArrayList<Bille>		selectionnees;
+	/**
+	 * Ensemble des billes poussables par les billes selectionnees
+	 */
+	protected ArrayList<ArrayList<Bille>> visees;
+	/**
+	 * Ensemble des directions possibles pour les coups jouables avec les billes selectionnees
+	 */
+	protected ArrayList<Integer> coups;
+	/**
+	 * La bille actuellement pointee par le curseur de la souris
+	 */
+	protected Bille	pointee;
+	/**
+	 * Le deplacement actuellement pointee par le curseur de la souris
+	 */
+	protected int deplacementVise;
 	
-	protected ArrayList<Bille>		selectionnees;  // Contient toutes les Billes actuellement selectionnees.
-	protected ArrayList<ArrayList<Bille>> visees;		// Contient les Billes poussables par les Billes selectionnees.
-	protected ArrayList<Integer> 		coups;		// Contient les directions vers lesquelles les Billes selectionnees peuvent aller.
-	protected Bille				pointee;		// Contient la Bille actuellement pointee par la Souris.
-	protected int		    	deplacementVise;// Contient le "deplacement" pointe par la Souris.
-	
-
-
-	// Directions, sous la forme lignecolonne : 1=pas de mouvement; 0=mouvement descendant; 2=mouvement montant
+	/**
+	 * Constante designant un deplacement d'une case vers la gauche<br>
+	 * 
+	 * Sous la forme &lang;ligne&rang;&lang;colonne&rang;
+	 * avec 1 = pas de mouvement, 0 = mouvement montant, 2 = mouvement descendant
+	 */
 	public final static int GAUCHE = 10;
+	/**
+	 * Constante designant un deplacement d'une case vers la droite<br>
+	 * 
+	 * Sous la forme &lang;ligne&rang;&lang;colonne&rang;
+	 * avec 1 = pas de mouvement, 0 = mouvement montant, 2 = mouvement descendant
+	 */
 	public final static int DROITE = 12;
+	/**
+	 * Constante designant un deplacement d'une case vers le bas à gauche<br>
+	 * 
+	 * Sous la forme &lang;ligne&rang;&lang;colonne&rang;
+	 * avec 1 = pas de mouvement, 0 = mouvement montant, 2 = mouvement descendant
+	 */
 	public final static int BAS_GAUCHE = 21;
-	public final static int HAUT_DROITE = 01;
-	public final static int HAUT_GAUCHE = 00;
+	/**
+	 * Constante designant un deplacement d'une case vers le bas à droite<br>
+	 * 
+	 * Sous la forme &lang;ligne&rang;&lang;colonne&rang;
+	 * avec 1 = pas de mouvement, 0 = mouvement montant, 2 = mouvement descendant
+	 */
 	public final static int BAS_DROITE = 22;
+	/**
+	 * Constante designant un deplacement d'une case vers le haut à gauche<br>
+	 * 
+	 * Sous la forme &lang;ligne&rang;&lang;colonne&rang;
+	 * avec 1 = pas de mouvement, 0 = mouvement montant, 2 = mouvement descendant
+	 */
+	public final static int HAUT_DROITE = 01;
+	/**
+	 * Constante designant un deplacement d'une case vers le haut à droite<br>
+	 * 
+	 * Sous la forme &lang;ligne&rang;&lang;colonne&rang;
+	 * avec 1 = pas de mouvement, 0 = mouvement montant, 2 = mouvement descendant
+	 */
+	public final static int HAUT_GAUCHE = 00;
 	
+	/**
+	 * Tableau des directions
+	 */
 	public final static int[] tabDir = {GAUCHE, DROITE, BAS_GAUCHE, HAUT_DROITE, HAUT_GAUCHE, BAS_DROITE};
 	
-	// Axes, sous la forme lignecolonne : 1=mouvement; 0=pas de mouvement
+	/**
+	 * Constante designant un axe de billes horizontal<br>
+	 * 
+	 * Sous la forme &lang;ligne&rang;&lang;colonne&rang; avec 0 = pas de mouvement et 1 = mouvement
+	 */
 	public final static int GD = 01;
+	/**
+	 * Constante designant un axe de billes diagonal (y = -x)<br>
+	 * 
+	 * Sous la forme &lang;ligne&rang;&lang;colonne&rang; avec 0 = pas de mouvement et 1 = mouvement
+	 */
 	public final static int HG_BD = 11;
+	/**
+	 * Constante designant un axe de billes diagonal (y = x)<br>
+	 * 
+	 * Sous la forme &lang;ligne&rang;&lang;colonne&rang; avec 0 = pas de mouvement et 1 = mouvement
+	 */
 	public final static int HD_BG = 10;
 	
-	public Controleur(FenetrePrincipale fen) throws Exception
+	/**
+	 * Constructeur de la classe Controleur<br>
+	 * 
+	 * @param newFenetre : la fenetre principal a assigner au controleur
+	 * 
+	 * @throws Exception
+	 * 
+	 * @see FenetrePrincipale
+	 */
+	public Controleur(FenetrePrincipale newFenetre) throws Exception
 	{
-		this.fenetrePrincipale = fen;
-		this.partie = new Partie(this, "./data/plateau/defautDebug.plt");
-		this.selectionnees = new ArrayList<Bille>(3);
-		this.visees = new ArrayList<ArrayList<Bille>>(2);
-		this.coups = new ArrayList<Integer>(6);
-		this.deplacementVise = -1;
+		try {
+			this.fenetrePrincipale = newFenetre;
+			this.partie = new Partie(this, "./data/plateau/defautDebug.plt");
+			this.selectionnees = new ArrayList<Bille>(3);
+			this.visees = new ArrayList<ArrayList<Bille>>(2);
+			this.coups = new ArrayList<Integer>(6);
+			this.deplacementVise = -1;
+		}
+		
+		catch (Exception e) {
+			
+		}
 	}
 	
+	/**
+	 * Retourne le controleur de l'intelligence artificielle
+	 * 
+	 * @return Le controleur de l'intelligence artificielle associe au controleur
+	 * 
+	 * @see ControleurIA
+	 * @see Controleur#setControleurIA(ControleurIA)
+	 * @see Controleur#initControleurIA()
+	 */
 	public ControleurIA getControleurIA() {
 		return this.controleurIA;
 	}
 	
+	/**
+	 * Modifie le controleur de l'intelligence artificielle
+	 * 
+	 * @param newIA : Le controleur de l'intelligence artificielle a associer au controleur
+	 * 
+	 * @see ControleurIA
+	 * @see Controleur#getControleurIA()
+	 * @see Controleur#initControleurIA()
+	 */
 	public void setControleurIA(ControleurIA newIA) {
 		this.controleurIA = newIA;
 	}
 	
+	/**
+	 * Instancie le controleur de l'intelligence artificielle
+	 * 
+	 * @see ControleurIA
+	 * @see Controleur#setControleurIA(ControleurIA)
+	 * @see Controleur#getControleurIA()
+	 */
 	public void initControleurIA() throws Exception {
 		this.controleurIA = ControleurIA.getInstance(this);
-	}
-	
-	// Retourne le nombre de coups pour lesquels une Case est cible.
-	public int nbNext(Point p) {
-		int dir = -1;
-		int retour = 0;
-		
-		for (int j=0; j < coups.size(); j++) {
-			dir = coups.get(j);
-			
-			for (int i=0; i < selectionnees.size(); i++)
-				if (voisineP(selectionnees.get(i),dir,1).equals(p))
-						retour++;
-		}
-		
-		return retour;
-	}
-	
-	// Normalement inutile
-	public int nextCoup(Point p) {
-		int dir = -1;
-		int retour = -1;
-		
-		for (int j=0; j < coups.size(); j++) {
-			dir = coups.get(j);
-			for (int i=0; i < selectionnees.size(); i++)
-				if (voisineP(selectionnees.get(i),dir,1).equals(p))
-						retour = coups.get(j);
-					;
-		}
-		
-		return retour;
-	}
-	
-	public void deselectionner() {
-		this.selectionnees.clear();
-		this.visees.clear();
-		this.coups.clear();
-		
-		this.fenetrePrincipale.rafraichir();
-	}
-	
-	public void majDeplacementVise(Point p) {
-		this.deplacementVise = -1;
-		int dir = -1;
-		
-		for (int j=0; j < coups.size(); j++) {
-			dir = coups.get(j);
-			for (int i=0; i < selectionnees.size(); i++)
-				if (nbNext(new Point(selectionnees.get(i).getColonne(),selectionnees.get(i).getLigne())) >= 0) {
-					if (voisineP(selectionnees.get(i),dir,1).equals(p)) {
-						this.deplacementVise = coups.get(j);
-					} 
-				}			
-		}
-		
 	}
 	
 	/**
@@ -165,6 +222,21 @@ public class Controleur {
 	}
 	
 	/**
+	 * Deselectionne toute bille selectionnee
+	 * 
+	 * @see Controleur#selectionner(int, int)
+	 * @see Controleur#selectionner(Point)
+	 * @see Controleur#getSelectionnees()
+	 */
+	public void deselectionner() {
+		this.selectionnees.clear();
+		this.visees.clear();
+		this.coups.clear();
+		
+		this.fenetrePrincipale.rafraichir();
+	}
+	
+	/**
 	 * Retourne l'ensemble des billes selectionnees
 	 * 
 	 * @return Un vecteur contenant les billes actuellement selectionnees
@@ -173,7 +245,76 @@ public class Controleur {
 	{
 		return selectionnees;
 	}
+	
+	// Retourne la Bille pointee par la souris.
+	public Bille getPointee() {
+		if (this.pointee == null) 
+			this.pointee = new Bille(-1,-1,null);
+		
+		return pointee;
+	}
+	
+	// Met a jour la Bille pointee par la souris
+	public void setPointee(Bille pointee) {
+		this.pointee = null;
+		
+		if(pointee != null && selectionnees.size() < 3) {
+			if(pointee.getJoueur().equals(partie.getJCourant()))
+				this.pointee = pointee;
 
+		}
+	}
+
+	public void setPointee(Point p) {
+		this.setPointee(this.partie.getPlateau().getBille((int)p.getX(), (int)p.getY()));
+	}
+	
+	public int getDeplacementVise() {
+		return deplacementVise;
+	}
+
+	public void setDeplacementVise(int deplacementVise) {
+		this.deplacementVise = deplacementVise;
+	}
+
+	public FenetrePrincipale getFenetrePrincipale() {
+		return fenetrePrincipale;
+	}
+
+	public void setFenetrePrincipale(FenetrePrincipale fenetrePrincipale) {
+		this.fenetrePrincipale = fenetrePrincipale;
+	}
+	
+	// Retourne une Bille a partir d'un point de coordonnes (utilitaire)
+	public Point getBillePointee(Point p) {
+		FenetrePlateau fen = this.fenetrePrincipale.getPlateau();
+
+		Point pRetour = new Point();
+		double iBille = (p.getY()-this.fenetrePrincipale.getPlateau().getLongueur()/2)
+				/fen.getLongueur();
+		
+		int i = (int) Math.round(iBille);
+		//int decalage = (int) (4-iBille)*23;
+		double jBille = ((p.getX()-fen.getLongueur()/2)-(4-i)*
+				(int) (fen.getWidth()*0.042)-fen.getOffsetL())
+				/fen.getLargeur();
+		int j = (int) Math.round(jBille);
+		
+		pRetour.setLocation(i,j);
+
+		return pRetour;
+	}
+
+	public ArrayList<Bille> getVisees(int dir) {
+		ArrayList<Bille> retour = new ArrayList<Bille>(2);
+		for (int i=0; i < this.visees.size(); i++)
+			for (int j=0; j < this.visees.get(i).size(); j++)
+				if (visees.get(i).get(j).equals(voisine(getTete(selectionnees,dir),dir,1)))
+					retour = visees.get(i);
+			
+		return retour;
+	}
+	
 	/**
 	 * Selectionne une bille
 	 * 
@@ -301,6 +442,56 @@ public class Controleur {
 		this.selectionnees = selectionnees;
 	}
 
+	public void majDeplacementVise(Point p) {
+		this.deplacementVise = -1;
+		int dir = -1;
+		
+		for (int j=0; j < coups.size(); j++) {
+			dir = coups.get(j);
+			for (int i=0; i < selectionnees.size(); i++)
+				if (nbNext(new Point(selectionnees.get(i).getColonne(),selectionnees.get(i).getLigne())) >= 0) {
+					if (voisineP(selectionnees.get(i),dir,1).equals(p)) {
+						this.deplacementVise = coups.get(j);
+					} 
+				}			
+		}
+		
+	}
+	
+	/**
+	 * Retourne le nombre de coups jouables pour lesquels une case est cible
+	 * 
+	 * @param coordCase : les coordonnees de la case
+	 */
+	public int nbNext(Point coordCase) {
+		int dir = -1;
+		int retour = 0;
+		
+		for (int j=0; j < coups.size(); j++) {
+			dir = coups.get(j);
+			
+			for (int i=0; i < selectionnees.size(); i++)
+				if (voisineP(selectionnees.get(i),dir,1).equals(coordCase))
+						retour++;
+		}
+		
+		return retour;
+	}
+	
+	protected int nextCoup(Point coordCase) {
+		int dir = -1;
+		int retour = -1;
+		
+		for (int j=0; j < coups.size(); j++) {
+			dir = coups.get(j);
+			for (int i=0; i < selectionnees.size(); i++)
+				if (voisineP(selectionnees.get(i),dir,1).equals(coordCase))
+						retour = coups.get(j);
+					;
+		}
+		
+		return retour;
+	}
 	
 	// Determine si les coordonnees en entree sont hors-plateau
 	public boolean isOut(int i, int j) 
@@ -316,26 +507,6 @@ public class Controleur {
 				 )
 				;
 	}
-	
-	// Retourne une Bille a partir d'un point de coordonnes (utilitaire)
-	public Point getBillePointee(Point p) {
-		FenetrePlateau fen = this.fenetrePrincipale.getPlateau();
-
-		Point pRetour = new Point();
-		double iBille = (p.getY()-this.fenetrePrincipale.getPlateau().getLongueur()/2)
-				/fen.getLongueur();
-		
-		int i = (int) Math.round(iBille);
-		//int decalage = (int) (4-iBille)*23;
-		double jBille = ((p.getX()-fen.getLongueur()/2)-(4-i)*
-				(int) (fen.getWidth()*0.042)-fen.getOffsetL())
-				/fen.getLargeur();
-		int j = (int) Math.round(jBille);
-		
-		pRetour.setLocation(i,j);
-
-		return pRetour;
-	} 
 
 	// "true" si la Bille est selectionnee.
 	public boolean isSelectionnee(Bille b)  {	
@@ -347,16 +518,6 @@ public class Controleur {
 						 retour = true;
 		}	
 				
-		return retour;
-	}
-	
-	public ArrayList<Bille> getVisees(int dir) {
-		ArrayList<Bille> retour = new ArrayList<Bille>(2);
-		for (int i=0; i < this.visees.size(); i++)
-			for (int j=0; j < this.visees.get(i).size(); j++)
-				if (visees.get(i).get(j).equals(voisine(getTete(selectionnees,dir),dir,1)))
-					retour = visees.get(i);
-			
 		return retour;
 	}
 	
@@ -911,29 +1072,6 @@ public class Controleur {
 		return out;
 	}
 	
-	// Retourne la Bille pointee par la souris.
-	public Bille getPointee() {
-		if (this.pointee == null) 
-			this.pointee = new Bille(-1,-1,null);
-		
-		return pointee;
-	}
-
-	// Met a jour la Bille pointee par la souris
-	public void setPointee(Bille pointee) {
-		this.pointee = null;
-		
-		if(pointee != null && selectionnees.size() < 3) {
-			if(pointee.getJoueur().equals(partie.getJCourant()))
-				this.pointee = pointee;
-
-		}
-	}
-
-	public void setPointee(Point p) {
-		this.setPointee(this.partie.getPlateau().getBille((int)p.getX(), (int)p.getY()));
-	}
-	
 	// Determine si un deplacement est pointe par la souris.
 	public boolean isDeplacementVise(Point p) {
 		boolean retour = false;
@@ -947,22 +1085,6 @@ public class Controleur {
 		
 					
 		return retour;
-	}
-
-	public int getDeplacementVise() {
-		return deplacementVise;
-	}
-
-	public void setDeplacementVise(int deplacementVise) {
-		this.deplacementVise = deplacementVise;
-	}
-
-	public FenetrePrincipale getFenetrePrincipale() {
-		return fenetrePrincipale;
-	}
-
-	public void setFenetrePrincipale(FenetrePrincipale fenetrePrincipale) {
-		this.fenetrePrincipale = fenetrePrincipale;
 	}
 	
 	public ArrayList<Bille> getBillesJoueur(Joueur joueur) {
