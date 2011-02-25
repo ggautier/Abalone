@@ -8,7 +8,7 @@ import vue.FenetrePrincipale;
 import controleur.ControleurIA;
 
 /**
- * <b>Coup est la classe qui regroupe toute la sequence de coup joues depuis le debut de la partie.</b>
+ * <b>Coup est la classe qui regroupe toute la sequence de coups joues depuis le debut de la partie.</b>
  * <p>
  * Un Coup est caracterise par les informations suivantes :
  * <ul>
@@ -29,14 +29,34 @@ import controleur.ControleurIA;
  */
 public class Coup {
 
-	private ArrayList<Point> billes;	// Contient toutes les Billes actuellement selectionnees.
-	private int	direction;				// Contient le "deplacement" pointe par la Souris.
+	/**
+	 * les Billes actuellement selectionnees
+	 */
+	private ArrayList<Point> billes;
+	/**
+	 * la direction du coup
+	 */
+	private int	direction;
+	/**
+	 * le joueur qui a joué le coup
+	 * 
+	 * @see joueur
+	 */
 	private Joueur joueur;
-	
+	/**
+	 *  Constructeur de la classe Coup
+	 *  
+	 */
 	public Coup() {
 		this.billes = new ArrayList<Point>();
 	}
-	
+	/**
+	 * Constructeur de la classe Coup
+	 * 
+	 * @param billes : les Billes actuellement selectionnees
+	 * @param dir : la direction du coup
+	 * @param newJoueur : le joueur qui a joué le coup
+	 */
 	public Coup(ArrayList<Bille> billes, int dir, Joueur newJoueur) {
 		
 		this.direction = dir;
@@ -46,31 +66,56 @@ public class Coup {
 		for (int i=0; i < billes.size(); i++)
 			this.billes.add(new Point(billes.get(i).getLigne(),billes.get(i).getColonne()));
 	}
-	
+	/**
+	 * retourne la liste des billes selectionnees
+	 * 
+	 * @return : la liste des billes selectionnees 
+	 */
 	public ArrayList<Point> getBilles() {
 		return this.billes;
 	}
-	
+	/**
+	 * retourne la direction du coup
+	 * 
+	 * @return : direction du coup
+	 */
 	public int getDirection() {
 		return this.direction;
 	}
-	
+	/**
+	 * retourne le joueur qui a joue le coup 
+	 * 
+	 * @return : le joueur qui a joue le coup 
+	 */
 	public Joueur getJoueur() {
 		return this.joueur;
 	}
-	
+	/**
+	 * retourne le nombre de bille joue dans le coup
+	 * 
+	 * @return : le nombre de bille joue dans le coup
+	 */
 	public int nbBilles() {
 		return this.billes.size();
 	}
-	
+	/**
+	 * permet de compararer deux coups
+	 * 
+	 * @param coup2 : le coup a comparer 
+	 * @return <ul><li>true si les deux coups sont égaux</li>
+	 * 			   <li>false sinon</li></ul>
+	 */
 	public boolean equals(Coup coup2) {
 		boolean memesBilles = false;
 		if (billes.equals(coup2.billes))
 			memesBilles = true;
-		
 		return (this.direction == coup2.direction && memesBilles);
 	}
-	
+	/**
+	 * Affiche la position initial des billes et leur direction.
+	 * 
+	 * @return : chaine de caracteres qui affiche la position initial des billes et leur direction.
+	 */
 	public String toString() {
 		String str = new String();
 		
@@ -78,15 +123,6 @@ public class Coup {
 			str += (int) this.billes.get(i).getX() + "," + (int) this.billes.get(i).getY() + "   ";
 		
 		str += ": " + this.direction;
-		
 		return str;
 	}
 }
-
-/*
- * Pour les coups, plusieurs encodages possibles : 
- * Billes sources + cases cibles
- * Billes sources + direction
- *    Je prefere la seconde solution, car cela permettrait d'indiquer plus precisement les eventuelles Billes ennemies que l'on poussera
- * 
- */

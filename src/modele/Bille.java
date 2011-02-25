@@ -36,7 +36,7 @@ public class Bille {
 	/**
 	 * Constructeur de la classe Bille
 	 * 
-	 * @param newX : la ligne du plateau sur laquelle se trouve la bille
+	 * @param newLigne : la ligne du plateau sur laquelle se trouve la bille
 	 * @param newColonne : la colonne du plateau sur laquelle se trouve la bille
 	 * @param player : le joueur auquel appartient la bille
 	 * 
@@ -103,18 +103,28 @@ public class Bille {
 		this.joueur = joueur;
 	}
 	
+	/**
+	 * Retourne une chaine de caracteres qui affiche le plateau. 
+	 * o pour une case vide
+	 * + pour la bille d'un joueur
+	 * - pour la bille de l'autre joueur
+	 * 
+	 * @return string
+	 */
 	public String toString() {
 		String str = "o";
 		if (joueur.getCamps())
 			str = "+";
 		if (!joueur.getCamps())
 			str = "-";
-		
 		return str;
 	}
 	
-	// Version utilisee pour le developpement de l'IA
-
+	/**
+	 * Affiche les détails des positions de chaque bille
+	 * 
+	 * @return string
+	 */
 	public String afficher() {
 		String str = new String();
 		
