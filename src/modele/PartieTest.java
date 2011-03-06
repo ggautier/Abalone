@@ -8,7 +8,7 @@ public class PartieTest extends TestCase {
 	public void testGetJ1() {
 		
 		try {
-			Partie partie = new Partie(null, "./data/plateau/defaut.plt");
+			Partie partie = new Partie(null, "./data/plateau/defaut.plt",false);
 			assertEquals(partie.getJ1(), partie.j1);
 		}
 		
@@ -22,7 +22,7 @@ public class PartieTest extends TestCase {
 		Joueur joueur = new Joueur("Abdalah", true, true);
 		
 		try {
-			Partie partie = new Partie(null, "./data/plateau/defaut.plt");
+			Partie partie = new Partie(null, "./data/plateau/defaut.plt",false);
 			
 			partie.setJ1(joueur);
 			assertEquals(partie.getJ1(), joueur);
@@ -36,7 +36,7 @@ public class PartieTest extends TestCase {
 	public void testGetJ2() {
 		
 		try {
-			Partie partie = new Partie(null, "./data/plateau/defaut.plt");
+			Partie partie = new Partie(null, "./data/plateau/defaut.plt",false);
 			assertEquals(partie.getJ2(), partie.j2);
 		}
 		
@@ -50,7 +50,7 @@ public class PartieTest extends TestCase {
 		Joueur joueur = new Joueur("Abdalah", true, true);
 		
 		try {
-			Partie partie = new Partie(null, "./data/plateau/defaut.plt");
+			Partie partie = new Partie(null, "./data/plateau/defaut.plt",false);
 			
 			partie.setJ2(joueur);
 			assertEquals(partie.getJ2(), joueur);
@@ -64,7 +64,7 @@ public class PartieTest extends TestCase {
 	public void testGetPlateau() {
 		
 		try {
-			Partie partie = new Partie(null, "./data/plateau/defaut.plt");
+			Partie partie = new Partie(null, "./data/plateau/defaut.plt",false);
 			
 			assertEquals(partie.getPlateau(), partie.plateau);
 		}
@@ -80,7 +80,7 @@ public class PartieTest extends TestCase {
 		
 		try {
 			plateau = new Plateau();
-			Partie partie = new Partie(null, "./data/plateau/defaut.plt");
+			Partie partie = new Partie(null, "./data/plateau/defaut.plt",false);
 			
 			partie.setPlateau(plateau);
 			

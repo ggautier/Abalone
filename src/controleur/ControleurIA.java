@@ -64,7 +64,7 @@ public class ControleurIA {
 		
 		this.controleurPartie = controleur;
 		this.controleurVirtuel = new Controleur(null);
-		this.partieVirtuelle = new Partie(this.controleurVirtuel,null);
+		this.partieVirtuelle = new Partie(this.controleurVirtuel,null,false);
 		
 		try {
 			this.getControleurVirtuel().getPartie().charger(this.controleurPartie.getPartie().toString());
@@ -150,7 +150,7 @@ public class ControleurIA {
 	public void meilleurCoup() {
 	}
 	
-	public void construireArbre() {
+	public void construireArbre() throws IOException {
 		
 		ControleurIA.arbre = true;
 		this.arbreCoups = new ArbreCoups();
@@ -164,7 +164,7 @@ public class ControleurIA {
 		this.getArbreCoups().afficher(0);
 	}
 	
-	public void pousserArbre(ArbreCoups arb) {
+	public void pousserArbre(ArbreCoups arb) throws IOException {
 
 		this.profondeur++;
 		System.out.println("PROF "+this.profondeur);
@@ -189,7 +189,7 @@ public class ControleurIA {
 		
 	}
 	
-	private void construireFils(ArbreCoups noeud) {
+	private void construireFils(ArbreCoups noeud) throws IOException {
 				
 		System.out.println("DBG noeud : " + noeud.getCoup());
 		
@@ -212,7 +212,7 @@ public class ControleurIA {
 		catch (IOException e) {}
 	}
 	
-	public void simulerCoup(Coup coup) {
+	public void simulerCoup(Coup coup) throws IOException {
 		// Application du coup dans la prtie virtuelle
 		Bille bTemp;
 		ArrayList<Bille> aSelectionner = new ArrayList<Bille>();
@@ -239,7 +239,7 @@ public class ControleurIA {
 		
 	}
 	
-	public void jouer() {
+	public void jouer() throws IOException {
 		this.nbBranchements = 0;
 		this.profondeur = 0;
 		System.out.println(">> JE SUIS IA, et je JOOOOOOUUEE ! <<\n\n\n");

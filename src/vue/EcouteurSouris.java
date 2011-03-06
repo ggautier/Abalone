@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.IOException;
 
 import modele.Joueur;
 /**
@@ -33,9 +34,14 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
     	// sinon on met des variables.
     	 Point pointee = fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()); // Retourne la case Pointee par la souris.
     	 
-    	 if (fenetre.getPrincipale().getControleur().isDeplacementVise(pointee)) // Si la case pointee correspond a un deplacement
-    		 fenetre.getPrincipale().getControleur().action(fenetre.getPrincipale().getControleur().getDeplacementVise());
-    	 else
+    	 if (fenetre.getPrincipale().getControleur().isDeplacementVise(pointee))
+			try {
+				fenetre.getPrincipale().getControleur().action(fenetre.getPrincipale().getControleur().getDeplacementVise());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		else
         	 fenetre.getPrincipale().getControleur().selectionner(pointee); // Selectionne la Bille pointee par la souris
 
     	 fenetre.repaint();

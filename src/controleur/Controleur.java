@@ -3,7 +3,11 @@ package controleur;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.ResourceBundle.Control;
 
 import vue.FenetreOver;
@@ -189,7 +193,7 @@ public class Controleur {
 	{
 		try {
 			this.fenetrePrincipale = newFenetre;
-			this.partie = new Partie(this, "./data/plateau/defautDebug.plt");
+			this.partie = new Partie(this, "./data/plateau/defautDebug.plt", false);
 			this.selectionnees = new ArrayList<Bille>(3);
 			this.visees = new ArrayList<ArrayList<Bille>>(2);
 			this.coups = new ArrayList<Integer>(6);
@@ -1047,7 +1051,7 @@ public class Controleur {
 		return axe;
 	}
 	
-	public boolean action(ArrayList<Bille> v, int dir) {
+	public boolean action(ArrayList<Bille> v, int dir) throws IOException {
 		if (deplacementPossible(v,dir)) {
 			for(int i=0; i < visees.size(); i++)
 				deplacerBille(visees.get(0).get(i),dir);
@@ -1060,10 +1064,14 @@ public class Controleur {
 	}
 	
 	// Deplacement des Billes selectionnees : Si le deplacement vers la direction "dir" est possible, elle s'effectue.
-	public boolean action(int dir) {
+	public boolean action(int dir) throws IOException {
 		Bille billeTemp;
 		boolean expulsee = false;
 		boolean deplacement = deplacementPossible(selectionnees,dir);
+		String t = string_from_action(dir);
+		System.out.println(t);
+		
+		// La on affiche le code du coup, mais en reseau, on enverra ca a l'adversaire.
 		if (deplacement) {
 			ArrayList<Bille> ennemies = getVisees(dir);
 			while(!ennemies.isEmpty())  {
@@ -1097,6 +1105,7 @@ public class Controleur {
 		}
         
         if (deplacement) {
+        	action_from_string(t);
         	this.nextTurn(false);
         }
         	
@@ -1304,7 +1313,7 @@ public class Controleur {
 	}
 	
 	// Change de joueur
-	public void nextTurn(boolean virtual) {
+	public void nextTurn(boolean virtual) throws IOException {
 
 		this.getPartie().quickSave();
 
@@ -1323,6 +1332,62 @@ public class Controleur {
 		if(this.getFenetrePrincipale() != null) 
 			this.getFenetrePrincipale().rafraichir();
 
+	}
+	
+	// Conversion de l'action en cours en un String (pour le mode reseau)
+	public String string_from_action(int dir) {
+		String s = "";
+		for (int i=0; i < this.getSelectionnees().size(); i++)
+			s += "\nb "+this.getSelectionnees().get(i).getLigne()+" "+this.getSelectionnees().get(i).getColonne();
+		
+		s += "\nd "+dir;
+		s += "\n;";
+		
+		return s;
+	}
+	
+	public boolean action_from_string(String str) throws IOException {
+		boolean valide = false;
+		this.selectionnees.clear();
+		
+		
+		BufferedReader buffer = new BufferedReader(new StringReader(str));
+		StringTokenizer tokenizer;
+		String ligne;
+		do
+		{
+			ligne = buffer.readLine();
+		}
+		while((ligne != null) && (ligne.isEmpty()));
+		
+		// Echec si la fin du fichier est atteinte
+		if(ligne == null)
+			return false;
+		
+		tokenizer = new StringTokenizer(ligne, " ");
+		
+		String strTemp;
+		// Extraction des differents elements du joueur
+		while (( ligne = buffer.readLine()) != null && !valide) {
+			if(tokenizer.hasMoreTokens()) {
+				strTemp = tokenizer.nextToken();
+				if (strTemp.equals("b"))
+					System.out.println("Selection de la bille "+tokenizer.nextToken()+" "+tokenizer.nextToken());
+				else if (strTemp.equals("d"))
+					System.out.println("Direction "+tokenizer.nextToken());
+			}
+			tokenizer = new StringTokenizer(ligne, " ");
+
+			if (ligne.equals(";"))
+				valide = true;
+			
+		}
+		
+		buffer.close();
+
+		
+		return valide;
+		
 	}
 	
 	/*

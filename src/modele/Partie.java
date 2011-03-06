@@ -55,14 +55,17 @@ public class Partie {
 	/**
 	 * 
 	 */
+	protected boolean online;
+	
 	protected Stack<String> actions;
 	
 	protected Joueur j1, j2;
 	
-	public Partie(Controleur newControleur, String fichierConfig) {
+	public Partie(Controleur newControleur, String fichierConfig, boolean online) {
 		
 		this.setControleur(newControleur);
 		this.actions = new Stack<String>();
+		this.online = online;
 		
 		this.setJ1(new Joueur("J1", false, true));
 		this.setJ2(new Joueur("J2", true, true));
@@ -402,5 +405,9 @@ public class Partie {
 		temp += (getJCourant().getCamps() ? 1 : 0);
 		
 		return temp;
+	}
+	
+	public boolean isOnline() {
+		return online;
 	}
 }

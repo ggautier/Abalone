@@ -63,7 +63,7 @@ public class ControleurTest extends TestCase {
 		
 		try {
 			Controleur controleur = new Controleur(null);
-			Partie partie = new Partie(controleur, "./data/plateau/defautDebug.plt");
+			Partie partie = new Partie(controleur, "./data/plateau/defautDebug.plt",false);
 			
 			controleur.setPartie(partie);
 			
@@ -80,7 +80,7 @@ public class ControleurTest extends TestCase {
 		
 		try {
 			Controleur controleur = new Controleur(null);
-			Partie partie = new Partie(controleur, "./data/plateau/defautDebug.plt");
+			Partie partie = new Partie(controleur, "./data/plateau/defautDebug.plt",false);
 			
 			controleur.setPartie(partie);
 			
