@@ -10,6 +10,8 @@ import java.io.StringReader;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
+import Reseau.Communication;
+
 import controleur.Controleur;
 
 /**
@@ -55,13 +57,17 @@ public class Partie {
 	/**
 	 * 
 	 */
-	protected boolean online;
+	protected int online;
 	
 	protected Stack<String> actions;
 	
 	protected Joueur j1, j2;
 	
-	public Partie(Controleur newControleur, String fichierConfig, boolean online) {
+	public final static int OFFLINE = 0;
+	public final static int HOST = 2;
+	public final static int CLIENT = 1;
+	
+	public Partie(Controleur newControleur, String fichierConfig, int online) throws IOException {
 		
 		this.setControleur(newControleur);
 		this.actions = new Stack<String>();
@@ -84,6 +90,13 @@ public class Partie {
 			this.jCourant = this.getJ1();
 		else
 			this.jCourant = this.getJ2();
+		
+		if (this.getOnlineMode() == 1) {
+			this.controleur.setCommunication(new Communication(this.getControleur(), "127.0.0.1", 300));
+		}
+		else if (this.getOnlineMode() == 2) {
+			this.controleur.setCommunication(new Communication(this.getControleur(), "", 300));
+		}
 	}
 
 	public Joueur getJ1() {
@@ -407,7 +420,7 @@ public class Partie {
 		return temp;
 	}
 	
-	public boolean isOnline() {
+	public int getOnlineMode() {
 		return online;
 	}
 }

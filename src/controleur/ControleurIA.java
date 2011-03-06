@@ -64,7 +64,7 @@ public class ControleurIA {
 		
 		this.controleurPartie = controleur;
 		this.controleurVirtuel = new Controleur(null);
-		this.partieVirtuelle = new Partie(this.controleurVirtuel,null,false);
+		this.partieVirtuelle = new Partie(this.controleurVirtuel,null,0);
 		
 		try {
 			this.getControleurVirtuel().getPartie().charger(this.controleurPartie.getPartie().toString());

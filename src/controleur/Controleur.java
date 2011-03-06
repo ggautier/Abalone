@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.ResourceBundle.Control;
 
+import Reseau.Communication;
+
 import vue.FenetreOver;
 import vue.FenetrePlateau;
 import vue.FenetrePrincipale;
@@ -189,20 +191,31 @@ public class Controleur {
 	 * 
 	 * @see FenetrePrincipale
 	 */
+	
+
+	
+	protected Communication communication;
+	
 	public Controleur(FenetrePrincipale newFenetre) throws Exception
 	{
 		try {
 			this.fenetrePrincipale = newFenetre;
-			this.partie = new Partie(this, "./data/plateau/defautDebug.plt", false);
+			this.partie = new Partie(this, "./data/plateau/defautDebug.plt", 0);
 			this.selectionnees = new ArrayList<Bille>(3);
 			this.visees = new ArrayList<ArrayList<Bille>>(2);
 			this.coups = new ArrayList<Integer>(6);
 			this.deplacementVise = -1;
+			this.communication.etablir_contact();
 		}
 		
 		catch (Exception e) {
 			
 		}
+		
+		
+		
+
+		
 	}
 	
 	/**
@@ -1388,6 +1401,14 @@ public class Controleur {
 		
 		return valide;
 		
+	}
+
+	public Communication getCommunication() {
+		return communication;
+	}
+
+	public void setCommunication(Communication communication) {
+		this.communication = communication;
 	}
 	
 	/*

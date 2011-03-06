@@ -62,9 +62,12 @@ public class Communication {
 				if (line.equals("C_CONTACT")) {
 					writerS.write("OK\n");
 					writerS.flush();
+					System.out.println("S : Reception d'une requete");
 					this.contact_etabli = true;
-				} else if (this.contact_etabli)
+				} else if (this.contact_etabli) {
 					this.ip_partenaire = line;
+					System.out.println("S : IP acceptee : "+line);
+				}
 			}
 			
 			
@@ -77,6 +80,7 @@ public class Communication {
 			Socket s = new Socket(this.ip_partenaire,this.port);
 			
 			s.getOutputStream().write(("C_CONTACT\n"+InetAddress.getLocalHost().getHostAddress()+"\n").getBytes());
+			System.out.println("C : Envoi d'une requete a "+this.ip_partenaire+" depuis "+InetAddress.getLocalHost().getHostAddress());
 			
 			BufferedWriter writerC = new BufferedWriter(new OutputStreamWriter(
 					s.getOutputStream()));
@@ -92,8 +96,10 @@ public class Communication {
 			while((ligne = readerC.readLine()) != null) {
 						
 				System.out.println("Recu Client : " + ligne);
-				if (ligne.equals("OK"))
+				if (ligne.equals("OK")) {
 					this.contact_etabli = true;
+					System.out.println("C : Confirmation de "+this.ip_partenaire);
+				}
 			
 			}
 			
