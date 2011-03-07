@@ -59,7 +59,7 @@ public class Partie {
 	 */
 	protected int online;
 	
-	protected Joueur vous;
+	protected Joueur joueurPhysique;
 	
 	protected Stack<String> actions;
 	
@@ -95,17 +95,19 @@ public class Partie {
 		
 		if (!Communication.ouverte) {
 			if (this.getOnlineMode() == 1) {
-				this.vous = this.getJoueur(!this.jCourant.getCamps());
+				this.joueurPhysique = this.getJoueur(!this.jCourant.getCamps());
 				this.controleur.setCommunication(new Communication(this.getControleur(), "127.0.0.1", 300));
 				
 			}
 			else if (this.getOnlineMode() == 2) {
-				this.vous = jCourant;
+				this.joueurPhysique = jCourant;
 				this.controleur.setCommunication(new Communication(this.getControleur(), "", 300));
 			}
 		}
+		/*
 		if (this.getOnlineMode() > 0)
 			this.getControleur().getCommunication().etablir_contact();
+		*/
 		
 
 
@@ -445,12 +447,8 @@ public class Partie {
 		this.jCourant = jCourant;
 	}
 
-	public Joueur getVous() {
-		return vous;
-	}
-
-	public void setVous(Joueur vous) {
-		this.vous = vous;
+	public boolean aMonTour() {
+		return (this.jCourant.equals(this.joueurPhysique));
 	}
 	
 	

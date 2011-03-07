@@ -1103,6 +1103,7 @@ public class Controleur {
 		
 		if (this.getFenetrePrincipale() != null) {
 			this.getFenetrePrincipale().rafraichir();
+			System.out.println("RAF");
 	        
 	        if (expulsee) {
 	        	if (this.getPartie().getJ1().getScore() > 5)
@@ -1114,9 +1115,13 @@ public class Controleur {
 		}
         
         if (deplacement) {
-        	if (this.partie.getOnlineMode() > 0 && this.getPartie().getJCourant().equals(this.getPartie().getVous()))
+        	
+        	if ( this.partie.getOnlineMode() > 0 && this.partie.aMonTour() ) {
         		this.communication.envoyer_coup(t);
+        		
+        	}
         	this.nextTurn(false);
+
         }
         	
 		
@@ -1335,7 +1340,7 @@ public class Controleur {
 		
 		System.out.println("-> Au tour de "+this.getPartie().getJCourant().getNom()+" ("
 		///		+(this.getFenetrePrincipale() == null ? "VIRTUEL" : "REEL") +")"
-				+(this.getPartie().getJCourant().equals(this.getPartie().getVous()) ? "Vous" : "Adversaire")+")"
+				+(this.getPartie().getJCourant().equals(this.getPartie().aMonTour()) ? "Vous" : "Adversaire")+")"
 		);
 		
 		if ( (this.getFenetrePrincipale() != null) && (!this.getPartie().getJCourant().isHumain()) ) {
@@ -1347,11 +1352,14 @@ public class Controleur {
 		
 		System.out.println("Refresh");
 		
-		if (getPartie().getOnlineMode() > 0)
-			if (!getPartie().getJCourant().equals(getPartie().getVous())) {
+		/*
+		if (this.getPartie().getOnlineMode() > 0)
+			if (!this.getPartie().aMonTour()) {
 				System.out.println("Attente d'un coup");
 				getPartie().getControleur().getCommunication().attendre_coup();
+
 			}
+		*/
 		
 
 	}

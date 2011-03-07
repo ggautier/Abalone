@@ -34,7 +34,7 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
     	// sinon on met des variables.
     	
     	if (this.fenetre.getPrincipale().getControleur().getPartie().getOnlineMode() == 0
-    			|| this.fenetre.getPrincipale().getControleur().getPartie().getVous().equals(this.fenetre.getPrincipale().getControleur().getPartie().getJCourant())) {
+    			|| this.fenetre.getPrincipale().getControleur().getPartie().aMonTour()) {
 	    	
 	    	 Point pointee = fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()); // Retourne la case Pointee par la souris.
 	    	 
@@ -59,7 +59,7 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
      
      public void mouseMoved(MouseEvent e) {
      	if (this.fenetre.getPrincipale().getControleur().getPartie().getOnlineMode() == 0
-    			|| this.fenetre.getPrincipale().getControleur().getPartie().getVous().equals(this.fenetre.getPrincipale().getControleur().getPartie().getJCourant())) {
+    			|| this.fenetre.getPrincipale().getControleur().getPartie().aMonTour()) {
 
      		
     	 Point pointee = fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint());

@@ -50,7 +50,7 @@ public class FenetreInfo extends JPanel{
 		//this.getFenetre().getControleur().getPartie().getJCourant().getNom();
 		JLabel labelTour = new JLabel("Au tour de ");
 		this.tourDeJeu.setText(this.getFenetre().getControleur().getPartie().getJCourant().getNom() + " - " + ((this.getFenetre().getControleur().getPartie().getJCourant().isHumain()) ? "humain" : "cpu")
-				+"["+(this.getFenetre().getControleur().getPartie().getJCourant().equals(this.getFenetre().getControleur().getPartie().getVous()) ? "Vous" : "Adversaire")+"]");
+				+"["+(this.getFenetre().getControleur().getPartie().aMonTour() ? "Vous" : "Adversaire")+"]");
 		
         donnerContrainte(c,0,0,1,1,0,0);
 		this.misc.add(labelTour,c);

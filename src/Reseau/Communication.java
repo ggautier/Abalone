@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
 
 import controleur.Controleur;
 
-public class Communication {
+public class Communication extends Thread {
 	
 	public static boolean ouverte = false;
 	
@@ -21,35 +21,59 @@ public class Communication {
 	
 	protected String ip_partenaire;
 	
-	protected int port;
+	protected int portEcoute;
+	
+	protected int portEnvoi;
 	
 	protected Controleur controleur;
 	
 	protected boolean contact_etabli;
+	
+	public Connexion connexion;
 
 	
 	public Communication(Controleur cont, String ip, int port) throws IOException {
 		
 		this.controleur = cont;
 		
-		if (ip.equals("") || ip == null)
+		if (ip.equals("") || ip == null) {
 			this.heberge = true;
+			this.portEcoute = port;
+			this.ip_partenaire = ip;
+
+		}
 		else {
 			this.heberge = false;
 			this.ip_partenaire = ip;
+			this.portEnvoi = port;
 		}
 		
 		this.contact_etabli = false;
-		this.port = port;
 		
 		Communication.ouverte = true;
 		
 	}
 	
+	public boolean test() {
+		/*
+		if (heberge) {
+			Serveur s = new Serveur(300);
+			s.run();
+		}
+		else {
+			Client c = new Client("127.0.0.1", 300);
+			c.run();
+
+		}*/
+		connexion = new Connexion(this.controleur, this.ip_partenaire,300);
+		connexion.run();
+		return true;
+	}
+	
 	public boolean etablir_contact() throws IOException {
 		
 		if (heberge) {
-			ServerSocket server = new ServerSocket(this.port);
+			ServerSocket server = new ServerSocket(this.portEcoute);
 			System.out.println("S : En attente de requete");
 			Socket client = server.accept();
 			client.setSoTimeout(300000);
@@ -79,6 +103,8 @@ public class Communication {
 						System.out.println("S : IP acceptee : "+this.ip_partenaire);
 						
 						this.contact_etabli = true;
+						this.portEnvoi = this.portEcoute+1;
+						
 					} 
 					else if (this.contact_etabli) {
 	
@@ -102,10 +128,9 @@ public class Communication {
 				writerS.close();
 
 			}
-
 		}
 		else {
-			Socket s = new Socket(this.ip_partenaire, this.port);
+			Socket s = new Socket(this.ip_partenaire, this.portEnvoi);
 			s.setSoTimeout(10000);
 			
 			s.getOutputStream().write(("C_CONTACT\n"+InetAddress.getLocalHost().getHostAddress()+"\n").getBytes());
@@ -126,6 +151,7 @@ public class Communication {
 					if (ligne.equals("OK")) {
 						s.close();
 						this.contact_etabli = true;
+						this.portEcoute = portEnvoi+1;
 						System.out.println("C : Confirmation de "+this.ip_partenaire);
 						
 					}
@@ -149,7 +175,6 @@ public class Communication {
 			
 		
 			
-			
 		}
 		
 		return false;
@@ -161,7 +186,7 @@ public class Communication {
 		boolean coupTransmis = false;
 		boolean coupDetecte = false;
 		
-		ServerSocket server = new ServerSocket(this.port);
+		ServerSocket server = new ServerSocket(this.portEcoute);
 		Socket client = server.accept();
 		
 		BufferedWriter writerS = new BufferedWriter(new OutputStreamWriter(
@@ -183,7 +208,6 @@ public class Communication {
 						
 						if (line.equals(";")) {
 							System.out.println("||| "+str+" |||");
-							this.controleur.action_from_string(str);
 							client.getOutputStream().write(("RECU\n").getBytes());
 							server.close();
 							client.close();
@@ -211,12 +235,19 @@ public class Communication {
 			client.close();
 		}
 		
+		this.controleur.action_from_string(str);
+
 		return str;
 
 	}
 		
 	public boolean envoyer_coup(String str) throws UnknownHostException, IOException {
-		Socket s = new Socket(this.ip_partenaire,this.port);
+		
+		System.out.println("Connexion envoi coup");
+		this.connexion.envoyer_coup(str);
+		
+		/*
+		Socket s = new Socket(this.ip_partenaire,this.portEnvoi);
 		System.out.println("Envoi du coup : "+str);
 		s.getOutputStream().write(("Coup\n"+str+"\n").getBytes());
 		
@@ -253,7 +284,7 @@ public class Communication {
 			s.close();
 		}
 		
-		
+		*/
 		
 		return true;
 	}
