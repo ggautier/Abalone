@@ -1,5 +1,8 @@
 package vue;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.*;
 /**
@@ -15,11 +18,13 @@ import javax.swing.*;
  * @version 1.0
  */
 
-public class FenetreInfo extends JPanel{
+public class FenetreInfo extends JPanel implements ActionListener {
 	
 	private FenetrePrincipale	fenetre;
 	private JPanel		texte, misc;
-	private JTextArea 	zoneTexte;
+	private JTextArea 	zoneChat;
+	private JTextField	zoneMSG;
+	private JButton		envoyerMSG;
 	private JLabel		tourDeJeu;
 	
 	public FenetreInfo(FenetrePrincipale fen)
@@ -37,13 +42,26 @@ public class FenetreInfo extends JPanel{
         this.misc.setLayout(new GridBagLayout());
 
         
-        zoneTexte = new JTextArea();
-        zoneTexte.setEditable(false);
+        zoneChat = new JTextArea();
+        zoneChat.setEditable(false);
+        zoneChat.setText("Test");
         
-        JScrollPane scrollPane = new JScrollPane(zoneTexte);
+        zoneMSG = new JTextField();
         
-        donnerContrainte(c,0,0,1,1,100,100);
+        envoyerMSG = new JButton("Envoyer");
+        envoyerMSG.addActionListener(this);
+        
+        JScrollPane scrollPane = new JScrollPane(zoneChat);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS );
+        
+        donnerContrainte(c,0,0,2,1,7,5);
 		this.texte.add(scrollPane,c);
+		
+        donnerContrainte(c,0,1,1,1,5,1);
+		this.texte.add(zoneMSG,c);
+		
+        donnerContrainte(c,1,1,1,1,2,1);
+		this.texte.add(envoyerMSG,c);
 		
 		//this.misc.setBackground(Color.BLACK);
 		tourDeJeu = new JLabel();
@@ -79,12 +97,12 @@ public class FenetreInfo extends JPanel{
 		gbc.fill=GridBagConstraints.BOTH;
 	}
 
-	public JTextArea getZoneTexte() {
-		return zoneTexte;
+	public JTextArea getZoneChat() {
+		return zoneChat;
 	}
 
-	public void setZoneTexte(JTextArea zoneTexte) {
-		this.zoneTexte = zoneTexte;
+	public void setZoneChat(JTextArea zoneChat) {
+		this.zoneChat = zoneChat;
 	}
 
 	public JLabel getTourDeJeu() {
@@ -93,6 +111,26 @@ public class FenetreInfo extends JPanel{
 
 	public void setTourDeJeu(JLabel tourDeJeu) {
 		this.tourDeJeu = tourDeJeu;
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		Object source = e.getActionCommand().toString();
+
+		System.out.println(source);
+		if(source == "Envoyer" && !this.zoneMSG.getText().equals(""))	{
+			this.zoneChat.setText(this.zoneChat.getText()+"\n"+this.zoneMSG.getText());
+			if (this.getFenetre().getControleur().getPartie().getOnlineMode() > 0) {
+				try {
+					this.getFenetre().getControleur().getCommunication().connexion.envoyer_msg("\n"+
+							this.zoneMSG.getText());
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+			this.zoneMSG.setText("");
+			this.getFenetre().rafraichir();
+		}
 	}
 	
 	

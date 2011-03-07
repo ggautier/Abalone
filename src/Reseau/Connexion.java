@@ -116,7 +116,6 @@ public class Connexion extends Thread {
 				else if (this.statut != DISCONNECTED) {
 				
 					strEnvoi = protocole(ligne);
-					System.out.println("recu: "+ligne+" -- toSend :"+strEnvoi);
 					if (!strEnvoi.equals(""))
 						socketClient.getOutputStream().write((strEnvoi).getBytes());
 
@@ -151,15 +150,21 @@ public class Connexion extends Thread {
 		String retourStr = "";
 		System.out.println("Recu :"+ligne);
 		
-		if (ligne.equals("Coup")) {
+		if (ligne.equals("COUP")) {
 			System.out.println("Reception d'un coup");
 			buffer = "";
 			statut = RECEPTIONCOUP;
+		}
+		if (ligne.equals("MSG")) {
+			System.out.println("Reception d'un message");
+			buffer = "";
+			statut = RECEPTIONMSG;
 		}
 		else if (statut == RECEPTIONCOUP) {
 			buffer += ligne+"\n";
 			
 			if (ligne.equals(";")) {
+				System.out.println("Fin de la description du coup");
 				System.out.println("||| "+buffer+" |||");
 				statut = CONNECTED;
 				retourStr = "COUP_RECU\n";
@@ -167,12 +172,22 @@ public class Connexion extends Thread {
 			}
 			
 		}
-		else if (statut == ENVOICOUP) {
-			System.out.println("Je dois envoyer : #"+toSend+"#");
-			System.out.println("Envoi d'un coup");
-			retourStr = new String(toSend);
-			toSend = "";
-			statut = CONNECTED;
+		else if (statut == RECEPTIONMSG) {
+			
+			if (ligne.equals(";")) {
+				System.out.println("Fin de la description du message");
+				System.out.println("||| "+buffer+" |||");
+				statut = CONNECTED;
+				retourStr = "MSG_RECU\n";
+				this.controleur.getFenetrePrincipale().getInfo().getZoneChat().setText(
+						this.controleur.getFenetrePrincipale().getInfo().getZoneChat().getText()+
+						buffer);
+				
+			}
+			else
+				buffer += ligne+"\n";
+
+			
 		}
 			
 		return retourStr;
@@ -180,8 +195,21 @@ public class Connexion extends Thread {
 	
 	public synchronized boolean envoyer_coup(String str) throws IOException {
 		this.toSend = str;
-		System.out.println("#Coup\n"+str+"#");
-		writerC.write("Coup\n"+str+"\n");
+		System.out.println("#COUP\n"+str+"#");
+		writerC.write("COUP\n"
+				+str
+				+"\n");
+		writerC.flush();
+		
+		return true;
+	}
+	
+	public synchronized boolean envoyer_msg(String str) throws IOException {
+		this.toSend = str;
+		System.out.println("#MSG"+str+"#");
+		writerC.write("MSG"
+				+str+"\n"
+				+";\n");
 		writerC.flush();
 		
 		return true;
