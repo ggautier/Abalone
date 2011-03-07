@@ -200,22 +200,19 @@ public class Controleur {
 	{
 		try {
 			this.fenetrePrincipale = newFenetre;
-			this.partie = new Partie(this, "./data/plateau/defautDebug.plt", 0);
+			this.partie = new Partie(this, "./data/plateau/defaut.plt", 1);
 			this.selectionnees = new ArrayList<Bille>(3);
 			this.visees = new ArrayList<ArrayList<Bille>>(2);
 			this.coups = new ArrayList<Integer>(6);
 			this.deplacementVise = -1;
-			this.communication.etablir_contact();
+
 		}
 		
 		catch (Exception e) {
 			
 		}
-		
-		
-		
 
-		
+
 	}
 	
 	/**
@@ -1082,7 +1079,6 @@ public class Controleur {
 		boolean expulsee = false;
 		boolean deplacement = deplacementPossible(selectionnees,dir);
 		String t = string_from_action(dir);
-		System.out.println(t);
 		
 		// La on affiche le code du coup, mais en reseau, on enverra ca a l'adversaire.
 		if (deplacement) {
@@ -1118,7 +1114,8 @@ public class Controleur {
 		}
         
         if (deplacement) {
-        	action_from_string(t);
+        	if (this.partie.getOnlineMode() > 0 && this.getPartie().getJCourant().equals(this.getPartie().getVous()))
+        		this.communication.envoyer_coup(t);
         	this.nextTurn(false);
         }
         	
@@ -1329,21 +1326,33 @@ public class Controleur {
 	public void nextTurn(boolean virtual) throws IOException {
 
 		this.getPartie().quickSave();
-
+		
 		if (this.partie.getJCourant().equals(partie.getJ1()))
 			this.getPartie().setJCourant(partie.getJ2());
 		else 
 			this.getPartie().setJCourant(partie.getJ1());
 		
 		
-		System.out.println("-> Au tour de "+this.getPartie().getJCourant().getNom()+" ("+(this.getFenetrePrincipale() == null ? "VIRTUEL" : "REEL") +")");
+		System.out.println("-> Au tour de "+this.getPartie().getJCourant().getNom()+" ("
+		///		+(this.getFenetrePrincipale() == null ? "VIRTUEL" : "REEL") +")"
+				+(this.getPartie().getJCourant().equals(this.getPartie().getVous()) ? "Vous" : "Adversaire")+")"
+		);
 		
 		if ( (this.getFenetrePrincipale() != null) && (!this.getPartie().getJCourant().isHumain()) ) {
 			this.controleurIA.jouer();
 		}
-		
+
 		if(this.getFenetrePrincipale() != null) 
 			this.getFenetrePrincipale().rafraichir();
+		
+		System.out.println("Refresh");
+		
+		if (getPartie().getOnlineMode() > 0)
+			if (!getPartie().getJCourant().equals(getPartie().getVous())) {
+				System.out.println("Attente d'un coup");
+				getPartie().getControleur().getCommunication().attendre_coup();
+			}
+		
 
 	}
 	
@@ -1384,10 +1393,14 @@ public class Controleur {
 		while (( ligne = buffer.readLine()) != null && !valide) {
 			if(tokenizer.hasMoreTokens()) {
 				strTemp = tokenizer.nextToken();
-				if (strTemp.equals("b"))
-					System.out.println("Selection de la bille "+tokenizer.nextToken()+" "+tokenizer.nextToken());
-				else if (strTemp.equals("d"))
-					System.out.println("Direction "+tokenizer.nextToken());
+				if (strTemp.equals("b")) {
+					this.selectionner(Integer.decode(tokenizer.nextToken()), Integer.decode(tokenizer.nextToken()));
+					//System.out.println("Selection de la bille "++" "+);
+				}
+				else if (strTemp.equals("d")) {
+					this.action(Integer.decode(tokenizer.nextToken()));
+					//System.out.println("Direction "+);
+				}
 			}
 			tokenizer = new StringTokenizer(ligne, " ");
 

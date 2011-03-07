@@ -59,6 +59,8 @@ public class Partie {
 	 */
 	protected int online;
 	
+	protected Joueur vous;
+	
 	protected Stack<String> actions;
 	
 	protected Joueur j1, j2;
@@ -91,12 +93,23 @@ public class Partie {
 		else
 			this.jCourant = this.getJ2();
 		
-		if (this.getOnlineMode() == 1) {
-			this.controleur.setCommunication(new Communication(this.getControleur(), "127.0.0.1", 300));
+		if (!Communication.ouverte) {
+			if (this.getOnlineMode() == 1) {
+				this.vous = this.getJoueur(!this.jCourant.getCamps());
+				this.controleur.setCommunication(new Communication(this.getControleur(), "127.0.0.1", 300));
+				
+			}
+			else if (this.getOnlineMode() == 2) {
+				this.vous = jCourant;
+				this.controleur.setCommunication(new Communication(this.getControleur(), "", 300));
+			}
 		}
-		else if (this.getOnlineMode() == 2) {
-			this.controleur.setCommunication(new Communication(this.getControleur(), "", 300));
-		}
+		if (this.getOnlineMode() > 0)
+			this.getControleur().getCommunication().etablir_contact();
+		
+
+
+		
 	}
 
 	public Joueur getJ1() {
@@ -423,4 +436,22 @@ public class Partie {
 	public int getOnlineMode() {
 		return online;
 	}
+
+	public Joueur getjCourant() {
+		return jCourant;
+	}
+
+	public void setjCourant(Joueur jCourant) {
+		this.jCourant = jCourant;
+	}
+
+	public Joueur getVous() {
+		return vous;
+	}
+
+	public void setVous(Joueur vous) {
+		this.vous = vous;
+	}
+	
+	
 }

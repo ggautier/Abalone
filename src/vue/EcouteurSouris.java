@@ -32,19 +32,25 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
      	// Ici, on dépose la selection de la Bille cliquee
     	// Soit la fenetre n'est pas redimensionnable, donc on met des donnees brutes,
     	// sinon on met des variables.
-    	 Point pointee = fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()); // Retourne la case Pointee par la souris.
-    	 
-    	 if (fenetre.getPrincipale().getControleur().isDeplacementVise(pointee))
-			try {
-				fenetre.getPrincipale().getControleur().action(fenetre.getPrincipale().getControleur().getDeplacementVise());
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		else
-        	 fenetre.getPrincipale().getControleur().selectionner(pointee); // Selectionne la Bille pointee par la souris
+    	
+    	if (this.fenetre.getPrincipale().getControleur().getPartie().getOnlineMode() == 0
+    			|| this.fenetre.getPrincipale().getControleur().getPartie().getVous().equals(this.fenetre.getPrincipale().getControleur().getPartie().getJCourant())) {
+	    	
+	    	 Point pointee = fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint()); // Retourne la case Pointee par la souris.
+	    	 
+	    	 if (fenetre.getPrincipale().getControleur().isDeplacementVise(pointee))
+				try {
+					fenetre.getPrincipale().getControleur().action(fenetre.getPrincipale().getControleur().getDeplacementVise());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			else
+	        	 fenetre.getPrincipale().getControleur().selectionner(pointee); // Selectionne la Bille pointee par la souris
+	    	 	 fenetre.repaint();
 
-    	 fenetre.repaint();
+    	}
+
     }
 
      public void mouseReleased(MouseEvent e) {
@@ -52,6 +58,10 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
      }
      
      public void mouseMoved(MouseEvent e) {
+     	if (this.fenetre.getPrincipale().getControleur().getPartie().getOnlineMode() == 0
+    			|| this.fenetre.getPrincipale().getControleur().getPartie().getVous().equals(this.fenetre.getPrincipale().getControleur().getPartie().getJCourant())) {
+
+     		
     	 Point pointee = fenetre.getPrincipale().getControleur().getBillePointee(e.getPoint());
     	 
     	 if (!fenetre.getPrincipale().getControleur().isOut((int)pointee.getX(), (int)pointee.getY())) // Si la case existe
@@ -60,6 +70,9 @@ public class EcouteurSouris implements MouseListener, MouseMotionListener {
  		 this.fenetre.getPrincipale().getControleur().majDeplacementVise(pointee); // Mise a jour du deplacement pointe.
 
     	 fenetre.repaint();
+
+     	}
+     	
       }
 
 

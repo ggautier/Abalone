@@ -54,6 +54,12 @@ public class Main {
         
         f.setVisible(true);
         
+		if (f.getControleur().getPartie().getOnlineMode() > 0)
+			if (!f.getControleur().getPartie().getJCourant().equals(f.getControleur().getPartie().getVous())) {
+				System.out.println("Attente d'un coup");
+				f.getControleur().getPartie().getControleur().getCommunication().attendre_coup();
+			}
+        
         /*
         double note = 
         	15.0*2+9.65*2+7.43*2+11.15*2+8.75*2+12.58

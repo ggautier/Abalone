@@ -8,11 +8,14 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 import controleur.Controleur;
 
 public class Communication {
+	
+	public static boolean ouverte = false;
 	
 	protected boolean heberge;
 	
@@ -39,8 +42,7 @@ public class Communication {
 		this.contact_etabli = false;
 		this.port = port;
 		
-		this.etablir_contact();
-		
+		Communication.ouverte = true;
 		
 	}
 	
@@ -48,36 +50,63 @@ public class Communication {
 		
 		if (heberge) {
 			ServerSocket server = new ServerSocket(this.port);
+			System.out.println("S : En attente de requete");
 			Socket client = server.accept();
+			client.setSoTimeout(300000);
+			server.setSoTimeout(300000);
 			
 			BufferedWriter writerS = new BufferedWriter(new OutputStreamWriter(
 					client.getOutputStream()));
 			BufferedReader readerS = new BufferedReader(new InputStreamReader(
 					client.getInputStream()));
 			
-			String line;
+			String ligne;
 			String str = "";
-			while ( (line = readerS.readLine()) != null) {
-				System.out.println("Recu Serveur : "+line);
-				if (line.equals("C_CONTACT")) {
-					writerS.write("OK\n");
-					writerS.flush();
-					System.out.println("S : Reception d'une requete");
-					this.contact_etabli = true;
-				} else if (this.contact_etabli) {
-					this.ip_partenaire = line;
-					System.out.println("S : IP acceptee : "+line);
+			
+			
+			try {
+				while ( (ligne = readerS.readLine()) != null) {
+					System.out.println("Recu Serveur : "+ligne);
+					if (ligne.equals("C_CONTACT")) {
+						this.ip_partenaire = readerS.readLine();
+
+						writerS.write("OK\n");
+						writerS.flush();
+				
+						server.close();
+						client.close();
+						System.out.println("S : Reception d'une requete");
+						System.out.println("S : IP acceptee : "+this.ip_partenaire);
+						
+						this.contact_etabli = true;
+					} 
+					else if (this.contact_etabli) {
+	
+
+					}
 				}
+			
+			} 
+			catch (SocketTimeoutException e) {
+				System.err.println("Timeout");
 			}
-			
-			
-			readerS.close();
-			writerS.close();
-			client.close();
-			server.close();
+			catch (java.net.SocketException e) {
+				System.err.println("Socket ferme");
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				server.close();
+				client.close();
+				readerS.close();
+				writerS.close();
+
+			}
+
 		}
 		else {
-			Socket s = new Socket(this.ip_partenaire,this.port);
+			Socket s = new Socket(this.ip_partenaire, this.port);
+			s.setSoTimeout(10000);
 			
 			s.getOutputStream().write(("C_CONTACT\n"+InetAddress.getLocalHost().getHostAddress()+"\n").getBytes());
 			System.out.println("C : Envoi d'une requete a "+this.ip_partenaire+" depuis "+InetAddress.getLocalHost().getHostAddress());
@@ -87,34 +116,50 @@ public class Communication {
 			BufferedReader readerC = new BufferedReader(new InputStreamReader(
 					s.getInputStream()));
 			
-			String g = "TEST";
-		
-			writerC.write(g);
-			writerC.flush();
+	
 			
 			String ligne;
-			while((ligne = readerC.readLine()) != null) {
+			try {
+				while((ligne = readerC.readLine()) != null) {
+							
+					System.out.println("Recu Client : " + ligne);
+					if (ligne.equals("OK")) {
+						s.close();
+						this.contact_etabli = true;
+						System.out.println("C : Confirmation de "+this.ip_partenaire);
 						
-				System.out.println("Recu Client : " + ligne);
-				if (ligne.equals("OK")) {
-					this.contact_etabli = true;
-					System.out.println("C : Confirmation de "+this.ip_partenaire);
+					}
+				
 				}
-			
+			}
+			catch (SocketTimeoutException e) {
+				System.err.println("Timeout");
+			}
+			catch (java.net.SocketException e) {
+				System.err.println("Socket ferme");
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			} 
+			finally {
+				writerC.close();
+				readerC.close();
+				s.close();
 			}
 			
-			writerC.close();
-			readerC.close();
-			s.close();
+		
 			
-			return true;
+			
 		}
 		
-		return true;
+		return false;
 		
 	}
 	
 	public String attendre_coup() throws IOException {
+		System.out.println("Attente d'un coup");
+		boolean coupTransmis = false;
+		boolean coupDetecte = false;
 		
 		ServerSocket server = new ServerSocket(this.port);
 		Socket client = server.accept();
@@ -126,53 +171,95 @@ public class Communication {
 		
 		String line;
 		String str = "";
-		while ( (line = readerS.readLine()) != null) {
-			System.out.println("Recu Serveur : "+line);
-			if (line.equals("Coup")) {
-				writerS.write("OK !\n");
-				writerS.flush();
+		try {
+			while ( (line = readerS.readLine()) != null) {
+				System.out.println("Recu Serveur : "+line);
+				if (line.equals("Coup")) {
+					System.out.println("Coup recu");
+					coupDetecte = true;
+				}
+				else if (coupDetecte) {
+						str += line+"\n";
+						
+						if (line.equals(";")) {
+							System.out.println("||| "+str+" |||");
+							this.controleur.action_from_string(str);
+							client.getOutputStream().write(("RECU\n").getBytes());
+							server.close();
+							client.close();
+							coupTransmis = true;
+							
+						}
+				}
+				
+			
 			}
+	}
+		catch (SocketTimeoutException e) {
+			System.err.println("Timeout");
 		}
-		
-		
-		readerS.close();
-		writerS.close();
-		client.close();
-		server.close();
+		catch (java.net.SocketException e) {
+			System.err.println("Socket ferme");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		} 
+		finally {
+			writerS.close();
+			readerS.close();
+			server.close();
+			client.close();
+		}
 		
 		return str;
 
 	}
 		
-	public boolean envoyer_coup() throws UnknownHostException, IOException {
+	public boolean envoyer_coup(String str) throws UnknownHostException, IOException {
 		Socket s = new Socket(this.ip_partenaire,this.port);
+		System.out.println("Envoi du coup : "+str);
+		s.getOutputStream().write(("Coup\n"+str+"\n").getBytes());
 		
-		s.getOutputStream().write(("Test803\n").getBytes());
 		
 		BufferedWriter writerC = new BufferedWriter(new OutputStreamWriter(
 				s.getOutputStream()));
 		BufferedReader readerC = new BufferedReader(new InputStreamReader(
 				s.getInputStream()));
 		
-		String g = "TEST";
-	
-		writerC.write(g);
-		writerC.flush();
-		
 		String ligne;
-		while((ligne = readerC.readLine()) != null) {
-					
-			System.out.println("Recu Client : " + ligne);
+		
+		try {
+			while((ligne = readerC.readLine()) != null) {
+						
+				System.out.println("Recu Client : " + ligne);
+				if (ligne.equals("RECU")) {
+					System.out.println("Acquitement OK");
+					s.close();
+				}
+			}
+		}
+		catch (SocketTimeoutException e) {
+			System.err.println("Timeout");
+		}
+		catch (java.net.SocketException e) {
+			System.err.println("Socket ferme");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		} 
+		finally {
+			writerC.close();
+			readerC.close();
+			s.close();
 		}
 		
-		writerC.close();
-		readerC.close();
-		s.close();
+		
 		
 		return true;
 	}
 
 	public static void testClient() throws UnknownHostException, IOException {
+		
 		Socket s = new Socket("localhost",300);
 		
 		s.getOutputStream().write(("Test803\n").getBytes());
