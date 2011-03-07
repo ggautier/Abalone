@@ -121,7 +121,7 @@ public class FenetreInfo extends JPanel implements ActionListener {
 			this.zoneChat.setText(this.zoneChat.getText()+"\n"+this.zoneMSG.getText());
 			if (this.getFenetre().getControleur().getPartie().getOnlineMode() > 0) {
 				try {
-					this.getFenetre().getControleur().getCommunication().connexion.envoyer_msg("\n"+
+					this.getFenetre().getControleur().getConnexion().envoyer_msg("\n"+
 							this.zoneMSG.getText());
 				} catch (IOException e1) {
 					e1.printStackTrace();

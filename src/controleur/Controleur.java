@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.ResourceBundle.Control;
 
-import Reseau.Communication;
+import Reseau.Connexion;
 
 import vue.FenetreOver;
 import vue.FenetrePlateau;
@@ -194,7 +194,7 @@ public class Controleur {
 	
 
 	
-	protected Communication communication;
+	protected Connexion connexion;
 	
 	public Controleur(FenetrePrincipale newFenetre) throws Exception
 	{
@@ -1117,7 +1117,7 @@ public class Controleur {
         if (deplacement) {
         	
         	if ( this.partie.getOnlineMode() > 0 && this.partie.aMonTour() ) {
-        		this.communication.envoyer_coup(t);
+        		this.connexion.envoyer_coup(t);
         		
         	}
         	this.nextTurn(false);
@@ -1424,12 +1424,12 @@ public class Controleur {
 		
 	}
 
-	public Communication getCommunication() {
-		return communication;
+	public Connexion getConnexion() {
+		return connexion;
 	}
 
-	public void setCommunication(Communication communication) {
-		this.communication = communication;
+	public void setConnexion(Connexion connexion) {
+		this.connexion = connexion;
 	}
 	
 	/*

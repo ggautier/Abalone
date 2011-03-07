@@ -10,7 +10,7 @@ import java.io.StringReader;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-import Reseau.Communication;
+import Reseau.Connexion;
 
 import controleur.Controleur;
 
@@ -93,15 +93,15 @@ public class Partie {
 		else
 			this.jCourant = this.getJ2();
 		
-		if (!Communication.ouverte) {
+		if (!Connexion.effectuee) {
 			if (this.getOnlineMode() == 1) {
 				this.joueurPhysique = this.getJoueur(!this.jCourant.getCamps());
-				this.controleur.setCommunication(new Communication(this.getControleur(), "127.0.0.1", 300));
+				this.controleur.setConnexion(new Connexion(this.getControleur(), "127.0.0.1", 300));
 				
 			}
 			else if (this.getOnlineMode() == 2) {
 				this.joueurPhysique = jCourant;
-				this.controleur.setCommunication(new Communication(this.getControleur(), "", 300));
+				this.controleur.setConnexion(new Connexion(this.getControleur(), "", 300));
 			}
 		}
 		/*
