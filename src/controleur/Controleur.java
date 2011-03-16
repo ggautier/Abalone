@@ -182,6 +182,8 @@ public class Controleur {
 	 */
 	public final static int HD_BG = 10;
 	
+	protected Connexion connexion;
+	
 	/**
 	 * Constructeur de la classe Controleur<br>
 	 * 
@@ -191,11 +193,6 @@ public class Controleur {
 	 * 
 	 * @see FenetrePrincipale
 	 */
-	
-
-	
-	protected Connexion connexion;
-	
 	public Controleur(FenetrePrincipale newFenetre) throws Exception
 	{
 		try {
@@ -211,8 +208,6 @@ public class Controleur {
 		catch (Exception e) {
 			
 		}
-
-
 	}
 	
 	/**
