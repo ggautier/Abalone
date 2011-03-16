@@ -197,7 +197,7 @@ public class Controleur {
 	{
 		try {
 			this.fenetrePrincipale = newFenetre;
-			this.partie = new Partie(this, "./data/plateau/defaut.plt", 1);
+			this.partie = new Partie(this, "./data/plateau/defaut.plt", 0);
 			this.selectionnees = new ArrayList<Bille>(3);
 			this.visees = new ArrayList<ArrayList<Bille>>(2);
 			this.coups = new ArrayList<Integer>(6);
