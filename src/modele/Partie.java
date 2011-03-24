@@ -448,7 +448,10 @@ public class Partie {
 	}
 
 	public boolean aMonTour() {
-		return (this.jCourant.equals(this.joueurPhysique));
+		if (this.online != 0)
+			return (this.jCourant.equals(this.joueurPhysique));
+		else 
+			return true;
 	}
 	
 	
