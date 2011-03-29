@@ -196,8 +196,7 @@ public class Controleur {
 	
 	protected Connexion connexion;
 	
-	public Controleur(FenetrePrincipale newFenetre) throws Exception
-	{
+	public Controleur(FenetrePrincipale newFenetre) throws Exception {
 		try {
 			this.fenetrePrincipale = newFenetre;
 			this.partie = new Partie(this, "./data/plateau/defaut.plt", 1);
@@ -208,11 +207,9 @@ public class Controleur {
 
 		}
 		
-		catch (Exception e) {
-			
+		catch (Exception e) {	
 		}
-
-
+		
 	}
 	
 	/**
@@ -1116,7 +1113,7 @@ public class Controleur {
         
         if (deplacement) {
         	
-        	if ( this.partie.getOnlineMode() > 0 && this.partie.aMonTour() ) {
+        	if ( this.getFenetrePrincipale() != null && this.partie.getOnlineMode() > 0 && this.partie.aMonTour()) {
         		this.connexion.envoyer_coup(t);
         		
         	}

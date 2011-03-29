@@ -52,6 +52,7 @@ public class Main {
 		FenetrePrincipale f = new FenetrePrincipale("Abalone - 1.00");
         f.setSize(new Dimension(950,725));
         
+        f.rafraichir();
         f.setVisible(true);
         
 		if (f.getControleur().getPartie().getOnlineMode() > 0)

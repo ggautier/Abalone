@@ -2,7 +2,9 @@ package vue;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.Calendar;
 
 import javax.swing.*;
 /**
@@ -44,17 +46,17 @@ public class FenetreInfo extends JPanel implements ActionListener {
         
         zoneChat = new JTextArea();
         zoneChat.setEditable(false);
-        zoneChat.setText("Test");
         
         zoneMSG = new JTextField();
         
         envoyerMSG = new JButton("Envoyer");
         envoyerMSG.addActionListener(this);
+        envoyerMSG.setMnemonic(KeyEvent.VK_ENTER);
         
         JScrollPane scrollPane = new JScrollPane(zoneChat);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS );
         
-        donnerContrainte(c,0,0,2,1,7,5);
+        donnerContrainte(c,0,0,2,1,7,6);
 		this.texte.add(scrollPane,c);
 		
         donnerContrainte(c,0,1,1,1,5,1);
@@ -118,10 +120,11 @@ public class FenetreInfo extends JPanel implements ActionListener {
 
 		System.out.println(source);
 		if(source == "Envoyer" && !this.zoneMSG.getText().equals(""))	{
-			this.zoneChat.setText(this.zoneChat.getText()+"\n"+this.zoneMSG.getText());
+			this.message(this.fenetre.getControleur().getPartie().getJoueurPhysique().getNom()+" : "+this.zoneMSG.getText());
 			if (this.getFenetre().getControleur().getPartie().getOnlineMode() > 0) {
 				try {
 					this.getFenetre().getControleur().getConnexion().envoyer_msg("\n"+
+							this.fenetre.getControleur().getPartie().getJoueurPhysique().getNom()+" :"+
 							this.zoneMSG.getText());
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -132,7 +135,23 @@ public class FenetreInfo extends JPanel implements ActionListener {
 			this.getFenetre().rafraichir();
 		}
 	}
+
+	public JButton getEnvoyerMSG() {
+		return envoyerMSG;
+	}
+
+	public void setEnvoyerMSG(JButton envoyerMSG) {
+		this.envoyerMSG = envoyerMSG;
+	}
 	
-	
+	public void message(String message) {
+		Calendar cal = Calendar.getInstance();
+		
+		this.zoneChat.setText(this.zoneChat.getText()+"\n["
+				+cal.get(Calendar.HOUR_OF_DAY)+":"
+				+cal.get(Calendar.MINUTE)+":"
+				+cal.get(Calendar.SECOND)+"] "
+				+message);
+	}
 
 }

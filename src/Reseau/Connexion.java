@@ -9,6 +9,10 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import controleur.Controleur;
 
@@ -140,7 +144,6 @@ public class Connexion extends Thread {
 
 				}
 				
-			
 			}
 		}
 		catch (SocketTimeoutException e) {
@@ -198,13 +201,12 @@ public class Connexion extends Thread {
 				System.out.println("||| "+buffer+" |||");
 				statut = CONNECTED;
 				retourStr = "MSG_RECU\n";
-				this.controleur.getFenetrePrincipale().getInfo().getZoneChat().setText(
-						this.controleur.getFenetrePrincipale().getInfo().getZoneChat().getText()+
-						buffer);
+				this.controleur.getFenetrePrincipale().getInfo().message(
+					buffer);
 				
 			}
 			else
-				buffer += ligne+"\n";
+				buffer += ligne;
 
 			
 		}
@@ -224,7 +226,18 @@ public class Connexion extends Thread {
 	
 	public synchronized boolean envoyer_msg(String str) throws IOException {
 		System.out.println("#MSG"+str+"#");
-		writerC.write("MSG"
+		writerC.write("MSG\n"
+				+str+"\n"
+				+";\n");
+		writerC.flush();
+		
+		return true;
+	}
+	
+	// En cas d'erreur, on resynchronise la partie
+	public synchronized boolean envoyer_partie(String str) throws IOException {
+		System.out.println("#GAME"+str+"#");
+		writerC.write("GAME"
 				+str+"\n"
 				+";\n");
 		writerC.flush();

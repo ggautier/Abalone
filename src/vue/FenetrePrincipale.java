@@ -70,7 +70,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		////// Pas redimensionnable
 		this.setResizable(false);
 		this.setSize(800, 600);
-		this.setLocation((getToolkit().getScreenSize().width-this.getWidth())/2,(getToolkit().getScreenSize().height-this.getHeight())/2);
+		this.setLocation((getToolkit().getScreenSize().width-this.getWidth())/3,(getToolkit().getScreenSize().height-this.getHeight())/3);
 		////////////////////////
         
         //On cree un barre de menu (vide), puis on cree le 1er menu "Fichier",
@@ -106,8 +106,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         GridBagConstraints c = new GridBagConstraints();
         
 		this.controleur = new Controleur(this);
-		//this.getControleur().initControleurIA();
-		//this.getControleur().getControleurIA().getControleurVirtuel().initControleurIA();
+		this.getControleur().initControleurIA();
+		this.getControleur().getControleurIA().getControleurVirtuel().initControleurIA();
 		
         //init du conteneur plateau
         plateau = new FenetrePlateau(this);
@@ -150,6 +150,11 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 	public void rafraichir() {
 		this.getInfo().getTourDeJeu().setText(this.getControleur().getPartie().getJCourant().getNom()
 				+ " - " + ((this.getControleur().getPartie().getJCourant().isHumain()) ? "humain" : "cpu"));
+		
+		if (this.getControleur().getPartie().getOnlineMode() > 0)
+			this.commande.getPrevious().setEnabled(false);
+		else
+			this.info.getEnvoyerMSG().setEnabled(false);
 		
 		this.getInfo().getTourDeJeu().repaint();
 		this.getInfo().getTourDeJeu().revalidate();

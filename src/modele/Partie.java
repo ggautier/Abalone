@@ -446,9 +446,15 @@ public class Partie {
 	public void setjCourant(Joueur jCourant) {
 		this.jCourant = jCourant;
 	}
+	
+	public Joueur getJoueurPhysique() {
+		return joueurPhysique;
+	}
 
 	public boolean aMonTour() {
-		return (this.jCourant.equals(this.joueurPhysique));
+		if (this.online > 0 && this.controleur.getFenetrePrincipale() != null)
+			return (this.jCourant.equals(this.joueurPhysique));
+		else return true;
 	}
 	
 	

@@ -172,7 +172,6 @@ public class FenetreCommande extends JPanel implements ActionListener {
 			} 
 			catch (IOException ex) 
 			{
-				// TODO Auto-generated catch block
 				ex.printStackTrace();
 			}
 		}
@@ -203,6 +202,14 @@ public class FenetreCommande extends JPanel implements ActionListener {
 	 */
 	public JLabel getNomJoueur2() {
 		return nomJoueur2;
+	}
+
+	public JButton getPrevious() {
+		return previous;
+	}
+
+	public void setPrevious(JButton previous) {
+		this.previous = previous;
 	}
 
 	
