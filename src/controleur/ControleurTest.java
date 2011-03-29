@@ -355,8 +355,8 @@ public class ControleurTest extends TestCase {
 		try {
 			Controleur controleur = new Controleur(new FenetrePrincipale("titre"));
 			
-			assertTrue((controleur.voisine(controleur.getPartie().getPlateau().getBille(2, 2), 21, 1).getLigne() == 3)
-				&& (controleur.voisine(controleur.getPartie().getPlateau().getBille(2, 2), 21, 1).getColonne() == 2));
+			assertTrue((controleur.getVoisine(controleur.getPartie().getPlateau().getBille(2, 2), 21, 1).getLigne() == 3)
+				&& (controleur.getVoisine(controleur.getPartie().getPlateau().getBille(2, 2), 21, 1).getColonne() == 2));
 		}
 		
 		catch (Exception e) {
