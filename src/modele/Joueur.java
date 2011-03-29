@@ -1,5 +1,10 @@
 package modele;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import controleur.CompteRebours;
+
 /**
  * <b>Joueur est la classe representant un joueur actif lors d'une partie.</b>
  * <p>
@@ -44,6 +49,10 @@ public class Joueur {
 	 * par un autre joueur, ou joue immediatement par la machine.</p> 
 	 */
 	protected boolean humain;
+	
+	protected CompteRebours tempsRestantCoup;
+	
+	protected CompteRebours tempsRestantGlobal;
 
 	protected int r, g, b;
 	
@@ -51,6 +60,7 @@ public class Joueur {
 		this.setNom(newNom);
 		this.setCamps(newCamps);
 		this.setHumain(newHumain);
+
 		
 		if(this.getCamps())
 		{
@@ -66,6 +76,9 @@ public class Joueur {
 		}
 		
 		this.setScore(0);
+		
+		this.tempsRestantGlobal = new CompteRebours(20,00);
+
 	}
 	
 	/**
