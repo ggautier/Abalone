@@ -455,6 +455,7 @@ public class Partie {
 		if (this.online > 0 && this.controleur.getFenetrePrincipale() != null)
 			return (this.jCourant.equals(this.joueurPhysique));
 		else return true;
+		
 	}
 	
 	

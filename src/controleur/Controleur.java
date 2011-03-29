@@ -30,7 +30,7 @@ import modele.Plateau;
  * <ul>
  * <li>Une partie qui sert de point d'acces aux informations du modele.</li>
  * <li>Une fenetre principale, racine de la vue.</li>
- * <li>Un controleurIA qui gère l'intelligence artificielle du programme.</li>
+ * <li>Un controleurIA qui gï¿½re l'intelligence artificielle du programme.</li>
  * </ul>
  * </p>
  * 
@@ -130,28 +130,28 @@ public class Controleur {
 	 */
 	public final static int DROITE = 12;
 	/**
-	 * Constante designant un deplacement d'une case vers le bas à gauche<br>
+	 * Constante designant un deplacement d'une case vers le bas ï¿½ gauche<br>
 	 * 
 	 * Sous la forme &lang;ligne&rang;&lang;colonne&rang;
 	 * avec 1 = pas de mouvement, 0 = mouvement montant, 2 = mouvement descendant
 	 */
 	public final static int BAS_GAUCHE = 21;
 	/**
-	 * Constante designant un deplacement d'une case vers le bas à droite<br>
+	 * Constante designant un deplacement d'une case vers le bas ï¿½ droite<br>
 	 * 
 	 * Sous la forme &lang;ligne&rang;&lang;colonne&rang;
 	 * avec 1 = pas de mouvement, 0 = mouvement montant, 2 = mouvement descendant
 	 */
 	public final static int BAS_DROITE = 22;
 	/**
-	 * Constante designant un deplacement d'une case vers le haut à gauche<br>
+	 * Constante designant un deplacement d'une case vers le haut ï¿½ gauche<br>
 	 * 
 	 * Sous la forme &lang;ligne&rang;&lang;colonne&rang;
 	 * avec 1 = pas de mouvement, 0 = mouvement montant, 2 = mouvement descendant
 	 */
 	public final static int HAUT_DROITE = 01;
 	/**
-	 * Constante designant un deplacement d'une case vers le haut à droite<br>
+	 * Constante designant un deplacement d'une case vers le haut ï¿½ droite<br>
 	 * 
 	 * Sous la forme &lang;ligne&rang;&lang;colonne&rang;
 	 * avec 1 = pas de mouvement, 0 = mouvement montant, 2 = mouvement descendant
@@ -182,6 +182,8 @@ public class Controleur {
 	 */
 	public final static int HD_BG = 10;
 	
+	protected Connexion connexion;
+	
 	/**
 	 * Constructeur de la classe Controleur<br>
 	 * 
@@ -191,15 +193,14 @@ public class Controleur {
 	 * 
 	 * @see FenetrePrincipale
 	 */
-	
 
 	
-	protected Connexion connexion;
-	
-	public Controleur(FenetrePrincipale newFenetre) throws Exception {
+	public Controleur(FenetrePrincipale newFenetre) throws Exception
+	{
+
 		try {
 			this.fenetrePrincipale = newFenetre;
-			this.partie = new Partie(this, "./data/plateau/defaut.plt", 1);
+			this.partie = new Partie(this, "./data/plateau/defaut.plt", 0);
 			this.selectionnees = new ArrayList<Bille>(3);
 			this.visees = new ArrayList<ArrayList<Bille>>(2);
 			this.coups = new ArrayList<Integer>(6);
@@ -209,7 +210,7 @@ public class Controleur {
 		
 		catch (Exception e) {	
 		}
-		
+
 	}
 	
 	/**

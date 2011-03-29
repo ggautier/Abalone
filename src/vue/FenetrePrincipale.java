@@ -80,7 +80,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         
         JMenu fichierMenu = new JMenu("Fichier");
         
-        JMenuItem itemNouveau = new JMenuItem("Nouveau", 'N');
+        JMenuItem itemNouveau = new JMenuItem("Nouveau Jeu", 'N');
         itemNouveau.addActionListener(this);
         fichierMenu.add(itemNouveau);
         fichierMenu.add(new JSeparator());
@@ -90,6 +90,13 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         JMenuItem itemLoad = new JMenuItem("Charger", 'C');
         itemLoad.addActionListener(this);
         fichierMenu.add(itemLoad);
+        fichierMenu.add(new JSeparator());
+        JMenuItem itemJoin = new JMenuItem("Rejoindre une partie", 'R');
+        itemJoin.addActionListener(this);
+        fichierMenu.add(itemJoin);
+        JMenuItem itemHost = new JMenuItem("Héberger une partie", 'H');
+        itemHost.addActionListener(this);
+        fichierMenu.add(itemHost);
         fichierMenu.add(new JSeparator());
         JMenuItem itemOptions = new JMenuItem("Options", 'O');
         itemOptions.addActionListener(this);
