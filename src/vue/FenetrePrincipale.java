@@ -94,7 +94,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         JMenuItem itemJoin = new JMenuItem("Rejoindre une partie", 'R');
         itemJoin.addActionListener(this);
         fichierMenu.add(itemJoin);
-        JMenuItem itemHost = new JMenuItem("Héberger une partie", 'H');
+        JMenuItem itemHost = new JMenuItem("Heberger une partie", 'H');
         itemHost.addActionListener(this);
         fichierMenu.add(itemHost);
         fichierMenu.add(new JSeparator());
@@ -276,6 +276,10 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		if (source == "Options")
 		{ 
 			FenetreOption fenetreOpt = new FenetreOption("Options", this); 
+		}
+		if (source == "Rejoindre une partie")
+		{ 
+			FenetreConnexion fenetreConnex = new FenetreConnexion("Connexion", this); 
 		}
 		if (source == "Quitter")
 		{ System.exit(0); }
