@@ -211,6 +211,7 @@ public class Controleur {
 			this.visees = new ArrayList<ArrayList<Bille>>(2);
 			this.coups = new ArrayList<Integer>(6);
 			this.deplacementVise = -1;
+			this.getFenetrePrincipale().rafraichir();
 
 		}
 		

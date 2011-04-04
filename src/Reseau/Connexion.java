@@ -1,5 +1,6 @@
 package Reseau;
 
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -13,6 +14,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeoutException;
+
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 
 import controleur.Controleur;
 
@@ -75,6 +80,15 @@ public class Connexion extends Thread {
 	
 	public void run() {
 		
+		JDialog dialogAttente = new JDialog(controleur.getFenetrePrincipale());
+		JLabel labelConnexion = new JLabel("  En attente de connexion ...");
+		dialogAttente.setTitle("Connexion ...");
+		dialogAttente.add(labelConnexion);
+		dialogAttente.setSize(200,100);
+		dialogAttente.setLocationRelativeTo(dialogAttente.getParent());
+		dialogAttente.setLocation(new Point(dialogAttente.getParent().getSize().width/2,dialogAttente.getParent().getSize().height/2));
+		dialogAttente.setVisible(true);
+		
 		// On initialise les Buffer et Socket
 		BufferedReader readerC = null;
 		Socket socketClient = null;
@@ -84,7 +98,6 @@ public class Connexion extends Thread {
 			if (!heberge) {
 				// Si on est client
 				socketClient = new Socket(this.IPcible, this.port);
-				socketClient.setSoTimeout(10000);
 				socketClient.getOutputStream().write(("R_CONNECT\n"+InetAddress.getLocalHost().getHostAddress()+"\n").getBytes());
 				// On initialise le Socket, puis on envoie une requete de connexion au serveur
 				
@@ -92,7 +105,10 @@ public class Connexion extends Thread {
 			else {
 				// Si on est serveur
 				socketServeur = new ServerSocket(this.port);
+				socketServeur.setSoTimeout(6000);
+				
 				socketClient = socketServeur.accept();
+				
 				// On ecoute au port demande.
 			}
 						
@@ -101,80 +117,131 @@ public class Connexion extends Thread {
 			readerC = new BufferedReader(new InputStreamReader(
 					socketClient.getInputStream()));
 		}
+		catch (SocketTimeoutException e) {
+			synchronized(this) {
+				if (heberge)
+					labelConnexion.setText("Aucune connexion trouvee.");
+				
+				dialogAttente.repaint();
+				try {
+					this.wait((long) 1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				
+				dialogAttente.dispose();
+				
+				try {
+					socketServeur.close();
+
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				
+				this.controleur.lancerPartie(0);
+				this.interrupt();
+			}
+		}
 		catch (IOException e) {
 			
 		}
 		
 		String ligne;
 		String strEnvoi = "";
-		
-		try {
-			// Tant que le Socket est ouvert ...
-			while((ligne = readerC.readLine()) != null) {
-						
-				if (this.statut == NOT_CONNECTED) {
-				
-					if (!heberge) {
-						// On est client
-						System.out.println("Recu depuis Serveur : " + ligne);
-						if (ligne.equals("OK_CONNECT")) {
-							// Si le Serveur a accepte notre requete de connexion ...
-							this.statut = CONNECTED; // ... alors nous sommes connectes
-							socketClient.setSoTimeout(300000);
-							System.out.println("C : Confirmation de "+this.IPcible+" - "+this.port);
-						}
-						
-					}
-					else {
-						// Si on est serveur
-						System.out.println("Recu depuis Client : " + ligne);
-						
-						if (ligne.equals("R_CONNECT")) { // Quand on recoit une requete de connexion ...
-							this.IPcible = readerC.readLine(); // .. On recupere l'@IP entrante
-							
-				
-							writerC.write("OK_CONNECT\n"); // .. On informe le client qu'on a bien recu et qu'on accepte
-							writerC.flush();
-							this.statut = CONNECTED;
-
-					
-							System.out.println("H : Reception d'une requete");
-							System.out.println("H : IP acceptee : "+this.IPcible+" - "+this.port);
-							
-						} 
-						
-					}
-				}
-				// Pour le reste, si on est toujours connecte, on se refere au protocole de communication (voir methode "protocole()"
-				else if (this.statut != DISCONNECTED) {
-				
-					strEnvoi = protocole(ligne);
-					if (!strEnvoi.equals(""))
-						socketClient.getOutputStream().write((strEnvoi).getBytes());
-
-				}
-				
-			}
-		}
-		catch (SocketTimeoutException e) {
-			System.err.println("Timeout");
-		}
-		catch (java.net.SocketException e) {
-			System.err.println("Socket ferme");
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		} 
-		finally {
+		if (readerC != null)
 			try {
-				writerC.close();
-				readerC.close();
-				socketClient.close();
+				// Tant que le Socket est ouvert ...
+				while((ligne = readerC.readLine()) != null) {
+							
+					if (this.statut == NOT_CONNECTED) {
+					
+						if (!heberge) {
+							// On est client
+							System.out.println("Recu depuis Serveur : " + ligne);
+							if (ligne.equals("OK_CONNECT")) {
+								// Si le Serveur a accepte notre requete de connexion ...
+								this.statut = CONNECTED; // ... alors nous sommes connectes
+								socketClient.setSoTimeout(300000);
+								System.out.println("C : Confirmation de "+this.IPcible+" - "+this.port);
+								
+								// On ferme la fenetre de connexion
+								dialogAttente.dispose();
+							}
+							
+						}
+						else {
+							// Si on est serveur
+							System.out.println("Recu depuis Client : " + ligne);
+							
+							if (ligne.equals("R_CONNECT")) { // Quand on recoit une requete de connexion ...
+								this.IPcible = readerC.readLine(); // .. On recupere l'@IP entrante
+								
+					
+								writerC.write("OK_CONNECT\n"); // .. On informe le client qu'on a bien recu et qu'on accepte
+								writerC.flush();
+								this.statut = CONNECTED;
+	
+						
+								System.out.println("H : Reception d'une requete");
+								System.out.println("H : IP acceptee : "+this.IPcible+" - "+this.port);
+								
+								// On ferme la fenetre de connexion
+								dialogAttente.dispose();
+								
+							} 
+							
+						}
+					}
+					// Pour le reste, si on est toujours connecte, on se refere au protocole de communication (voir methode "protocole()"
+					else if (this.statut != DISCONNECTED) {
+					
+						strEnvoi = protocole(ligne);
+						if (!strEnvoi.equals(""))
+							socketClient.getOutputStream().write((strEnvoi).getBytes());
+	
+					}
+					
+				}
 			}
-			catch (IOException e) {}
-		}
-		// Fermeture des Sockets et des buffer
+			catch (SocketTimeoutException e) {
+				System.err.println("Timeout");
+			}
+			catch (java.net.SocketException e) {
+				System.err.println("Socket ferme");
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			} 
+			finally {
+				try {
+					writerC.close();
+					readerC.close();
+					socketClient.close();
+				}
+				catch (IOException e) {}
+			}
+			// Fermeture des Sockets et des buffer
 		System.out.println("FERMETURE");
+		
+		if (dialogAttente.isVisible()) {
+			synchronized(this) {
+				if (!heberge)
+					labelConnexion.setText("Echec de la connexion au Serveur");
+				
+				dialogAttente.repaint();
+				try {
+					this.wait((long) 1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				
+				dialogAttente.dispose();
+				
+				this.controleur.lancerPartie(0);
+				this.interrupt();
+			}
+		}
 		
 	}
 	
@@ -226,23 +293,34 @@ public class Connexion extends Thread {
 	
 	public synchronized boolean envoyer_coup(String str) throws IOException {
 		System.out.println("#COUP\n"+str+"#");
-		writerC.write("COUP\n"
-				+str
-				+"\n");
-		writerC.flush();
+		
+		try {
+			writerC.write("COUP\n"
+					+str
+					+"\n");
+			writerC.flush();
+		}
+		catch (IOException e) {
+			this.erreur();
+		}
 		
 		return true;
 	}
 	
 	public synchronized boolean envoyer_msg(String str) throws IOException {
 		System.out.println("#MSG"+str+"#");
+		try {
 		writerC.write("MSG\n"
 				+str+"\n"
 				+";\n");
 		writerC.flush();
+		}
+		catch (IOException e) {
+			this.erreur();
+		}
 		
-		return true;
-	}
+			return true;
+		}
 	
 	// En cas d'erreur, on resynchronise la partie
 	public synchronized boolean envoyer_partie(String str) throws IOException {
@@ -254,5 +332,31 @@ public class Connexion extends Thread {
 		
 		return true;
 	}
+	
+	public synchronized boolean erreur() {
+		JDialog dialogErreur = new JDialog(controleur.getFenetrePrincipale());
+		dialogErreur.setTitle("Erreur");
+		dialogErreur.add(new JLabel("Connexion coupee"));
+		dialogErreur.setSize(200,100);
+		dialogErreur.setLocationRelativeTo(dialogErreur.getParent());
+		dialogErreur.setLocation(new Point(dialogErreur.getParent().getSize().width/2,dialogErreur.getParent().getSize().height/2));
+		dialogErreur.setVisible(true);
+		
+		try {
+			this.wait((long) 2000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		
+		dialogErreur.dispose();
+		
+		this.controleur.lancerPartie(0);
+		this.interrupt();
+		
+		return true;
+		
+	
+	}
+
 	
 }

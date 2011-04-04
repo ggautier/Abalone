@@ -197,8 +197,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getActionCommand().toString();
 		
-		if (source == "Nouveau")
-		{ FenetreOver fenetreOver = new FenetreOver("Fin de partie", this); }
+		if (source == "Nouveau Jeu")
+		{   controleur.lancerPartie(0); }
 		if (source == "Sauvegarder")
 		{ 
 			//FenetreSauvegarder fenetreSav = new FenetreSauvegarder("Sauvegarder");

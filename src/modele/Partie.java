@@ -93,7 +93,7 @@ public class Partie {
 		else
 			this.jCourant = this.getJ2();
 		
-		if (!Connexion.effectuee && this.getOnlineMode() > 0) {
+		if (this.getOnlineMode() > 0) {
 			if (this.getOnlineMode() == 1) {
 				this.joueurPhysique = this.getJoueur(!this.jCourant.getCamps());
 				this.controleur.setConnexion(new Connexion(this.getControleur(), this.getControleur().getOptions().getIP(), this.getControleur().getOptions().getPortEcoute()));

@@ -199,7 +199,10 @@ public class Joueur {
 	
 	
 	public boolean equals(Joueur j) {
+		if (j != null)
 			return ((this.camps == j.camps) && (this.nom.equals(j.nom)) && (this.humain == j.humain));
+		else
+			return false;
 	}
 	
 }
