@@ -35,14 +35,13 @@ public class FenetreConnexion extends JDialog implements ActionListener{
 	private JComboBox				choixCouleur1, choixCouleur2;
 	private TitledBorder			title;
 	private JTextField 				textFieldIp, textFieldPort1, TextFieldPort2, TextFieldProxy, TextFieldPort3;
-	private JCheckBox				ai1, ai2;
-	protected JLabel				labelTempsCoupJ1, labelTempsGlobalJ1, labelTempsCoupJ2, labelTempsGlobalJ2;
+	protected JLabel				port, ip, proxy, labelTempsCoupJ1, labelTempsGlobalJ1, labelTempsCoupJ2, labelTempsGlobalJ2;
 	
 	public FenetreConnexion(String titre, FenetrePrincipale fenetre)
 	{	
 		this.fenetre = fenetre;
 		dialog = new JDialog();
-		dialog.setSize(300, 200);
+		dialog.setSize(350, 275);
 		dialog.setTitle(titre);
 		dialog.setVisible(true);
 		dialog.setAlwaysOnTop(true);
@@ -80,13 +79,16 @@ public class FenetreConnexion extends JDialog implements ActionListener{
         this.panelBoutons = new JPanel();
         this.panelBoutons.setLayout(new GridBagLayout());
 
+    	ip = new JLabel("IP :");
+    	port = new JLabel("Port :");
+    	proxy = new JLabel("Proxy :");
+        
         /*
          * Placement des éléments dans le panel Connexion
          * 
          */
-    	donnerContrainte(c,0,0,1,1,0,0);
-    	JLabel text = new JLabel("IP :");
-    	sousPanIpPort.add(text,c);
+    	donnerContrainte(c,0,0,1,1,100,100);
+    	sousPanIpPort.add(ip,c);
     	
     	donnerContrainte(c,1,0,1,1,0,0);
 		textFieldIp = new JTextField();
@@ -94,8 +96,7 @@ public class FenetreConnexion extends JDialog implements ActionListener{
 		sousPanIpPort.add(textFieldIp,c);
 				
 		donnerContrainte(c,0,1,1,1,0,0);
-		text.setText("Port :");
-		sousPanIpPort.add(text,c);
+		sousPanIpPort.add(port,c);
 		
 		donnerContrainte(c,1,1,1,1,0,0);
 		textFieldPort1 = new JTextField();
@@ -109,8 +110,7 @@ public class FenetreConnexion extends JDialog implements ActionListener{
          */
 		
 		donnerContrainte(c,0,0,1,1,0,0);
-		text.setText("Port :");
-		sousPanPort.add(text,c);
+		sousPanPort.add(port,c);
 		
 		donnerContrainte(c,1,0,1,1,0,0);
 		TextFieldPort2 = new JTextField();
@@ -123,8 +123,7 @@ public class FenetreConnexion extends JDialog implements ActionListener{
          */
 		
 		donnerContrainte(c,0,0,1,1,0,0);
-    	text.setText("Proxy :");
-    	sousPanProxy.add(text,c);
+    	sousPanProxy.add(proxy,c);
     	
     	donnerContrainte(c,1,0,1,1,0,0);
     	TextFieldProxy = new JTextField();
@@ -132,8 +131,7 @@ public class FenetreConnexion extends JDialog implements ActionListener{
 		sousPanProxy.add(TextFieldProxy,c);
 				
 		donnerContrainte(c,0,1,1,1,0,0);
-		text.setText("Port :");
-		sousPanProxy.add(text,c);
+		sousPanProxy.add(port,c);
 		
 		donnerContrainte(c,1,1,1,1,0,0);
 		TextFieldPort3 = new JTextField();
