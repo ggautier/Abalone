@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import controleur.Controleur;
+
 /**
  * <b>Plateau est la classe representant la totalite des cases du plateau de jeu.</b>
  * <p>
@@ -51,7 +53,10 @@ public class Plateau {
 	 * @see Bille
 	 */
 	public Bille getBille(int ligne, int colonne) {
-		return this.plateau[ligne][colonne];
+		if (!Controleur.isOut(ligne, colonne))
+			return this.plateau[ligne][colonne];
+		else 
+			return null;
 	}
 	
 	/**

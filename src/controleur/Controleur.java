@@ -194,13 +194,15 @@ public class Controleur {
 	 * @see FenetrePrincipale
 	 */
 
+	public Controleur(FenetrePrincipale newFenetre) throws Exception {
+		this.fenetrePrincipale = newFenetre;
+		lancerPartie(0);
+	}
 	
-	public Controleur(FenetrePrincipale newFenetre) throws Exception
-	{
-
+	public void lancerPartie(int mode) {
 		try {
-			this.fenetrePrincipale = newFenetre;
-			this.partie = new Partie(this, "./data/plateau/defaut.plt", 0);
+			
+			this.partie = new Partie(this, "./data/plateau/defaut.plt", mode);
 			this.selectionnees = new ArrayList<Bille>(3);
 			this.visees = new ArrayList<ArrayList<Bille>>(2);
 			this.coups = new ArrayList<Integer>(6);
@@ -210,7 +212,6 @@ public class Controleur {
 		
 		catch (Exception e) {	
 		}
-
 	}
 	
 	/**
@@ -602,7 +603,7 @@ public class Controleur {
 	}
 	
 	// Determine si les coordonnees en entree sont hors-plateau
-	public boolean isOut(int i, int j) 
+	public static boolean isOut(int i, int j) 
 	{
 		return  (
 				 (i==0) && ( (j > 4)  ) ||

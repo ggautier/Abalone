@@ -279,7 +279,11 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		}
 		if (source == "Rejoindre une partie")
 		{ 
-			FenetreConnexion fenetreConnex = new FenetreConnexion("Connexion", this); 
+			FenetreRejoindre fenetreRejoindre = new FenetreRejoindre("Connexion", this); 
+		}
+		if (source == "Heberger une partie")
+		{ 
+			FenetreHeberger fenetreHeberger = new FenetreHeberger("Connexion", this); 
 		}
 		if (source == "Quitter")
 		{ System.exit(0); }
