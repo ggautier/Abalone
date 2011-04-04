@@ -61,6 +61,16 @@ public class Connexion extends Thread {
 		
 		this.port = portCible;
 		this.statut = NOT_CONNECTED;
+		
+		if (controleur.getOptions().isuProxy()) {
+			System.setProperty("http.proxyHost", controleur.getOptions().getProxy());
+			System.setProperty("http.proxyPort", controleur.getOptions().getPortProxy()+"");
+		}
+		else {
+			System.setProperty("http.proxyHost", "");
+			System.setProperty("http.proxyPort", "");
+		}
+		
 	}
 	
 	public void run() {

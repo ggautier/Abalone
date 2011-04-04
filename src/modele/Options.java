@@ -4,9 +4,10 @@ import java.awt.Color;
 
 public class Options {
 
-	public String	nomJ1, nomJ2, IP;
-	public int	    portEcoute;
+	public String	nomJ1, nomJ2, IP, proxy;
+	public int	    portEcoute, portProxy;
 	public boolean	IA;
+	public boolean 	uProxy;
 	public Color	couleurJ1, couleurJ2;
 	
 	public Options() {
@@ -15,6 +16,9 @@ public class Options {
 		this.IA = false;
 		this.IP = "localhost";
 		this.portEcoute = 300;
+		this.uProxy = false;
+		this.proxy = "cache.cites-u.univ-nantes.fr";
+		this.portProxy = 3128;
 	}
 
 	public String getNomJ1() {
@@ -71,6 +75,30 @@ public class Options {
 
 	public void setCouleurJ2(Color couleurJ2) {
 		this.couleurJ2 = couleurJ2;
+	}
+
+	public String getProxy() {
+		return proxy;
+	}
+
+	public void setProxy(String proxy) {
+		this.proxy = proxy;
+	}
+
+	public int getPortProxy() {
+		return portProxy;
+	}
+
+	public void setPortProxy(int portProxy) {
+		this.portProxy = portProxy;
+	}
+
+	public boolean isuProxy() {
+		return uProxy;
+	}
+
+	public void setuProxy(boolean uProxy) {
+		this.uProxy = uProxy;
 	}
 	
 	

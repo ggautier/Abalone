@@ -35,6 +35,7 @@ public class FenetreRejoindre extends JDialog implements ActionListener{
 	private TitledBorder			title;
 	private JTextField 				textFieldIp, textFieldPort, textFieldProxy, textFieldPortProxy;
 	protected JLabel				port, ip, proxy, labelTempsCoupJ1, labelTempsGlobalJ1, labelTempsCoupJ2, labelTempsGlobalJ2;
+	protected JCheckBox				checkProxy;
 	
 	public FenetreRejoindre(String titre, FenetrePrincipale fenetre) {	
 		this.fenetre = fenetre;
@@ -104,24 +105,30 @@ public class FenetreRejoindre extends JDialog implements ActionListener{
          * Placement des éléments dans le panel Connexion Proxy
          * 
          */
+		donnerContrainte(c,0,0,2,1,0,0);
+		checkProxy = new JCheckBox("Utiliser un serveur Proxy");
+		checkProxy.addActionListener(this);
+		sousPanProxy.add(checkProxy, c);
 		
-		donnerContrainte(c,0,0,1,1,0,0);
-    	sousPanProxy.add(new JLabel("Proxy : "),c);
+		donnerContrainte(c,0,1,1,1,0,0);
+    	sousPanProxy.add(new JLabel("Proxy : "), c);
     	
-    	donnerContrainte(c,1,0,1,1,0,0);
+    	donnerContrainte(c,1,1,1,1,0,0);
     	textFieldProxy = new JTextField();
     	textFieldProxy.setColumns(15);
+    	textFieldProxy.setText(fenetre.getControleur().getOptions().getProxy());
 		sousPanProxy.add(textFieldProxy,c);
 				
-		donnerContrainte(c,0,1,1,1,0,0);
-		sousPanProxy.add(new JLabel("Port : "),c);
+		donnerContrainte(c,0,2,1,1,0,0);
+		sousPanProxy.add(new JLabel("Port : "), c);
 		
-		donnerContrainte(c,1,1,1,1,0,0);
+		donnerContrainte(c,1,2,1,1,0,0);
 		textFieldPortProxy = new JTextField();
 		textFieldPortProxy.setColumns(10);
-		sousPanProxy.add(textFieldPortProxy,c);
+		textFieldPortProxy.setText(fenetre.getControleur().getOptions().getPortProxy()+"");
+		sousPanProxy.add(textFieldPortProxy, c);
 		
-	     /*
+		/*
          * Placement des éléments dans le panel Boutons
          * 
          */
@@ -149,7 +156,12 @@ public class FenetreRejoindre extends JDialog implements ActionListener{
 		donnerContrainte(c,0,3,1,1,0,0);
 		panel.add(panelBoutons,c);
 
+		// Selectionne la case du Proxy si ce dernier est demande par l'user.
+		checkProxy.setSelected(fenetre.getControleur().getOptions().isuProxy());
+		textFieldProxy.setEnabled(checkProxy.isSelected());
+		textFieldPortProxy.setEnabled(checkProxy.isSelected());
 
+		
 		return panel;
 		
 	}	
@@ -172,13 +184,21 @@ public class FenetreRejoindre extends JDialog implements ActionListener{
 		
 		if(source == "OK") {
 			fenetre.getControleur().getOptions().setIP(textFieldIp.getText());
-			fenetre.getControleur().getOptions().setPortEcoute(Integer.decode(textFieldPort.getText()));
+			fenetre.getControleur().getOptions().setPortEcoute(Integer.parseInt(textFieldPort.getText()));
+			fenetre.getControleur().getOptions().setuProxy(checkProxy.isSelected());
+			fenetre.getControleur().getOptions().setProxy(textFieldProxy.getText());
+			fenetre.getControleur().getOptions().setPortProxy(Integer.parseInt(textFieldPortProxy.getText()));
 			fenetre.getControleur().lancerPartie(1);
 			this.dialog.dispose();
 		}
 		if(source == "Annuler") {
 			this.dialog.dispose();
 		}
+		if(source == "Utiliser un serveur Proxy") {
+			textFieldProxy.setEnabled(checkProxy.isSelected());
+			textFieldPortProxy.setEnabled(checkProxy.isSelected());
+		}
+		
 	}
 	
 	
