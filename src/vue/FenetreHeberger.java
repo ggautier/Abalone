@@ -33,8 +33,8 @@ public class FenetreHeberger extends JDialog implements ActionListener{
 	private JDialog					dialog;
 	private JPanel 					panel, sousPanIpPort, sousPanPort , sousPanProxy, panelBoutons;
 	private TitledBorder			title;
-	private JTextField 				textFieldIp, textFieldPort, textFieldProxy, textFieldPortProxy;
-	protected JLabel				port, ip, proxy, labelTempsCoupJ1, labelTempsGlobalJ1, labelTempsCoupJ2, labelTempsGlobalJ2;
+	private JTextField 				textFieldPort;
+	protected JLabel				port;
 	
 	public FenetreHeberger(String titre, FenetrePrincipale fenetre) {	
 		this.fenetre = fenetre;
@@ -67,11 +67,12 @@ public class FenetreHeberger extends JDialog implements ActionListener{
 
 				
 		donnerContrainte(c,0,0,1,1,0,0);
-		sousPanIpPort.add(new JLabel("Port d'ecoute : "),c);
+		sousPanIpPort.add(new JLabel("Port d'ecoute : "), c);
 		
 		donnerContrainte(c,1,0,1,1,0,0);
 		textFieldPort = new JTextField();
 		textFieldPort.setColumns(10);
+		textFieldPort.setText(fenetre.getControleur().getOptions().getPortEcoute()+"");
 		sousPanIpPort.add(textFieldPort,c);
 		
 		
@@ -121,6 +122,9 @@ public class FenetreHeberger extends JDialog implements ActionListener{
 		Object source = e.getActionCommand();
 		
 		if(source == "OK") {
+			fenetre.getControleur().getOptions().setIP("localhost");
+			fenetre.getControleur().getOptions().setPortEcoute(Integer.decode(textFieldPort.getText()));
+			
 			fenetre.getControleur().lancerPartie(2);
 			this.dialog.dispose();
 		}

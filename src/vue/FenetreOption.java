@@ -36,8 +36,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 	private JComboBox				choixCouleur1, choixCouleur2;
 	private TitledBorder			title;
 	private JTextField 				textFieldJ1, textFieldJ2;
-	private JCheckBox				ai1, ai2;
-	protected JLabel				labelTempsCoupJ1, labelTempsGlobalJ1, labelTempsCoupJ2, labelTempsGlobalJ2;
+	private JCheckBox				ai;
 	
 	public FenetreOption(String titre, FenetrePrincipale fenetre)
 	{	
@@ -101,17 +100,15 @@ public class FenetreOption extends JDialog implements ActionListener{
     	donnerContrainte(c,0,0,1,1,0,0);
 		textFieldJ1 = new JTextField();
 		textFieldJ1.setColumns(10);
-		textFieldJ1.setText(this.fenetre.getControleur().getPartie().getJ1().getNom());
+		textFieldJ1.setText(this.fenetre.getControleur().getOptions().getNomJ1());
 		sousPanJ1.add(textFieldJ1,c);
 				
 		donnerContrainte(c,0,1,1,1,0,0);
 		sousPanJ1.add(choixCouleur1,c);
 		
-		ai1 = new JCheckBox("IA", !this.fenetre.getControleur().getPartie().getJ1().isHumain());
-		ai1.setEnabled(false);
-		ai1.addActionListener(this);
-		donnerContrainte(c,0,2,1,1,0,0);
-		sousPanJ1.add(ai1,c);
+		ai = new JCheckBox("Jouer contre l'ordinateur", !this.fenetre.getControleur().getPartie().getJ1().isHumain());
+		ai.addActionListener(this);
+		ai.setSelected(this.fenetre.getControleur().getOptions().isIA());
 		
         /*
          * Placement des éléments dans le panel Joueur 2
@@ -120,16 +117,13 @@ public class FenetreOption extends JDialog implements ActionListener{
 		donnerContrainte(c,0,0,1,1,0,0);
 		textFieldJ2 = new JTextField();
 		textFieldJ2.setColumns(10);
-		textFieldJ2.setText(this.fenetre.getControleur().getPartie().getJ2().getNom());
+		textFieldJ2.setText(this.fenetre.getControleur().getOptions().getNomJ2());
 		sousPanJ2.add(textFieldJ2,c);
 		
 		donnerContrainte(c,0,1,1,1,0,0);
 		sousPanJ2.add(choixCouleur2,c);
 		
-		ai2 = new JCheckBox("IA", !this.fenetre.getControleur().getPartie().getJ2().isHumain());
-		ai2.addActionListener(this);
-		donnerContrainte(c,0,2,1,1,0,0);
-		sousPanJ2.add(ai2,c);
+
 		
 	     /*
          * Placement des éléments dans le panel Boutons
@@ -155,6 +149,8 @@ public class FenetreOption extends JDialog implements ActionListener{
 		donnerContrainte(c,1,0,1,1,100,20);
 		panel.add(sousPanJ2,c);
 		donnerContrainte(c,0,1,1,1,100,20);
+		panel.add(ai,c);
+		donnerContrainte(c,0,2,1,1,100,20);
 		panel.add(panelBoutons,c);
 
 
@@ -194,6 +190,7 @@ public class FenetreOption extends JDialog implements ActionListener{
 			String couleurJ2 = new String(this.choixCouleur2.getSelectedItem().toString());	
 			
 			// On récupère les noms enregistré pour modifier le modèles
+			/*
 			String nomJ1 = new String(this.textFieldJ1.getText());
 			String nomJ2 = new String(this.textFieldJ2.getText());
 
@@ -201,6 +198,12 @@ public class FenetreOption extends JDialog implements ActionListener{
 			this.fenetre.getCommande().getNomJoueur1().setText(nomJ1);
 			this.fenetre.getControleur().getPartie().getJ2().setNom(nomJ2);
 			this.fenetre.getCommande().getNomJoueur2().setText(nomJ2);
+			*/
+			
+			this.fenetre.getControleur().getOptions().setNomJ1(this.textFieldJ1.getText());
+			this.fenetre.getControleur().getOptions().setNomJ2(this.textFieldJ2.getText());
+			
+			this.fenetre.getControleur().getOptions().setIA(getAi());
 			
 			this.dialog.dispose();
 		}
@@ -212,55 +215,12 @@ public class FenetreOption extends JDialog implements ActionListener{
 	}
 
 
-	public JCheckBox getAi1() {
-		return ai1;
+	public boolean getAi() {
+		return ai.isSelected();
 	}
 
 
-	public JCheckBox getAi2() {
-		return ai2;
-	}
 
-
-	public String getLabelTempsCoupJ1() {
-		return labelTempsCoupJ1.getText();
-	}
-
-
-	public void setLabelTempsCoupJ1(String labelTempsCoupJ1) {
-		this.labelTempsCoupJ1.setText(labelTempsCoupJ1);
-	}
-
-
-	public String getLabelTempsGlobalJ1() {
-		return labelTempsGlobalJ1.getText();
-	}
-
-
-	public void setLabelTempsGlobalJ1(String labelTempsGlobalJ1) {
-		this.labelTempsGlobalJ1.setText(labelTempsGlobalJ1);
-		
-	}
-
-
-	public String getLabelTempsCoupJ2() {
-		return labelTempsCoupJ2.getText();
-	}
-
-
-	public void setLabelTempsCoupJ2(String labelTempsCoupJ2) {
-		this.labelTempsCoupJ2.setText(labelTempsCoupJ2);
-	}
-
-
-	public String getLabelTempsGlobalJ2() {
-		return labelTempsGlobalJ2.getText();
-	}
-
-
-	public void setLabelTempsGlobalJ2(String labelTempsGlobalJ2) {
-		this.labelTempsGlobalJ2.setText(labelTempsGlobalJ2);
-	}
 	
 	
 }

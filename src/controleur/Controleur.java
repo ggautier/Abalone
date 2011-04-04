@@ -19,6 +19,7 @@ import vue.FenetrePrincipale;
 import modele.Bille;
 import modele.Coup;
 import modele.Joueur;
+import modele.Options;
 import modele.Partie;
 import modele.Plateau;
 
@@ -184,6 +185,8 @@ public class Controleur {
 	
 	protected Connexion connexion;
 	
+	protected Options options;
+	
 	/**
 	 * Constructeur de la classe Controleur<br>
 	 * 
@@ -196,6 +199,7 @@ public class Controleur {
 
 	public Controleur(FenetrePrincipale newFenetre) throws Exception {
 		this.fenetrePrincipale = newFenetre;
+		this.options = new Options();
 		lancerPartie(0);
 	}
 	
@@ -1429,6 +1433,10 @@ public class Controleur {
 
 	public void setConnexion(Connexion connexion) {
 		this.connexion = connexion;
+	}
+	
+	public Options getOptions() {
+		return options;
 	}
 	
 	/*

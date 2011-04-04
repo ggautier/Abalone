@@ -40,6 +40,10 @@ public class FenetreCommande extends JPanel implements ActionListener {
 	 * 	Boutons pour les actions
 	 */
 	private JButton			previous, unselect, hint;
+	
+	protected JLabel		labelTempsCoupJ1, labelTempsGlobalJ1, labelTempsCoupJ2, labelTempsGlobalJ2;
+
+	
 	/**
 	 *  fenetre source	
 	 * 
@@ -212,5 +216,45 @@ public class FenetreCommande extends JPanel implements ActionListener {
 		this.previous = previous;
 	}
 
+
+	public String getLabelTempsCoupJ1() {
+		return labelTempsCoupJ1.getText();
+	}
+
+
+	public void setLabelTempsCoupJ1(String labelTempsCoupJ1) {
+		this.labelTempsCoupJ1.setText(labelTempsCoupJ1);
+	}
+
+
+	public String getLabelTempsGlobalJ1() {
+		return labelTempsGlobalJ1.getText();
+	}
+
+
+	public void setLabelTempsGlobalJ1(String labelTempsGlobalJ1) {
+		this.labelTempsGlobalJ1.setText(labelTempsGlobalJ1);
+		
+	}
+
+
+	public String getLabelTempsCoupJ2() {
+		return labelTempsCoupJ2.getText();
+	}
+
+
+	public void setLabelTempsCoupJ2(String labelTempsCoupJ2) {
+		this.labelTempsCoupJ2.setText(labelTempsCoupJ2);
+	}
+
+
+	public String getLabelTempsGlobalJ2() {
+		return labelTempsGlobalJ2.getText();
+	}
+
+
+	public void setLabelTempsGlobalJ2(String labelTempsGlobalJ2) {
+		this.labelTempsGlobalJ2.setText(labelTempsGlobalJ2);
+	}
 	
 }

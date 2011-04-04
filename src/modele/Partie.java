@@ -75,8 +75,8 @@ public class Partie {
 		this.actions = new Stack<String>();
 		this.online = online;
 		
-		this.setJ1(new Joueur("J1", false, true));
-		this.setJ2(new Joueur("J2", true, true));
+		this.setJ1(new Joueur(controleur.getOptions().getNomJ1(), false, true));
+		this.setJ2(new Joueur(controleur.getOptions().getNomJ2(), true, true));
 		
 		try {
 			this.chargerParFichier(fichierConfig);
@@ -96,12 +96,12 @@ public class Partie {
 		if (!Connexion.effectuee && this.getOnlineMode() > 0) {
 			if (this.getOnlineMode() == 1) {
 				this.joueurPhysique = this.getJoueur(!this.jCourant.getCamps());
-				this.controleur.setConnexion(new Connexion(this.getControleur(), "127.0.0.1", 300));
+				this.controleur.setConnexion(new Connexion(this.getControleur(), this.getControleur().getOptions().getIP(), this.getControleur().getOptions().getPortEcoute()));
 				
 			}
 			else if (this.getOnlineMode() == 2) {
 				this.joueurPhysique = jCourant;
-				this.controleur.setConnexion(new Connexion(this.getControleur(), "", 300));
+				this.controleur.setConnexion(new Connexion(this.getControleur(), "", this.getControleur().getOptions().getPortEcoute()));
 			}
 			
 			this.controleur.getConnexion().start();

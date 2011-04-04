@@ -87,6 +87,7 @@ public class FenetreRejoindre extends JDialog implements ActionListener{
     	donnerContrainte(c,1,0,1,1,0,0);
 		textFieldIp = new JTextField();
 		textFieldIp.setColumns(15);
+		textFieldIp.setText(fenetre.getControleur().getOptions().getIP());
 		sousPanIpPort.add(textFieldIp,c);
 				
 		donnerContrainte(c,0,1,1,1,0,0);
@@ -95,6 +96,7 @@ public class FenetreRejoindre extends JDialog implements ActionListener{
 		donnerContrainte(c,1,1,1,1,0,0);
 		textFieldPort = new JTextField();
 		textFieldPort.setColumns(10);
+		textFieldPort.setText(fenetre.getControleur().getOptions().getPortEcoute()+"");
 		sousPanIpPort.add(textFieldPort,c);
 		
 		
@@ -169,6 +171,8 @@ public class FenetreRejoindre extends JDialog implements ActionListener{
 		Object source = e.getActionCommand();
 		
 		if(source == "OK") {
+			fenetre.getControleur().getOptions().setIP(textFieldIp.getText());
+			fenetre.getControleur().getOptions().setPortEcoute(Integer.decode(textFieldPort.getText()));
 			fenetre.getControleur().lancerPartie(1);
 			this.dialog.dispose();
 		}
