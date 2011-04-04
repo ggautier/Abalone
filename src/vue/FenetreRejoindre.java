@@ -169,7 +169,7 @@ public class FenetreRejoindre extends JDialog implements ActionListener{
 		Object source = e.getActionCommand();
 		
 		if(source == "OK") {
-			
+			fenetre.getControleur().lancerPartie(1);
 			this.dialog.dispose();
 		}
 		if(source == "Annuler") {

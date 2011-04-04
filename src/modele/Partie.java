@@ -93,7 +93,7 @@ public class Partie {
 		else
 			this.jCourant = this.getJ2();
 		
-		if (!Connexion.effectuee) {
+		if (!Connexion.effectuee && this.getOnlineMode() > 0) {
 			if (this.getOnlineMode() == 1) {
 				this.joueurPhysique = this.getJoueur(!this.jCourant.getCamps());
 				this.controleur.setConnexion(new Connexion(this.getControleur(), "127.0.0.1", 300));
@@ -103,14 +103,10 @@ public class Partie {
 				this.joueurPhysique = jCourant;
 				this.controleur.setConnexion(new Connexion(this.getControleur(), "", 300));
 			}
+			
+			this.controleur.getConnexion().start();
+
 		}
-		/*
-		if (this.getOnlineMode() > 0)
-			this.getControleur().getCommunication().etablir_contact();
-		*/
-		
-
-
 		
 	}
 
