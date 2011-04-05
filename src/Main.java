@@ -10,6 +10,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Vector;
 
+import controleur.Superviseur;
+
 import vue.FenetrePrincipale;
 
 import modele.Bille;
@@ -58,7 +60,7 @@ public class Main {
 		if (f.getControleur().getPartie().getOnlineMode() > 0)
 			f.getControleur().getConnexion().run();
 
-        
+        Superviseur superviseur = new Superviseur(f.getControleur());
         //f.getControleur().getConnexion.test();
         /*
         double note = 

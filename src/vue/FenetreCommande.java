@@ -85,6 +85,9 @@ public class FenetreCommande extends JPanel implements ActionListener {
         nomJoueur1 = new JLabel(this.fenetre.getControleur().getPartie().getJ1().getNom());
         nomJoueur2 = new JLabel(this.fenetre.getControleur().getPartie().getJ2().getNom());
         
+        labelTempsGlobalJ1 = new JLabel(this.fenetre.getControleur().getPartie().getJ1().getTempsRestantGlobal());
+        labelTempsGlobalJ2 = new JLabel(this.fenetre.getControleur().getPartie().getJ2().getTempsRestantGlobal());
+        
         previous = new JButton("Cancel");
         previous.addActionListener(this);
                 
@@ -97,16 +100,20 @@ public class FenetreCommande extends JPanel implements ActionListener {
 
         donnerContrainte(c,0,0,2,1,100,100);
         this.joueur1.add(nomJoueur1,c);
-        donnerContrainte(c,0,1,1,1,100,100);
+        donnerContrainte(c,0,1,2,1,100,100);
+        this.joueur1.add(labelTempsGlobalJ1,c);
+        donnerContrainte(c,0,2,1,1,100,100);
         this.joueur1.add(new JLabel("Score : "),c);
-        donnerContrainte(c,1,1,1,1,100,100);
+        donnerContrainte(c,1,2,1,1,100,100);
         this.joueur1.add(billeJoueur1,c);
         
         donnerContrainte(c,0,0,2,1,100,100);
         this.joueur2.add(nomJoueur2,c);
-        donnerContrainte(c,0,1,1,1,100,100);
+        donnerContrainte(c,0,1,2,1,100,100);
+        this.joueur2.add(labelTempsGlobalJ2,c);
+        donnerContrainte(c,0,2,1,1,100,100);
         this.joueur2.add(new JLabel("Score : "),c);
-        donnerContrainte(c,1,1,1,1,100,100);
+        donnerContrainte(c,1,2,1,1,100,100);
         this.joueur2.add(billeJoueur2,c);
         
         donnerContrainte(c,0,0,1,1,0,0);
@@ -133,8 +140,11 @@ public class FenetreCommande extends JPanel implements ActionListener {
 	 */
 	public void repaint() {
 		if (fenetre != null) {
-		billeJoueur1.setText(Integer.toString(fenetre.getControleur().getPartie().getJ1().getScore()));
-		billeJoueur2.setText(Integer.toString(fenetre.getControleur().getPartie().getJ2().getScore()));
+			billeJoueur1.setText(Integer.toString(fenetre.getControleur().getPartie().getJ1().getScore()));
+			billeJoueur2.setText(Integer.toString(fenetre.getControleur().getPartie().getJ2().getScore()));
+			
+			labelTempsGlobalJ1.setText(this.fenetre.getControleur().getPartie().getJ1().getTempsRestantGlobal());
+			labelTempsGlobalJ2.setText(this.fenetre.getControleur().getPartie().getJ2().getTempsRestantGlobal());
 		}
 	}
 	

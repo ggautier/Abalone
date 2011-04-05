@@ -78,6 +78,8 @@ public class Joueur {
 		this.setScore(0);
 		
 		this.tempsRestantGlobal = new CompteRebours(20,00);
+		this.tempsRestantGlobal.start();
+		this.tempsRestantGlobal.demarrer();
 
 	}
 	
@@ -204,5 +206,22 @@ public class Joueur {
 		else
 			return false;
 	}
+
+	public String getTempsRestantCoup() {
+		return tempsRestantCoup.toString();
+	}
+
+	public void setTempsRestantCoup(CompteRebours tempsRestantCoup) {
+		this.tempsRestantCoup = tempsRestantCoup;
+	}
+
+	public String getTempsRestantGlobal() {
+		return tempsRestantGlobal.toString();
+	}
+
+	public void setTempsRestantGlobal(CompteRebours tempsRestantGlobal) {
+		this.tempsRestantGlobal = tempsRestantGlobal;
+	}
+	
 	
 }
