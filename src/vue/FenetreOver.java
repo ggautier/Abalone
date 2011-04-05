@@ -97,18 +97,15 @@ public class FenetreOver extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		
 		Object source = e.getSource();
-		
-		if (source.equals(this.playAgain))
-			try {
-				this.fenetre.getControleur().getPartie().chargerParFichier("./data/plateau/defaut.plt");
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		else if (source.equals(this.quit)) 
-			this.fenetre.dispose(); // Un truc pour quitter ici.
-		
 		this.fenetre.rafraichir();
-		this.dispose();
+
+		if (source.equals(this.playAgain)) {
+			this.fenetre.getControleur().lancerPartie(this.fenetre.getControleur().getPartie().getOnlineMode());
+			this.dispose();
+		}
+		else if (source.equals(this.quit)) 
+			System.exit(0); // Un truc pour quitter ici.
+		
 
 		
 	}

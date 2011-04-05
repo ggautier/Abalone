@@ -1336,11 +1336,18 @@ public class Controleur {
 
 		this.getPartie().quickSave();
 		
-		if (this.partie.getJCourant().equals(partie.getJ1()))
+		this.getPartie().getJCourant().getTempsRestantGlobal().stopper();
+		this.getPartie().getJCourant().getTempsRestantCoup().stopper();
+		this.getPartie().getJCourant().getTempsRestantCoup().reset(2, 0);
+		
+		if (this.partie.getJCourant().equals(partie.getJ1())) 
 			this.getPartie().setJCourant(partie.getJ2());
 		else 
 			this.getPartie().setJCourant(partie.getJ1());
+			
 		
+		this.getPartie().getJCourant().getTempsRestantGlobal().demarrer();
+		this.getPartie().getJCourant().getTempsRestantCoup().demarrer();
 		
 		System.out.println("-> Au tour de "+this.getPartie().getJCourant().getNom()+" ("
 		///		+(this.getFenetrePrincipale() == null ? "VIRTUEL" : "REEL") +")"
@@ -1356,16 +1363,6 @@ public class Controleur {
 		
 		System.out.println("Refresh");
 		
-		/*
-		if (this.getPartie().getOnlineMode() > 0)
-			if (!this.getPartie().aMonTour()) {
-				System.out.println("Attente d'un coup");
-				getPartie().getControleur().getCommunication().attendre_coup();
-
-			}
-		*/
-		
-
 	}
 	
 	// Conversion de l'action en cours en un String (pour le mode reseau)

@@ -85,8 +85,11 @@ public class FenetreCommande extends JPanel implements ActionListener {
         nomJoueur1 = new JLabel(this.fenetre.getControleur().getPartie().getJ1().getNom());
         nomJoueur2 = new JLabel(this.fenetre.getControleur().getPartie().getJ2().getNom());
         
-        labelTempsGlobalJ1 = new JLabel(this.fenetre.getControleur().getPartie().getJ1().getTempsRestantGlobal());
-        labelTempsGlobalJ2 = new JLabel(this.fenetre.getControleur().getPartie().getJ2().getTempsRestantGlobal());
+        labelTempsGlobalJ1 = new JLabel(this.fenetre.getControleur().getPartie().getJ1().getTempsRestantGlobal().toString());
+        labelTempsGlobalJ2 = new JLabel(this.fenetre.getControleur().getPartie().getJ2().getTempsRestantGlobal().toString());
+        
+        labelTempsCoupJ1 = new JLabel(this.fenetre.getControleur().getPartie().getJ1().getTempsRestantCoup().toString());
+        labelTempsCoupJ2 = new JLabel(this.fenetre.getControleur().getPartie().getJ2().getTempsRestantCoup().toString());
         
         previous = new JButton("Cancel");
         previous.addActionListener(this);
@@ -98,19 +101,23 @@ public class FenetreCommande extends JPanel implements ActionListener {
         hint.addActionListener(this);
 
 
-        donnerContrainte(c,0,0,2,1,100,100);
+        donnerContrainte(c,0,0,1,1,100,100);
         this.joueur1.add(nomJoueur1,c);
-        donnerContrainte(c,0,1,2,1,100,100);
+        donnerContrainte(c,1,0,1,1,100,100);
         this.joueur1.add(labelTempsGlobalJ1,c);
+        donnerContrainte(c,0,1,2,1,100,100);
+        this.joueur1.add(labelTempsCoupJ1,c);
         donnerContrainte(c,0,2,1,1,100,100);
         this.joueur1.add(new JLabel("Score : "),c);
         donnerContrainte(c,1,2,1,1,100,100);
         this.joueur1.add(billeJoueur1,c);
         
-        donnerContrainte(c,0,0,2,1,100,100);
+        donnerContrainte(c,0,0,1,1,100,100);
         this.joueur2.add(nomJoueur2,c);
-        donnerContrainte(c,0,1,2,1,100,100);
+        donnerContrainte(c,1,0,1,1,100,100);
         this.joueur2.add(labelTempsGlobalJ2,c);
+        donnerContrainte(c,0,1,2,1,100,100);
+        this.joueur2.add(labelTempsCoupJ2,c);
         donnerContrainte(c,0,2,1,1,100,100);
         this.joueur2.add(new JLabel("Score : "),c);
         donnerContrainte(c,1,2,1,1,100,100);
@@ -143,8 +150,11 @@ public class FenetreCommande extends JPanel implements ActionListener {
 			billeJoueur1.setText(Integer.toString(fenetre.getControleur().getPartie().getJ1().getScore()));
 			billeJoueur2.setText(Integer.toString(fenetre.getControleur().getPartie().getJ2().getScore()));
 			
-			labelTempsGlobalJ1.setText(this.fenetre.getControleur().getPartie().getJ1().getTempsRestantGlobal());
-			labelTempsGlobalJ2.setText(this.fenetre.getControleur().getPartie().getJ2().getTempsRestantGlobal());
+			labelTempsGlobalJ1.setText(this.fenetre.getControleur().getPartie().getJ1().getTempsRestantGlobal().toString());
+			labelTempsGlobalJ2.setText(this.fenetre.getControleur().getPartie().getJ2().getTempsRestantGlobal().toString());
+			
+	        labelTempsCoupJ1.setText(this.fenetre.getControleur().getPartie().getJ1().getTempsRestantCoup().toString());
+	        labelTempsCoupJ2.setText(this.fenetre.getControleur().getPartie().getJ2().getTempsRestantCoup().toString());
 		}
 	}
 	

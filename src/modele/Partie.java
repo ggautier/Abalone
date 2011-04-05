@@ -93,6 +93,9 @@ public class Partie {
 		else
 			this.jCourant = this.getJ2();
 		
+		this.jCourant.getTempsRestantGlobal().demarrer();
+		this.jCourant.getTempsRestantCoup().demarrer();
+		
 		if (this.getOnlineMode() > 0) {
 			if (this.getOnlineMode() == 1) {
 				this.joueurPhysique = this.getJoueur(!this.jCourant.getCamps());
@@ -435,12 +438,15 @@ public class Partie {
 		return online;
 	}
 
-	public Joueur getjCourant() {
-		return jCourant;
-	}
-
 	public void setjCourant(Joueur jCourant) {
 		this.jCourant = jCourant;
+	}
+	
+	public Joueur getAdversaire(Joueur j) {
+		if (j.equals(j1))
+			return j2;
+		else
+			return j1;
 	}
 	
 	public Joueur getJoueurPhysique() {

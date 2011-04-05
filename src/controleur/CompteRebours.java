@@ -11,7 +11,6 @@ public class CompteRebours extends Thread {
 	public CompteRebours(int minutes, int secondes) {
 		this.tempsRestant = minutes*60*1000 + secondes*1000;
 		this.actif = false;
-
 	}
 	
 	public void run() {
@@ -38,7 +37,14 @@ public class CompteRebours extends Thread {
 		this.tempsDepart = System.currentTimeMillis();
 
 		this.actif = true;
-		
+	}
+	
+	public void reset(int minutes, int secondes) {
+		this.tempsRestant = minutes*60*1000 + secondes*1000;
+	}
+	
+	public boolean timeout() {
+		return (tempsRestant < 0);
 	}
 
 	public String toString() {
