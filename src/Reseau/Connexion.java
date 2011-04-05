@@ -19,6 +19,7 @@ import java.util.concurrent.TimeoutException;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
+import controleur.CompteRebours;
 import controleur.Controleur;
 
 public class Connexion extends Thread {
@@ -40,6 +41,7 @@ public class Connexion extends Thread {
 	
 	protected String buffer;
 		
+	protected CompteRebours delaiContact;
 	
 	protected BufferedWriter writerC = null;
 	
@@ -59,6 +61,7 @@ public class Connexion extends Thread {
 		Connexion.effectuee = true;
 		this.controleur = c;
 		this.IPcible = ip;
+		this.delaiContact = new CompteRebours(0,10);
 		if (this.IPcible.equals(""))
 			this.heberge = true;
 		else
@@ -149,7 +152,8 @@ public class Connexion extends Thread {
 		
 		String ligne;
 		String strEnvoi = "";
-		if (readerC != null)
+		if (readerC != null) {
+			
 			try {
 				// Tant que le Socket est ouvert ...
 				while((ligne = readerC.readLine()) != null) {
@@ -181,7 +185,8 @@ public class Connexion extends Thread {
 								writerC.write("OK_CONNECT\n"); // .. On informe le client qu'on a bien recu et qu'on accepte
 								writerC.flush();
 								this.statut = CONNECTED;
-	
+								
+								delaiContact.demarrer();
 						
 								System.out.println("H : Reception d'une requete");
 								System.out.println("H : IP acceptee : "+this.IPcible+" - "+this.port);
@@ -201,7 +206,10 @@ public class Connexion extends Thread {
 							socketClient.getOutputStream().write((strEnvoi).getBytes());
 	
 					}
-					
+				
+					if (delaiContact.timeout()) {
+						erreur();
+					}
 				}
 			}
 			catch (SocketTimeoutException e) {
@@ -242,6 +250,7 @@ public class Connexion extends Thread {
 				this.interrupt();
 			}
 		}
+		}
 		
 	}
 	
@@ -249,6 +258,8 @@ public class Connexion extends Thread {
 		String retourStr = "";
 		System.out.println("Recu :"+ligne);
 		
+		if (ligne.equals("KEEPALIVE"))
+			delaiContact.reset(0, 10);
 		if (ligne.equals("COUP")) {
 			System.out.println("Reception d'un coup");
 			buffer = "";
@@ -310,10 +321,22 @@ public class Connexion extends Thread {
 	public synchronized boolean envoyer_msg(String str) throws IOException {
 		System.out.println("#MSG"+str+"#");
 		try {
-		writerC.write("MSG\n"
-				+str+"\n"
-				+";\n");
-		writerC.flush();
+			writerC.write("MSG\n"
+					+str+"\n"
+					+";\n");
+			writerC.flush();
+		}
+		catch (IOException e) {
+			this.erreur();
+		}
+		
+			return true;
+		}
+	
+	public synchronized boolean envoyer_keepalive() throws IOException {
+		try {
+			writerC.write("KEEPALIVE\n");
+			writerC.flush();
 		}
 		catch (IOException e) {
 			this.erreur();

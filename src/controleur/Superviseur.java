@@ -1,5 +1,7 @@
 package controleur;
 
+import java.io.IOException;
+
 import vue.FenetreOver;
 
 // Le superviseur est une partie de notre controleur : Il s'agit d'un Thread charge de surveiller
@@ -27,6 +29,14 @@ public class Superviseur extends Thread {
 			}
 			
 			this.controleur.getFenetrePrincipale().rafraichir();
+			
+			if (this.controleur.getPartie().getOnlineMode() == 1)
+				try {
+					this.controleur.getConnexion().envoyer_keepalive();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			
 			if (controleur.partie.getJCourant().getTempsRestantCoup().timeout() 
 				|| controleur.partie.getJCourant().getTempsRestantGlobal().timeout()) {
 				

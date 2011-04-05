@@ -104,9 +104,8 @@ public class FenetreOver extends JDialog implements ActionListener{
 			this.dispose();
 		}
 		else if (source.equals(this.quit)) 
-			System.exit(0); // Un truc pour quitter ici.
+			System.exit(0); 
 		
 
-		
 	}
 }
