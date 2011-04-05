@@ -112,13 +112,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         panel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         
-		this.controleur = new Controleur(this);
-		this.getControleur().initControleurIA();
-		this.getControleur().getControleurIA().getControleurVirtuel().initControleurIA();
-		
-        //init du conteneur plateau
-        plateau = new FenetrePlateau(this);
-        plateau.setSize(300, 200);
+
         
         //init de commande
         commande = new FenetreCommande(this);
@@ -126,7 +120,16 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         //init d'info, contenant les scores, tour en cours, ...
         info = new FenetreInfo(this);
         
-
+        
+        this.add(panel);
+        
+		this.controleur = new Controleur(this);
+		this.getControleur().initControleurIA();
+		this.getControleur().getControleurIA().getControleurVirtuel().initControleurIA();
+		
+        //init du conteneur plateau
+        plateau = new FenetrePlateau(this);
+        plateau.setSize(300, 200);
         
         
         //On affecte une position au panel plateau, dans le contenant panel
@@ -138,8 +141,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
         
         donnerContrainte(c,0,1,2,1,100,30);
         panel.add(info,c);
-        
-        this.add(panel);
         
         this.rafraichir();
         
@@ -158,10 +159,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener{
 		this.getInfo().getTourDeJeu().setText(this.getControleur().getPartie().getJCourant().getNom()
 				+ " - " + ((this.getControleur().getPartie().getJCourant().isHumain()) ? "humain" : "cpu"));
 		
-		if (this.getControleur().getPartie().getOnlineMode() > 0)
-			this.commande.getPrevious().setEnabled(false);
-		else
-			this.info.getEnvoyerMSG().setEnabled(false);
 		
 		this.getInfo().getTourDeJeu().repaint();
 		this.getInfo().getTourDeJeu().revalidate();

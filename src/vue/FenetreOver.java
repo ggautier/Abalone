@@ -42,7 +42,6 @@ public class FenetreOver extends JDialog implements ActionListener{
 		this.setTitle(titre);
 	    this.setLocationRelativeTo(fenetre);
 	    this.setLocation((int)fenetre.getLocation().getX()+200,(int)fenetre.getLocation().getY()+100);
-	    
 	    this.setVisible(true);
 	    this.setAlwaysOnTop(true);
 	    this.setContentPane(buildContentPane());

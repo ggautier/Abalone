@@ -79,17 +79,17 @@ public class FenetreCommande extends JPanel implements ActionListener {
         title = BorderFactory.createTitledBorder("Action");
         this.action.setBorder(title);
         
-        billeJoueur1 = new JLabel(Integer.toString(fenetre.getControleur().getPartie().getJ1().getScore()));
-        billeJoueur2 = new JLabel(Integer.toString(fenetre.getControleur().getPartie().getJ2().getScore()));
+        billeJoueur1 = new JLabel("0");
+        billeJoueur2 = new JLabel("0");
         
-        nomJoueur1 = new JLabel(this.fenetre.getControleur().getPartie().getJ1().getNom());
-        nomJoueur2 = new JLabel(this.fenetre.getControleur().getPartie().getJ2().getNom());
+        nomJoueur1 = new JLabel("Joueur1");
+        nomJoueur2 = new JLabel("Joueur2");
         
-        labelTempsGlobalJ1 = new JLabel(this.fenetre.getControleur().getPartie().getJ1().getTempsRestantGlobal().toString());
-        labelTempsGlobalJ2 = new JLabel(this.fenetre.getControleur().getPartie().getJ2().getTempsRestantGlobal().toString());
+        labelTempsGlobalJ1 = new JLabel();
+        labelTempsGlobalJ2 = new JLabel();
         
-        labelTempsCoupJ1 = new JLabel(this.fenetre.getControleur().getPartie().getJ1().getTempsRestantCoup().toString());
-        labelTempsCoupJ2 = new JLabel(this.fenetre.getControleur().getPartie().getJ2().getTempsRestantCoup().toString());
+        labelTempsCoupJ1 = new JLabel();
+        labelTempsCoupJ2 = new JLabel();
         
         previous = new JButton("Cancel");
         previous.addActionListener(this);

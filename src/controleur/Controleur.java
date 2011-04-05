@@ -200,9 +200,12 @@ public class Controleur {
 	public Controleur(FenetrePrincipale newFenetre) throws Exception {
 		this.fenetrePrincipale = newFenetre;
 		this.options = new Options();
-		lancerPartie(0);
+		
+			lancerPartie(0);
+
 	}
 	
+
 	public void lancerPartie(int mode) {
 		try {
 			
@@ -216,6 +219,18 @@ public class Controleur {
 		}
 		
 		catch (Exception e) {	
+		}
+		
+		if (!isVirtuel()) {
+		
+			if (this.getPartie().getOnlineMode() > 0) {
+				this.getFenetrePrincipale().getCommande().getPrevious().setEnabled(false);
+				this.getFenetrePrincipale().getInfo().getEnvoyerMSG().setEnabled(true);
+			}
+			else {
+				this.getFenetrePrincipale().getCommande().getPrevious().setEnabled(true);
+				this.getFenetrePrincipale().getInfo().getEnvoyerMSG().setEnabled(false);
+			}
 		}
 	}
 	
@@ -1435,6 +1450,10 @@ public class Controleur {
 	
 	public Options getOptions() {
 		return options;
+	}
+	
+	private boolean isVirtuel() {
+		return (this.getFenetrePrincipale() == null);
 	}
 	
 	/*
