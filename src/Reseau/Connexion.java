@@ -101,6 +101,7 @@ public class Connexion extends Thread {
 			if (!heberge) {
 				// Si on est client
 				socketClient = new Socket(this.IPcible, this.port);
+				socketClient.setSoTimeout(3000);
 				socketClient.getOutputStream().write(("R_CONNECT\n"+InetAddress.getLocalHost().getHostAddress()+"\n").getBytes());
 				// On initialise le Socket, puis on envoie une requete de connexion au serveur
 				
@@ -108,7 +109,7 @@ public class Connexion extends Thread {
 			else {
 				// Si on est serveur
 				socketServeur = new ServerSocket(this.port);
-				socketServeur.setSoTimeout(6000);
+				socketServeur.setSoTimeout(60000);
 				
 				socketClient = socketServeur.accept();
 				
@@ -334,16 +335,17 @@ public class Connexion extends Thread {
 		}
 	
 	public synchronized boolean envoyer_keepalive() throws IOException {
-		try {
-			writerC.write("KEEPALIVE\n");
-			writerC.flush();
-		}
-		catch (IOException e) {
-			this.erreur();
-		}
-		
-			return true;
-		}
+		if (statut != NOT_CONNECTED)
+			try {
+				writerC.write("KEEPALIVE\n");
+				writerC.flush();
+			}
+			catch (IOException e) {
+				this.erreur();
+			}
+			
+				return true;
+			}
 	
 	// En cas d'erreur, on resynchronise la partie
 	public synchronized boolean envoyer_partie(String str) throws IOException {
